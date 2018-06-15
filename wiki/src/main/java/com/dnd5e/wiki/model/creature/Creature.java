@@ -21,18 +21,28 @@ public class Creature
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
   private String name;
+  
   @Enumerated(EnumType.ORDINAL)
   private CreatureSize size;
+  
   @Enumerated(EnumType.ORDINAL)
-  private MonsterType type;
+  private Alignment alignment;
+  
+  @Enumerated(EnumType.ORDINAL)
+  private CreatureType type;
+  
   private byte AC;
+  
   @Enumerated(EnumType.ORDINAL)
   private ArmorType armorType;
+  
   private short countHpBone;
+  
   @Enumerated(EnumType.ORDINAL)
   private Bone hpBone;
   
   private short bonusHP;
+
   private short speed;
   private short sppedFly;
   private short strength;

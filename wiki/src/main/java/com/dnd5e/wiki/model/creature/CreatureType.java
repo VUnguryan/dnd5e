@@ -1,6 +1,6 @@
 package com.dnd5e.wiki.model.creature;
 
-public enum MonsterType {
+public enum CreatureType {
 	  ABERRATION("Аберация"),  
 	  ANIMAL("Зверь"),
 	  CELESTIAL("Небожитель"),
@@ -21,7 +21,7 @@ public enum MonsterType {
 	  
 	  private String cyrilicName;
 	  
-	  private MonsterType(String cyrilicName)
+	  private CreatureType(String cyrilicName)
 	  {
 	    this.cyrilicName = cyrilicName;
 	  }

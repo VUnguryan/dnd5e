@@ -35,9 +35,10 @@ public class CreatureController {
 		
 		try (LineNumberReader reader = new LineNumberReader(new StringReader(description))) {
 			String name = reader.readLine();
-			monster.setName(name);
+			monster.setName(name.trim());
 			String sizeType = reader.readLine();
 			String[] sizeTypeAligment = sizeType.split(",");
+			String[] size = sizeTypeAligment[0].split("\\s");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
