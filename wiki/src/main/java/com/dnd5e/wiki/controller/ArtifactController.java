@@ -22,10 +22,11 @@ import com.dnd5e.wiki.repository.ArtifactRepository;
 @Controller
 @RequestMapping("/artifacts")
 public class ArtifactController {
-	@Autowired
 	private ArtifactRepository repository;
-
-	public ArtifactController() {
+	
+	@Autowired
+	public void setRepository(ArtifactRepository repository) {
+		this.repository = repository;
 	}
 
 	@RequestMapping(method = { org.springframework.web.bind.annotation.RequestMethod.GET })

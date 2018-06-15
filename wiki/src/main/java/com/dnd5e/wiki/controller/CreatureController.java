@@ -12,11 +12,11 @@ import com.dnd5e.wiki.repository.CreatureRepository;
 @Controller
 @RequestMapping({ "/monsters" })
 public class CreatureController {
-	private CreatureRepository repo;
+	private CreatureRepository repository;
 
 	@Autowired
 	public void setMonsterRepository(CreatureRepository repo) {
-		this.repo = repo;
+		this.repository = repo;
 	}
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.GET )
@@ -28,7 +28,7 @@ public class CreatureController {
 	@RequestMapping(value = { "/add" }, method = { org.springframework.web.bind.annotation.RequestMethod.POST })
 	public String getMonsterForm(Model model, Creature monster) {
 		model.addAttribute("monster", new Creature());
-		this.repo.save(monster);
+		this.repository.save(monster);
 		return "addMonster";
 	}
 }
