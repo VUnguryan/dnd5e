@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Add spell</title>
+</head>
+<body>
+	<form action="#" th:action="@{/artifacts/add}" th:object="${artifact}"
+		method="post">
+		<p>
+			Name: <input type="text" th:field="*{name}" />
+		</p>
+		<p>
+			<select th:field="*{{rarity}}">
+				<option
+					th:each="rarity : ${T(com.dnd.spells.model.artifact.Rarity).values()}"
+					th:value="${rarity}" th:text="${rarity}">
+			</select>
+		</p>
+		<p>
+			<select th:field="*{{type}}">
+				<option
+					th:each="type : ${T(com.dnd.spells.model.artifact.ArtifactType).values()}"
+					th:value="${type}" th:text="${type}">
+			</select>
+		</p>
+		<p>
+			Настройка<input type="checkbox" th:field="*{customization}" />
+		</p>
+		<p>
+			Description:
+			<textarea th:field="*{description}" rows="30" cols="80"></textarea>
+		</p>
+		<p>
+			<input type="submit" value="Submit" />
+		</p>
+	</form>
+</body>
+</html>

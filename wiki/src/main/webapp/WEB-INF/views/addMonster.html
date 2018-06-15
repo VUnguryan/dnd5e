@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<title>DnD 5E Добавление монстра</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<form action="#" th:action="@{/monsters/add}" th:object="${monster}"
+		method="post">
+		<div class="panel panel-default">
+			<div class="form-group row">
+				<div class="col-xs-4">
+					<label for="name">Name</label> <input type="text"
+						class="form-control" id="name" th:field="*{name}" />
+				</div>
+				<div class="col-xs-3">
+					<label for="sizeControl">Size</label> <select class="form-control"
+						id="sizeControl">
+						<option
+							th:each="type : ${T(com.dnd.spells.model.bestiary.MonsterSize).values()}"
+							th:value="${type}" th:text="${type}">
+					</select>
+				</div>
+				<div class="col-xs-2">
+					<label for="typeControl">Type</label> <select class="form-control">
+						<option id="typeControl"
+							th:each="type : ${T(com.dnd.spells.model.bestiary.MonsterType).values()}"
+							th:value="${type}" th:text="${type}">
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="form-group row">
+				<div class="col-xs-2">
+					<label for="AC">AC</label> <input type="number"
+						class="form-control" id="AC" th:field="*{AC}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="boneCountControl">bone</label> <input type="number"
+						class="form-control" id="boneCountControl"
+						th:field="*{countHpBone}" />
+				</div>
+				<div class="col-xs-1">
+					<label for="HP">bone</label> <select class="form-control"
+						id="boneControl">
+						<option id="typeControl"
+							th:each="type : ${T(com.dnd.spells.model.bestiary.Bone).values()}"
+							th:value="${type}" th:text="${type}">
+					</select>
+				</div>
+				<div class="col-xs-2">
+					<label for="boneAddControl">+ HP</label> <input type="number"
+						class="form-control" id="boneAddControl" th:field="*{bonusHP}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="speedControl">Speed</label> <input type="text"
+						class="form-control" id="speedControl" th:field="*{speed}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="flyControl">Fly</label> <input type="text"
+						class="form-control" id="speedControl" th:field="*{sppedFly}" />
+				</div>
+
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="form-group row">
+				<div class="col-xs-2">
+					<label for="strControl">STR</label> <input type="number"
+						class="form-control" id="strControl" th:field="*{strength}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="dexControl">DEX</label> <input type="number"
+						class="form-control" id="dexControl" th:field="*{dexterity}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="conControl">CON</label> <input type="number"
+						class="form-control" id="conControl" th:field="*{constitution}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="intControl">INT</label> <input type="number"
+						class="form-control" id="intControl" th:field="*{intellect}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="wisControl">WIS</label> <input type="number"
+						class="form-control" id="wisControl" th:field="*{wizdom}" />
+				</div>
+				<div class="col-xs-2">
+					<label for="chaControl">CHA</label> <input type="number"
+						class="form-control" id="chaControl" th:field="*{charisma}" />
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="form-group">
+				<label for="nameFeetControl">Name</label> <input type="text"
+					class="form-control" id="nameFeetControl" />
+
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" rows="3"></textarea>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

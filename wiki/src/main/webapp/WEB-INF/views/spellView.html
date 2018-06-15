@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<title>DnD 5E</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" th:href="@{/resources/icon.png}">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle"
+					data-toggle="collapse" data-target="#navbar-main"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"> </span> 
+					<span class="icon-bar"> </span> 
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">DnD 5E</a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-main">
+				<ul class="nav navbar-nav" >
+					<li><a th:href="@{/spells}">Заклинания</a></li>
+					<li><a th:href="@{/classes}">Классы</a></li>
+					<li><a th:href="@{/artifacts}">Артефакты</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container" style="margin-top:60px">
+		<div class="panel-group">
+			<div class="panel panel-primary" th:object="${spell}">
+				<div class="panel-heading">
+					<span th:text="*{name}"></span> (<span th:text="*{englishName}"></span>)
+					<p>
+						<span
+							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'"></span>,
+						<span th:text="*{school.name}"></span>
+					</p>
+				</div>
+				<div class="panel-body" th:object="${spell}">
+					<p>
+						<b>Время накладывания:</b> <span th:text="*{timeCast}"></span>
+					</p>
+					<p>
+						<b>Дистанция:</b> <span th:text="*{distance}"></span>
+					</p>
+					<p>
+						<b>Компоненты:</b> <span
+							th:text="${spell.verbalComponent} ? 'B' : ''"></span> <span
+							th:text="${spell.somaticComponent} ? 'C' : ''"></span> <span
+							th:text="${spell.materialComponent} ? 'M' : ''"></span>
+					</p>
+					<p>
+						<b>Длительность:</b> <span th:text="*{duration}"></span>
+					</p>
+				</div>
+			</div>
+			<div class="panel panel-warning"
+				th:if="${spell.additionalMaterialComponent != null}">
+				<div class="panel-heading">Материальные компоненты</div>
+				<div class="panel-body"
+					th:text="${spell.additionalMaterialComponent}"></div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">Описание заклинания</div>
+				<div class="panel-body" th:object="${spell}">
+					<p>
+						<span th:utext="*{description}"></span>
+					</p>
+				</div>
+			</div>
+			<div class="panel panel-danger" th:if="${spell.upperLevel != null}"
+				th:object="${spell}">
+				<div class="panel-heading">На больших уровнях:</div>
+				<div class="panel-body">
+					<p>
+						<span th:text="*{upperLevel}"> </span>
+					</p>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">Доступно классам</div>
+				<div class="panel-body">
+					<table class="table table-striped">
+						<tr th:each="hero : ${classes}" style="cursor: pointer"
+							th:onclick="'javascript:classClicked(\'' + ${hero.id} + '\');'">
+							<td th:text="${hero.name}"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	function classClicked(value) {
+		var baseUrl = '[[@{/classes/class/}]]';
+		location.href = baseUrl + value;
+	}
+</script>
+</html>
