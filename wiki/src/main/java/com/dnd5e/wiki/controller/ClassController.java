@@ -13,19 +13,20 @@ import com.dnd5e.wiki.repository.ClassRepository;
 @Controller
 @RequestMapping("/classes")
 public class ClassController {
-	
+
 	private ClassRepository repository;
-	
+
 	@Autowired
 	public void setClassRepository(ClassRepository repository) {
 		this.repository = repository;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET)
-	public String getClasses(Model model){
+	public String getClasses(Model model) {
 		model.addAttribute("classes", repository.findAll());
 		return "classes";
 	}
+
 	@RequestMapping(value = { "/class/{id}" }, method = RequestMethod.GET)
 	public String getClass(Model model, @PathVariable Integer id) {
 		HeroClass heroClass = repository.findById(id).get();

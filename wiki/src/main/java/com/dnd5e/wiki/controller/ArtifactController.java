@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,13 +24,13 @@ import com.dnd5e.wiki.repository.ArtifactRepository;
 @RequestMapping("/artifacts")
 public class ArtifactController {
 	private ArtifactRepository repository;
-	
+
 	@Autowired
 	public void setRepository(ArtifactRepository repository) {
 		this.repository = repository;
 	}
 
-	@RequestMapping(method = { org.springframework.web.bind.annotation.RequestMethod.GET })
+	@RequestMapping(method = RequestMethod.GET)
 	public String getArtifactes(Model model) {
 		model.addAttribute("artifacts", repository.findAll());
 		model.addAttribute("rarityTypes", Rarity.values());
@@ -38,14 +39,14 @@ public class ArtifactController {
 		return "artifacts";
 	}
 
-	@RequestMapping(value = { "/add" }, method = { org.springframework.web.bind.annotation.RequestMethod.GET })
+	@RequestMapping(value = { "/add" }, method = RequestMethod.GET)
 	public String getAddForm(Model model) {
 		model.addAttribute("artifact", new Artifact());
 		return "addArtifact";
 	}
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
-	public String getArtifact(@org.springframework.web.bind.annotation.ModelAttribute Artifact artifact) {
+	public String getArtifact(@ModelAttribute Artifact artifact) {
 		StringReader reader = new StringReader(artifact.getDescription());
 		LineNumberReader lr = new LineNumberReader(reader);
 		String line = null;
@@ -62,15 +63,14 @@ public class ArtifactController {
 		return "redirect:/artifacts/add";
 	}
 
-	@RequestMapping(value = { "/artifact/{id}" }, method = {
-			org.springframework.web.bind.annotation.RequestMethod.GET })
+	@RequestMapping(value = { "/artifact/{id}" }, method = RequestMethod.GET)
 	public String getArtifact(Model model, @PathVariable Integer id) {
 		Artifact artifac = (Artifact) repository.findById(id).get();
 		model.addAttribute("artifact", artifac);
 		return "artifactView";
 	}
 
-	@RequestMapping(method = { org.springframework.web.bind.annotation.RequestMethod.GET }, params = { "search" })
+	@RequestMapping(method = RequestMethod.GET, params = { "search" })
 	public String searchArtifacts(Model model, String search) {
 		model.addAttribute("artifacts", repository.findByNameContaining(search));
 		model.addAttribute("rarityTypes", Rarity.values());
