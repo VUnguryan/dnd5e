@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.creature.CreatureSize;
+import com.dnd5e.wiki.model.creature.CreatureType;
 import com.dnd5e.wiki.repository.CreatureRepository;
 
 @Controller
@@ -36,10 +38,32 @@ public class CreatureController {
 		try (LineNumberReader reader = new LineNumberReader(new StringReader(description))) {
 			String name = reader.readLine();
 			monster.setName(name.trim());
-			String sizeType = reader.readLine();
-			String[] sizeTypeAligment = sizeType.split(",");
-			String[] size = sizeTypeAligment[0].split("\\s");
+			String sizeTypeAligmentString = reader.readLine();
+			String[] sizeTypeAligment = sizeTypeAligmentString.split(",");
+			String[] sizeType = sizeTypeAligment[0].split("\\s");
 			
+			String size = sizeType[0];
+			monster.setSize(CreatureSize.parse(size.trim()));
+			
+			String type = sizeType[1];
+			monster.setType(CreatureType.parse(type.trim()));
+			
+			// доспех
+			String armorString = reader.readLine();
+			if(armorString.contains("Класс Доспеха")) {
+				String[] armor = armorString.split(" ");
+				byte ac = Byte.parseByte(armor[2].trim());
+				monster.setAC(ac);
+			}
+			// Хиты
+			String hitsString = reader.readLine();
+			if (hitsString.contains("Хиты")) {
+				String[] hits = hitsString.split("\\s");
+				monster.setAverageHp(Short.parseShort(hits[1].trim()));
+				hits[2] = hits[2].replace("(", "");
+				String[] dice = hits[2].split("к");
+				monster.setCountHpBone(Short.parseShort(dice[0].trim()));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

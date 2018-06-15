@@ -36,15 +36,16 @@ public class Creature
   @Enumerated(EnumType.ORDINAL)
   private ArmorType armorType;
   
-  private short countHpBone;
   
+  private short averageHp;
+  private short countHpBone;
   @Enumerated(EnumType.ORDINAL)
   private Bone hpBone;
-  
   private short bonusHP;
 
   private short speed;
   private short sppedFly;
+  
   private short strength;
   private short dexterity;
   private short constitution;
@@ -55,8 +56,10 @@ public class Creature
   private short passivePerception;
   private int exp;
   private String languages;
+  
   @OneToMany
   private List<Feat> feats;
+  
   @OneToMany
   private List<Action> actions;
    

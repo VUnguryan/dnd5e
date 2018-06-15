@@ -1,23 +1,23 @@
 package com.dnd5e.wiki.model.creature;
 
 public enum CreatureType {
-	  ABERRATION("Аберация"),  
-	  ANIMAL("Зверь"),
-	  CELESTIAL("Небожитель"),
-	  CONSTRUCT("Конструкт"),
-	  DRAGON("Дракон"),
-	  ELEMENTAL("Элементаль"),
-	  FEY("Фей"),
-	  FIEND("Исчадие"),
-	  GIANT("Великан"),
-	  HUMANOID("Гуманойд"),
-	  MAGICAl_BEAST("Магический зверь"),
+	  ABERRATION("аберрация"),  
+	  BEAST("зверь"),
+	  CELESTIAL("небожитель"),
+	  CONSTRUCT("конструкт"),
+	  DRAGON("дракон"),
+	  ELEMENTAL("элементаль"),
+	  FEY("фея"),
+	  FIEND("исчадие"),
+	  GIANT("великан"),
+	  HUMANOID("гуманоид"),
+	  MONSTROSITY("монстр"),
 	  OOZE("Тина"),
 	  OUTSIDER("Потустаронний"),
-	  PLANT("Растение"),
+	  PLANT("растение"),
 	  DEVIL("Демон"),
-	  UNDEAD("Нежить"),
-	  VERMIN("Паразит");
+	  UNDEAD("нежить"),
+	  VERMIN("паразит");
 	  
 	  private String cyrilicName;
 	  
@@ -30,4 +30,13 @@ public enum CreatureType {
 	  {
 	    return this.cyrilicName;
 	  }
+
+	public static CreatureType parse(String type) {
+		for (CreatureType creatureType : values()) {
+			if (creatureType.cyrilicName.equals(type)) {
+				return creatureType;
+			}
+		}
+		return null;
+	}
 }
