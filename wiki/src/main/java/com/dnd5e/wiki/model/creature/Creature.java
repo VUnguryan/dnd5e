@@ -40,18 +40,22 @@ public class Creature
   private short averageHp;
   private short countHpBone;
   @Enumerated(EnumType.ORDINAL)
-  private Bone hpBone;
+  private Dice hpBone;
   private short bonusHP;
 
   private short speed;
-  private short sppedFly;
+  private short flySpeed;
+  private short swimmingSpped;
+  private short climbingSpeed;
   
+  // Абилки
   private short strength;
   private short dexterity;
   private short constitution;
   private short intellect;
   private short wizdom;
   private short charisma;
+  
   private String senses;
   private short passivePerception;
   private int exp;
