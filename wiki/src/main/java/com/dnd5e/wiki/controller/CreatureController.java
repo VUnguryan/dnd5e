@@ -1,5 +1,9 @@
 package com.dnd5e.wiki.controller;
 
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,16 +23,26 @@ public class CreatureController {
 		this.repository = repo;
 	}
 
-	@RequestMapping(value = { "/add" }, method = RequestMethod.GET )
+	@RequestMapping(value = { "/add" }, method = RequestMethod.GET)
 	public String getMonsterForm(Model model) {
 		model.addAttribute("monster", new Creature());
-		return "addMonster";
+		return "parseMonster";
 	}
 
-	@RequestMapping(value = { "/add" }, method = { org.springframework.web.bind.annotation.RequestMethod.POST })
-	public String getMonsterForm(Model model, Creature monster) {
+	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
+	public String getMonsterForm(Model model, Creature monster, String description) {
 		model.addAttribute("monster", new Creature());
-		this.repository.save(monster);
-		return "addMonster";
+		
+		try (LineNumberReader reader = new LineNumberReader(new StringReader(description))) {
+			String name = reader.readLine();
+			monster.setName(name);
+			String sizeType = reader.readLine();
+			String[] sizeTypeAligment = sizeType.split(",");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//this.repository.save(monster);
+		return "parseMonster";
 	}
 }
