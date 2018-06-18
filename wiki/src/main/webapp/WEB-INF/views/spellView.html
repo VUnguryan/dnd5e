@@ -17,31 +17,15 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
 	<div class="container" style="margin-top:60px">
-		<div class="panel-group">
-			<div class="panel panel-primary" th:object="${spell}">
+		<div class="panel-group" th:object="${spell}">
+			<div class="panel panel-primary" >
 				<div class="panel-heading">
-					<span th:text="*{name}"></span> (<span th:text="*{englishName}"></span>)
-					<p>
-						<span
-							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'"></span>,
-						<span th:text="*{school.name}"></span>
-					</p>
+					<span th:text="*{name}">
+					</span> (<span th:text="*{englishName}"></span>)
 				</div>
 				<div class="panel-body" th:object="${spell}">
 					<p>
 						<b>Время накладывания:</b> <span th:text="*{timeCast}"></span>
-					</p>
-					<p>
-						<b>Дистанция:</b> <span th:text="*{distance}"></span>
-					</p>
-					<p>
-						<b>Компоненты:</b> <span
-							th:text="${spell.verbalComponent} ? 'B' : ''"></span> <span
-							th:text="${spell.somaticComponent} ? 'C' : ''"></span> <span
-							th:text="${spell.materialComponent} ? 'M' : ''"></span>
-					</p>
-					<p>
-						<b>Длительность:</b> <span th:text="*{duration}"></span>
 					</p>
 				</div>
 			</div>

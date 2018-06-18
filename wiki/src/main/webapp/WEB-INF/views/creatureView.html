@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<title>DnD 5E</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" th:href="@{/resources/icon.png}">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .creatures})"></div>
+	<div class="container" style="margin-top: 60px">
+		<div class="panel-group" th:object="${creature}">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3>
+						<span th:text="*{name}"></span>
+					</h3>
+				</div>
+				<div class="panel-body">
+					<span th:text="*{size.cyrilicName}"></span> <span
+						th:text="*{type.cyrilicName}"></span>, <span
+						th:text="*{alignment.cyrilicName}"></span>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-body">
+					<div>
+						<b>Класс доспеха</b> <span th:text="*{AC}"></span>
+					</div>
+					<div>
+						<b>Хиты</b> <span th:text="*{averageHp}"></span> (<span
+							th:text="*{countDiceHp}"></span><span th:text="*{diceHp}"></span><span
+							th:if="${creature.bonusHP != null}"> + <span
+							th:text="*{bonusHP}"></span></span>)
+					</div>
+					<div>
+						<b>Скорость</b> <span th:text="*{speed}"></span> фт.<span
+							th:if="${creature.flySpeed != null}">, летая <span
+							th:text="*{flySpeed}"></span> фт.
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-body">
+					<table class="table">
+						<tr align="center">
+							<td><b>СИЛ</b></td>
+							<td><b>ЛОВ</b></td>
+							<td><b>ТЕЛ</b></td>
+							<td><b>ИНТ</b></td>
+							<td><b>МДР</b></td>
+							<td><b>ХАР</b></td>
+						</tr>
+						<tr align="center">
+							<td><span th:text="${creature.strengthText()}"></span>
+							<td><span th:text="${creature.dexterityText()}"></span>
+							<td><span th:text="${creature.constitutionText()}"></span>
+							<td><span th:text="${creature.intellectText()}"></span>
+							<td><span th:text="${creature.wizdomText()}"></span>
+							<td><span th:text="${creature.charismaText()}"></span>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
