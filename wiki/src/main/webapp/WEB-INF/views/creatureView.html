@@ -71,6 +71,38 @@
 					</table>
 				</div>
 			</div>
+			<div class="panel panel-info">
+				<div class="panel-body">
+					<div th:if="*{!savingThrows.empty}">
+						<b>Спасброски </b><span
+							th:each="savingThrow, iterStat : *{savingThrows}"
+							th:text="!${iterStat.last} ? ${savingThrow.text} + ', ': ${savingThrow.text}"></span>
+					</div>
+					<div th:if="*{!skills.empty}">
+						<b>Навыки </b><span th:each="skill, iterStat : *{skills}"
+							th:text="${skill.text}"></span>
+					</div>
+					<div th:if="*{!skills.empty}">
+						<b>Иммунитет к урону </b><span
+							th:each="skill, iterStat : *{skills}"
+							th:text="!${iterStat.last} ? ${skill.text} + ', ': ${skill.text}"></span>
+					</div>
+					<div th:if="*{!skills.empty}">
+						<b>Иммунитет к состаянию </b><span th:each="skill : *{skills}"
+							th:text="${skill.text}"></span>
+					</div>
+					<div>
+						<b>Языки</b> <span th:each="language, iterStat : *{languages}"
+							th:text="!${iterStat.last} ? ${language.name} + ', ': ${language.name}">
+						</span>
+					</div>
+					<div>
+						<b>Опасность</b> <span th:text="*{challengeRating}"></span> (<span
+							th:text="*{exp}"></span> опыта)
+					</div>
+
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

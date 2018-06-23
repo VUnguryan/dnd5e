@@ -8,11 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "bonus_saving_throws")
-@Data
+@Getter @Setter
 public class SavingThrow {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +22,8 @@ public class SavingThrow {
 	@Enumerated(EnumType.ORDINAL)
 	private Ability ability;
 	private byte bonus;
+ 
+	public String getText() {
+		return String.format("%s %+d ", ability.getShortName(), bonus);
+	}
 }

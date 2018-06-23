@@ -3,6 +3,7 @@ package com.dnd5e.wiki.model.creature;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -57,7 +58,6 @@ public class Creature {
 	private Short climbingSpeed;
 	@Column(nullable = true)
 	private Short diggingSpeed;
-	
 
 	// Абилки
 	private byte strength;
@@ -67,7 +67,6 @@ public class Creature {
 	private byte wizdom;
 	private byte charisma;
 
-
 	@ElementCollection
 	@Enumerated(EnumType.ORDINAL)
 	private Set<State> immunityStates;
@@ -75,21 +74,29 @@ public class Creature {
 	@ElementCollection
 	@Enumerated(EnumType.ORDINAL)
 	private Set<DamageType> immunityDamages;
-	
+
 	private String senses;
 	private byte passivePerception;
-	private String languages;
 
-	// опасность
+	// опыт
 	private int exp;
-	private byte CR;
-
-
-
+	// уровень опасности
+	private String challengeRating;
+	
+	// спаброски
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<SavingThrow> savingThrows;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Skill> skills;
+	
+	@OneToMany
+	private List<Language> languages;
+	
 	@OneToMany
 	private List<Feat> feats;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Action> actions;
 
 	public String strengthText() {

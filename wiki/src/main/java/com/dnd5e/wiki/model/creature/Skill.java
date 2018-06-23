@@ -1,36 +1,27 @@
 package com.dnd5e.wiki.model.creature;
 
-/**
- * Навыки 
- * @author VUnguryan
- *
- */
-public enum Skill {
-	ATHLETICS("Атлетика"),
-	ACROBATICS("Акробатика"),
-	SLEIGHT_OF_HAND("Лoвкость рук"),
-	STEALTH("Скрытность"),
-	ARCANA("Магия"),
-	HISTORY("Магия"),
-	INVESTIGATION("Анализ"),
-	NATURE("Природа"),
-	RELIGION("Религия"),
-	ANIMAL_HANDLING("Уход за животными"),
-	INSIGHT("Проницательность"),
-	MEDICINE("Медицина"),
-	PERCEPTION("Внимательность"),
-	SURVIVAL("Выживание"),
-	DECEPTION("Обман"),
-	INTIMIDATION("Запугивание"),
-	PERFORMANCE("Выступление"),
-	PERSUASION("Убеждение");
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+
+@Entity
+@Table(name = "skills")
+@Data
+public class Skill {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@Enumerated(EnumType.ORDINAL)
+	private SkillType type;
+	private byte bonus;
 	
-	private String cyrilicName;
-	
-	Skill(String cyrilicName){
-		this.cyrilicName = cyrilicName;
-	}
-	public String getCyrilicName() {
-		return cyrilicName;
+	public String getText() {
+		return String.format("%s %+d ", type.getCyrilicName(), bonus);
 	}
 }

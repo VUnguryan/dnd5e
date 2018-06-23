@@ -12,5 +12,4 @@ public class WikiApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }

@@ -8,14 +8,18 @@ public enum Ability {
 	WISDOM("Мудрость"),
 	CHARISMA("Харизма");
 
-	private String cytilicName;
+	private String cyrilicName;
 
-	Ability(String cytilicName) {
-		this.cytilicName = cytilicName;
+	Ability(String cyrilicName) {
+		this.cyrilicName = cyrilicName;
 	}
 
-	public String getCytilicName() {
-		return cytilicName;
+	public String getCyrilicName() {
+		return cyrilicName;
+	}
+	
+	public String getShortName() {
+		return cyrilicName.substring(0,3);
 	}
 
 	public static Ability parseShortName(String shortName) {

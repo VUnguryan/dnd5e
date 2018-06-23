@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.creature;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,6 +20,8 @@ public class Action
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
   private String name;
+  
+  @Column(columnDefinition = "TEXT")
   private String discription;
   
   @Enumerated(EnumType.ORDINAL)
