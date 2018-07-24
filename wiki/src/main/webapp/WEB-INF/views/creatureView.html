@@ -26,7 +26,9 @@
 				</div>
 				<div class="panel-body">
 					<span th:text="*{size.cyrilicName}"></span> <span
-						th:text="*{type.cyrilicName}"></span>, <span
+						th:text="*{type.cyrilicName}"></span> <a
+						th:if="${creature.raceName != null}" href="@{/creatures/race/}"><span
+						th:text="*{raceName}"></span></a>, <span
 						th:text="*{alignment.cyrilicName}"></span>
 				</div>
 			</div>
@@ -82,14 +84,23 @@
 						<b>Навыки </b><span th:each="skill, iterStat : *{skills}"
 							th:text="${skill.text}"></span>
 					</div>
-					<div th:if="*{!skills.empty}">
+					<div th:if="*{!immunityDamages.empty}">
 						<b>Иммунитет к урону </b><span
-							th:each="skill, iterStat : *{skills}"
-							th:text="!${iterStat.last} ? ${skill.text} + ', ': ${skill.text}"></span>
+							th:each="immunityDamage, iterStat : *{immunityDamages}"
+							th:text="!${iterStat.last} ? ${immunityDamage.cyrilicName} + ', ': ${immunityDamage.cyrilicName}"></span>
 					</div>
-					<div th:if="*{!skills.empty}">
-						<b>Иммунитет к состаянию </b><span th:each="skill : *{skills}"
-							th:text="${skill.text}"></span>
+					<div th:if="*{!resistanceDamages.empty}">
+						<b>Сопротивление к урону </b><span
+							th:each="resistanceDamages, iterStat : *{resistanceDamages}"
+							th:text="!${iterStat.last} ? ${resistanceDamages.cyrilicName} + ', ': ${resistanceDamages.cyrilicName}"></span>
+					</div>
+					<div th:if="*{!immunityStates.empty}">
+						<b>Иммунитет к состаянию </b><span
+							th:each="state, iterStat : *{immunityStates}"
+							th:text="!${iterStat.last} ? ${state.cyrilicName} + ', ': ${state.cyrilicName}"></span>
+					</div>
+					<div>
+						<b>Чувства</b> <span th:text="*{vision}"></span>
 					</div>
 					<div>
 						<b>Языки</b> <span th:each="language, iterStat : *{languages}"
@@ -100,7 +111,23 @@
 						<b>Опасность</b> <span th:text="*{challengeRating}"></span> (<span
 							th:text="*{exp}"></span> опыта)
 					</div>
-
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-body">
+					<div th:each="feat : *{feats}">
+						<em><b th:text="${feat.name}"></b></em>
+						<div th:utext="${feat.description}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-heading">Действия</div>
+				<div class="panel-body">
+					<div th:each="action : *{actions}">
+						<b th:text="${action.name}"></b>
+						<div th:utext="${action.description}"></div>
+					</div>
 				</div>
 			</div>
 		</div>

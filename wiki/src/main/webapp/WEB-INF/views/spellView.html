@@ -20,8 +20,12 @@
 		<div class="panel-group" th:object="${spell}">
 			<div class="panel panel-primary" >
 				<div class="panel-heading">
-					<span th:text="*{name}">
-					</span> (<span th:text="*{englishName}"></span>)
+					<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
+					<div>
+						<span
+							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'"></span>,
+						<span th:text="*{school.name}"></span>
+					</div>
 				</div>
 				<div class="panel-body" th:object="${spell}">
 					<p>
