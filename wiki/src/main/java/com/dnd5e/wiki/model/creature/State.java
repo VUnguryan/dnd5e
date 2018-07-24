@@ -7,23 +7,23 @@ package com.dnd5e.wiki.model.creature;
  *
  */
 public enum State {
-	BLINDED("Ослеплённый"),
+	BLINDED("ослепление"),
 	CHARMED("очарование"),
-	DYING("Умирающий"),
-	DODGING("Уклонение"),
-	DEAFENED("Оглохший"),
+	DYING("смерть"),
+	DODGING("уклонение"),
+	DEAFENED("глухота"),
 	EXHAUSTING("истощение"),
-	FRIGHTENED("Испуганный"),
-	GRAPPLED("Схваченный"),
-	INCAPACITATED("Недееспособный"),
+	FRIGHTENED("испуг"),
+	GRAPPLED("захват"),
+	INCAPACITATED("недееспособность"),
 	INVISIBLE("Невидимый"),
 	PARALYZED("паралич"),
 	PETRIFIED("окаменение"),
 	POISONED("отравление"),
 	PRONE("сбивание с ног"),
-	RESTRAINED("Опутанный"),
-	STUNNED("Ошеломлённый"),
-	UNCONSCIOUS("Бессознательный");
+	RESTRAINED("опутанность"),
+	STUNNED("ошеломление"),
+	UNCONSCIOUS("бессознательность");
 	
 	private String cyrilicName;
 
@@ -33,5 +33,14 @@ public enum State {
 
 	public String getCyrilicName() {
 		return cyrilicName;
+	}
+
+	public static State parse(String stateString) {
+		for (State state : values()) {
+			if (state.cyrilicName.equals(stateString)) {
+				return state;
+			}
+		}
+		return null;
 	}
 }

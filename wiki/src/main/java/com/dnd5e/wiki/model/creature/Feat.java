@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.creature;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,5 +17,6 @@ public class Feat {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private String discription;
+	@Column(columnDefinition = "TEXT")
+	private String description;
 }

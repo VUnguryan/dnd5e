@@ -22,7 +22,7 @@ public class Action
   private String name;
   
   @Column(columnDefinition = "TEXT")
-  private String discription;
+  private String description;
   
   @Enumerated(EnumType.ORDINAL)
   private ActionType actionType;

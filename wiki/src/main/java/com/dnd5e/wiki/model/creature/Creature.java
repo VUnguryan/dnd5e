@@ -1,7 +1,6 @@
 package com.dnd5e.wiki.model.creature;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,10 +30,13 @@ public class Creature {
 	private CreatureSize size;
 
 	@Enumerated(EnumType.ORDINAL)
-	private Alignment alignment;
+	private CreatureType type;
+
+	private Integer raceId;
+	private String raceName;
 
 	@Enumerated(EnumType.ORDINAL)
-	private CreatureType type;
+	private Alignment alignment;
 
 	private byte AC;
 
@@ -69,11 +72,19 @@ public class Creature {
 
 	@ElementCollection
 	@Enumerated(EnumType.ORDINAL)
-	private Set<State> immunityStates;
+	private List<State> immunityStates;
 
 	@ElementCollection
 	@Enumerated(EnumType.ORDINAL)
-	private Set<DamageType> immunityDamages;
+	private List<DamageType> immunityDamages;
+
+	@ElementCollection
+	@Enumerated(EnumType.ORDINAL)
+	private List<DamageType> resistanceDamages;
+
+	@ElementCollection
+	@Enumerated(EnumType.ORDINAL)
+	private List<DamageType> vulnerabilityDamages;
 
 	private String senses;
 	private byte passivePerception;
@@ -82,18 +93,20 @@ public class Creature {
 	private int exp;
 	// уровень опасности
 	private String challengeRating;
-	
+
 	// спаброски
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<SavingThrow> savingThrows;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Skill> skills;
-	
-	@OneToMany
+
+	private String vision;
+
+	@ManyToMany
 	private List<Language> languages;
-	
-	@OneToMany
+
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Feat> feats;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -124,7 +137,7 @@ public class Creature {
 	}
 
 	private String getFormatAbility(byte ability) {
-		return String.format("%d (%+d)", ability, (ability - 10) / 2);
+		return String.format("%d (%+d)", ability, ability - 10 < 10 ? (ability - 11) / 2 : (ability - 10) / 2);
 	}
 
 	public String getCR() {

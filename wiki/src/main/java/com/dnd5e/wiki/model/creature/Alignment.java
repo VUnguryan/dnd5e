@@ -20,7 +20,7 @@ public enum Alignment {
 	}
 
 	public static Alignment parse(String alignment) {
-		if (!alignment.equals("нейтральный")) {
+		if (alignment.equals("нейтральный")) {
 			return NEUTRAL;
 		}
 		if (alignment.contains("-зл")) {

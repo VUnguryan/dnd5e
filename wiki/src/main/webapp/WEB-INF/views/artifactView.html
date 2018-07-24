@@ -16,11 +16,15 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .artifactes})"></div>
-	<div class="container" th:object="${artifact}" style="margin-top:60px">
+	<div class="container" th:object="${artifact}" style="margin-top: 60px">
 		<div class="panel-group">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<span th:text="*{name}"></span>
+					
+						<span
+							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'"></span>,
+						<span th:text="*{school.name}"></span>
 				</div>
 			</div>
 			<div class="panel panel-info">
