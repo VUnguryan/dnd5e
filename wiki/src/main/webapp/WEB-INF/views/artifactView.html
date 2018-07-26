@@ -21,10 +21,6 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<span th:text="*{name}"></span>
-					
-						<span
-							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'"></span>,
-						<span th:text="*{school.name}"></span>
 				</div>
 			</div>
 			<div class="panel panel-info">
@@ -37,7 +33,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="panel panel-warning" th:if="*{customization != null}">
+			<div class="panel panel-warning" th:if="*{customization}">
 				<div class="panel-body">
 					<span class="glyphicon glyphicon-wrench"> Требуется
 						настройка</span>

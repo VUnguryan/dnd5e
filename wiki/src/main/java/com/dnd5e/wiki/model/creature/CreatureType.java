@@ -12,12 +12,14 @@ public enum CreatureType {
 	  GIANT("великан"),
 	  HUMANOID("гуманоид"),
 	  MONSTROSITY("монстр"),
-	  OOZE("Тина"),
-	  OUTSIDER("Потустаронний"),
+	  OOZE("тина"),
+	  OUTSIDER("потустаронний"),
 	  PLANT("растение"),
 	  DEVIL("Демон"),
 	  UNDEAD("нежить"),
-	  VERMIN("паразит");
+	  VERMIN("паразит"), 
+	  SLIME("слизь"),
+	  SMALL_BEAST("Крохотных зверей");
 	  
 	  private String cyrilicName;
 	  

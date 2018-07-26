@@ -112,7 +112,12 @@ public class ArtifactController {
 
 	@RequestMapping(method = RequestMethod.GET, params = { "order" })
 	public String sortSpells(Model model, Integer order, String dir) {
-		Sort.Direction direction = Sort.Direction.ASC;
+		Sort.Direction direction;
+		if (("asc".equals(dir)) || (dir == null)) {
+			direction = Sort.Direction.ASC;
+		} else {
+			direction = Sort.Direction.DESC;
+		}
 		Sort sort = null;
 		switch (order.intValue()) {
 		case 0:
@@ -130,6 +135,8 @@ public class ArtifactController {
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("artifacts", repository.findAll(sort));
+		model.addAttribute("order", order);
+		model.addAttribute("dir", dir);
 		return "artifacts";
 	}
 

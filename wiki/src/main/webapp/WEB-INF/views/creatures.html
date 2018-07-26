@@ -19,10 +19,27 @@
 	<div class="container" style="margin-top: 50px">
 		<table class="table table-striped">
 			<thead>
-				<tr>
-					<th scope="col" style="width: 3%">CR</th>
-					<th scope="col">Наименование</th>
-					<th scope="col">Вид</th>
+				<tr style="cursor: pointer">
+					<th onclick="sortTable(0)" scope="col" style="width: 3%">CR <span
+						th:if="${order==0 && dir=='asc'}"
+						class="glyphicon glyphicon-arrow-down"></span> <span
+						th:if="${order==0 && dir=='desc'}"
+						class="glyphicon glyphicon-arrow-up"></span>
+					</th>
+					<th onclick="sortTable(1)" scope="col">Наименование <span
+						th:if="${order==1 && dir=='asc'}"
+						class="glyphicon glyphicon-arrow-down"></span> <span
+						th:if="${order==1 && dir=='desc'}"
+						class="glyphicon glyphicon-arrow-up"></span>
+
+					</th>
+					<th onclick="sortTable(2)" scope="col">Вид <span
+						th:if="${order==2 && dir=='asc'}"
+						class="glyphicon glyphicon-arrow-down"></span> <span
+						th:if="${order==2 && dir=='desc'}"
+						class="glyphicon glyphicon-arrow-up"></span>
+
+					</th>
 				</tr>
 			</thead>
 			<tr th:each="creature : ${creatures}" style="cursor: pointer"
@@ -34,6 +51,29 @@
 		</table>
 	</div>
 </body>
+<script>
+	function sortTable(n) {
+		var baseUrl = '[[@{/creatures}]]';
+		var order = getParameterByName('order');
+		var dir = getParameterByName('dir');
+		if(dir == 'desc' && order==n){
+			location.href = baseUrl + "?order=" + n + "&dir=asc";	
+		}
+		else {
+			location.href = baseUrl + "?order=" + n + "&dir=desc";
+		}
+	}
+	
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    if (!results) return null;
+	    if (!results[2]) return '';
+	    return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+</script>
 <script>
 	function rowClicked(value) {
 		var baseUrl = '[[@{/creatures/creature/}]]';

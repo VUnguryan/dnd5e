@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,37 +16,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dnd5e.wiki.model.creature.Ability;
+import com.dnd5e.wiki.model.creature.Action;
+import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Alignment;
 import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.creature.CreatureRace;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.CreatureType;
+import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Dice;
+import com.dnd5e.wiki.model.creature.Feat;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.Skill;
 import com.dnd5e.wiki.model.creature.SkillType;
+import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.LanguagesRepository;
 
 @Controller
 @RequestMapping({ "/creatures" })
 public class CreatureController {
+	private static final List<String> statusNames = Arrays.asList("Спасброски", "Навыки", "Иммунитет к урону",
+			"Сопротивление к урону", "Уязвимость к урону", "Иммунитет к состоянию", "Чувства");
+
 	private CreatureRepository repository;
 	private LanguagesRepository languagesRepository;
-	
+	private CreatureRaceRepository creatureRaceRepository;
+
 	@Autowired
-	public void setMonsterRepository(CreatureRepository repo) {
-		this.repository = repo;
+	public void setMonsterRepository(CreatureRepository repository) {
+		this.repository = repository;
 	}
-	
+
 	@Autowired
 	public void setLanguagesRepository(LanguagesRepository languagesRepository) {
 		this.languagesRepository = languagesRepository;
 	}
-	
+
+	@Autowired
+	public void setCreatureRaceRepository(CreatureRaceRepository creatureRaceRepository) {
+		this.creatureRaceRepository = creatureRaceRepository;
+	}
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String getСкуфегкуы(Model model) {
-		model.addAttribute("creatures", repository.findAll());
+		Sort sort = new Sort(Sort.Direction.ASC, "name");
+		model.addAttribute("creatures", repository.findAll(sort));
 		return "creatures";
 	}
 
@@ -60,7 +79,41 @@ public class CreatureController {
 		model.addAttribute("creature", creature);
 		return "creatureView";
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, params = { "search" })
+	public String searchCreature(Model model, String search) {
+		model.addAttribute("creatures", repository.findByNameContaining(search));
+		return "creatures";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, params = "order")
+	public String sortCreature(Model model, Integer order, String dir) {
+		Sort sort = null;
+		Sort.Direction direction = null;
+		if (("asc".equals(dir)) || (dir == null)) {
+			direction = Sort.Direction.ASC;
+		} else {
+			direction = Sort.Direction.DESC;
+		}
+		switch (order.intValue()) {
+		case 0:
+			sort = new Sort(direction, "challengeRating");
+			break;
+		case 1:
+			sort = new Sort(direction, "name");
+			break;
+		case 2:
+			sort = new Sort(direction, "type");
+			break;
+		default:
+			sort = Sort.unsorted();
+		}
 
+		model.addAttribute("creatures", repository.findAll(sort));
+		model.addAttribute("order", order);
+		model.addAttribute("dir", dir);
+		return "creatures";
+	}
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
 	public String getMonsterForm(Model model, Creature monster, String description) {
 		model.addAttribute("monster", new Creature());
@@ -78,6 +131,17 @@ public class CreatureController {
 			// тип
 			String type = sizeType[1];
 			monster.setType(CreatureType.parse(type.trim()));
+			if (sizeType.length > 2) {
+				CreatureRace race = creatureRaceRepository.findByName(sizeType[2].trim());
+				if (race == null) {
+					race = new CreatureRace();
+					race.setName(sizeType[2].trim());
+					race = creatureRaceRepository.save(race);
+				}
+				monster.setRaceName(race.getName());
+				monster.setRaceId(race.getId());
+			}
+			// мировозрение
 			if (sizeTypeAligment.length > 1) {
 				monster.setAlignment(Alignment.parse(sizeTypeAligment[1].trim()));
 			}
@@ -134,7 +198,7 @@ public class CreatureController {
 			reader.readLine();
 			String abilitesString = reader.readLine();
 			abilitesString = abilitesString.replace("–", "+");
-			abilitesString = abilitesString.replaceAll("\\( \\+[0-9] \\)", "");
+			abilitesString = abilitesString.replaceAll("\\(\\s?\\+[0-9]{1,2}\\s?\\)", "");
 			String[] abilites = abilitesString.split("\\s+");
 			monster.setStrength(Byte.valueOf(abilites[0]));
 			monster.setDexterity(Byte.valueOf(abilites[1]));
@@ -143,88 +207,253 @@ public class CreatureController {
 			monster.setWizdom(Byte.valueOf(abilites[4]));
 			monster.setCharisma(Byte.valueOf(abilites[5]));
 
-			List<SavingThrow> savingThrows = new ArrayList<>();
-			List<Skill> skillsList = new ArrayList<>();
 			// навыки
-			String part = null;
+			String skillText = "";
+			String currentSkill = null;
+			String token = null;
 			do {
-				part = reader.readLine();
-				if (part.startsWith("Спасброски")) {
-					part = part.replace("Спасброски ", "");
-					String[] savingThrowsPair = part.split(",");
-					for (String string : savingThrowsPair) {
-						String[] parts = string.trim().split(" ");
-						SavingThrow savingThrow = new SavingThrow();
-						savingThrow.setAbility(Ability.parseShortName(parts[0].trim()));
-						savingThrow.setBonus(Byte.parseByte(parts[1].trim()));
-						savingThrows.add(savingThrow);
-					}
-				} else if (part.startsWith("Навыки")) {
-					part = part.replace("Навыки ", "");
-					String[] skills = part.split(",");
-					for (String string : skills) {
-						Skill skill = new Skill();
-						String[] skillEl = string.trim().split(" ");
-						skill.setType(SkillType.parse(skillEl[0].trim()));
-						skill.setBonus(Byte.parseByte(skillEl[1].trim()));
-						skillsList.add(skill);
-					}
-					if (part.endsWith(",")) {
-						part = reader.readLine();
-						skills = part.split(",");
-						for (String string : skills) {
-							Skill skill = new Skill();
-							String[] skillEl = string.trim().split(" ");
-							skill.setType(SkillType.parse(skillEl[0].trim()));
-							skill.setBonus(Byte.parseByte(skillEl[1].trim()));
-							skillsList.add(skill);
+				token = reader.readLine();
+				boolean startSkill = false;
+				for (String status : statusNames) {
+					if (token.startsWith(status)) {
+						startSkill = true;
+
+						if (!status.equals(currentSkill)) {
+							if (currentSkill != null) {
+								parseSkill(currentSkill, skillText, monster);
+							}
+							currentSkill = status;
 						}
+						skillText = token;
+						break;
 					}
-				} else if (part.startsWith("Иммунитет к урону")) {
-
-				} else if (part.startsWith("Сопротивление к урону")) {
-
-				} else if (part.startsWith("Уязвимость к урону")) {
-
-				} else if (part.startsWith("Иммунитет к состоянию")) {
-
-				} else if (part.startsWith("Чувства")) {
-
 				}
-			} while (!part.startsWith("Чувства"));
-			monster.setSavingThrows(savingThrows);
-			monster.setSkills(skillsList);
-			
-			//чувства
-
-			//языки
-			part = reader.readLine();
-			if (part.startsWith("Языки")) {
-				List<Language> languageList = new ArrayList<>();
-				part = part.replace("Языки ", "");
-				String[] languages = part.split(",");
-				for (String lang : languages) {
-					Language language = languagesRepository.findByName(lang.trim());
-					if (language == null) {
-						language = new Language();
-						language.setName(lang.trim());
-						language = languagesRepository.save(language);
-					}
-					languageList.add(language);
+				if (!startSkill) {
+					skillText += " " + token;
 				}
-				monster.setLanguages(languageList);
+			} while (!token.startsWith("Чувства"));
+			skillText = token;
+
+			// чувства
+			skillText = skillText.replace("Чувства ", "");
+			token = reader.readLine();
+			if (!token.startsWith("Языки")) {
+				skillText += token;
+				monster.setVision(skillText);
+				skillText = reader.readLine();
+			} else {
+				monster.setVision(skillText);
+				skillText = token;
 			}
-			
+
+			// языки
+			token = reader.readLine();
+			if (!token.startsWith("Опасность")) {
+				skillText += " " + token;
+				if (skillText.startsWith("Языки")) {
+					parseLanguage(skillText, monster);
+				}
+			} else {
+				parseLanguage(skillText, monster);
+				skillText = token;
+			}
+
 			// Опасность
-			part = reader.readLine();
-			part = part.replace("Опасность ", "").trim();
-			String[] crAndExp = part.split(" ");
+			if (!skillText.startsWith("Опасность")) {
+				skillText = reader.readLine();
+			}
+			skillText = skillText.replace("Опасность ", "").trim();
+			String[] crAndExp = skillText.split(" ");
 			monster.setChallengeRating(crAndExp[0].trim());
 			monster.setExp(Integer.valueOf(crAndExp[1].replaceAll("[^0-9]", "").trim()));
+
+			// Фиты
+			Feat feat = new Feat();
+			List<Feat> feats = new ArrayList<>();
+			boolean newFeet = true;
+			do {
+				skillText = reader.readLine();
+				if (newFeet) {
+					int nameIndex = skillText.indexOf(".");
+					if (nameIndex != -1) {
+						String nameAction = skillText.substring(0, nameIndex);
+						feat.setName(nameAction);
+						newFeet = false;
+						description = skillText.substring(nameIndex + 2);
+					} else {
+						if (description.endsWith("-")) {
+							description = description.substring(0, description.length() - 1);
+							description += skillText;
+						} else {
+							description += " " + skillText;
+						}
+						newFeet = false;
+					}
+				} else {
+					if (description.endsWith("-")) {
+						description = description.substring(0, description.length() - 1);
+						description += skillText;
+					} else {
+						description += " " + skillText;
+					}
+
+				}
+				if (skillText.endsWith(".")) {
+					feat.setDescription(description);
+					feats.add(feat);
+					feat = new Feat();
+					newFeet = true;
+				}
+			} while (!skillText.trim().equals("Действия"));
+			monster.setFeats(feats);
+
+			// Действия
+			List<Action> actions = new ArrayList<>();
+			boolean newAction = true;
+			Action action = new Action();
+			action.setActionType(ActionType.ACTION);
+			description = "";
+			do {
+				skillText = reader.readLine();
+				if (skillText == null) {
+					break;
+				}
+				if (newAction) {
+					int nameIndex = skillText.indexOf(".");
+					if (nameIndex != -1) {
+						String nameAction = skillText.substring(0, nameIndex);
+						action.setName(nameAction);
+						newAction = false;
+						description = skillText.substring(nameIndex + 2);
+					} else {
+						if (description.endsWith("-")) {
+							description = description.substring(0, description.length() - 1);
+							description += skillText;
+						} else {
+							description += " " + skillText;
+						}
+						newAction = false;
+					}
+				} else {
+					if (description.endsWith("-")) {
+						description = description.substring(0, description.length() - 1);
+						description += skillText;
+					} else {
+						description += " " + skillText;
+					}
+
+				}
+				if (skillText.endsWith(".")) {
+					action.setDescription(description);
+					actions.add(action);
+					action = new Action();
+					action.setActionType(ActionType.ACTION);
+					newAction = true;
+				}
+			} while (skillText != null);
+			monster.setActions(actions);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		repository.save(monster);
 		return "parseMonster";
+	}
+
+	private void parseLanguage(String skillText, Creature monster) {
+		List<Language> languageList = new ArrayList<>();
+		skillText = skillText.replace("Языки ", "");
+		String[] languages = skillText.split(",");
+		for (String lang : languages) {
+			Language language = languagesRepository.findByName(lang.trim());
+			if (language == null) {
+				language = new Language();
+				language.setName(lang.trim());
+				Language save = languagesRepository.save(language);
+				language.setId(save.getId());
+			}
+			languageList.add(language);
+		}
+		monster.setLanguages(languageList);
+	}
+
+	private void parseSkill(String currentSkill, String skillText, Creature monster) {
+		switch (currentSkill) {
+		case "Спасброски": {
+			List<SavingThrow> savingThrows = new ArrayList<>();
+			skillText = skillText.replace("Спасброски ", "");
+			String[] savingThrowsPair = skillText.split(",");
+			for (String string : savingThrowsPair) {
+				String[] parts = string.trim().split(" ");
+				SavingThrow savingThrow = new SavingThrow();
+				savingThrow.setAbility(Ability.parseShortName(parts[0].trim()));
+				savingThrow.setBonus(Byte.parseByte(parts[1].trim()));
+				savingThrows.add(savingThrow);
+			}
+			monster.setSavingThrows(savingThrows);
+			break;
+		}
+		case "Навыки": {
+			List<Skill> skillsList = new ArrayList<>();
+			skillText = skillText.replace("Навыки ", "");
+			String[] skills = skillText.split(",");
+			for (String string : skills) {
+				Skill skill = new Skill();
+				String[] skillEl = string.trim().split(" ");
+				skill.setType(SkillType.parse(skillEl[0].trim()));
+				skill.setBonus(Byte.parseByte(skillEl[1].trim()));
+				skillsList.add(skill);
+			}
+			monster.setSkills(skillsList);
+			break;
+		}
+		case "Иммунитет к урону": {
+			skillText = skillText.replace("Иммунитет к урону ", "");
+			List<DamageType> damageList = getDamageTypes(skillText);
+			monster.setImmunityDamages(damageList);
+			break;
+		}
+		case "Сопротивление к урону": {
+			skillText = skillText.replace("Сопротивление к урону ", "");
+			List<DamageType> damageList = getDamageTypes(skillText);
+			monster.setResistanceDamages(damageList);
+			break;
+		}
+		case "Уязвимость к урону": {
+			skillText = skillText.replace("Уязвимость к урону ", "");
+			List<DamageType> damageList = getDamageTypes(skillText);
+			monster.setVulnerabilityDamages(damageList);
+			break;
+		}
+		case "Иммунитет к состоянию": {
+			skillText = skillText.replace("Иммунитет к состоянию ", "");
+			String[] stateTypes = skillText.split(",");
+			List<State> immunityStateList = new ArrayList<>();
+			for (String state : stateTypes) {
+				immunityStateList.add(State.parse(state.trim()));
+			}
+			monster.setImmunityStates(immunityStateList);
+			break;
+		}
+		}
+	}
+
+	private List<DamageType> getDamageTypes(String skillText) {
+		List<DamageType> immunityDamageList = new ArrayList<>();
+		String[] partDamages = null;
+		if (skillText.contains(";")) {
+			partDamages = skillText.split(";");
+			skillText = partDamages[0];
+		}
+
+		String[] damageTypes = skillText.split(",");
+
+		for (String damageType : damageTypes) {
+			immunityDamageList.add(DamageType.parse(damageType.trim()));
+		}
+		if (partDamages != null) {
+			immunityDamageList.add(DamageType.parse(partDamages[1].trim()));
+		}
+		return immunityDamageList;
 	}
 }

@@ -44,9 +44,27 @@
 		<table class="table table-striped">
 			<thead>
 				<tr style="cursor: pointer">
-					<th onclick="sortTable(0)" scope="col">Наименование</th>
-					<th onclick="sortTable(1)" scope="col">Редкость</th>
-					<th onclick="sortTable(2)" scope="col">Тип</th>
+					<th onclick="sortTable(0)" scope="col">Наименование
+					<span
+						th:if="${order==0 && dir=='asc'}"
+						class="glyphicon glyphicon-arrow-down"></span> <span
+						th:if="${order==0 && dir=='desc'}"
+						class="glyphicon glyphicon-arrow-up"></span>
+					</th>
+					<th onclick="sortTable(1)" scope="col">Редкость
+					<span
+						th:if="${order==1 && dir=='asc'}"
+						class="glyphicon glyphicon-arrow-down"></span> <span
+						th:if="${order==1 && dir=='desc'}"
+						class="glyphicon glyphicon-arrow-up"></span>
+					</th>
+					<th onclick="sortTable(2)" scope="col">Тип
+					<span
+						th:if="${order==2 && dir=='asc'}"
+						class="glyphicon glyphicon-arrow-down"></span> <span
+						th:if="${order==2 && dir=='desc'}"
+						class="glyphicon glyphicon-arrow-up"></span>
+					</th>
 				</tr>
 			</thead>
 			<tr th:each="artifact : ${artifacts}" style="cursor: pointer"
@@ -65,12 +83,27 @@
 	}
 	function sortTable(n) {
 		var baseUrl = '[[@{/artifacts}]]';
-		location.href = baseUrl + "?order=" + n;
+		var order = getParameterByName('order');
+		var dir = getParameterByName('dir');
+		if(dir == 'desc' && order==n){
+			location.href = baseUrl + "?order=" + n + "&dir=asc";	
+		}
+		else {
+			location.href = baseUrl + "?order=" + n + "&dir=desc";
+		}
+	}
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    if (!results) return null;
+	    if (!results[2]) return '';
+	    return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 	function filter(select){
 		var baseUrl = '[[@{/artifacts?}]]';
 		var type = $("#artifactType").val();
-		// console.log($("#artifactType"))
 		var rarity = $("#rarityType").val();
 	    window.location = baseUrl + "type=" + type + "&rarity=" + rarity ;
 	}
