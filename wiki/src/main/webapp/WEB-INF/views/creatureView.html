@@ -25,11 +25,10 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					<span th:text="*{size.cyrilicName}"></span> <span
-						th:text="*{type.cyrilicName}"></span> <a
-						th:if="${creature.raceName != null}" href="@{/creatures/race/}"><span
-						th:text="*{raceName}"></span></a>, <span
-						th:text="*{alignment.cyrilicName}"></span>
+					<span th:text="*{size.cyrilicName}"></span> 
+					<span th:text="*{type.cyrilicName}"></span>
+					<a th:if="${creature.raceName != null}" th:href="*{raceName}"><span th:text="*{raceName}"></span></a>, 
+					<span th:text="*{alignment.cyrilicName}"></span>
 				</div>
 			</div>
 			<div class="panel panel-info">
@@ -63,12 +62,12 @@
 							<td><b>ХАР</b></td>
 						</tr>
 						<tr align="center">
-							<td><span th:text="${creature.strengthText()}"></span>
-							<td><span th:text="${creature.dexterityText()}"></span>
-							<td><span th:text="${creature.constitutionText()}"></span>
-							<td><span th:text="${creature.intellectText()}"></span>
-							<td><span th:text="${creature.wizdomText()}"></span>
-							<td><span th:text="${creature.charismaText()}"></span>
+							<td><span th:text="${creature.strengthText()}"></span></td>
+							<td><span th:text="${creature.dexterityText()}"></span></td>
+							<td><span th:text="${creature.constitutionText()}"></span></td>
+							<td><span th:text="${creature.intellectText()}"></span></td>
+							<td><span th:text="${creature.wizdomText()}"></span></td>
+							<td><span th:text="${creature.charismaText()}"></span></td>
 						</tr>
 					</table>
 				</div>
