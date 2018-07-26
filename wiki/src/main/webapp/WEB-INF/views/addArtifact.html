@@ -15,14 +15,14 @@
 		<p>
 			<select th:field="*{{rarity}}">
 				<option
-					th:each="rarity : ${T(com.dnd.spells.model.artifact.Rarity).values()}"
+					th:each="rarity : ${rarityTypes}"
 					th:value="${rarity}" th:text="${rarity}">
 			</select>
 		</p>
 		<p>
 			<select th:field="*{{type}}">
 				<option
-					th:each="type : ${T(com.dnd.spells.model.artifact.ArtifactType).values()}"
+					th:each="type : ${artifactTypes}"
 					th:value="${type}" th:text="${type}">
 			</select>
 		</p>
