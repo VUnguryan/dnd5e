@@ -41,12 +41,18 @@ public class ArtifactController {
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.GET)
 	public String getAddForm(Model model) {
+		model.addAttribute("rarityTypes", Rarity.values());
+		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("artifact", new Artifact());
 		return "addArtifact";
 	}
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
 	public String getArtifact(@ModelAttribute Artifact artifact) {
+		
+		if (!repository.findByNameContaining(artifact.getName()).isEmpty()) {
+			return "redirect:/artifacts/add";
+		}
 		StringReader reader = new StringReader(artifact.getDescription());
 		LineNumberReader lr = new LineNumberReader(reader);
 		String line = null;
