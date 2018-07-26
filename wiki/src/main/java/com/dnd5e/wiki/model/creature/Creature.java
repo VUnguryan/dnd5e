@@ -25,7 +25,8 @@ public class Creature {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-
+	private String wnglishName;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private CreatureSize size;
 
