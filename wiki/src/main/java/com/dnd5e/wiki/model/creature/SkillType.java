@@ -11,7 +11,7 @@ public enum SkillType {
 	SLEIGHT_OF_HAND("Лoвкость рук"),
 	STEALTH("Скрытность"),
 	ARCANA("Магия"),
-	HISTORY("Магия"),
+	HISTORY("История"),
 	INVESTIGATION("Анализ"),
 	NATURE("Природа"),
 	RELIGION("Религия"),

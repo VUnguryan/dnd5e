@@ -80,6 +80,13 @@ public class CreatureController {
 		return "creatureView";
 	}
 	
+	@RequestMapping(value = { "/race/{id}" }, method = RequestMethod.GET)
+	public String getCreatureRace(Model model, @PathVariable Integer id) {
+		CreatureRace race = creatureRaceRepository.getOne(id);
+		model.addAttribute("race", race);
+		return "classesCreature";
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, params = { "search" })
 	public String searchCreature(Model model, String search) {
 		model.addAttribute("creatures", repository.findByNameContaining(search));

@@ -15,7 +15,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .classes})"></div>
+	<div th:insert="fragments/header :: header(@{/classes})"></div>
 	<div class="container" style="margin-top: 60px">
 		<div class="panel-group" th:object="${heroClass}">
 			<div class="panel panel-primary">

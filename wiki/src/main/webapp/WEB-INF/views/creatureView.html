@@ -15,7 +15,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .creatures})"></div>
+	<div th:insert="fragments/header :: header(@{/creatures})"></div>
 	<div class="container" style="margin-top: 60px">
 		<div class="panel-group" th:object="${creature}">
 			<div class="panel panel-primary">
@@ -25,10 +25,12 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					<span th:text="*{size.cyrilicName}"></span> 
-					<span th:text="*{type.cyrilicName}"></span>
-					<a th:if="${creature.raceName != null}" th:href="*{raceName}"><span th:text="*{raceName}"></span></a>, 
-					<span th:text="*{alignment.cyrilicName}"></span>
+					<span th:text="*{size.cyrilicName}"></span> <span
+						th:text="*{type.cyrilicName}"></span> <a
+						th:if="*{raceName != null}"
+						th:href="@{'/creatures/race/' + *{raceId}}"><span
+						th:text="*{raceName}"></span></a>, <span
+						th:text="*{alignment.cyrilicName}"></span>
 				</div>
 			</div>
 			<div class="panel panel-info">
@@ -43,31 +45,37 @@
 							th:text="*{bonusHP}"></span></span>)
 					</div>
 					<div>
-						<b>Скорость</b> <span th:text="*{speed}"></span> фт.<span
+						<b>Скорость</b> <span th:text="*{speed}"></span> фт. <span
 							th:if="${creature.flySpeed != null}">, летая <span
 							th:text="*{flySpeed}"></span> фт.
+						</span> <span th:if="${creature.climbingSpeed != null}">, лазая <span
+							th:text="*{climbingSpeed}"></span> фт.
+						</span> <span th:if="${creature.swimmingSpped != null}">, плавая <span
+							th:text="*{swimmingSpped}"></span> фт.
 						</span>
 					</div>
 				</div>
 			</div>
 			<div class="panel panel-info">
 				<div class="panel-body">
-					<table class="table">
-						<tr align="center">
-							<td><b>СИЛ</b></td>
-							<td><b>ЛОВ</b></td>
-							<td><b>ТЕЛ</b></td>
-							<td><b>ИНТ</b></td>
-							<td><b>МДР</b></td>
-							<td><b>ХАР</b></td>
-						</tr>
-						<tr align="center">
-							<td><span th:text="${creature.strengthText()}"></span></td>
-							<td><span th:text="${creature.dexterityText()}"></span></td>
-							<td><span th:text="${creature.constitutionText()}"></span></td>
-							<td><span th:text="${creature.intellectText()}"></span></td>
-							<td><span th:text="${creature.wizdomText()}"></span></td>
-							<td><span th:text="${creature.charismaText()}"></span></td>
+					<table class="table text-center">
+						<thead>
+							<tr>
+								<th class="text-center">СИЛ</th>
+								<th class="text-center">ЛОВ</th>
+								<th class="text-center">ТЕЛ</th>
+								<th class="text-center">ИНТ</th>
+								<th class="text-center">МДР</th>
+								<th class="text-center">ХАР</th>
+							</tr>
+						</thead>
+						<tr>
+							<td th:text="${creature.strengthText()}" />
+							<td th:text="${creature.dexterityText()}" />
+							<td th:text="${creature.constitutionText()}" />
+							<td th:text="${creature.intellectText()}" />
+							<td th:text="${creature.wizdomText()}" />
+							<td th:text="${creature.charismaText()}" />
 						</tr>
 					</table>
 				</div>
@@ -128,6 +136,19 @@
 						<div th:utext="${action.description}"></div>
 					</div>
 				</div>
+			</div>
+			<div th:if ="${creature.description != null}" class="panel panel-info">
+				<div class="panel-heading">Описание</div>
+				<div class="panel-body">
+					<span th:utext="*{description}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-body">
+				<img class="img-responsive center-block"
+					th:src="@{'/resources/creatures/'+ ${creature.id} +'.jpg'}"
+					align="middle" />
 			</div>
 		</div>
 	</div>

@@ -46,8 +46,7 @@
 				th:onclick="'javascript:spellClicked(\'' + ${spell.id} + '\');'">
 				<td align="center" th:text="${spell.level}" />
 				<td th:text="${spell.name + ' / ' + spell.englishName}"/>
-				<td
-					th:text="${spell.school.name} + ' / ' + ${#strings.toLowerCase(spell.school)}" />
+				<td	th:text="${spell.school.name} + ' / ' + ${#strings.toLowerCase(spell.school)}" />
 			</tr>
 		</table>
 	</div>

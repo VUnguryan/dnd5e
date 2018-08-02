@@ -113,6 +113,9 @@ public class Creature {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Action> actions;
 
+	@Column(columnDefinition = "TEXT")
+	private String description;
+	
 	public String strengthText() {
 		return getFormatAbility(strength);
 	}

@@ -15,7 +15,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .artifactes})"></div>
+	<div th:insert="fragments/header :: header(@{/artifacts})"></div>
 	<div class="container" th:object="${artifact}" style="margin-top: 60px">
 		<div class="panel-group">
 			<div class="panel panel-primary">
@@ -45,6 +45,13 @@
 					<p>
 						<span th:utext="*{description}"></span>
 					</p>
+				</div>
+			</div>
+			<div class="panel panel-info">
+				<div class="panel-body">
+					<img class="img-responsive center-block"
+						th:src="@{'/resources/artifacts/'+ ${artifact.id} +'.jpg'}"
+						align="middle" />
 				</div>
 			</div>
 		</div>
