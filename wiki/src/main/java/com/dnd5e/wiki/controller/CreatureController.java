@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -77,6 +78,12 @@ public class CreatureController {
 	public String getCreature(Model model, @PathVariable Integer id) {
 		Creature creature = repository.findById(id).get();
 		model.addAttribute("creature", creature);
+		List<Action> actions = creature.getActions().stream().filter(a-> a.getActionType() == ActionType.ACTION).collect(Collectors.toList());
+		model.addAttribute("actions", actions);
+		List<Action> reactions = creature.getActions().stream().filter(a-> a.getActionType() == ActionType.REACTION).collect(Collectors.toList());
+		model.addAttribute("reactions", reactions);
+		List<Action> legendary = creature.getActions().stream().filter(a-> a.getActionType() == ActionType.LEGENDARY).collect(Collectors.toList());
+		model.addAttribute("legendary", legendary);
 		return "creatureView";
 	}
 	
@@ -84,12 +91,18 @@ public class CreatureController {
 	public String getCreatureRace(Model model, @PathVariable Integer id) {
 		CreatureRace race = creatureRaceRepository.getOne(id);
 		model.addAttribute("race", race);
+		model.addAttribute("creatures", repository.findAllByRaceIdOrderByExpAsc(id));
 		return "classesCreature";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, params = { "search" })
 	public String searchCreature(Model model, String search) {
-		model.addAttribute("creatures", repository.findByNameContaining(search));
+		List<Creature> creatures = repository.findByNameContaining(search);
+		if (creatures.size() == 1) {
+			Creature creature = creatures.get(0);
+			return "forward:creatures/creature/" + creature.getId();
+		}
+		model.addAttribute("creatures", creatures);
 		return "creatures";
 	}
 	
@@ -104,7 +117,7 @@ public class CreatureController {
 		}
 		switch (order.intValue()) {
 		case 0:
-			sort = new Sort(direction, "challengeRating");
+			sort = new Sort(direction, "exp");
 			break;
 		case 1:
 			sort = new Sort(direction, "name");
@@ -121,6 +134,7 @@ public class CreatureController {
 		model.addAttribute("dir", dir);
 		return "creatures";
 	}
+	
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
 	public String getMonsterForm(Model model, Creature monster, String description) {
 		model.addAttribute("monster", new Creature());

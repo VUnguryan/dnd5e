@@ -8,6 +8,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -110,11 +111,14 @@ public class Creature {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Feat> feats;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Action> actions;
 
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	
+	@Column(columnDefinition = "TEXT")
+	private String legendary;
 	
 	public String strengthText() {
 		return getFormatAbility(strength);

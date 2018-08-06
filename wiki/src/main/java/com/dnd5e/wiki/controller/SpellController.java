@@ -1,5 +1,7 @@
 package com.dnd5e.wiki.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -69,7 +71,11 @@ public class SpellController {
 
 	@RequestMapping(method = RequestMethod.GET, params = { "search" })
 	public String searchSpells(Model model, String search) {
-		model.addAttribute("spells", spellRepository.findByNameAndEnglishNameContaining(search));
+		List<Spell> spells = spellRepository.findByNameAndEnglishNameContaining(search);
+		if (spells.size() == 1) {
+			return "forward:spells/spell/" + spells.get(0).getId();
+		}
+		model.addAttribute("spells", spells);
 		return "spells";
 	}
 

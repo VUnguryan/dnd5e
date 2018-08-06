@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layouts/default">
 
-<title>Dnd 5E Классы</title>
+<title th:text = "${'Dnd 5E '+ heroClass.name}"></title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" th:href="@{/resources/icon.png}">

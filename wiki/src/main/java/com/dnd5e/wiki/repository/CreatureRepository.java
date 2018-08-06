@@ -11,4 +11,6 @@ import com.dnd5e.wiki.model.creature.Creature;
 public abstract interface CreatureRepository extends JpaRepository<Creature, Integer> {
 
 	List<Creature> findByNameContaining(String search);
+
+	List<Creature> findAllByRaceIdOrderByExpAsc(Integer id);
 }
