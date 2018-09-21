@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Add feat</title>
+</head>
+<body>
+	<form action="#" th:action="@{/feats/add}" th:object="${feat}"
+		method="post">
+		<p>
+			Name: <input type="text" th:field="*{name}" />
+		</p>
+
+		<p>
+			Prerequisites:
+			<textarea th:field="*{prerequisites}" rows="3" cols="80"></textarea>
+		</p>
+		<p>
+			Description:
+			<textarea th:field="*{description}" rows="30" cols="80"></textarea>
+		</p>
+		<p>
+			<input type="submit" value="Submit" />
+		</p>
+	</form>
+</body>
+</html>
