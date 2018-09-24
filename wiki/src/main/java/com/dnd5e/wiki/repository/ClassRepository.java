@@ -13,7 +13,7 @@ public abstract interface ClassRepository
   extends JpaRepository<HeroClass, Integer>
 {
   @Query("select h from HeroClass h inner join h.spells s where s.name = :spellName")
-  public abstract List<HeroClass> findBySpellName(@Param("spellName") String paramString);
+  List<HeroClass> findBySpellName(@Param("spellName") String paramString);
   
-  public abstract List<HeroClass> findByNameContaining(String paramString);
+  List<HeroClass> findByNameContaining(String paramString);
 }

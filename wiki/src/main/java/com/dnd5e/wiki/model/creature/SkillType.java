@@ -1,5 +1,10 @@
 package com.dnd5e.wiki.model.creature;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * Навыки 
  * @author VUnguryan
@@ -8,7 +13,7 @@ package com.dnd5e.wiki.model.creature;
 public enum SkillType {
 	ATHLETICS("Атлетика"),
 	ACROBATICS("Акробатика"),
-	SLEIGHT_OF_HAND("Лoвкость рук"),
+	SLEIGHT_OF_HAND("Лoвкость рук", "Ловкость рук"),
 	STEALTH("Скрытность"),
 	ARCANA("Магия"),
 	HISTORY("История"),
@@ -18,7 +23,7 @@ public enum SkillType {
 	ANIMAL_HANDLING("Уход за животными"),
 	INSIGHT("Проницательность"),
 	MEDICINE("Медицина"),
-	PERCEPTION("Внимательность"),
+	PERCEPTION("Внимательность", "Восприятие"),
 	SURVIVAL("Выживание"),
 	DECEPTION("Обман"),
 	INTIMIDATION("Запугивание"),
@@ -26,9 +31,12 @@ public enum SkillType {
 	PERSUASION("Убеждение");
 	
 	private String cyrilicName;
+	private Set<String> cyrilicNames;
 	
-	SkillType(String cyrilicName){
-		this.cyrilicName = cyrilicName;
+	SkillType(String ... cyrilicNames){
+		this.cyrilicName = cyrilicNames[0];
+		this.cyrilicNames = Arrays.stream(cyrilicNames).collect(Collectors.toSet());
+
 	}
 
 	public String getCyrilicName() {
@@ -37,7 +45,7 @@ public enum SkillType {
 
 	public static SkillType parse(String cyrilicName) {
 		for (SkillType type : values()) {
-			if (type.cyrilicName.equals(cyrilicName)) {
+			if (type.cyrilicNames.contains(cyrilicName)) {
 				return type;
 			}
 		}

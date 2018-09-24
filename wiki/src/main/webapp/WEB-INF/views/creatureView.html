@@ -21,7 +21,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3>
-						<span th:text="*{name}"></span>
+						<span th:text="*{name}"></span> (<span th:text="*{englishName}"></span>)  
 					</h3>
 				</div>
 				<div class="panel-body">
@@ -149,6 +149,7 @@
 			<div th:if="${!legendary.empty}" class="panel panel-danger">
 				<div class="panel-heading">Легендарные действия</div>
 				<div class="panel-body">
+					<div th:if="${creature.legendary != null}" th:utext ="*{legendary}"></div>
 					<div th:each="action : ${legendary}">
 						<b th:text="${action.name}"></b>
 						<div th:utext="${action.description}"></div>

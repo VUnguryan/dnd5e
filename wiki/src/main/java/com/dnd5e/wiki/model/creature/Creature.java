@@ -18,6 +18,11 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+ * Класс монстра
+ * @author VUnguryan
+ *
+ */
 @Entity
 @Table(name = "creatures")
 @Data
@@ -26,7 +31,7 @@ public class Creature {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private String wnglishName;
+	private String englishName;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private CreatureSize size;

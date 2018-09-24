@@ -13,4 +13,6 @@ public abstract interface CreatureRepository extends JpaRepository<Creature, Int
 	List<Creature> findByNameContaining(String search);
 
 	List<Creature> findAllByRaceIdOrderByExpAsc(Integer id);
+
+	Creature findByName(String trim);
 }

@@ -39,8 +39,8 @@ import com.dnd5e.wiki.repository.LanguagesRepository;
 @Controller
 @RequestMapping({ "/creatures" })
 public class CreatureController {
-	private static final List<String> statusNames = Arrays.asList("Спасброски", "Навыки", "Иммунитет к урону",
-			"Сопротивление к урону", "Уязвимость к урону", "Иммунитет к состоянию", "Чувства");
+	private static final List<String> statusNames = Arrays.asList("Спасброски", "Навыки", "Иммунитет к урону", 
+			"Сопротивление к урону", "Сопротивление урону", "Уязвимость к урону", "Иммунитет к состоянию", "Иммунитет к состояниям", "Чувства");
 
 	private CreatureRepository repository;
 	private LanguagesRepository languagesRepository;
@@ -204,13 +204,13 @@ public class CreatureController {
 				monster.setSpeed(Short.parseShort(speeds[0].trim()));
 				for (int i = 1; i < speeds.length; i++) {
 					String otherSpeed = speeds[i];
-					if (otherSpeed.contains("летая")) {
+					if (otherSpeed.contains("летая") || otherSpeed.contains("полёт")) {
 						otherSpeed = otherSpeed.replaceAll("[^0-9]", "").trim();
 						monster.setFlySpeed(Short.parseShort(otherSpeed));
 					} else if (otherSpeed.contains("плавая")) {
 						otherSpeed = otherSpeed.replaceAll("[^0-9]", "").trim();
 						monster.setSwimmingSpped(Short.parseShort(otherSpeed));
-					} else if (otherSpeed.contains("лазая")) {
+					} else if (otherSpeed.contains("лазая") || otherSpeed.contains("взбирание")) {
 						otherSpeed = otherSpeed.replaceAll("[^0-9]", "").trim();
 						monster.setClimbingSpeed(Short.parseShort(otherSpeed));
 					}
@@ -420,7 +420,7 @@ public class CreatureController {
 			String[] skills = skillText.split(",");
 			for (String string : skills) {
 				Skill skill = new Skill();
-				String[] skillEl = string.trim().split(" ");
+				String[] skillEl = string.trim().split("\\+");
 				skill.setType(SkillType.parse(skillEl[0].trim()));
 				skill.setBonus(Byte.parseByte(skillEl[1].trim()));
 				skillsList.add(skill);
@@ -434,8 +434,11 @@ public class CreatureController {
 			monster.setImmunityDamages(damageList);
 			break;
 		}
-		case "Сопротивление к урону": {
+		case "Сопротивление к урону": 
+		case "Сопротивление урону":
+		{
 			skillText = skillText.replace("Сопротивление к урону ", "");
+			skillText = skillText.replace("Сопротивление урону ", "");
 			List<DamageType> damageList = getDamageTypes(skillText);
 			monster.setResistanceDamages(damageList);
 			break;
@@ -446,8 +449,10 @@ public class CreatureController {
 			monster.setVulnerabilityDamages(damageList);
 			break;
 		}
-		case "Иммунитет к состоянию": {
+		case "Иммунитет к состоянию":
 			skillText = skillText.replace("Иммунитет к состоянию ", "");
+		case "Иммунитет к состояниям": {
+			skillText = skillText.replace("Иммунитет к состояниям ", "");
 			String[] stateTypes = skillText.split(",");
 			List<State> immunityStateList = new ArrayList<>();
 			for (String state : stateTypes) {
