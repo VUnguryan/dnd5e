@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.feat.Feat;
+
 import lombok.Data;
 
 /**

@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.creature;
+package com.dnd5e.wiki.model.feat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,4 +19,7 @@ public class Feat {
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	@Column(columnDefinition = "TEXT")
+	private String prerequisites;
+
 }
