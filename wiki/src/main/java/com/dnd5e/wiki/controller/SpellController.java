@@ -118,6 +118,15 @@ public class SpellController {
 				short level = Short.valueOf(levelAndSchool[0].split(" ")[0]);
 				spell.setLevel(level);
 			}
+			if (levelAndSchool[1].contains("ритуал"))
+			{
+				spell.setRitual(true);
+				levelAndSchool[1]=levelAndSchool[1].replace("ритуал", "");
+			}
+			else
+			{
+				spell.setRitual(false);
+			}
 			spell.setSchool(MagicSchool.getMagicSchool(levelAndSchool[1].trim()));
 			text = reader.readLine();
 			spell.setTimeCast(text.split(":")[1].trim());
@@ -148,8 +157,14 @@ public class SpellController {
 			while ((text = reader.readLine()) != null && !text.startsWith("На более высоких уровнях.")) {
 				if (text.endsWith("-")) {
 					text = text.substring(0, text.length() - 2);
+					sb.append(text);
+				}
+				else
+				{
+					sb.append(" ");
 				}
 				sb.append(text);
+				
 			}
 			spell.setDescription(sb.toString());
 			if (text != null) {
@@ -157,6 +172,10 @@ public class SpellController {
 				while ((text = reader.readLine()) != null) {
 					if (text.endsWith("-")) {
 						text = text.substring(0, text.length() - 1);
+					}
+					else
+					{
+						sb.append(" ");
 					}
 					sb.append(text);
 				}

@@ -25,6 +25,7 @@
 						<span
 							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'"></span>,
 						<span th:text="*{school.name}"></span>
+						<span th:text="${spell.ritual != null && spell.ritual} ? ' (ритуал)' : '' "></span>
 					</div>
 				</div>
 				<div class="panel-body">
