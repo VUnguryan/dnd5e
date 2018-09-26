@@ -1,5 +1,8 @@
 package com.dnd5e.wiki.controller;
 
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
@@ -90,5 +94,78 @@ public class SpellController {
 		model.addAttribute("spell", spell);
 		model.addAttribute("classes", classRepository.findBySpellName(spell.getName()));
 		return "spellView";
+	}
+
+	@RequestMapping(value = { "/add" }, method = { RequestMethod.POST })
+	public String addSpell(String spellText) {
+		Spell spell = new Spell();
+		try (LineNumberReader reader = new LineNumberReader(new StringReader(spellText))) {
+			String header = reader.readLine();
+			if (header.contains("[")) {
+				int start = header.indexOf('[');
+				int end = header.indexOf(']');
+				String englishName = header.substring(start + 1, end);
+				spell.setEnglishName(englishName);
+				spell.setName(header.substring(0, start).trim().toUpperCase());
+			} else {
+				spell.setName(header.trim().toUpperCase());
+			}
+			String text = reader.readLine();
+			String[] levelAndSchool = text.split(",");
+			if (levelAndSchool[0].startsWith("Заговор")) {
+				spell.setLevel((short) 0);
+			} else {
+				short level = Short.valueOf(levelAndSchool[0].split(" ")[0]);
+				spell.setLevel(level);
+			}
+			spell.setSchool(MagicSchool.getMagicSchool(levelAndSchool[1].trim()));
+			text = reader.readLine();
+			spell.setTimeCast(text.split(":")[1].trim());
+			text = reader.readLine();
+			spell.setDistance(text.split(":")[1].trim());
+			text = reader.readLine();
+			String components = text.split(":")[1].trim();
+			String[] componetnsArray = components.split(",");
+			for (int i = 0; i < componetnsArray.length; i++) {
+				if (componetnsArray[i].trim().equals("В")) {
+					spell.setVerbalComponent(true);
+				}
+				if (componetnsArray[i].trim().equals("С")) {
+					spell.setSomaticComponent(true);
+				}
+				if (componetnsArray[i].trim().startsWith("М")) {
+					spell.setMaterialComponent(true);
+					if (componetnsArray[i].trim().contains("(")) {
+						spell.setAdditionalMaterialComponent(
+								componetnsArray[i].trim().substring(3, componetnsArray[i].trim().length() - 1));
+					}
+				}
+			}
+			text = reader.readLine();
+			String duration = text.split(":")[1].trim();
+			spell.setDuration(duration);
+			StringBuilder sb = new StringBuilder();
+			while ((text = reader.readLine()) != null && !text.startsWith("На более высоких уровнях.")) {
+				if (text.endsWith("-")) {
+					text = text.substring(0, text.length() - 2);
+				}
+				sb.append(text);
+			}
+			spell.setDescription(sb.toString());
+			if (text != null) {
+				sb = new StringBuilder(text.replace("На более высоких уровнях.", ""));
+				while ((text = reader.readLine()) != null) {
+					if (text.endsWith("-")) {
+						text = text.substring(0, text.length() - 1);
+					}
+					sb.append(text);
+				}
+				spell.setUpperLevel(sb.toString());
+			}
+			spellRepository.save(spell);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "addSpell";
 	}
 }
