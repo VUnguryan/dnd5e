@@ -77,7 +77,7 @@ public class SpellController {
 	public String searchSpells(Model model, String search) {
 		List<Spell> spells = spellRepository.findByNameAndEnglishNameContaining(search);
 		if (spells.size() == 1) {
-			return "forward:spells/spell/" + spells.get(0).getId();
+			return "redirect:spells/spell/" + spells.get(0).getId();
 		}
 		model.addAttribute("spells", spells);
 		return "spells";
@@ -98,6 +98,7 @@ public class SpellController {
 
 	@RequestMapping(value = { "/add" }, method = { RequestMethod.POST })
 	public String addSpell(String spellText) {
+
 		Spell spell = new Spell();
 		try (LineNumberReader reader = new LineNumberReader(new StringReader(spellText))) {
 			String header = reader.readLine();
@@ -109,6 +110,10 @@ public class SpellController {
 				spell.setName(header.substring(0, start).trim().toUpperCase());
 			} else {
 				spell.setName(header.trim().toUpperCase());
+			}
+			List<Spell> spells = spellRepository.findByName(spell.getName());
+			if (spells!=null && !spells.isEmpty()) {
+				spell = spells.get(0);
 			}
 			String text = reader.readLine();
 			String[] levelAndSchool = text.split(",");
@@ -156,15 +161,13 @@ public class SpellController {
 			StringBuilder sb = new StringBuilder();
 			while ((text = reader.readLine()) != null && !text.startsWith("На более высоких уровнях.")) {
 				if (text.endsWith("-")) {
-					text = text.substring(0, text.length() - 2);
-					sb.append(text);
+					text = text.substring(0, text.length() - 1);
 				}
-				else
+				else 
 				{
 					sb.append(" ");
 				}
 				sb.append(text);
-				
 			}
 			spell.setDescription(sb.toString());
 			if (text != null) {
@@ -173,7 +176,7 @@ public class SpellController {
 					if (text.endsWith("-")) {
 						text = text.substring(0, text.length() - 1);
 					}
-					else
+					else 
 					{
 						sb.append(" ");
 					}

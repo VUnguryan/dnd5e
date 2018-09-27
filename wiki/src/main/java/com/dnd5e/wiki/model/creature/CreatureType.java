@@ -15,7 +15,7 @@ public enum CreatureType {
 	  FIEND("исчадие"),
 	  GIANT("великан", "гигант"),
 	  HUMANOID("гуманоид"),
-	  MONSTROSITY("монстр"),
+	  MONSTROSITY("чудовище", "монстр"),
 	  OOZE("тина"),
 	  OUTSIDER("потустаронний"),
 	  PLANT("растение"),
