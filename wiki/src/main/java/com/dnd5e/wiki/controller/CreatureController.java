@@ -75,7 +75,7 @@ public class CreatureController {
 	}
 
 	@RequestMapping(value = { "/creature/{id}" }, method = RequestMethod.GET)
-	public String getCreature(Model model, @PathVariable Integer id) {
+	public String getCreaturView(Model model, @PathVariable Integer id) {
 		Creature creature = repository.findById(id).get();
 		model.addAttribute("creature", creature);
 		List<Action> actions = creature.getActions().stream().filter(a-> a.getActionType() == ActionType.ACTION).collect(Collectors.toList());
@@ -87,6 +87,18 @@ public class CreatureController {
 		return "creatureView";
 	}
 	
+	@RequestMapping(value = { "/creature/classic/{id}" }, method = RequestMethod.GET)
+	public String getClassicCreature(Model model, @PathVariable Integer id) {
+		Creature creature = repository.findById(id).get();
+		model.addAttribute("creature", creature);
+		List<Action> actions = creature.getActions().stream().filter(a-> a.getActionType() == ActionType.ACTION).collect(Collectors.toList());
+		model.addAttribute("actions", actions);
+		List<Action> reactions = creature.getActions().stream().filter(a-> a.getActionType() == ActionType.REACTION).collect(Collectors.toList());
+		model.addAttribute("reactions", reactions);
+		List<Action> legendary = creature.getActions().stream().filter(a-> a.getActionType() == ActionType.LEGENDARY).collect(Collectors.toList());
+		model.addAttribute("legendary", legendary);
+		return "classicCreatureView";
+	}
 	@RequestMapping(value = { "/race/{id}" }, method = RequestMethod.GET)
 	public String getCreatureRace(Model model, @PathVariable Integer id) {
 		CreatureRace race = creatureRaceRepository.getOne(id);

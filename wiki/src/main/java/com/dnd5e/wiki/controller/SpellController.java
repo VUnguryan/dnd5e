@@ -150,8 +150,20 @@ public class SpellController {
 				if (componetnsArray[i].trim().startsWith("М")) {
 					spell.setMaterialComponent(true);
 					if (componetnsArray[i].trim().contains("(")) {
-						spell.setAdditionalMaterialComponent(
-								componetnsArray[i].trim().substring(3, componetnsArray[i].trim().length() - 1));
+						String materials = ""; 
+						componetnsArray[i] = componetnsArray[i].replace("М (", "");
+						for (int j = i; j < componetnsArray.length; j++) {
+							if (componetnsArray[j].trim().contains(")")) {
+								materials += componetnsArray[j].trim().substring(0, componetnsArray[j].trim().length() - 1);
+								break;
+							}
+							else
+							{
+								materials += componetnsArray[j].trim() + ", ";
+							}
+
+						}
+						spell.setAdditionalMaterialComponent(materials);
 					}
 				}
 			}
@@ -165,12 +177,15 @@ public class SpellController {
 				}
 				else 
 				{
-					sb.append(" ");
+					text+=" ";
 				}
 				sb.append(text);
 			}
 			spell.setDescription(sb.toString());
 			if (text != null) {
+				if (text.endsWith("-")) {
+					text = text.substring(0, text.length()-1);
+				}
 				sb = new StringBuilder(text.replace("На более высоких уровнях.", ""));
 				while ((text = reader.readLine()) != null) {
 					if (text.endsWith("-")) {
@@ -178,7 +193,7 @@ public class SpellController {
 					}
 					else 
 					{
-						sb.append(" ");
+						text+=" ";
 					}
 					sb.append(text);
 				}

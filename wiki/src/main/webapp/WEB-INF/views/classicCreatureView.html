@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<title th:text="${'Dnd 5E '+ creature.name}"></title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" th:href="@{/resources/icon.png}">
+<link
+	href="https://fonts.googleapis.com/css?family=Libre+Baskerville:700"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet" th:href="@{/resources/css/classic.css}">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="stat-block" style="margin-top: 60px"
+		th:object="${creature}">
+		<hr class="orange-border" />
+		<div class="section-left">
+			<div class="creature-heading">
+				<h1>
+					<span th:text="*{name}"></span> (<span th:text="*{englishName}"></span>)
+				</h1>
+				<h2>
+					<span th:text="*{size.cyrilicName}"></span> <span
+						th:text="*{type.cyrilicName}"></span> <a
+						th:if="*{raceName != null}"
+						th:href="@{'/creatures/race/' + *{raceId}}"><span
+						th:text="*{raceName}"></span></a>, <span
+						th:text="*{alignment.cyrilicName}"></span>
+				</h2>
+			</div>
+			<!-- creature heading -->
+			<svg  class="tapered-rule">
+	    		<polyline points="0,0 1200,2.5 0,5"></polyline>
+	  		</svg>
+			<div class="top-stats">
+				<div class="property-line first">
+					<h4>Класс Доспеха</h4>
+					<p>
+						<span th:text="*{AC}"></span>
+					</p>
+				</div>
+				<!-- property line -->
+				<div class="property-line">
+					<h4>Хиты</h4>
+					<p>
+						<span th:text="*{averageHp}"></span> (<span
+							th:text="*{countDiceHp}"></span><span th:text="*{diceHp}"></span><span
+							th:if="${creature.bonusHP != null}"> + <span
+							th:text="*{bonusHP}"></span></span>)
+					</p>
+				</div>
+				<!-- property line -->
+				<div class="property-line last">
+					<h4>Скорость</h4>
+					<span th:text="*{speed}"></span> фт. <span
+						th:if="${creature.flySpeed != null}">, летая <span
+						th:text="*{flySpeed}"></span> фт.
+					</span> <span th:if="${creature.climbingSpeed != null}">, лазая <span
+						th:text="*{climbingSpeed}"></span> фт.
+					</span> <span th:if="${creature.swimmingSpped != null}">, плавая <span
+						th:text="*{swimmingSpped}"></span> фт.
+					</span>
+					</p>
+				</div>
+				<!-- property line -->
+				<svg height="5" width="100%" class="tapered-rule">
+	    <polyline points="0,0 1200,2.5 0,5"></polyline>
+	  </svg>
+				<div class="abilities">
+					<div class="ability-strength">
+						<h4>СИЛ</h4>
+						<p th:text="${creature.strengthText()}" />
+					</div>
+					<!-- ability strength -->
+					<div class="ability-dexterity">
+						<h4>ЛОВ</h4>
+						<p th:text="${creature.dexterityText()}" />
+					</div>
+					<!-- ability dexterity -->
+					<div class="ability-constitution">
+						<h4>ТЕЛ</h4>
+						<p th:text="${creature.constitutionText()}" />
+					</div>
+					<!-- ability constitution -->
+					<div class="ability-intelligence">
+						<h4>ИНТ</h4>
+						<p th:text="${creature.intellectText()}" />
+					</div>
+					<!-- ability intelligence -->
+					<div class="ability-wisdom">
+						<h4>МДР</h4>
+						<p th:text="${creature.wizdomText()}" />
+					</div>
+					<!-- ability wisdom -->
+					<div class="ability-charisma">
+						<h4>ХАР</h4>
+						<p th:text="${creature.charismaText()}" />
+					</div>
+					<!-- ability charisma -->
+				</div>
+				<!-- abilities -->
+				<svg height="5" width="100%" class="tapered-rule">
+	    <polyline points="0,0 1200,2.5 0,5"></polyline>
+	  </svg>
+				<div class="property-line first" th:if="*{!savingThrows.empty}">
+					<h4>Спасброски</h4>
+					<p th:each="savingThrow, iterStat : *{savingThrows}"
+						th:text="!${iterStat.last} ? ${savingThrow.text} + ', ': ${savingThrow.text}" />
+				</div>
+				<div class="property-line" th:if="*{!skills.empty}">
+					<h4>Навыки</h4>
+					<p th:each="skill, iterStat : *{skills}" th:text="${skill.text}" />
+				</div>
+				<!-- property line -->
+				<div class="property-line" th:if="*{!immunityDamages.empty}">
+					<h4>Иммунитет к урону</h4>
+					<p th:each="immunityDamage, iterStat : *{immunityDamages}"
+						th:text="!${iterStat.last} ? ${immunityDamage.cyrilicName} + ', ': ${immunityDamage.cyrilicName}" />
+				</div>
+
+				<div class="property-line" th:if="*{!resistanceDamages.empty}">
+					<h4>Сопротивление к урону</h4>
+					<p th:each="resistanceDamages, iterStat : *{resistanceDamages}"
+						th:text="!${iterStat.last} ? ${resistanceDamages.cyrilicName} + ', ': ${resistanceDamages.cyrilicName}" />
+				</div>
+
+				<div class="property-line" th:if="*{!immunityStates.empty}">
+					<h4>Иммунитет к состаянию</h4>
+					<p th:each="state, iterStat : *{immunityStates}"
+						th:text="!${iterStat.last} ? ${state.cyrilicName} + ', ': ${state.cyrilicName}" />
+				</div>
+
+				<div class="property-line">
+					<h4>Чувства</h4>
+					<p th:text="*{vision}" />
+				</div>
+				<div class="property-line">
+					<h4>Языки</h4>
+					<p th:each="language, iterStat : *{languages}"
+						th:text="!${iterStat.last} ? ${language.name} + ', ': ${language.name}" />
+				</div>
+				<div class="property-line last">
+					<h4>Опасность</h4>
+					<p th:text="*{challengeRating} + ' (' + *{exp} + ' опыта' + ')'" />
+				</div>
+			</div>
+			<!-- top stats -->
+			<svg height="5" width="100%" class="tapered-rule">
+	    		<polyline points="0,0 1200,2.5 0,5"></polyline>
+	  		</svg>
+			<div class="property-block" th:each="feat : *{feats}">
+				<h4 th:text="${feat.name}"></h4>
+				<p th:utext="${feat.description}" />
+			</div>
+				<div class="section-right">
+			<div class="actions" th:if="${!actions.empty}">
+				<h3>Действия</h3>
+				<div class="property-block" th:each="action : ${actions}">
+					<h4 th:text="${action.name}"></h4>
+					<p th:utext="${action.description}" />
+				</div>
+			</div>
+			<div class="actions" th:if="${!reactions.empty}">
+				<h3>Реакции</h3>
+				<div class="property-block" th:each="action : ${reactions}">
+					<h4 th:text="${action.name}"></h4>
+					<p th:utext="${action.description}" />
+				</div>
+			</div>
+
+			<!-- actions -->
+			<div class="actions" th:if="${!legendary.empty}">
+				<h3>Легендарные Действия</h3>
+				<div th:if="${creature.legendary != null}" th:utext ="*{legendary}"></div>
+				<div class="property-block" th:each="action : ${legendary}">
+					<h4 th:text="${action.name}">.</h4>
+					<p th:utext="${action.description}" />
+				</div>
+			</div>
+			</div>
+			<!-- actions -->
+			<hr class="orange-border bottom" />
+		</div>
+		<!-- stat block -->
+	</div>
+</body>
+</html>

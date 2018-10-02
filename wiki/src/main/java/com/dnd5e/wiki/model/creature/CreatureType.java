@@ -25,23 +25,22 @@ public enum CreatureType {
 	  SLIME("слизь"),
 	  SMALL_BEAST("Крохотных зверей");
 
-	private String cyrilicName;
+	private String displayCyrilicName;
 	private Set<String> cyrilicNames;
 
 	private CreatureType(String... cyrilicNames) {
-		this.cyrilicName = cyrilicNames[0];
+		this.displayCyrilicName = cyrilicNames[0];
 		this.cyrilicNames = new HashSet<>(Arrays.asList(cyrilicNames));
 	}
+
 	public String getCyrilicName() {
-		return this.cyrilicName;
+		return this.displayCyrilicName;
 	}
 
 	public static CreatureType parse(String type) {
-		for (CreatureType creatureType : values()) {
-			if (creatureType.cyrilicNames.contains(type)) {
-				return creatureType;
-			}
-		}
-		return null;
+		return Arrays.stream(values())
+				.filter(t-> t.cyrilicNames.contains(type))
+				.findFirst()
+				.orElseThrow(IllegalArgumentException::new);
 	}
 }

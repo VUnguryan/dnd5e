@@ -21,7 +21,8 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3>
-						<span th:text="*{name}"></span> (<span th:text="*{englishName}"></span>)  
+						<span th:text="*{name}"></span> (<span th:text="*{englishName}"></span>) 
+						<button class="btn btn-primary" th:onclick="|window.location.href='@{/creatures/creature/classic/}${creature.id}'|">Классический вид</button> 
 					</h3>
 				</div>
 				<div class="panel-body">
@@ -31,8 +32,7 @@
 						th:href="@{'/creatures/race/' + *{raceId}}"><span
 						th:text="*{raceName}"></span></a>, <span
 						th:text="*{alignment.cyrilicName}"></span>
-				</div>
-			</div>
+				</div>			</div>
 			<div class="panel panel-info">
 				<div class="panel-body">
 					<div>
