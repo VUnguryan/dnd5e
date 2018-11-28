@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public enum SkillType {
 	ATHLETICS("Атлетика"),
 	ACROBATICS("Акробатика"),
-	SLEIGHT_OF_HAND("Лoвкость рук", "Ловкость рук"),
+	SLEIGHT_OF_HAND("Лoвкость рук", "Ловкость Рук"),
 	STEALTH("Скрытность"),
 	ARCANA("Магия"),
 	HISTORY("История"),

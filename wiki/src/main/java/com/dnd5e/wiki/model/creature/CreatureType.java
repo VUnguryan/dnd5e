@@ -23,7 +23,7 @@ public enum CreatureType {
 	  UNDEAD("нежить"),
 	  VERMIN("паразит"), 
 	  SLIME("слизь"),
-	  SMALL_BEAST("Крохотных зверей");
+	  SMALL_BEAST("стая крошечных зверей","крохотных зверей");
 
 	private String displayCyrilicName;
 	private Set<String> cyrilicNames;
@@ -41,6 +41,6 @@ public enum CreatureType {
 		return Arrays.stream(values())
 				.filter(t-> t.cyrilicNames.contains(type))
 				.findFirst()
-				.orElseThrow(IllegalArgumentException::new);
+				.orElseThrow(()-> new IllegalArgumentException(type));
 	}
 }

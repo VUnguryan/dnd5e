@@ -62,7 +62,7 @@ public class CreatureController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String getСкуфегкуы(Model model) {
+	public String getCreatures(Model model) {
 		Sort sort = new Sort(Sort.Direction.ASC, "name");
 		model.addAttribute("creatures", repository.findAll(sort));
 		return "creatures";
@@ -99,6 +99,7 @@ public class CreatureController {
 		model.addAttribute("legendary", legendary);
 		return "classicCreatureView";
 	}
+
 	@RequestMapping(value = { "/race/{id}" }, method = RequestMethod.GET)
 	public String getCreatureRace(Model model, @PathVariable Integer id) {
 		CreatureRace race = creatureRaceRepository.getOne(id);
@@ -109,7 +110,7 @@ public class CreatureController {
 	
 	@RequestMapping(method = RequestMethod.GET, params = { "search" })
 	public String searchCreature(Model model, String search) {
-		List<Creature> creatures = repository.findByNameContaining(search);
+		List<Creature> creatures = repository.findByNameAndEnglishNameContaining(search);
 		if (creatures.size() == 1) {
 			Creature creature = creatures.get(0);
 			return "forward:creatures/creature/" + creature.getId();
@@ -148,22 +149,28 @@ public class CreatureController {
 	}
 	
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
-	public String getMonsterForm(Model model, Creature monster, String description) {
-		model.addAttribute("monster", new Creature());
-
+	public String createCreature(Model model, String description) {
+		Creature creature = new Creature();
 		try (LineNumberReader reader = new LineNumberReader(new StringReader(description))) {
 			String name = reader.readLine();
-			monster.setName(name.trim());
+			int index = name.indexOf('[');
+			if (index > 0) {
+				String otherName = name.substring(index + 1, name.indexOf(']'));
+				creature.setName(name.substring(0, index).trim());
+				creature.setEnglishName(otherName.trim());
+			} else {
+				creature.setName(name.trim());
+			}
 			String sizeTypeAligmentString = reader.readLine();
 			String[] sizeTypeAligment = sizeTypeAligmentString.split(",");
 			String[] sizeType = sizeTypeAligment[0].split("\\s");
 
 			// размер
 			String size = sizeType[0];
-			monster.setSize(CreatureSize.parse(size.trim()));
+			creature.setSize(CreatureSize.parse(size.trim()));
 			// тип
 			String type = sizeType[1];
-			monster.setType(CreatureType.parse(type.trim()));
+			creature.setType(CreatureType.parse(type.trim()));
 			if (sizeType.length > 2) {
 				CreatureRace race = creatureRaceRepository.findByName(sizeType[2].trim());
 				if (race == null) {
@@ -171,39 +178,39 @@ public class CreatureController {
 					race.setName(sizeType[2].trim());
 					race = creatureRaceRepository.save(race);
 				}
-				monster.setRaceName(race.getName());
-				monster.setRaceId(race.getId());
+				creature.setRaceName(race.getName());
+				creature.setRaceId(race.getId());
 			}
 			// мировозрение
 			if (sizeTypeAligment.length > 1) {
-				monster.setAlignment(Alignment.parse(sizeTypeAligment[1].trim()));
+				creature.setAlignment(Alignment.parse(sizeTypeAligment[1].trim()));
 			}
 			// доспех
 			String armorString = reader.readLine();
 			if (armorString.contains("Класс Доспеха")) {
 				String[] armor = armorString.split(" ");
 				byte ac = Byte.parseByte(armor[2].trim());
-				monster.setAC(ac);
+				creature.setAC(ac);
 			}
 
 			// Хиты
 			String hitsString = reader.readLine();
 			if (hitsString.contains("Хиты")) {
 				String[] hits = hitsString.split("\\s");
-				monster.setAverageHp(Short.parseShort(hits[1].trim()));
+				creature.setAverageHp(Short.parseShort(hits[1].trim()));
 				hits[2] = hits[2].replace("(", "");
 				String[] dices = hits[2].split("к");
-				monster.setCountDiceHp(Short.parseShort(dices[0].trim()));
+				creature.setCountDiceHp(Short.parseShort(dices[0].trim()));
 				dices[1] = dices[1].replace(")", "");
 				int dice = Short.parseShort(dices[1].trim());
-				monster.setDiceHp(Dice.parse(dice));
+				creature.setDiceHp(Dice.parse(dice));
 				if (hits.length > 3) {
 					hits[3] = hits[3].replaceAll("[^0-9]", "").trim();
 					if (!hits[3].isEmpty()) {
-						monster.setBonusHP(Short.parseShort(hits[3]));
+						creature.setBonusHP(Short.parseShort(hits[3]));
 					} else if (hits.length > 4) {
 						hits[4] = hits[4].replaceAll("[^0-9]", "").trim();
-						monster.setBonusHP(Short.parseShort(hits[4]));
+						creature.setBonusHP(Short.parseShort(hits[4]));
 					}
 				}
 			}
@@ -213,18 +220,18 @@ public class CreatureController {
 			if (speedString.contains("Скорость")) {
 				String[] speeds = speedString.split(",");
 				speeds[0] = speeds[0].replaceAll("[^0-9]", "");
-				monster.setSpeed(Short.parseShort(speeds[0].trim()));
+				creature.setSpeed(Short.parseShort(speeds[0].trim()));
 				for (int i = 1; i < speeds.length; i++) {
 					String otherSpeed = speeds[i];
 					if (otherSpeed.contains("летая") || otherSpeed.contains("полёт")) {
 						otherSpeed = otherSpeed.replaceAll("[^0-9]", "").trim();
-						monster.setFlySpeed(Short.parseShort(otherSpeed));
+						creature.setFlySpeed(Short.parseShort(otherSpeed));
 					} else if (otherSpeed.contains("плавая")) {
 						otherSpeed = otherSpeed.replaceAll("[^0-9]", "").trim();
-						monster.setSwimmingSpped(Short.parseShort(otherSpeed));
+						creature.setSwimmingSpped(Short.parseShort(otherSpeed));
 					} else if (otherSpeed.contains("лазая") || otherSpeed.contains("взбирание")) {
 						otherSpeed = otherSpeed.replaceAll("[^0-9]", "").trim();
-						monster.setClimbingSpeed(Short.parseShort(otherSpeed));
+						creature.setClimbingSpeed(Short.parseShort(otherSpeed));
 					}
 				}
 			}
@@ -233,12 +240,12 @@ public class CreatureController {
 			abilitesString = abilitesString.replace("–", "+");
 			abilitesString = abilitesString.replaceAll("\\(\\s?\\+[0-9]{1,2}\\s?\\)", "");
 			String[] abilites = abilitesString.split("\\s+");
-			monster.setStrength(Byte.valueOf(abilites[0]));
-			monster.setDexterity(Byte.valueOf(abilites[1]));
-			monster.setConstitution(Byte.valueOf(abilites[2]));
-			monster.setIntellect(Byte.valueOf(abilites[3]));
-			monster.setWizdom(Byte.valueOf(abilites[4]));
-			monster.setCharisma(Byte.valueOf(abilites[5]));
+			creature.setStrength(Byte.valueOf(abilites[0]));
+			creature.setDexterity(Byte.valueOf(abilites[1]));
+			creature.setConstitution(Byte.valueOf(abilites[2]));
+			creature.setIntellect(Byte.valueOf(abilites[3]));
+			creature.setWizdom(Byte.valueOf(abilites[4]));
+			creature.setCharisma(Byte.valueOf(abilites[5]));
 
 			// навыки
 			String skillText = "";
@@ -253,7 +260,7 @@ public class CreatureController {
 
 						if (!status.equals(currentSkill)) {
 							if (currentSkill != null) {
-								parseSkill(currentSkill, skillText, monster);
+								parseSkill(currentSkill, skillText, creature);
 							}
 							currentSkill = status;
 						}
@@ -272,10 +279,10 @@ public class CreatureController {
 			token = reader.readLine();
 			if (!token.startsWith("Языки")) {
 				skillText += token;
-				monster.setVision(skillText);
+				creature.setVision(skillText);
 				skillText = reader.readLine();
 			} else {
-				monster.setVision(skillText);
+				creature.setVision(skillText);
 				skillText = token;
 			}
 
@@ -284,10 +291,10 @@ public class CreatureController {
 			if (!token.startsWith("Опасность")) {
 				skillText += " " + token;
 				if (skillText.startsWith("Языки")) {
-					parseLanguage(skillText, monster);
+					parseLanguage(skillText, creature);
 				}
 			} else {
-				parseLanguage(skillText, monster);
+				parseLanguage(skillText, creature);
 				skillText = token;
 			}
 
@@ -297,8 +304,8 @@ public class CreatureController {
 			}
 			skillText = skillText.replace("Опасность ", "").trim();
 			String[] crAndExp = skillText.split(" ");
-			monster.setChallengeRating(crAndExp[0].trim());
-			monster.setExp(Integer.valueOf(crAndExp[1].replaceAll("[^0-9]", "").trim()));
+			creature.setChallengeRating(crAndExp[0].trim());
+			creature.setExp(Integer.valueOf(crAndExp[1].replaceAll("[^0-9]", "").trim()));
 
 			// Фиты
 			Feat feat = new Feat();
@@ -338,7 +345,7 @@ public class CreatureController {
 					newFeet = true;
 				}
 			} while (!skillText.trim().equals("Действия"));
-			monster.setFeats(feats);
+			creature.setFeats(feats);
 
 			// Действия
 			List<Action> actions = new ArrayList<>();
@@ -384,12 +391,12 @@ public class CreatureController {
 					newAction = true;
 				}
 			} while (skillText != null);
-			monster.setActions(actions);
+			creature.setActions(actions);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		repository.save(monster);
+		repository.save(creature);
 		return "parseMonster";
 	}
 

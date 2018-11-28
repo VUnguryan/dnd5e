@@ -40,7 +40,7 @@
 			</div>
 			<!-- creature heading -->
 			<svg  class="tapered-rule">
-	    		<polyline points="0,0 1200,2.5 0,5"></polyline>
+	    		<polyline points="0,0 600,2.5 0,5"></polyline>
 	  		</svg>
 			<div class="top-stats">
 				<div class="property-line first">
@@ -74,8 +74,8 @@
 				</div>
 				<!-- property line -->
 				<svg height="5" width="100%" class="tapered-rule">
-	    <polyline points="0,0 1200,2.5 0,5"></polyline>
-	  </svg>
+	    			<polyline points="0,0 600,2.5 0,5"></polyline>
+	 			</svg>
 				<div class="abilities">
 					<div class="ability-strength">
 						<h4>СИЛ</h4>
@@ -110,8 +110,8 @@
 				</div>
 				<!-- abilities -->
 				<svg height="5" width="100%" class="tapered-rule">
-	    <polyline points="0,0 1200,2.5 0,5"></polyline>
-	  </svg>
+	    			<polyline points="0,0 600,2.5 0,5"></polyline>
+	 			</svg>
 				<div class="property-line first" th:if="*{!savingThrows.empty}">
 					<h4>Спасброски</h4>
 					<p th:each="savingThrow, iterStat : *{savingThrows}"
@@ -135,7 +135,7 @@
 				</div>
 
 				<div class="property-line" th:if="*{!immunityStates.empty}">
-					<h4>Иммунитет к состаянию</h4>
+					<h4>Иммунитет к состоянию</h4>
 					<p th:each="state, iterStat : *{immunityStates}"
 						th:text="!${iterStat.last} ? ${state.cyrilicName} + ', ': ${state.cyrilicName}" />
 				</div>
@@ -156,7 +156,7 @@
 			</div>
 			<!-- top stats -->
 			<svg height="5" width="100%" class="tapered-rule">
-	    		<polyline points="0,0 1200,2.5 0,5"></polyline>
+	    		<polyline points="0,0 600,2.5 0,5"></polyline>
 	  		</svg>
 			<div class="property-block" th:each="feat : *{feats}">
 				<h4 th:text="${feat.name}"></h4>

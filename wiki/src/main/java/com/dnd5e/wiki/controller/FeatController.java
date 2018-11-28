@@ -12,7 +12,7 @@ import com.dnd5e.wiki.model.feat.Feat;
 import com.dnd5e.wiki.repository.FeatRepository;
 
 @Controller
-@RequestMapping({ "/feats" })
+@RequestMapping("/feats")
 final class FeatController {
 	private FeatRepository featRepository;
 

@@ -18,7 +18,7 @@ public enum State {
 	INCAPACITATED("недееспособность"),
 	INVISIBLE("невидимый"),
 	PARALYZED("паралич"),
-	PETRIFIED("окаменение"),
+	PETRIFIED("окаменение"), // "окаменен"
 	POISONED("отравление"),
 	PRONE("сбивание с ног"),
 	RESTRAINED("опутанность"),

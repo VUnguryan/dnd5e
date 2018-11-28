@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<meta charset="UTF-8">
+<title>Добавление места</title>
+</head>
+<body>
+	<form th:action="@{/places/add}" th:object="${place}" method="post">
+		<div>
+			Parent: 
+			<select th:field="*{parent}">
+				<option th:each="placeAll : ${places}" th:value="${placeAll.id}" th:text="${placeAll.name}"/>
+			</select>
+		</div>
+		<div>
+			Name: <input type="text" th:field="*{name}" />
+		</div>
+
+		<div>
+			Description:
+			<textarea th:field="*{description}" rows="30" cols="80"></textarea>
+		</div>
+		<div>
+			<input type="submit" value="Submit" />
+		</div>
+	</form>
+</body>
+</html>
