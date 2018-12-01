@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -17,7 +18,7 @@ import com.dnd5e.wiki.model.spell.Spell;
 @Table(name = "classes")
 @Data
 public class HeroClass {
-	@javax.persistence.Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;

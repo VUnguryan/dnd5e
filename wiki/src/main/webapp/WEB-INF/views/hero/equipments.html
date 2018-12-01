@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+
+<title>DnD 5E Снаряжение</title>
+<meta charset="utf-8">
+
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<style>
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+</style>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .equipments})"></div>
+	<div class="container" style="margin-top: 50px">
+
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col" style="width: 5%">&nbsp;</th>
+					<th scope="col" style="width: 40%">Наименование</th>
+					<th scope="col"><select id="currencyType"
+						сlass="custom-select-sm" onchange="filter(this)">
+							<option value="ALL">Стоимость</option>
+							<option th:each="currency : ${currencies}" th:value="${currency}"
+								th:text="${currency.name}"
+								th:selected="${currency==currencySelected}" />
+					</select></th>
+					<th scope="col" style="width: 15%">Вес (в фунтах)</th>
+				</tr>
+			</thead>
+			<th:block th:each="equipment : ${equipments}">
+				<tr data-toggle="collapse" th:attr="data-target='#d'+ ${equipment.id}">
+					<td><img th:if="${equipment.description != null}"
+						th:src="@{/resources/open-iconic/svg/eye.svg}"></td>
+					<td th:text="${equipment.name}" />
+					<td><span th:if="${equipment.cost > 10}"
+						th:text="${equipment.cost + ' ' +equipment.currency.name}">
+					</span><img th:if="${equipment.cost <= 10}"
+						th:each="i: ${#numbers.sequence(1, equipment.cost)}"
+						th:alt="${equipment.currency.name}"
+						th:src="@{'/resources/currency/'+ ${equipment.currency} +'.png'}"
+						height="25" th:title="${equipment.currency.name}" /></td>
+					<td th:text="${equipment.weight}" class="text-center"/>
+				</tr>
+				<tr th:if="${equipment.description != null}">
+					<td colspan="6" class="hiddenRow">
+						<div th:id="'d' + ${equipment.id}" class="collapse"><div class="card"> <div class="card-body" th:utext="${equipment.description}"></div></div></div>
+					</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+</body>
+<script>
+	function filter(select) {
+		var baseUrl = '[[@{/equipments?}]]';
+		var type = $("#currencyType").val();
+		window.location = baseUrl + "currencyType=" + type;
+	}
+</script>
+</html>

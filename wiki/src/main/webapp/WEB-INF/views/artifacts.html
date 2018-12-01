@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layouts/default">
 <head>
-<title>DnD 5E Артифакты</title>
+<title>DnD 5E Магические вещи</title>
 <meta charset="utf-8">
 
 <link rel="icon" th:href="@{/resources/icon.png}">
@@ -22,21 +22,24 @@
 	<div th:insert="fragments/header :: header(~{ :: .artifactes})"></div>
 
 	<div class="container" style="margin-top: 60px">
-		<div class="card">
-			<div class="card-body">
-				<h5 class="panel-heading">Фильтр</h5>
-				<select id="artifactType" class="form-control"
-					onchange="filter(this)">
-					<option value="ALL">все</option>
-					<option th:each="type : ${artifactTypes}" th:value="${type}"
-						th:text="${type.cyrilicName}" th:selected="${type==typeSelected}">
-				</select> <select id="rarityType" class="form-control"
-					onchange="filter(this)">
-					<option value="ALL">все</option>
-					<option th:each="rarity : ${rarityTypes}" th:value="${rarity}"
-						th:text="${rarity.cyrilicName}"
-						th:selected="${rarity==raritySelected}">
-				</select>
+		<button data-toggle="collapse" data-target="#filter"
+			class="btn btn-secondary">Фильтрация</button>
+		<div id=filter class="collapse">
+			<div class="card">
+				<div class="card-body">
+					<select id="artifactType" class="form-control"
+						onchange="filter(this)">
+						<option value="ALL">все</option>
+						<option th:each="type : ${artifactTypes}" th:value="${type}"
+							th:text="${type.cyrilicName}" th:selected="${type==typeSelected}">
+					</select> <select id="rarityType" class="form-control"
+						onchange="filter(this)">
+						<option value="ALL">все</option>
+						<option th:each="rarity : ${rarityTypes}" th:value="${rarity}"
+							th:text="${rarity.cyrilicName}"
+							th:selected="${rarity==raritySelected}">
+					</select>
+				</div>
 			</div>
 		</div>
 		<table class="table table-striped">
@@ -48,14 +51,8 @@
 						th:if="${order==0 && dir=='desc'}"
 						class="glyphicon glyphicon-arrow-up"></span>
 					</th>
-					<th onclick="sortTable(1)" scope="col">Редкость <span
-						th:if="${order==1 && dir=='asc'}"
-						class="glyphicon glyphicon-arrow-down"></span> <span
-						th:if="${order==1 && dir=='desc'}"
-						class="glyphicon glyphicon-arrow-up"></span>
-					</th>
-					<th onclick="sortTable(2)" scope="col">Тип <span
-						th:if="${order==2 && dir=='asc'}"
+					<th onclick="sortTable(1)" scope="col" class="text-center">Базовая
+						цена<span th:if="${order==2 && dir=='asc'}"
 						class="glyphicon glyphicon-arrow-down"></span> <span
 						th:if="${order==2 && dir=='desc'}"
 						class="glyphicon glyphicon-arrow-up"></span>
@@ -65,11 +62,11 @@
 			<tr th:each="artifact : ${artifacts}" style="cursor: pointer"
 				th:onclick="'javascript:rowClicked(\'' + ${artifact.id} + '\');'">
 				<td th:text="${artifact.name}" />
-				<td th:text="${artifact.rarity.cyrilicName}" />
-				<td th:text="${artifact.type.cyrilicName}" />
+				<td class="text-center"><span
+					th:text="${artifact.cost}"></span><img th:alt="зм"
+					th:src="@{'/resources/currency/GM.png'}" height="25" th:title="зм" /></td>
 			</tr>
 		</table>
-
 	</div>
 </body>
 <script>

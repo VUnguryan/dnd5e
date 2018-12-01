@@ -45,7 +45,6 @@ public class EnglishNameController {
 			}
 
 		}
-
 		return last;
 	}
 }

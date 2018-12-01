@@ -1,7 +1,13 @@
 package com.dnd5e.wiki.model.creature;
 
 public enum Dice {
-	d4, d6, d8, d10, d12, d20, d100;
+	d4,
+	d6,
+	d8,
+	d10,
+	d12,
+	d20,
+	d100;
 
 	public static Dice parse(int dice) {
 		switch(dice) {

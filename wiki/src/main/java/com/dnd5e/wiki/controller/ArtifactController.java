@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,9 @@ import com.dnd5e.wiki.repository.ArtifactRepository;
 
 @Controller
 @RequestMapping("/artifacts")
+@Scope("session")
 public class ArtifactController {
+	
 	private ArtifactRepository repository;
 
 	@Autowired

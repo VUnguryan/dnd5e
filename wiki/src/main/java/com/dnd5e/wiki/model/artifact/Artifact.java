@@ -24,4 +24,9 @@ public class Artifact {
 	private Boolean customization;
 	@javax.persistence.Column(columnDefinition = "TEXT")
 	private String description;
+	private boolean consumed;
+	
+	public int getCost() {
+		return consumed ? rarity.getBaseCost() / 2 : rarity.getBaseCost(); 
+	}
 }
