@@ -1,19 +1,20 @@
 package com.dnd5e.wiki.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.dnd5e.wiki.model.artifact.Artifact;
 import com.dnd5e.wiki.model.artifact.ArtifactType;
 import com.dnd5e.wiki.model.artifact.Rarity;
 
-public interface ArtifactRepository extends JpaRepository<Artifact, Integer> {
-	List<Artifact> findByNameContaining(String paramString);
+public interface ArtifactRepository extends JpaRepository<Artifact, Integer>, JpaSpecificationExecutor<Artifact> {
+	Page<Artifact> findByNameContaining(Pageable pagable, String paramString);
 
-	List<Artifact> findByTypeAndRarity(ArtifactType paramArtifactType, Rarity paramRarity);
+	Page<Artifact> findByTypeAndRarity(Pageable pagable, ArtifactType paramArtifactType, Rarity paramRarity);
 
-	List<Artifact> findByType(ArtifactType paramArtifactType);
+	Page<Artifact> findByType(Pageable pagable, ArtifactType paramArtifactType);
 
-	List<Artifact> findByRarity(Rarity paramRarity);
+	Page<Artifact> findByRarity(Pageable pagable, Rarity paramRarity);
 }

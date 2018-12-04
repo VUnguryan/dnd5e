@@ -38,10 +38,11 @@
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
 					<th onclick="sortTable(2)" scope="col" style="width: 20%">Школа
-						/ School <span th:if="${order==2 && dir=='asc'}"
-						class="glyphicon glyphicon-arrow-down"></span> <span
+						/ School 
+						<img th:if="${order==2 && dir=='asc'}"
+						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
 						th:if="${order==2 && dir=='desc'}"
-						class="glyphicon glyphicon-arrow-up"></span>
+						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
 				</tr>
 			</thead>

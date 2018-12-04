@@ -3,18 +3,20 @@ package com.dnd5e.wiki.controller;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dnd5e.wiki.model.artifact.Artifact;
 import com.dnd5e.wiki.model.artifact.ArtifactType;
@@ -25,7 +27,10 @@ import com.dnd5e.wiki.repository.ArtifactRepository;
 @RequestMapping("/artifacts")
 @Scope("session")
 public class ArtifactController {
-	
+	private Optional<String> search = Optional.empty(); 
+	private Optional<Rarity> rarityFilter = Optional.empty();
+	private Optional<ArtifactType> typeFilter = Optional.empty();
+
 	private ArtifactRepository repository;
 
 	@Autowired
@@ -33,16 +38,69 @@ public class ArtifactController {
 		this.repository = repository;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String getArtifactes(Model model) {
-		model.addAttribute("artifacts", repository.findAll());
+	@GetMapping
+	public String getArtifactes(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
+		if (search.isPresent()) {
+			model.addAttribute("artifacts", repository.findAll(byName(search.get()), page));
+		} 
+		else if(typeFilter.isPresent() && rarityFilter.isPresent()) {
+			model.addAttribute("artifacts", repository.findAll(Specification.where(byType()).and(byRarity()), page));
+		}
+		else if (typeFilter.isPresent()) {
+			
+			model.addAttribute("artifacts", repository.findAll(Specification.where(byType()), page)); 
+		}
+		else if (rarityFilter.isPresent()) {
+			model.addAttribute("artifacts", repository.findAll(Specification.where(byRarity()), page));
+		}
+		else
+		{
+			model.addAttribute("artifacts", repository.findAll(page));
+		}
+		model.addAttribute("typeSelected", typeFilter);
+		model.addAttribute("raritySelected", rarityFilter);
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("order", Integer.valueOf(1));
+		model.addAttribute("searchText", search);
 		return "artifacts";
 	}
 
-	@RequestMapping(value = { "/add" }, method = RequestMethod.GET)
+	@GetMapping(params = "search")
+	public String searchArtifacts(Model model, String search) {
+		if (search.isEmpty()) {
+			this.search = Optional.empty();
+		}
+		else
+		{
+			this.search = Optional.of(search);
+		}
+		return "redirect:/artifacts";
+	}
+
+	@GetMapping(params = { "type" })
+	public String filterArtifact(Model model, String type, String rarity, Pageable page) {
+		if ("ALL".equals(type)) {
+			this.typeFilter = Optional.empty();
+		}
+		else
+		{
+			ArtifactType typeSelected = ArtifactType.valueOf(type);
+			this.typeFilter = Optional.of(typeSelected); 
+		}
+		if ("ALL".equals(rarity))
+		{
+			this.rarityFilter = Optional.empty();			
+		}
+		else
+		{
+			Rarity raritySelected = Rarity.valueOf(rarity);
+			this.rarityFilter = Optional.of(raritySelected);
+		}
+		return "redirect:/artifacts";
+	}
+
+	@GetMapping("/add")
 	public String getAddForm(Model model) {
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
@@ -50,10 +108,10 @@ public class ArtifactController {
 		return "addArtifact";
 	}
 
-	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
+	@PostMapping("/add")
 	public String getArtifact(@ModelAttribute Artifact artifact) {
-		
-		if (!repository.findByNameContaining(artifact.getName()).isEmpty()) {
+
+		if (!repository.findByNameContaining(PageRequest.of(1, 1), artifact.getName()).getContent().isEmpty()) {
 			return "redirect:/artifacts/add";
 		}
 		StringReader reader = new StringReader(artifact.getDescription());
@@ -72,78 +130,19 @@ public class ArtifactController {
 		return "redirect:/artifacts/add";
 	}
 
-	@RequestMapping(value = { "/artifact/{id}" }, method = RequestMethod.GET)
-	public String getArtifact(Model model, @PathVariable Integer id) {
-		Artifact artifac = (Artifact) repository.findById(id).get();
-		model.addAttribute("artifact", artifac);
-		return "artifactView";
-	}
-
-	@RequestMapping(method = RequestMethod.GET, params = { "search" })
-	public String searchArtifacts(Model model, String search) {
-		model.addAttribute("artifacts", repository.findByNameContaining(search));
-		model.addAttribute("rarityTypes", Rarity.values());
-		model.addAttribute("artifactTypes", ArtifactType.values());
-		return "artifacts";
-	}
-
-	@RequestMapping(method = RequestMethod.GET, params = { "type" })
-	public String filterArtifact(Model model, String type, String rarity) {
-		List<Artifact> artifacts = Collections.emptyList();
-		if (("ALL".equals(type)) && ("ALL".equals(rarity))) {
-			artifacts = repository.findAll();
-		} else if ((!"ALL".equals(type)) && ("ALL".equals(rarity))) {
-			ArtifactType typeSelected = ArtifactType.valueOf(type);
-			artifacts = repository.findByType(typeSelected);
-			model.addAttribute("typeSelected", typeSelected);
-		} else if (("ALL".equals(type)) && (!"ALL".equals(rarity))) {
-			Rarity raritySelected = Rarity.valueOf(rarity);
-			artifacts = repository.findByRarity(raritySelected);
-			model.addAttribute("raritySelected", raritySelected);
-		} else {
-			ArtifactType typeSelected = ArtifactType.valueOf(type);
-			Rarity raritySelected = Rarity.valueOf(rarity);
-			artifacts = repository.findByTypeAndRarity(typeSelected, raritySelected);
-			model.addAttribute("typeSelected", typeSelected);
-			model.addAttribute("raritySelected", raritySelected);
-		}
-		model.addAttribute("artifacts", artifacts);
-		model.addAttribute("rarityTypes", Rarity.values());
-		model.addAttribute("artifactTypes", ArtifactType.values());
-		return "artifacts";
-	}
-
-	@RequestMapping(method = RequestMethod.GET, params = { "order" })
-	public String sortSpells(Model model, Integer order, String dir) {
-		Sort.Direction direction;
-		if (("asc".equals(dir)) || (dir == null)) {
-			direction = Sort.Direction.ASC;
-		} else {
-			direction = Sort.Direction.DESC;
-		}
-		Sort sort = null;
-		switch (order.intValue()) {
-		case 0:
-			sort = new Sort(direction, "name");
-			break;
-		case 1:
-			sort = new Sort(direction, "rarity");
-			break;
-		case 2:
-			sort = new Sort(direction, "type");
-			break;
-		default:
-			sort = Sort.unsorted();
-		}
-		model.addAttribute("rarityTypes", Rarity.values());
-		model.addAttribute("artifactTypes", ArtifactType.values());
-		model.addAttribute("artifacts", repository.findAll(sort));
-		model.addAttribute("order", order);
-		model.addAttribute("dir", dir);
-		return "artifacts";
-	}
-
 	private String removeHyphenation(String string) {
 		return string + " ";
+	}
+
+	private Specification<Artifact> byName(String search) {
+		return (root, query, cb) -> cb.and(cb.like(root.get("name"), "%" + search + "%"));
+	}
+
+	private Specification<Artifact> byRarity() {
+		return (root, query, cb) -> cb.and(cb.equal(root.get("rarity"), rarityFilter.get()));
+	}
+	
+	private Specification<Artifact> byType() {
+		return (root, query, cb) -> cb.and(cb.equal(root.get("type"), typeFilter.get()));
 	}
 }

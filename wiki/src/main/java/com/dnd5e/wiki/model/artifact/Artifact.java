@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.artifact;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,11 +23,16 @@ public class Artifact {
 	@Enumerated(EnumType.ORDINAL)
 	private ArtifactType type;
 	private Boolean customization;
-	@javax.persistence.Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String description;
 	private boolean consumed;
-	
+	@Column(nullable = true)
+	private Integer cost;
+
 	public int getCost() {
-		return consumed ? rarity.getBaseCost() / 2 : rarity.getBaseCost(); 
+		if (cost != null) {
+			return cost;
+		}
+		return consumed ? rarity.getBaseCost() / 2 : rarity.getBaseCost();
 	}
 }

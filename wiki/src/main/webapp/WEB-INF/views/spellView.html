@@ -57,11 +57,13 @@
 							<div class="card-body">
 								<h5 class="card-title">Компоненты:</h5>
 								<p class="card-text">
-									<span th:text="${spell.verbalComponent} ? 'Вербальный' : ''"></span>
-									<span
-										th:text="${spell.somaticComponent} ? ' Cоматический' : ''"></span>
-									<span
-										th:text="${spell.materialComponent} ? ' Mатериальный' : ''"></span>
+									<img th:if="${spell.verbalComponent}" title="Вербальный"
+										th:src="@{/resources/open-iconic/svg/musical-note.svg}"
+										height="25" /> <img th:if="${spell.somaticComponent}"
+										title="Cоматический"
+										th:src="@{/resources/open-iconic/svg/move.svg}" height="25" />
+									<img th:if="${spell.materialComponent}" title="Mатериальный"
+										th:src="@{/resources/open-iconic/svg/beaker.svg}" height="25" />
 								</p>
 							</div>
 						</div>

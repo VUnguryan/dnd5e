@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: DnD5ERUS
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: VUnguryan
+Implementation-Vendor-Id: com.dnd5
+Build-Jdk: 1.8.0_161
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/wiki
+Created-By: Maven Integration for Eclipse
+
