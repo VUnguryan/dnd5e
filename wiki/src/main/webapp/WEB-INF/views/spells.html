@@ -33,7 +33,7 @@
 				class="btn btn-secondary">Фильтры</button>
 		</div>
 		<div id=filter class="collapse"
-			th:classappend="${classSelected.present || schoolSelected.present || searchText.present || minLevel.present || maxLevel.present}  ? show">
+			th:classappend="${classSelected.present || schoolSelected.present || searchText.present || minLevel.present || maxLevel.present || timeCast.present}  ? show">
 			<div class="card">
 				<div class="card-body">
 					<div class="input-group mb-4">
@@ -63,14 +63,14 @@
 					</div>
 					<div class="input-group mb-4">
 						<div class="input-group-prepend">
-							<label class="input-group-text" for="minLevel">Уровень:
-								от</label>
+							<label class="input-group-text" for="minLevel">Уровень: </label>
 						</div>
 						<select id="minLevel" class="custom-select"
 							onchange="filterLevel(this)">
 							<option value="-1">---</option>
-							<option th:each="i: ${#numbers.sequence(0,maxLevel.present? maxLevel.get(): 9)}" th:text="${i}"
-								th:value="${i}"
+							<option
+								th:each="i: ${#numbers.sequence(0,maxLevel.present? maxLevel.get(): 9)}"
+								th:text="${i}" th:value="${i}"
 								th:selected="${minLevel.present && i==minLevel.get()}" />
 						</select>
 						<div class="input-group-prepend">
@@ -79,9 +79,36 @@
 						<select id="maxLevel" class="custom-select"
 							onchange="filterLevel(this)">
 							<option value="-1">---</option>
-							<option th:each="i: ${#numbers.sequence(minLevel.present? minLevel.get(): 0,9)}" th:text="${i}"
-								th:value="${i}" 
-								th:selected="${maxLevel.present && i==maxLevel.get()}"/>
+							<option
+								th:each="i: ${#numbers.sequence(minLevel.present? minLevel.get(): 0,9)}"
+								th:text="${i}" th:value="${i}"
+								th:selected="${maxLevel.present && i==maxLevel.get()}" />
+						</select>
+					</div>
+<!-- 					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="components">Компоненты</label>
+							<div class="form-check">
+								&nbsp;<span class="input-group-addon">Вербалный</span> <input
+									type="checkbox" class="control" id="ver"> &nbsp;<span
+									class="input-group-addon">Соматический</span> <input
+									type="checkbox" class="control" id="som"> &nbsp;<span
+									class="input-group-addon">Материальный</span> <input
+									type="checkbox" class="control" id="mat">
+							</div>
+						</div>
+					</div> -->
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="timeCast">Время
+								создания</label>
+						</div>
+						<select id="timeCast" class="custom-select"
+							onchange="filter(this)">
+							<option value="ALL">любое</option>
+							<option id="timeCast" th:each="timeCastType : ${timeCastTypes}"
+								th:value="${timeCastType}" th:text="${timeCastType.name}"
+								th:selected="${timeCast.present && timeCastType==timeCast.get()}" />
 						</select>
 					</div>
 					<div class="input-group mb-4">
@@ -121,8 +148,17 @@
 			</thead>
 			<tr th:each="spell : ${spells}" style="cursor: pointer"
 				th:onclick="'javascript:spellClicked(\'' + ${spell.id} + '\');'">
-				<td align="center" th:text="${spell.level}" />
-				<td th:text="${spell.name + ' / ' + spell.englishName}" />
+				<td align="center"><th:block th:text="${spell.level}" />
+				<img
+					th:if="${spell.ritual}"
+					th:src="@{/resources/open-iconic/svg/clock.svg}"
+					th:title="ритуал" height="15">
+				</td>
+				<td th:title="${spell.englishName}"><th:block
+						th:text="${spell.name}"></th:block>&nbsp;<img
+					th:if="${spell.concentration}"
+					th:src="@{/resources/open-iconic/svg/link-intact.svg}"
+					th:title="${spell.duration}" height="15"></td>
 				<td class="text-center">
 					<div th:switch="${spell.school.name()}">
 						<img th:case="'EMBODIMENTS'"
@@ -223,9 +259,10 @@
 		var baseUrl = '[[@{/spells?}]]';
 		var type = $("#classType").val();
 		var schoolType = $("#schoolType").val();
+		var timeCast = $("#timeCast").val();
 		var sort = getParameterByName('sort');
-		var page = getParameterByName('page');
-		var parameters = "classType=" + type + "&schoolType=" + schoolType;
+		var parameters = "classType=" + type + "&schoolType=" + schoolType
+				+ "&timeCast=" + timeCast;
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}

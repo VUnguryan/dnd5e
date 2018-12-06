@@ -21,7 +21,8 @@
 		<ul th:if="${pagable.totalPages > 1}"
 			class="pagination justify-content-center pagination-sm">
 			<li th:if="${pagable.hasPrevious()}" class="page-item"><a
-				class="page-link" th:href="@{${pageurl}(page=${pagable.number-1}, sort=${param.sort})}"
+				class="page-link"
+				th:href="@{${pageurl}(page=${pagable.number-1}, sort=${param.sort})}"
 				tabindex="-1">Предыдущая</a></li>
 			<li
 				th:each="i: ${#numbers.sequence(pagable.number < 4 ?
@@ -34,8 +35,12 @@
 				th:href="@{${pageurl}(page=${i-1}, sort=${param.sort})}"><span
 					th:text="${i}"></span></a></li>
 			<li th:if="${pagable.hasNext()}" class="page-item"><a
-				class="page-link" th:href="@{${pageurl}(page=${pagable.number+1}, sort=${param.sort})}">Следующая</a></li>
+				class="page-link"
+				th:href="@{${pageurl}(page=${pagable.number+1}, sort=${param.sort})}">Следующая</a></li>
 		</ul>
+		<div th:if="${pagable.content.empty}" class="alert alert-danger"
+			role="alert">Ничего не найдено</div>
 	</nav>
+
 </body>
 </html>

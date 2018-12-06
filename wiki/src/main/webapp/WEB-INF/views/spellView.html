@@ -26,6 +26,7 @@
 			<h5 class="card-header">
 				<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
 			</h5>
+
 			<div class="card-body">
 				<div class="d-flex w-100 justify-content-between">
 					<p>
@@ -35,62 +36,30 @@
 							th:text="${spell.ritual != null && spell.ritual} ? ' (ритуал)' : '' "></span>
 					</p>
 				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Время накладывания:</h5>
-								<p class="card-text" th:text="*{timeCast}"></p>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Дистанция:</h5>
-								<p class="card-text" th:text="*{distance}" />
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Компоненты:</h5>
-								<p class="card-text">
-									<img th:if="${spell.verbalComponent}" title="Вербальный"
-										th:src="@{/resources/open-iconic/svg/musical-note.svg}"
-										height="25" /> <img th:if="${spell.somaticComponent}"
-										title="Cоматический"
-										th:src="@{/resources/open-iconic/svg/move.svg}" height="25" />
-									<img th:if="${spell.materialComponent}" title="Mатериальный"
-										th:src="@{/resources/open-iconic/svg/beaker.svg}" height="25" />
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">Длительность:</h5>
-								<p class="card-text" th:text="*{duration}" />
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="card"
-					th:if="${spell.additionalMaterialComponent != null}">
-					<div class="card-body">
-						<h5 class="card-title">Материальные компоненты</h5>
-						<p th:text="${spell.additionalMaterialComponent}"></p>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">Описание заклинания</h5>
-						<div class="panel-body" th:object="${spell}">
-							<p th:utext="*{description}"></p>
-						</div>
-					</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item"><strong>Время
+							накладывания:</strong> <th:block th:text="*{timeCast}" /></li>
+					<li class="list-group-item"><strong>Дистанция:</strong> <th:block
+							th:text="*{distance}" /></li>
+					<li class="list-group-item"><strong>Компоненты:</strong> <img
+						th:if="${spell.verbalComponent}" title="Вербальный"
+						th:src="@{/resources/open-iconic/svg/musical-note.svg}"
+						height="25" /> <img th:if="${spell.somaticComponent}"
+						title="Cоматический"
+						th:src="@{/resources/open-iconic/svg/move.svg}" height="25" /> <img
+						th:if="${spell.materialComponent}" title="Mатериальный"
+						th:src="@{/resources/open-iconic/svg/beaker.svg}" height="25" /></li>
+					<li th:if="${spell.additionalMaterialComponent != null}"
+						class="list-group-item"><strong>Материальные
+							компоненты:</strong> <th:block
+							th:text="${spell.additionalMaterialComponent}" /></li>
+					<li class="list-group-item"><strong>Длительность:</strong> <th:block
+							th:text="*{duration}" /></li>
+				</ul>
+				<p />
+				<h5 class="card-title">Описание заклинания</h5>
+				<div class="panel-body" th:object="${spell}">
+					<p th:utext="*{description}"></p>
 				</div>
 				<div class="card" th:if="${spell.upperLevel != null}"
 					th:object="${spell}">
