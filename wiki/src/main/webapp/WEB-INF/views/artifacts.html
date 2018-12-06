@@ -100,7 +100,7 @@
 						<div th:id="'d' + ${artifact.id}" class="collapse">
 							<div class="card">
 								<h2>
-									<img
+									<img th:if="${artifact.rarity.ordinal() > 0}"
 										th:each="i: ${#numbers.sequence(1, artifact.rarity.ordinal())}"
 										th:src="@{/resources/open-iconic/svg/star.svg}"
 										th:title="${artifact.rarity.cyrilicName}" height="30"

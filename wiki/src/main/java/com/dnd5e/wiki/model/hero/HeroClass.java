@@ -1,8 +1,5 @@
 package com.dnd5e.wiki.model.hero;
 
-import lombok.Data;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -13,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.spell.Spell;
+
+import lombok.Data;
 
 @Entity
 @Table(name = "classes")
@@ -28,5 +27,5 @@ public class HeroClass {
 	private String savingThrows;
 	private String skills;
 	@ManyToMany
-	private List<Spell> spells = new ArrayList<>();
+	private List<Spell> spells;
 }

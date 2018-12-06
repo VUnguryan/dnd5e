@@ -1,10 +1,9 @@
 package com.dnd5e.wiki.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,30 +27,32 @@ public class EquipmentController {
 	}
 
 	@GetMapping
-	public String getAllEquipments(Model model) {
+	public String getAllEquipments(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
 		model.addAttribute("currencies", Currency.values());
-		model.addAttribute("equipments", equipmentRepository.findAll(new Sort(Sort.Direction.ASC, "name")));
+		model.addAttribute("equipments", equipmentRepository.findAll(page));
 		return "/hero/equipments";
 	}
 
 	@GetMapping(params = "search")
-	public String searchEquipments(Model model, String search)
-	{
+	public String searchEquipments(Model model,
+			@PageableDefault(size = 12, sort = "name") Pageable page,
+			String search) {
 		model.addAttribute("currencies", Currency.values());
-		model.addAttribute("equipments", equipmentRepository.findByNameContaining(search));
+		model.addAttribute("equipments", equipmentRepository.findByNameContaining(page, search));
 		return "/hero/equipments";
 	}
-	
+
 	@GetMapping(params = "currencyType")
-	public String getEquipmentsForCurrencyType(Model model, String currencyType) {
+	public String getEquipmentsForCurrencyType(Model model, @PageableDefault(size = 12, sort = "name") Pageable page,
+			String currencyType) {
 		if ("ALL".equals(currencyType)) {
 			return "redirect:/equipments";
 		}
 		Currency selectedCurrency = Currency.valueOf(currencyType);
 		model.addAttribute("currencySelected", selectedCurrency);
 		model.addAttribute("currencies", Currency.values());
-		List<Equipment> equipments = equipmentRepository.findAll(new Sort(Sort.Direction.ASC, "name"));
-		equipments = equipments.stream().map(e -> convertor(e, selectedCurrency)).collect(Collectors.toList());
+		Page<Equipment> equipments = equipmentRepository.findAll(page);
+		equipments.forEach(e -> convertor(e, selectedCurrency));
 		model.addAttribute("equipments", equipments);
 		return "/hero/equipments";
 	}
@@ -70,7 +71,6 @@ public class EquipmentController {
 	}
 
 	private Equipment convertor(Equipment equipment, Currency selectedCurrency) {
-
 		Currency currency = equipment.getCurrency();
 		if (currency.ordinal() <= selectedCurrency.ordinal()) {
 			return equipment;

@@ -27,27 +27,28 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .equipments})"></div>
 	<div class="container" style="margin-top: 50px">
-
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th scope="col" style="width: 5%">&nbsp;</th>
 					<th scope="col" style="width: 40%">Наименование</th>
-					<th scope="col"><select id="currencyType"
-						сlass="custom-select-sm" onchange="filter(this)">
-							<option value="ALL">Стоимость</option>
+					<th scope="col">Стоимость&nbsp;<select id="currencyType"
+						class="text-center" onchange="filter(this)">
+							<option value="ALL">Монеты</option>
 							<option th:each="currency : ${currencies}" th:value="${currency}"
 								th:text="${currency.name}"
 								th:selected="${currency==currencySelected}" />
 					</select></th>
-					<th scope="col" style="width: 15%">Вес (в фунтах)</th>
+					<th scope="col" style="width: 15%" class="text-center">Вес (в
+						фунтах)</th>
 				</tr>
 			</thead>
 			<th:block th:each="equipment : ${equipments}">
-				<tr data-toggle="collapse" th:attr="data-target='#d'+ ${equipment.id}">
-					<td><img th:if="${equipment.description != null}"
-						th:src="@{/resources/open-iconic/svg/eye.svg}"></td>
-					<td th:text="${equipment.name}" />
+				<tr data-toggle="collapse"
+					th:attr="data-target='#d'+ ${equipment.id}">
+					<td><th:block th:text="${equipment.name}" /> <img
+						th:if="${equipment.description != null}"
+						th:src="@{/resources/open-iconic/svg/info.svg}" height="25"
+						align="right" title="Подробнее" /></td>
 					<td><span th:if="${equipment.cost > 10}"
 						th:text="${equipment.cost + ' ' +equipment.currency.name}">
 					</span><img th:if="${equipment.cost <= 10}"
@@ -55,15 +56,20 @@
 						th:alt="${equipment.currency.name}"
 						th:src="@{'/resources/currency/'+ ${equipment.currency} +'.png'}"
 						height="25" th:title="${equipment.currency.name}" /></td>
-					<td th:text="${equipment.weight}" class="text-center"/>
+					<td th:text="${equipment.weight}" class="text-center" />
 				</tr>
 				<tr th:if="${equipment.description != null}">
 					<td colspan="6" class="hiddenRow">
-						<div th:id="'d' + ${equipment.id}" class="collapse"><div class="card"> <div class="card-body" th:utext="${equipment.description}"></div></div></div>
+						<div th:id="'d' + ${equipment.id}" class="collapse">
+							<div class="card">
+								<div class="card-body" th:utext="${equipment.description}"></div>
+							</div>
+						</div>
 					</td>
 				</tr>
 			</th:block>
 		</table>
+		<div th:insert="fragments/pages :: pages(${equipments}, equipments)"></div>
 	</div>
 </body>
 <script>

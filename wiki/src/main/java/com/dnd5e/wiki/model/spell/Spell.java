@@ -1,5 +1,7 @@
 package com.dnd5e.wiki.model.spell;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -25,7 +27,7 @@ public class Spell {
 	private MagicSchool school;
 	private String timeCast;
 	private String distance;
-	@javax.persistence.Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String description;
 
 	@Column(columnDefinition = "TEXT")
@@ -39,5 +41,5 @@ public class Spell {
 	private String duration;
 	private Boolean concentration;
 	@ManyToMany
-	private java.util.List<HeroClass> heroClass;
+	private List<HeroClass> heroClass;
 }
