@@ -40,6 +40,7 @@ public class Spell {
 	private String additionalMaterialComponent;
 	private String duration;
 	private Boolean concentration;
+	
 	@ManyToMany
 	private List<HeroClass> heroClass;
 }

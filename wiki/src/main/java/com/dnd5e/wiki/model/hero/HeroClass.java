@@ -29,9 +29,11 @@ public class HeroClass {
 	private String savingThrows;
 	private String skills;
 	private String archetypeName;
+	
 	@ManyToMany
 	private List<Spell> spells;
-	@OneToMany
+	
+	@OneToMany()
 	@JoinColumn(name = "class_id")
 	private List<Archetype> archetypes;
 }

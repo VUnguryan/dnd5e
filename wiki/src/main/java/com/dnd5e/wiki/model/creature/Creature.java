@@ -21,9 +21,7 @@ import com.dnd5e.wiki.model.feat.Feat;
 import lombok.Data;
 
 /**
- * Класс монстра
- * @author VUnguryan
- *
+ * Класс существа из бестиария
  */
 @Entity
 @Table(name = "creatures")

@@ -85,7 +85,7 @@
 								th:selected="${maxLevel.present && i==maxLevel.get()}" />
 						</select>
 					</div>
-<!-- 					<div class="input-group mb-4">
+					<div class="input-group mb-4">
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="components">Компоненты</label>
 							<div class="form-check">
@@ -97,7 +97,7 @@
 									type="checkbox" class="control" id="mat">
 							</div>
 						</div>
-					</div> -->
+					</div>
 					<div class="input-group mb-4">
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="timeCast">Время
@@ -267,8 +267,8 @@
 			parameters += "&sort=" + sort;
 		}
 		window.location = baseUrl + parameters;
-
 	}
+	
 	function getParameterByName(name, url) {
 		if (!url)
 			url = window.location.href;

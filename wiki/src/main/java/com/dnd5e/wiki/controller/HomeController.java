@@ -13,17 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dnd5e.wiki.model.paces.Place;
+import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.PlaceRepository;
 
 @Controller
 public class HomeController {
 	private PlaceRepository repo;
-	
+
 	@Autowired
 	private void setRepository(PlaceRepository repo)
 	{
 		this.repo = repo;
 	}
+
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public String getHome(Model model) {
 		List<Place> places = repo.findByParentIsNull();

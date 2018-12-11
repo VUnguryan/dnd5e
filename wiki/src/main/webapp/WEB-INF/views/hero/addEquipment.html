@@ -25,16 +25,13 @@
 		<form action="#" th:action="@{/equipments/add}"
 			th:object="${equipment}" method="post">
 			<p>
-				Name: <input type="text" th:field="*{name}" />
+				Название: <input type="text" th:field="*{name}" />
 			</p>
 			<p>
-				Стоимость: <input type="text" th:field="*{cost}" /><select th:field="*{{currency}}">
+				С какого уровня: <input type="text" th:field="*{cost}" /><select th:field="*{{currency}}">
 					<option th:each="currency : ${currencies}" th:value="${currency}"
 						th:text="${currency.name}">
 				</select>
-			</p>
-			<p>
-				Вес: <input type="text" th:field="*{weight}" />
 			</p>
 			<p>
 				Description:

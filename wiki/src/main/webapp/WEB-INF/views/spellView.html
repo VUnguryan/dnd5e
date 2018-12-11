@@ -26,7 +26,6 @@
 			<h5 class="card-header">
 				<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
 			</h5>
-
 			<div class="card-body">
 				<div class="d-flex w-100 justify-content-between">
 					<p>
@@ -61,22 +60,15 @@
 				<div class="panel-body" th:object="${spell}">
 					<p th:utext="*{description}"></p>
 				</div>
-				<div class="card" th:if="${spell.upperLevel != null}"
+				<div class="card border-warning" th:if="${spell.upperLevel != null}"
 					th:object="${spell}">
 					<div class="card-body">
 						<h5 class="card-title">На более высоких уровнях</h5>
 						<p th:text="*{upperLevel}"></p>
 					</div>
 				</div>
-			</div>
-			<h6>Заклинание доступно классам:</h6>
-			<div>
-				<table class="table table-striped">
-					<tr th:each="hero : ${classes}" style="cursor: pointer"
-						th:onclick="'javascript:classClicked(\'' + ${hero.id} + '\');'">
-						<td th:text="${hero.name}"></td>
-					</tr>
-				</table>
+				<h5>Заклинание доступно классам:</h5>
+				<p><img th:each="hero : ${classes}" th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}" th:title="${hero.name}" height="60" width="60"/></p>
 			</div>
 		</div>
 	</div>

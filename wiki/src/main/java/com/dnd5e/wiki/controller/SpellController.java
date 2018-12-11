@@ -39,10 +39,9 @@ public class SpellController {
 	private Optional<Integer> classSelectedId = Optional.empty();
 	private Optional<MagicSchool> schoolSelected = Optional.empty();
 	private Optional<TimeCast> timeCastSelected = Optional.empty();
-	
+
 	private SpellRepository spellRepository;
 	private ClassRepository classRepository;
-
 
 	public SpellController() {
 	}
@@ -127,20 +126,20 @@ public class SpellController {
 	}
 
 	@GetMapping(params = { "minLevel", "maxLevel" })
-	public String filterSpellByLevels(Model model, Integer minLevel, Integer maxLevel, Pageable page) {
+	public String filterSpellByLevels(Model model, String sort, Integer minLevel, Integer maxLevel, Pageable page) {
 		this.minLevel = minLevel >= 0 ? Optional.of(minLevel) : Optional.empty();
 		this.maxLevel = maxLevel >= 0 ? Optional.of(maxLevel) : Optional.empty();
-		return "redirect:/spells?sort=level,asc";
+		return "redirect:/spells?sort=" + sort;
 	}
 
-	@GetMapping(params = { "classType", "schoolType", "timeCast" })
-	public String filterSpellByTypes(Model model, @RequestParam("classType") Integer classId, String schoolType,
-			String timeCast, Pageable page) {
+	@GetMapping(params = { "sort", "classType", "schoolType", "timeCast" })
+	public String filterSpellByTypes(Model model, String sort, @RequestParam("classType") Integer classId,
+			String schoolType, String timeCast, Pageable page) {
 		this.classSelectedId = classId == -1 ? Optional.empty() : Optional.of(classId);
 		this.schoolSelected = "ALL".equals(schoolType) ? Optional.empty()
 				: Optional.of(MagicSchool.valueOf(schoolType));
-		this.timeCastSelected ="ALL".equals(timeCast) ? Optional.empty() : Optional.of(TimeCast.valueOf(timeCast)); 
-		return "redirect:/spells?sort=level,asc";
+		this.timeCastSelected = "ALL".equals(timeCast) ? Optional.empty() : Optional.of(TimeCast.valueOf(timeCast));
+		return "redirect:/spells?sort=" + sort;
 	}
 
 	@GetMapping("/spell/{id}")
@@ -265,7 +264,7 @@ public class SpellController {
 	private Specification<Spell> bySchool() {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("school"), schoolSelected.get()));
 	}
-	
+
 	private Specification<Spell> byTimeCast() {
 		return (root, query, cb) -> cb.and(cb.like(root.get("timeCast"), timeCastSelected.get().getName() + "%"));
 	}
@@ -280,7 +279,7 @@ public class SpellController {
 
 	private Specification<Spell> byClassId() {
 		return (root, query, cb) -> {
-			Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.INNER);
+			Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.LEFT);
 			return cb.equal(hero.get("id"), classSelectedId.get());
 		};
 	}
