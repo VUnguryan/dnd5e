@@ -32,8 +32,7 @@
 			<button data-toggle="collapse" data-target="#filter"
 				class="btn btn-secondary">Фильтры</button>
 		</div>
-		<div id=filter class="collapse"
-			th:classappend="${classSelected.present || schoolSelected.present || searchText.present || minLevel.present || maxLevel.present || timeCast.present}  ? show">
+		<div id=filter class="collapse" th:classappend="${filtered} ? show">
 			<div class="card">
 				<div class="card-body">
 					<div class="input-group mb-4">
@@ -90,11 +89,14 @@
 							<label class="input-group-text" for="components">Компоненты</label>
 							<div class="form-check">
 								&nbsp;<span class="input-group-addon">Вербалный</span> <input
-									type="checkbox" class="control" id="ver"> &nbsp;<span
+									th:checked="${verbal}" type="checkbox" class="control"
+									id="verbal" onchange="filter()"> &nbsp;<span
 									class="input-group-addon">Соматический</span> <input
-									type="checkbox" class="control" id="som"> &nbsp;<span
+									th:checked="${somatic}" type="checkbox" class="control"
+									id="somatic" onchange="filter()"> &nbsp;<span
 									class="input-group-addon">Материальный</span> <input
-									type="checkbox" class="control" id="mat">
+									th:checked="${material}" type="checkbox" class="control"
+									id="material" onchange="filter()">
 							</div>
 						</div>
 					</div>
@@ -260,9 +262,12 @@
 		var type = $("#classType").val();
 		var schoolType = $("#schoolType").val();
 		var timeCast = $("#timeCast").val();
+		var verbal = $("#verbal:checked").val();
+		var somatic = $("#somatic:checked").val();
+		var material = $("#material:checked").val();
 		var sort = getParameterByName('sort');
-		var parameters = "classType=" + type + "&schoolType=" + schoolType
-				+ "&timeCast=" + timeCast;
+		var parameters = "classType=" + type + "&schoolType=" + schoolType 
+				+ "&timeCast=" + timeCast + "&verbal=" + verbal + "&somatic=" + somatic + "&material=" + material;
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}

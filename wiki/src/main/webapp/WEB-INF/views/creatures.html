@@ -75,6 +75,18 @@
 						</select>
 					</div>
 					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="ctreatureSize">Размер</label>
+						</div>
+						<select id="creatureSize" class="custom-select"
+							onchange="filter()">
+							<option value="ALL">все</option>
+							<option th:each="size : ${sizes}" th:value="${size}"
+								th:text="${size.cyrilicName}"
+								th:selected="${sizeSelected.present && size==sizeSelected.get()}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
 						<a th:href="@{/creatures(search='')}"
 							class="btn-sm btn-secondary btn-lg active" role="button"
 							aria-pressed="true" th:if="${searchText.present}"><th:block
@@ -172,7 +184,8 @@
 		var sort = getParameterByName('sort');
 		var crMin = $("#crMin").val();
 		var crMax = $("#crMax").val();
-		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax="
+		var size = $("#creatureSize").val();
+		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax=" + crMax + "&cSize=" + size;
 				+ crMax;
 		if (sort != null) {
 			parameters += "&sort=" + sort;

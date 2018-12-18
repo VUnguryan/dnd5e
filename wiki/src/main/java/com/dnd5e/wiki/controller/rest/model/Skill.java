@@ -1,0 +1,52 @@
+
+package com.dnd5e.wiki.controller.rest.model;
+
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "Modifier",
+    "Name"
+})
+public class Skill {
+
+    @JsonProperty("Modifier")
+    public String modifier;
+    @JsonProperty("Name")
+    public String name;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    public Skill withModifier(String modifier) {
+        this.modifier = modifier;
+        return this;
+    }
+
+    public Skill withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+    public Skill withAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+        return this;
+    }
+
+}

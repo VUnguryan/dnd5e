@@ -78,8 +78,8 @@ public class ArtifactController {
 		return "redirect:/artifacts";
 	}
 
-	@GetMapping(params = { "type" })
-	public String filterArtifact(Model model, String type, String rarity, Pageable page) {
+	@GetMapping(params = { "sort", "type", "rarity" })
+	public String filterArtifact(Model model, String sort, String type, String rarity) {
 		if ("ALL".equals(type)) {
 			this.typeFilter = Optional.empty();
 		}
@@ -97,7 +97,7 @@ public class ArtifactController {
 			Rarity raritySelected = Rarity.valueOf(rarity);
 			this.rarityFilter = Optional.of(raritySelected);
 		}
-		return "redirect:/artifacts";
+		return "redirect:/artifacts?sort=" + sort;
 	}
 
 	@GetMapping("/add")

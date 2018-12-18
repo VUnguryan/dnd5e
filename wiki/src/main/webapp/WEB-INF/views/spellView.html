@@ -68,7 +68,12 @@
 					</div>
 				</div>
 				<h5>Заклинание доступно классам:</h5>
-				<p><img th:each="hero : ${classes}" th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}" th:title="${hero.name}" height="60" width="60"/></p>
+				<p><a th:each="hero : ${classes}" th:href="@{'/classes/class/' + ${hero.id}}">
+					<img 
+						th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}"
+						th:title="${hero.name}" height="60" width="60" />
+					</a>
+				</p>
 			</div>
 		</div>
 	</div>

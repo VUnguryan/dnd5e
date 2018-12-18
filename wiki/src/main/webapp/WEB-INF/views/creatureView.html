@@ -23,6 +23,7 @@
 	<div th:insert="fragments/header :: header(@{/creatures})"></div>
 	<div class="container" style="margin-top: 60px">
 		<div class="card" th:object="${creature}">
+			
 			<h5 class="card-header">
 				<span th:text="*{name} + ' ('+ *{englishName} + ')'"></span><small>
 					<span th:text="*{size.cyrilicName}"></span> <span
@@ -32,15 +33,15 @@
 						th:text="*{raceName}"></span></a>, <span
 					th:text="*{alignment.cyrilicName}"></span>
 				</small>
-				<ul class="nav nav-pills card-header-pills">
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический
-							вид</a></li>
-				</ul>
+				<a class="card-link"
+				th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический
+				вид</a>
 			</h5>
 			<div class="card-body">
+
 				<div>
-					<b>Класс доспеха</b> <span th:text="*{AC}"></span>
+					<b>Класс доспеха</b>
+					<th:block th:text="*{AC}" />
 				</div>
 				<div>
 					<b>Хиты</b> <span th:text="*{averageHp}"></span> (<span
@@ -49,14 +50,18 @@
 						th:text="*{bonusHP}"></span></span>)
 				</div>
 				<div>
-					<b>Скорость</b> <span th:text="*{speed}"></span> фт. <span
-						th:if="${creature.flySpeed != null}">, летая <span
-						th:text="*{flySpeed}"></span> фт.
-					</span> <span th:if="${creature.climbingSpeed != null}">, лазая <span
-						th:text="*{climbingSpeed}"></span> фт.
-					</span> <span th:if="${creature.swimmingSpped != null}">, плавая <span
-						th:text="*{swimmingSpped}"></span> фт.
-					</span>
+					<b>Скорость</b>
+					<th:block th:text="*{speed}" />
+					фт.
+					<th:block th:if="${creature.flySpeed != null}">, летая <th:block
+							th:text="*{flySpeed}" /> фт.
+					<th:block th:if="${creature.climbingSpeed != null}">, лазая <th:block
+								th:text="*{climbingSpeed}"> фт.
+					<th:block th:if="${creature.swimmingSpped != null}" />, плавая <th:block
+									th:text="*{swimmingSpped}" /> фт.
+					<th:block th:if="${creature.diggingSpeed != null}" />, плавая <th:block
+									th:text="*{diggingSpeed}" /> фт.
+				
 				</div>
 			</div>
 			<div class="card">
@@ -64,12 +69,12 @@
 					<table class="table text-center">
 						<thead>
 							<tr>
-								<th class="text-center">СИЛ</th>
-								<th class="text-center">ЛОВ</th>
-								<th class="text-center">ТЕЛ</th>
-								<th class="text-center">ИНТ</th>
-								<th class="text-center">МДР</th>
-								<th class="text-center">ХАР</th>
+								<th class="text-center" title="Сила">СИЛ</th>
+								<th class="text-center" title="Ловкость">ЛОВ</th>
+								<th class="text-center" title="Телосложение">ТЕЛ</th>
+								<th class="text-center" title="Интелект">ИНТ</th>
+								<th class="text-center" title="Мудрость">МДР</th>
+								<th class="text-center" title="Харизма">ХАР</th>
 							</tr>
 						</thead>
 						<tr>
@@ -124,6 +129,7 @@
 				</div>
 			</div>
 			<div class="card">
+				<div class="card-header">Особенности</div>
 				<div class="card-body">
 					<div th:each="feat : *{feats}">
 						<h5 class="card-title" th:text="${feat.name}"></h5>

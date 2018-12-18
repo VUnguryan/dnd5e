@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.feat;
+package com.dnd5e.wiki.model.hero;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +10,9 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "feats")
+@Table(name = "race_features")
 @Data
-public class Feat {
+public class Feature {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

@@ -83,23 +83,29 @@ public class CreatureController {
 		if (typeSelected.isPresent()) {
 			specification = (specification == null) ? byType() : Specification.where(specification).and(byType());
 		}
-		if(crMin.isPresent())
-		{
+		if (crMin.isPresent()) {
 			specification = (specification == null) ? byMinExp() : Specification.where(specification).and(byMinExp());
 		}
-		if(crMax.isPresent())
-		{
+		if (crMax.isPresent()) {
 			specification = (specification == null) ? byMaxExp() : Specification.where(specification).and(byMaxExp());
+		}
+		if (sizeSelected.isPresent()) {
+			specification = (specification == null) ? bySize() : Specification.where(specification).and(bySize());
 		}
 		model.addAttribute("creatures", repository.findAll(specification, page));
 		model.addAttribute("filter",
-				crMin.isPresent() || crMax.isPresent() || search.isPresent() || typeSelected.isPresent());
+				crMin.isPresent() 
+				|| crMax.isPresent() 
+				|| search.isPresent() 
+				|| typeSelected.isPresent() 
+				|| sizeSelected.isPresent());
 		model.addAttribute("searchText", search);
 		model.addAttribute("crMin", crMin);
 		model.addAttribute("crMax", crMax);
 		model.addAttribute("types", CreatureType.values());
 		model.addAttribute("sizes", CreatureSize.values());
 		model.addAttribute("typeSelected", typeSelected);
+		model.addAttribute("sizeSelected", sizeSelected);
 		return "creatures";
 	}
 
@@ -149,11 +155,12 @@ public class CreatureController {
 		return "redirect:/creatures";
 	}
 
-	@GetMapping(params = { "sort", "type", "crMin", "crMax" })
-	public String filter(Model model, String sort, String type, String crMin, String crMax) {
-		typeSelected = "ALL".equals(type) ? Optional.empty() : Optional.of(CreatureType.valueOf(type));
+	@GetMapping(params = { "sort", "type", "crMin", "crMax", "cSize" })
+	public String filter(Model model, String sort, String type, String crMin, String crMax, String cSize) {
+		this.typeSelected = "ALL".equals(type) ? Optional.empty() : Optional.of(CreatureType.valueOf(type));
 		this.crMin = "-1".equals(crMin) ? Optional.empty() : Optional.of(crMin);
 		this.crMax = "-1".equals(crMax) ? Optional.empty() : Optional.of(crMax);
+		this.sizeSelected = "ALL".equals(cSize) ? Optional.empty() : Optional.of(CreatureSize.valueOf(cSize));
 		return "redirect:/creatures?sort=" + sort;
 	}
 
@@ -524,6 +531,7 @@ public class CreatureController {
 	private Specification<Creature> byType() {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("type"), typeSelected.get()));
 	}
+
 	private Specification<Creature> byMinExp() {
 		return (root, query, cb) -> cb.and(cb.greaterThanOrEqualTo(root.get("exp"), toExp(crMin.get())));
 	}
@@ -531,43 +539,81 @@ public class CreatureController {
 	private Specification<Creature> byMaxExp() {
 		return (root, query, cb) -> cb.and(cb.lessThanOrEqualTo(root.get("exp"), toExp(crMax.get())));
 	}
-	
+
+	private Specification<Creature> bySize() {
+		return (root, query, cb) -> cb.and(cb.equal(root.get("size"), sizeSelected.get()));
+	}
+
 	private int toExp(String cr) {
 		switch (cr) {
-			case "0": return 10;
-			case "1/8": return 25;
-			case "1/4": return 50;
-			case "1/2": return 100;
-			case "1": return 200;
-			case "2": return 450;
-			case "3": return 700;
-			case "4": return 1100;
-			case "5": return 1800;
-			case "6": return 2300;
-			case "7": return 2900;
-			case "8": return 3900;
-			case "9": return 5000;
-			case "10": return 5900;
-			case "11": return 7200;
-			case "12": return 8400;
-			case "13": return 10000;
-			case "14": return 11500;
-			case "15": return 13000;
-			case "16": return 15000;
-			case "17": return 18000;
-			case "18": return 20000;
-			case "19": return 22000;
-			case "20": return 25000;
-			case "21": return 25000;
-			case "22": return 41000;
-			case "23": return 50000;
-			case "24": return 62000;
-			case "25": return 75000;
-			case "26": return 90000;
-			case "27": return 105000;
-			case "28": return 120000;
-			case "29": return 135000;
-			case "30": return 155000;
+		case "0":
+			return 10;
+		case "1/8":
+			return 25;
+		case "1/4":
+			return 50;
+		case "1/2":
+			return 100;
+		case "1":
+			return 200;
+		case "2":
+			return 450;
+		case "3":
+			return 700;
+		case "4":
+			return 1100;
+		case "5":
+			return 1800;
+		case "6":
+			return 2300;
+		case "7":
+			return 2900;
+		case "8":
+			return 3900;
+		case "9":
+			return 5000;
+		case "10":
+			return 5900;
+		case "11":
+			return 7200;
+		case "12":
+			return 8400;
+		case "13":
+			return 10000;
+		case "14":
+			return 11500;
+		case "15":
+			return 13000;
+		case "16":
+			return 15000;
+		case "17":
+			return 18000;
+		case "18":
+			return 20000;
+		case "19":
+			return 22000;
+		case "20":
+			return 25000;
+		case "21":
+			return 25000;
+		case "22":
+			return 41000;
+		case "23":
+			return 50000;
+		case "24":
+			return 62000;
+		case "25":
+			return 75000;
+		case "26":
+			return 90000;
+		case "27":
+			return 105000;
+		case "28":
+			return 120000;
+		case "29":
+			return 135000;
+		case "30":
+			return 155000;
 		}
 		return 0;
 	}
