@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.creature.Source;
+
 import lombok.Data;
 
 @Entity
@@ -28,7 +30,9 @@ public class Artifact {
 	private boolean consumed;
 	@Column(nullable = true)
 	private Integer cost;
-
+	@Enumerated(EnumType.ORDINAL)
+	private Source source;
+	
 	public int getCost() {
 		if (cost != null) {
 			return cost;

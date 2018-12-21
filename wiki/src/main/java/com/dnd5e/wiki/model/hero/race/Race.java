@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.hero;
+package com.dnd5e.wiki.model.hero.race;
 
 import java.util.List;
 
@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.feat.Feat;
+import com.dnd5e.wiki.model.hero.Bonus;
+import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Data;
 
@@ -35,9 +37,6 @@ public class Race {
 	@OneToMany
 	@JoinColumn(name = "race_id")
 	private List<Bonus> bonuses;
-	
-	@OneToMany
-	private List<Feat> feats;
 	
 	@OneToMany
 	List<Language> languages;

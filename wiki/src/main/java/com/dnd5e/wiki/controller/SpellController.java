@@ -18,11 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.dnd5e.wiki.model.hero.HeroClass;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.spell.TimeCast;
@@ -169,12 +168,12 @@ public class SpellController {
 		return "spellView";
 	}
 
-	@GetMapping("/add")
+	//@GetMapping("/add")
 	public String getSpellAddForm(Model model) {
 		return "addSpell";
 	}
 
-	@PostMapping("/add")
+	//@PostMapping("/add")
 	public String addSpell(String spellText) {
 
 		Spell spell = new Spell();

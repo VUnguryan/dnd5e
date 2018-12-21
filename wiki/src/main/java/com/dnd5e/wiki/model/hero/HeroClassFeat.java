@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.hero.classes.Archetype;
+
 import lombok.Data;
 
 @Entity

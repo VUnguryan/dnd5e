@@ -1,26 +1,26 @@
-package com.dnd5e.wiki.model.hero;
+package com.dnd5e.wiki.model.user;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
 
+
 @Entity
-@Table(name = "sub_races")
+@Table(name = "roles")
 @Data
-public class SubRace {
+public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	@OneToMany
-	@JoinColumn(name = "race_id")
-	List<Feature> features;
+	
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users;
 }

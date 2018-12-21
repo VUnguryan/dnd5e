@@ -4,12 +4,16 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.hero.HeroClass;
+import com.dnd5e.wiki.model.creature.Source;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 import lombok.Data;
 
@@ -18,7 +22,7 @@ import lombok.Data;
 @Data
 public class Spell {
 	@Id
-	@javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Short level;
 	private String name;
@@ -43,4 +47,6 @@ public class Spell {
 	
 	@ManyToMany
 	private List<HeroClass> heroClass;
+	@Enumerated(EnumType.ORDINAL)
+	private Source source;
 }

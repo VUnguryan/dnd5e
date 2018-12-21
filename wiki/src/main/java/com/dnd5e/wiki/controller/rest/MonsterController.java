@@ -30,7 +30,7 @@ import com.dnd5e.wiki.repository.CreatureRepository;
 
 @RestController
 public class MonsterController {
-	private static final String HTML_REGEXP = "\\\\<[^>]*>";
+	private static final String HTML_REGEXP = "\\\\<[^\\>]*\\>";
 	private CreatureRepository repository;
 
 	@Autowired

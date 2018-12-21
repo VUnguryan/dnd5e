@@ -30,11 +30,4 @@ public class RaceController {
 		model.addAttribute("race", repo.findById(id).get());
 		return "/hero/raceView";
 	}
-	
-	@GetMapping("/race/feature/add")
-	public String getClassFeatureForm(Model model)
-	{
-		
-		return "/hero/addFeature";
-	}
 }

@@ -24,11 +24,22 @@
 	<div class="container" style="margin-top: 50px">
 		<form action="#" th:action="@{/equipments/add}"
 			th:object="${equipment}" method="post">
+			<div class="card-body">
+				<div class="input-group mb-4">
+					<div class="input-group-prepend">
+						<label class="input-group-text" for="weaponName">Name:</label>
+					</div>
+					<input type="text" class="form-control" placeholder="Имя"
+						aria-label="Имя" aria-describedby="basic-addon1"
+						th:field="*{name}">
+				</div>
+			</div>
 			<p>
-				Name: <input type="text" th:field="*{name}" />
+				<input type="text" />
 			</p>
 			<p>
-				Стоимость: <input type="text" th:field="*{cost}" /><select th:field="*{{currency}}">
+				Стоимость: <input type="text" th:field="*{cost}" /><select
+					th:field="*{{currency}}">
 					<option th:each="currency : ${currencies}" th:value="${currency}"
 						th:text="${currency.name}">
 				</select>

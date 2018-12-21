@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.dnd5e.wiki.model.hero.HeroClass;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 @Repository
 public abstract interface ClassRepository extends JpaRepository<HeroClass, Integer> {

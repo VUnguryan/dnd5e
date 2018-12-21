@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dnd5e.wiki.model.hero.Archetype;
 import com.dnd5e.wiki.model.hero.Condition;
-import com.dnd5e.wiki.model.hero.HeroClass;
 import com.dnd5e.wiki.model.hero.HeroClassFeat;
+import com.dnd5e.wiki.model.hero.classes.Archetype;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.repository.ArchetypeRepository;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.ConditionRepository;

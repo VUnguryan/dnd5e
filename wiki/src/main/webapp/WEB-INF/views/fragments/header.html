@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
@@ -31,10 +29,10 @@
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown"> Персонаж </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/classes}">Классы</a> 
-						<a class="dropdown-item" th:href="@{/races}">Расы</a> <a
-							class="dropdown-item" th:href="@{/spells?sort=name,asc}">Заклинания</a> <a
-							class="dropdown-item" th:href="@{/conditions}">Состояния</a>
+						<a class="dropdown-item" th:href="@{/classes}">Классы</a> <a
+							class="dropdown-item" th:href="@{/races}">Расы</a> <a
+							class="dropdown-item" th:href="@{/spells?sort=name,asc}">Заклинания</a>
+						<a class="dropdown-item" th:href="@{/conditions}">Состояния</a>
 					</div></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
@@ -46,6 +44,10 @@
 					</div></li>
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/creatures?sort=exp,asc}">Бестиарий</a></li>
+				<th:block sec:authorize="isAuthenticated()">
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/tavern}">Таверна</a></li>
+				</th:block>
 
 			</ul>
 			<form class="form-inline my-2 my-lg-0" th:action="${search}">
@@ -58,6 +60,34 @@
 					</div>
 				</div>
 			</form>
+			<th:block sec:authorize="!isAuthenticated()">
+				<form class="form-inline my-2 my-lg-0" th:action="@{/login}">
+					<div class="input-group">
+						<div class="input-group-btn">
+							<button class="btn btn-outline-secondary my-2 my-sm-0"
+								type="submit">Вход</button>
+						</div>
+					</div>
+				</form>
+				<form class="form-inline my-2 my-lg-0" th:action="@{/registration}">
+					<div class="input-group">
+						<div class="input-group-btn">
+							<button class="btn btn-outline-secondary my-2 my-sm-0"
+								type="submit">Регистрация</button>
+						</div>
+					</div>
+				</form>
+			</th:block>
+			<div sec:authorize="isAuthenticated()">
+				<form class="form-inline my-2 my-lg-0" th:action="@{/logout}">
+					<div class="input-group">
+						<div class="input-group-btn">
+							<button class="btn btn-outline-secondary my-2 my-sm-0"
+								type="submit">Выход</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</nav>
 </body>

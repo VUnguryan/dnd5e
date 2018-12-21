@@ -3,11 +3,11 @@ package com.dnd5e.wiki.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.dnd5e.wiki.model.hero.HeroClass;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.repository.ClassRepository;
 
 @Controller
@@ -21,13 +21,13 @@ public class ClassController {
 		this.repository = repository;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public String getClasses(Model model) {
 		model.addAttribute("classes", repository.findAll());
 		return "classes";
 	}
 
-	@RequestMapping(value = { "/class/{id}" }, method = RequestMethod.GET)
+	@GetMapping("/class/{id}")
 	public String getClass(Model model, @PathVariable Integer id) {
 		HeroClass heroClass = repository.findById(id).get();
 		model.addAttribute("heroClass", heroClass);

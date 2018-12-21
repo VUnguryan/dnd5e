@@ -162,26 +162,7 @@
 					th:src="@{/resources/open-iconic/svg/link-intact.svg}"
 					th:title="${spell.duration}" height="15"></td>
 				<td class="text-center">
-					<div th:switch="${spell.school.name()}">
-						<img th:case="'EMBODIMENTS'"
-							th:src="@{/resources/open-iconic/svg/flash.svg}" height="25"
-							th:title="${spell.school.name}" /> <img th:case="'INVOCATION'"
-							th:src="@{/resources/open-iconic/svg/rain.svg}" height="25"
-							th:title="${spell.school.name}" /> <img th:case="'ILLUSION'"
-							th:src="@{/resources/open-iconic/svg/eye.svg}" height="25"
-							th:title="${spell.school.name}" /> <img th:case="'NECROMANCY'"
-							th:src="@{/resources/open-iconic/svg/droplet.svg}" height="25"
-							th:title="${spell.school.name}" /> <img th:case="'PROTECTION'"
-							th:src="@{/resources/open-iconic/svg/shield.svg}" height="25"
-							th:title="${spell.school.name}" /> <img th:case="'CHARM'"
-							th:src="@{/resources/open-iconic/svg/heart.svg}" height="25"
-							th:title="${spell.school.name}" /> <img
-							th:case="'TRANSFORMATION'"
-							th:src="@{/resources/open-iconic/svg/transfer.svg}" height="25"
-							th:title="${spell.school.name}" /> <img th:case="'DIVINATION'"
-							th:src="@{/resources/open-iconic/svg/bullhorn.svg}" height="25"
-							th:title="${spell.school.name}" />
-					</div>
+					<div th:insert="fragments/schoolIcon :: schoolIcon(${spell})"></div>
 				</td>
 			</tr>
 		</table>

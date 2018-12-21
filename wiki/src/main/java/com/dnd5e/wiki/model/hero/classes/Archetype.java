@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.hero;
+package com.dnd5e.wiki.model.hero.classes;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.hero.HeroClassFeat;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Data;

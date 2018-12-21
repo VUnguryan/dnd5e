@@ -9,9 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
-	public Application() {
-	}
-
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(new Class[] { Application.class });
 	}

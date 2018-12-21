@@ -1,14 +1,16 @@
-package com.dnd5e.wiki.model.hero;
+package com.dnd5e.wiki.model.hero.classes;
 
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.spell.Spell;
@@ -30,7 +32,8 @@ public class HeroClass {
 	private String skills;
 	private String archetypeName;
 	
-	@ManyToMany
+	@ManyToMany (fetch = FetchType.LAZY)
+	@OrderBy("level")
 	private List<Spell> spells;
 	
 	@OneToMany()

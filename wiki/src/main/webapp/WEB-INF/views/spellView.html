@@ -29,10 +29,13 @@
 			<div class="card-body">
 				<div class="d-flex w-100 justify-content-between">
 					<p>
-						<span
-							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'"></span>,
-						<span th:text="*{school.name}"></span> <span
-							th:text="${spell.ritual != null && spell.ritual} ? ' (ритуал)' : '' "></span>
+						<th:block
+							th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'" />
+						,
+						<th:block th:text="*{school.name}" />
+						<th:block
+							th:text="${spell.ritual != null && spell.ritual} ? ' (ритуал)' : '' " />
+						<th:block th:insert="fragments/schoolIcon :: schoolIcon(${spell})" />
 					</p>
 				</div>
 				<ul class="list-group list-group-flush">
@@ -41,12 +44,13 @@
 					<li class="list-group-item"><strong>Дистанция:</strong> <th:block
 							th:text="*{distance}" /></li>
 					<li class="list-group-item"><strong>Компоненты:</strong> <img
-						th:if="${spell.verbalComponent}" title="Вербальный"
+						th:if="${spell.verbalComponent}"
+						title="Вербальный - Большинство заклинаний требуют произношения таинственных слов. Сами по себе слова не являются источником силы заклинания; просто комбинация звуков с особой тональностью вызывает резонанс в прядях магии, приводя их в движение. Таким образом, персонаж с кляпом во рту или в области заклинания тишина, не может активировать заклинания с вербальным компонентом."
 						th:src="@{/resources/open-iconic/svg/musical-note.svg}"
 						height="25" /> <img th:if="${spell.somaticComponent}"
-						title="Cоматический"
+						title="Cоматический- Заклинание может требовать энергичной жестикуляции или замысловатой последовательности телодвижений. Если у заклинания есть соматический компонент, у заклинателя должна быть свободной хотя бы одна рука для исполнения этих жестов."
 						th:src="@{/resources/open-iconic/svg/move.svg}" height="25" /> <img
-						th:if="${spell.materialComponent}" title="Mатериальный"
+						th:if="${spell.materialComponent}" title="Mатериальный - У заклинателя должна быть одна свободная рука для доступа к материальным компонентам, но это может быть та же самая рука, что используется для выполнения соматического компонента. Персонаж может использовать мешочек с компонентами или заклинательную фокусировку вместо указанных компонентов. Однако, если для компонента указана цена, у персонажа для накладывания заклинания должен быть именно такой компонент."
 						th:src="@{/resources/open-iconic/svg/beaker.svg}" height="25" /></li>
 					<li th:if="${spell.additionalMaterialComponent != null}"
 						class="list-group-item"><strong>Материальные
@@ -68,8 +72,9 @@
 					</div>
 				</div>
 				<h5>Заклинание доступно классам:</h5>
-				<p><a th:each="hero : ${classes}" th:href="@{'/classes/class/' + ${hero.id}}">
-					<img 
+				<p>
+					<a th:each="hero : ${classes}"
+						th:href="@{'/classes/class/' + ${hero.id}}"> <img
 						th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}"
 						th:title="${hero.name}" height="60" width="60" />
 					</a>
