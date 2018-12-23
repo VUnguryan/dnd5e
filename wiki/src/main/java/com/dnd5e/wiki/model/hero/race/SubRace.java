@@ -25,4 +25,11 @@ public class SubRace {
 	@OneToMany
 	@JoinColumn(name = "race_id")
 	List<Feature> features;
+	
+	private byte strength;
+	private byte dexterity;
+	private byte constitution;
+	private byte intellect;
+	private byte wizdom;
+	private byte charisma;
 }

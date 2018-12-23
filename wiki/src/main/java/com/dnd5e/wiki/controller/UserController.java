@@ -1,5 +1,7 @@
 package com.dnd5e.wiki.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+    public String registration(@Valid  @ModelAttribute("user") User userForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/user/registration";
         }
@@ -35,13 +37,13 @@ public class UserController {
 
         securityService.autologin(userForm.getName(), userForm.getPasswordConfirm());
 
-        return "redirect:/";
+        return "redirect:/tavern?sort=name,asc";
     }
 
     @GetMapping("/login")
     public String login(Model model, String error, String logout) {
         if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
+            model.addAttribute("error", "Ваше имя пользователя или пароль неверны.");
 
         if (logout != null)
             model.addAttribute("message", "You have been logged out successfully.");

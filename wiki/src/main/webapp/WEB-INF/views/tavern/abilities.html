@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="abilities()">
+		<div class="row">
+			<div class="col-lg-2">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="labelability">STR</span>
+					</div>
+					<input id="strId" type="number" class="form-control w-15"
+						aria-describedby="basic-addon1" th:field="*{strength}">
+					<div class="input-group-prepend ">
+						<span class="input-group-text" id="str_bonus"
+							th:text="*{strBonus}">0</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="labelability">DEX</span>
+					</div>
+					<input id="dex" type="number" class="form-control w-15"
+						aria-describedby="basic-addon1" th:field="*{dexterity}">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="dex_bonus"
+							th:text="*{dexBonus}">0</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="labelability">CON</span>
+					</div>
+					<input id="con" type="number" class="form-control w-15"
+						aria-describedby="basic-addon1" th:field="*{constitution}">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="con_bonus"
+							th:text="*{conBonus}">0</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="labelability">INT</span>
+					</div>
+					<input id="ints" type="number" class="form-control w-15"
+						aria-describedby="basic-addon1" th:field="*{intellect}">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="int_bonus"
+							th:text="*{intBonus}">0</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-2">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="labelability">WIZ</span>
+					</div>
+					<input id="wiz" type="number" class="form-control w-15"
+						aria-describedby="basic-addon1" th:field="*{wizdom}">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="wiz_bonus"
+							th:text="*{wizBonus}">0</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="labelability">CHR</span>
+					</div>
+					<input id="cha" type="number" class="form-control w-15"
+						aria-describedby="basic-addon1" th:field="*{charisma}">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="cha_bonus"
+							th:text="*{chrBonus}">0</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

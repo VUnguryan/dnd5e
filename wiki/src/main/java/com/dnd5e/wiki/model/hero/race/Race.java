@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.creature.Language;
-import com.dnd5e.wiki.model.feat.Feat;
 import com.dnd5e.wiki.model.hero.Bonus;
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
@@ -44,4 +43,11 @@ public class Race {
 	@OneToMany
 	@JoinColumn(name = "race_id")
 	List<SubRace> subRaces;
+	
+	private byte strength;
+	private byte dexterity;
+	private byte constitution;
+	private byte intellect;
+	private byte wizdom;
+	private byte charisma;
 }

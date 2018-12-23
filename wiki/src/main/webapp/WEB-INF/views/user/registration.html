@@ -37,14 +37,20 @@
 						aria-describedby="basic-addon1" />
 				</div>
 				<div class="input-group mb-3">
-					<input th:field="*{password}" type="text" class="form-control"
+					<input th:field="*{password}" type="password" class="form-control"
 						placeholder="Пароль" aria-label="Имя пользователя"
 						aria-describedby="basic-addon1" />
+					<div class="alert alert-danger" role="alert"
+						th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Неверный
+						размер</div>
 				</div>
 				<div class="input-group mb-3">
-					<input th:field="*{passwordConfirm}" type="text"
-						class="form-control" placeholder="Пароль"
+					<input th:field="*{passwordConfirm}" type="password"
+						class="form-control" placeholder="Повторите пароль"
 						aria-label="Имя пользователя" aria-describedby="basic-addon1" />
+					<div class="alert alert-danger" role="alert"
+						th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Неверный
+						размер</div>
 				</div>
 				<button type="submit" class="btn btn-secondary">Регистрация</button>
 			</form>

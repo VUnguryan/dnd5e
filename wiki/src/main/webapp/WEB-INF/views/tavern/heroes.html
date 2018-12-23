@@ -25,15 +25,17 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th scope="col" class="text-center">Герои</th>
+					<th scope="col" class="text-center">Герой</th>
+					<th scope="col" class="text-center">Уровень</th>
 				</tr>
 			</thead>
 			<tr th:each="hero : ${heroes}" style="cursor: pointer"
 				th:onclick="'javascript:rowClicked(\'' + ${hero.id} + '\');'">
 				<td class="text-center"><img
-					th:src="@{'/resources/classes/' + ${hero.heoClssClass.id}+ '.png'}"
+					th:src="@{'/resources/classes/' + ${hero.heroClass.id}+ '.png'}"
 					th:title="${hero.heroClass.name}" height="50" width="50" /> <th:block
-						th:text="${hero.heroClass.name}" /></td>
+						th:text="${hero.name}" /></td>
+				<td class="text-center" th:text="*{hero.level}">
 			</tr>
 		</table>
 	</div>

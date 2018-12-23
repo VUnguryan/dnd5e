@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,10 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/**").permitAll()
-			.antMatchers("/tavern/**").hasRole("USER").anyRequest().authenticated()
+			.antMatchers("/tavern/*").hasRole("USER").anyRequest().authenticated()
 			.anyRequest().permitAll()
-			.and().formLogin().loginPage("/login")
-			.permitAll()
+			.and().formLogin().loginPage("/login").permitAll()
 			.and()
 			.logout().logoutSuccessUrl("/login").logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
 	}
@@ -46,4 +46,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
+
+    @Override
+    public final void configure(final WebSecurity web) throws Exception
+    {
+        super.configure(web);
+        web.ignoring().antMatchers("/resources/**");
+        web.httpFirewall(new AnnotatingHttpFirewall()); 
+        return;
+    }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="skills()">
+		<div class="card-deck">
+			<div class="form-check" th:each="skillType : ${skillTypes}">
+				<div class="card">
+					<div class="card-header" th:text="${skillType.key.cyrilicName}"></div>
+					<div class="card-body">
+						<th:block th:each="skill : ${skillType.value}">
+							<div class="btn-group-vertical btn-group-sm" role="group"
+								aria-label="Basic example">
+								<div class="btn-group-toggle" data-toggle="buttons">
+									<label class="btn btn-outline-secondary btn-sm"> <input
+										type="checkbox" autocomplete="off"
+										th:text="${skill.cyrilicName}"
+										th:disabled="${!#lists.contains(hero.heroClass.availableSkills, skill)}">
+										<span class="badge badge-light">0</span>
+									</label>
+								</div>
+							</div>
+						</th:block>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

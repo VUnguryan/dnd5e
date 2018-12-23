@@ -22,7 +22,7 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .conditions})"></div>
 	<div class="container" style="margin-top: 50px">
-		<form action="#" th:action="@{/archetype/add}"
+		<form th:action="@{/archetype/add}"
 			th:object="${archetype}" method="post">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
