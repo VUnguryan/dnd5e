@@ -7,7 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div th:fragment="abilities()">
+	<div th:fragment="abilities()" style="margin-top: 10px">
+		<div id="armorClass" class="alert alert-secondary" role="alert">
+			Класс Доспеха (AC) <span class="badge badge-secondary"
+				th:text="${hero.ac}"></span>
+		</div>
 		<div class="row">
 			<div class="col-lg-2">
 				<div class="input-group mb-2">
@@ -89,6 +93,7 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
 </body>
 </html>

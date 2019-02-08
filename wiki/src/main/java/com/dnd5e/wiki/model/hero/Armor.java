@@ -22,6 +22,7 @@ public class Armor {
 	@Enumerated(EnumType.ORDINAL)
 	private Currency currency;
 	private float weight;
-	
+	private int forceRequirements;
+	private boolean stelsHindrance;
 	private int AC;
 }

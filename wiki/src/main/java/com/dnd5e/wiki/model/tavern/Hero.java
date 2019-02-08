@@ -53,11 +53,29 @@ public class Hero {
 	private byte charisma = 10;
 	
 	private short hp;
+	private short maxHp;
 	
 	private byte glory;
 	private int idleDays;
 	private int heroism;
 	
+	// Монеты
+	private int copper;
+	private int silver;
+	private int gold;
+	private int electrium;
+	private int platinum;
+	
+	public int getAc() {
+		if ("ВАРВАР".equals(heroClass.getName())) {
+			return 10 + getDexBonus() + getConBonus();
+		}
+		if ("МОНАХ".equals(heroClass.getName())) {
+			return 10 + getDexBonus() + getWizBonus();
+		}
+
+		return 10 + getDexBonus();
+	}
 	public int getLevel() {
 		return HeroUtil.getLevel(exp);
 	}

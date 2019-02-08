@@ -1,12 +1,6 @@
 package com.dnd5e.wiki.controller.tavern;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dnd5e.wiki.model.creature.Ability;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.tavern.Hero;
 import com.dnd5e.wiki.model.user.User;
 import com.dnd5e.wiki.repository.ClassRepository;
+import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.HeroRepository;
 import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.repository.UserRepository;
@@ -31,30 +25,16 @@ import com.dnd5e.wiki.repository.UserRepository;
 @Controller
 @RequestMapping("tavern")
 public class TavernController {
+	@Autowired
 	private ClassRepository classRepo;
+	@Autowired
 	private RaceRepository raceRepo;
+	@Autowired
 	private HeroRepository heroRepo;
+	@Autowired
 	private UserRepository userRepo;
-
 	@Autowired
-	public void setHeroRepo(HeroRepository heroRepo) {
-		this.heroRepo = heroRepo;
-	}
-
-	@Autowired
-	public void setRepo(RaceRepository repository) {
-		this.raceRepo = repository;
-	}
-
-	@Autowired
-	public void setClassRepository(ClassRepository repository) {
-		this.classRepo = repository;
-	}
-
-	@Autowired
-	public void setUserRepo(UserRepository userRepo) {
-		this.userRepo = userRepo;
-	}
+	private EquipmentRepository equipmentRepo;
 
 	@GetMapping
 	public String getHeroes(Model model, Authentication authentication,
@@ -90,11 +70,9 @@ public class TavernController {
 	@GetMapping("/hero/{id}")
 	public String getBuilderForm(Model model, @PathVariable Integer id) {
 		Hero hero = heroRepo.getOne(id);
-		Map<Ability, List<SkillType>> skills = Arrays.stream(SkillType.values())
-				.sorted((s1,s2)->s2.getAbility().ordinal() - s1.getAbility().ordinal())
-				.collect(Collectors.groupingBy(SkillType::getAbility));
 		model.addAttribute("hero", hero);
-		model.addAttribute("skillTypes", skills);
+		model.addAttribute("skillTypes", SkillType.getSkillsToAbbility());
+		model.addAttribute("equipments", equipmentRepo.findAll());
 		if (hero.getLevel()>=hero.getHeroClass().getEnabledArhitypeLevel()) {
 			model.addAttribute("architypes", hero.getHeroClass().getArchetypes());
 		}

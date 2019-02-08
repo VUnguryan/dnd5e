@@ -7,7 +7,13 @@ import static com.dnd5e.wiki.model.creature.Ability.STRENGTH;
 import static com.dnd5e.wiki.model.creature.Ability.WISDOM;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -59,5 +65,14 @@ public enum SkillType {
 	}
 	public Ability getAbility() {
 		return ability;
+	}
+	
+	public static Map<Ability, List<SkillType>> getSkillsToAbbility() {
+		return Arrays.stream(values()).collect(sortedGroupingBy(SkillType::getAbility));
+	}
+	
+	public static <T, K extends Comparable<K>> Collector<T, ?, TreeMap<K, List<T>>> sortedGroupingBy(
+			Function<T, K> function) {
+		return Collectors.groupingBy(function, TreeMap::new, Collectors.toList());
 	}
 }

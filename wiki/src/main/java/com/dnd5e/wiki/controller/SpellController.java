@@ -276,7 +276,7 @@ public class SpellController {
 	}
 
 	private Specification<Spell> byName(String search) {
-		return (root, query, cb) -> cb.and(cb.like(root.get("name"), "%" + search + "%"));
+		return (root, query, cb) -> cb.or(cb.like(root.get("name"), "%" + search + "%"), cb.like(root.get("englishName"), "%" + search + "%"));
 	}
 
 	private Specification<Spell> bySchool() {
