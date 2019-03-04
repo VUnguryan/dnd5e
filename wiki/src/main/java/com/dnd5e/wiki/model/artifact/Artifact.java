@@ -1,13 +1,17 @@
 package com.dnd5e.wiki.model.artifact;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GenerationType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.creature.Source;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 import lombok.Data;
 
@@ -32,6 +36,9 @@ public class Artifact {
 	private Integer cost;
 	@Enumerated(EnumType.ORDINAL)
 	private Source source;
+	
+	@OneToMany
+	private List<HeroClass> custClasses;
 	
 	public int getCost() {
 		if (cost != null) {

@@ -104,9 +104,17 @@
 										th:each="i: ${#numbers.sequence(1, artifact.rarity.ordinal())}"
 										th:src="@{/resources/open-iconic/svg/star.svg}"
 										th:title="${artifact.rarity.cyrilicName}" height="30"
-										width="30"> <img th:if="${artifact.customization}"
+										width="30"> 
+									<img th:if="${artifact.customization}"
 										th:src="@{/resources/open-iconic/svg/wrench.svg}"
-										title="Требуется настройка" height="30" width="30">
+										title="Требуется настройка" height="30" width="30"> 
+									<a
+										th:each="hero : ${artifact.custClasses}"
+										th:href="@{'/classes/class/' + ${hero.id}}"> 
+									<img
+										th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}"
+										th:title="${hero.name}" height="60" width="60" />
+									</a>
 								</h2>
 								<div class="card-body">
 									<p th:utext="${artifact.description}"></p>

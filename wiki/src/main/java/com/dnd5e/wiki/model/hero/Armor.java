@@ -21,8 +21,12 @@ public class Armor {
 	private int cost;
 	@Enumerated(EnumType.ORDINAL)
 	private Currency currency;
+	
 	private float weight;
 	private int forceRequirements;
 	private boolean stelsHindrance;
 	private int AC;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private ArmorType type;
 }

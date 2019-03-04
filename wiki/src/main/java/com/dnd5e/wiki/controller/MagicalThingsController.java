@@ -26,7 +26,7 @@ import com.dnd5e.wiki.repository.ArtifactRepository;
 @Controller
 @RequestMapping("/artifacts")
 @Scope("session")
-public class ArtifactController {
+public class MagicalThingsController {
 	private Optional<String> search = Optional.empty(); 
 	private Optional<Rarity> rarityFilter = Optional.empty();
 	private Optional<ArtifactType> typeFilter = Optional.empty();
@@ -40,30 +40,37 @@ public class ArtifactController {
 
 	@GetMapping
 	public String getArtifactes(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
+		Specification<Artifact> specification = null;
 		if (search.isPresent()) {
-			model.addAttribute("artifacts", repository.findAll(byName(search.get()), page));
+			specification = byName(search.get());
 		} 
-		else if(typeFilter.isPresent() && rarityFilter.isPresent()) {
-			model.addAttribute("artifacts", repository.findAll(Specification.where(byType()).and(byRarity()), page));
+		if(typeFilter.isPresent() ) {
+			if (specification == null) {
+				specification = byType();
+			} else {
+				specification = Specification.where(specification).and(byType());
+			}
 		}
-		else if (typeFilter.isPresent()) {
-			
-			model.addAttribute("artifacts", repository.findAll(Specification.where(byType()), page)); 
+		if (rarityFilter.isPresent()) {
+			if (specification == null) {
+				specification = byRarity();
+			} else {
+				specification = Specification.where(specification).and(byRarity());
+			}
 		}
-		else if (rarityFilter.isPresent()) {
-			model.addAttribute("artifacts", repository.findAll(Specification.where(byRarity()), page));
-		}
-		else
-		{
+		if (specification == null) {
 			model.addAttribute("artifacts", repository.findAll(page));
+		} else {
+			model.addAttribute("artifacts", repository.findAll(specification, page));
 		}
+		
 		model.addAttribute("typeSelected", typeFilter);
 		model.addAttribute("raritySelected", rarityFilter);
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("order", Integer.valueOf(1));
 		model.addAttribute("searchText", search);
-		return "artifacts";
+		return "equipment/magicalThings";
 	}
 
 	@GetMapping(params = "search")
@@ -105,7 +112,7 @@ public class ArtifactController {
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("artifact", new Artifact());
-		return "addArtifact";
+		return "equipment/addArtifact";
 	}
 
 	@PostMapping("/add")
