@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.hero;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,14 +20,14 @@ public class Armor {
 	private Integer id;
 	private String name;
 	private int cost;
-	@Enumerated(EnumType.ORDINAL)
-	private Currency currency;
-	
 	private float weight;
-	private int forceRequirements;
+	
+	@Column(nullable = true)
+	private Integer forceRequirements;
 	private boolean stelsHindrance;
 	private int AC;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private ArmorType type;
+	private String description;
 }

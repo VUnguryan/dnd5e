@@ -21,9 +21,11 @@ public enum DamageType {
 	DamageType(String cyrilicName){
 		this.cyrilicName = cyrilicName;
 	}
+
 	public String getCyrilicName() {
 		return cyrilicName;
 	}
+
 	public static DamageType parse(String damageTypeString) {
 		for (DamageType damageType : values()) {
 			if (damageType.cyrilicName.equals(damageTypeString)) {

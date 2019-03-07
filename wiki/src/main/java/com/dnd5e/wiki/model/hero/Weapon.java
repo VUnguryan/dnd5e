@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -37,6 +38,8 @@ public class Weapon {
 	@Enumerated(EnumType.ORDINAL)
 	private WeaponType type;
 	
-	@OneToMany
+	@ManyToMany
 	List<WeaponProperty> properties;
+	
+	private String description;
 }

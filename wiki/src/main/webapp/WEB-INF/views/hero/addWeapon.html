@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layouts/default">
 <head>
-<title>DnD 5E Состояния персонажа</title>
+<title>DnD 5E Оружие</title>
 <meta charset="utf-8">
 
 <link rel="icon" th:href="@{/resources/icon.png}">
@@ -20,10 +20,17 @@
 
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .conditions})"></div>
+	<div th:insert="fragments/header :: header(~{ :: .weapons})"></div>
 	<div class="container" style="margin-top: 50px">
-		<form action="#" th:action="@{/equipments/add}"
-			th:object="${equipment}" method="post">
+		<form action="#" th:action="@{/weapons/add}" th:object="${weapon}"
+			method="post">
+			<p>
+				Тип: <select
+					th:field="*{{type}}">
+					<option th:each="type : ${types}" th:value="${type}"
+						th:text="${type.name}">
+				</select>
+			</p>
 			<div class="card-body">
 				<div class="input-group mb-4">
 					<div class="input-group-prepend">
@@ -34,16 +41,24 @@
 						th:field="*{name}">
 				</div>
 			</div>
+
 			<p>
-				<input type="text" />
-			</p>
-			<p>
-				Стоимость: <input type="text" th:field="*{cost}" /><select
+				Стоимость: <input type="text" th:field="*{cost}" /> <select
 					th:field="*{{currency}}">
 					<option th:each="currency : ${currencies}" th:value="${currency}"
 						th:text="${currency.name}">
 				</select>
 			</p>
+			<p>
+				Урон:  <input type="number" th:field="*{numberDice}" th:value="1"/><select th:field="*{{damageDice}}">
+					<option th:each="dice : ${dices}" th:value="${dice}"
+						th:text="${dice.name}">
+				</select> <select th:field="*{{damageType}}">
+					<option th:each="damageType : ${damageTypes}"
+						th:value="${damageType}" th:text="${damageType.cyrilicName}">
+				</select>
+			</p>
+
 			<p>
 				Вес: <input type="text" th:field="*{weight}" />
 			</p>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Добавление брони</title>
+</head>
+<body>
+	<form action="#" th:action="@{/armors/add}" th:object="${armor}"
+		method="post">
+		<select th:field="*{{type}}">
+			<option th:each="type : ${types}" th:value="${type}"
+				th:text="${type.name}">
+		</select>
+		<p>
+			Название: <input type="text" th:field="*{name}" />
+		</p>
+		<p>
+			Стоимость: <input type="text" th:field="*{cost}" />
+		</p>
+		<p>
+			Класс Доспеха (КД): <input type="text" th:field="*{AC}" />
+		</p>
+		<p>
+			Сила: <input type="text" th:field="*{forceRequirements}" />
+		</p>
+		<p>
+			Скрытность: <input type="checkbox" th:field="*{stelsHindrance}" />
+		</p>
+		<p>
+			Вес: <input type="number" th:field="*{weight}" />
+		</p>
+		<p>
+			Описание: <textarea  type="text" th:field="*{description}" rows="30" cols="80"></textarea>
+		</p>
+
+		<p>
+			<input type="submit" value="Submit" />
+		</p>
+	</form>
+</body>
+</html>

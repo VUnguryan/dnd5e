@@ -31,7 +31,8 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 40%">Наименование</th>
-					<th scope="col">Стоимость&nbsp;<select id="currencyType"
+					<th scope="col">Стоимость&nbsp;
+					<select id="currencyType"
 						class="text-center" onchange="filter(this)">
 							<option value="ALL">Монеты</option>
 							<option th:each="currency : ${currencies}" th:value="${currency}"

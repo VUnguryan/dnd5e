@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Добавление брони</title>
+</head>
+<body>
+	<form action="#" th:action="@{/weapons/property/add}" th:object="${weaponProperty}"
+		method="post">
+		<p>
+			Название: <input type="text" th:field="*{name}" />
+		</p>
+		<p>
+			Описание: <textarea  type="text" th:field="*{description}" rows="30" cols="80"></textarea>
+		</p>
+		<p>
+			<input type="submit" value="Submit" />
+		</p>
+	</form>
+</body>
+</html>
