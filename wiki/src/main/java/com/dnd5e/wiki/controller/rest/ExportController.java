@@ -1,7 +1,6 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,16 +9,17 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd5e.wiki.controller.rest.model.AC;
-import com.dnd5e.wiki.controller.rest.model.Abilities;
-import com.dnd5e.wiki.controller.rest.model.Action;
-import com.dnd5e.wiki.controller.rest.model.HP;
-import com.dnd5e.wiki.controller.rest.model.JsonCreature;
-import com.dnd5e.wiki.controller.rest.model.LegendaryAction;
-import com.dnd5e.wiki.controller.rest.model.Reaction;
-import com.dnd5e.wiki.controller.rest.model.Safe;
-import com.dnd5e.wiki.controller.rest.model.Skill;
-import com.dnd5e.wiki.controller.rest.model.Trait;
+import com.dnd5e.wiki.controller.rest.model.json.AC;
+import com.dnd5e.wiki.controller.rest.model.json.Abilities;
+import com.dnd5e.wiki.controller.rest.model.json.Action;
+import com.dnd5e.wiki.controller.rest.model.json.HP;
+import com.dnd5e.wiki.controller.rest.model.json.JsonCreature;
+import com.dnd5e.wiki.controller.rest.model.json.LegendaryAction;
+import com.dnd5e.wiki.controller.rest.model.json.Reaction;
+import com.dnd5e.wiki.controller.rest.model.json.Safe;
+import com.dnd5e.wiki.controller.rest.model.json.Skill;
+import com.dnd5e.wiki.controller.rest.model.json.Trait;
+import com.dnd5e.wiki.controller.rest.model.xml.CreatureList;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.DamageType;
@@ -29,7 +29,7 @@ import com.dnd5e.wiki.model.feat.Feat;
 import com.dnd5e.wiki.repository.CreatureRepository;
 
 @RestController
-public class MonsterController {
+public class ExportController {
 	private static final String HTML_REGEXP = "\\\\<[^\\>]*\\>";
 	private CreatureRepository repository;
 
@@ -39,7 +39,7 @@ public class MonsterController {
 	}
 
 	@GetMapping(value = "/creatures/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public List<JsonCreature> getCreatures() {
+	public List<JsonCreature> getJsonCreatures() {
 		List<JsonCreature> creatures = new ArrayList<>();
 		for (Creature creature : repository.findAll()) {
 			JsonCreature jsonCreature = new JsonCreature();
@@ -165,6 +165,12 @@ public class MonsterController {
 		}
 		return creatures;
 	}
+	
+	@GetMapping(value = "/creatures/xml" , produces = MediaType.APPLICATION_XML_VALUE)
+	public CreatureList getXmlCreatures() {
+		return new CreatureList(repository.findAll());
+	}
+	
 	private String firstLetter(String string) {
 		return string.substring(0, 1).toUpperCase() + string.substring(1);
 	}

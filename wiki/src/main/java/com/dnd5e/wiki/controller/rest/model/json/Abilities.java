@@ -1,5 +1,5 @@
 
-package com.dnd5e.wiki.controller.rest.model;
+package com.dnd5e.wiki.controller.rest.model.json;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -155,4 +155,11 @@ public class Creature {
 	private String getFormatAbility(byte ability) {
 		return String.format("%d (%+d)", ability, ability - 10 < 10 ? (ability - 11) / 2 : (ability - 10) / 2);
 	}
+
+	public String getHp() {
+		if (bonusHP==null) {
+			return String.format("%d (%d%s)" , averageHp, countDiceHp, diceHp.name());
+		}
+		return String.format("%d (%d%s+%d)" , averageHp, countDiceHp, diceHp.name(), bonusHP);
+	}
 }

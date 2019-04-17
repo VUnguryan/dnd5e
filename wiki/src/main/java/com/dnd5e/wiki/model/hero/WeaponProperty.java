@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "weapon_properties")
 @Data
+@EqualsAndHashCode
 public class WeaponProperty {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +22,5 @@ public class WeaponProperty {
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	
 }

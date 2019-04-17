@@ -1,5 +1,5 @@
 
-package com.dnd5e.wiki.controller.rest.model;
+package com.dnd5e.wiki.controller.rest.model.json;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "Name",
     "Usage"
 })
-public class LegendaryAction {
+public class Trait {
 
     @JsonProperty("Content")
     public String content;
@@ -27,17 +27,17 @@ public class LegendaryAction {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public LegendaryAction withContent(String content) {
+    public Trait withContent(String content) {
         this.content = content;
         return this;
     }
 
-    public LegendaryAction withName(String name) {
+    public Trait withName(String name) {
         this.name = name;
         return this;
     }
 
-    public LegendaryAction withUsage(String usage) {
+    public Trait withUsage(String usage) {
         this.usage = usage;
         return this;
     }
@@ -52,7 +52,7 @@ public class LegendaryAction {
         this.additionalProperties.put(name, value);
     }
 
-    public LegendaryAction withAdditionalProperty(String name, Object value) {
+    public Trait withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }

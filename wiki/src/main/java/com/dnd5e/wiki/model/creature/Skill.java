@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.util.StringUtils;
+
 import lombok.Data;
 
 @Entity
@@ -22,6 +24,6 @@ public class Skill {
 	private byte bonus;
 	
 	public String getText() {
-		return String.format("%s %+d ", type.getCyrilicName(), bonus);
+		return type!=null ? String.format("%s %+d", StringUtils.capitalize(type.name().toLowerCase()), bonus) : "";
 	}
 }

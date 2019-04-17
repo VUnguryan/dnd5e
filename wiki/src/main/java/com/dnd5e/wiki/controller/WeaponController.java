@@ -3,6 +3,8 @@ package com.dnd5e.wiki.controller;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,13 @@ public class WeaponController {
 
 	@GetMapping
 	public String getWeapons(Model model) {
-		Map<WeaponType, List<Weapon>> weapons = repo.findAll().stream().collect(Collectors.groupingBy(Weapon::getType));
-		model.addAttribute("weapons", weapons);
+		List<Weapon> weapons = repo.findAll();
+		Map<WeaponType, List<Weapon>> typyToWeapons = weapons.stream().collect(Collectors.groupingBy(Weapon::getType));
+		model.addAttribute("weapons", typyToWeapons);
+		Map<WeaponProperty, List<Weapon>> propertyByWeapons = weapons.stream()
+				.flatMap(weapon -> weapon.getProperties().stream().map(property -> new SimpleEntry<>(property, weapon)))
+                .collect(Collectors.groupingBy(Entry::getKey, Collectors.mapping(Entry::getValue, Collectors.toList())));
+		model.addAttribute("properties", propertyByWeapons);
 		model.addAttribute("types", WeaponType.values());
 		model.addAttribute("currencies", Currency.values());
 		return "/hero/weapons";

@@ -63,7 +63,6 @@ public class SpellController {
 		Specification<Spell> specification = null;
 		if (search.isPresent()) {
 			specification = byName(search.get());
-			model.addAttribute("spells", spellRepository.findAll(byName(search.get()), page));
 		}
 		if (classSelectedId.isPresent()) {
 			if (specification == null) {

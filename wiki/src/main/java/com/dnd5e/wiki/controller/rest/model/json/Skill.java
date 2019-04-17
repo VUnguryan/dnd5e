@@ -1,5 +1,5 @@
 
-package com.dnd5e.wiki.controller.rest.model;
+package com.dnd5e.wiki.controller.rest.model.json;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,25 +12,25 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "Notes",
-    "Value"
+    "Modifier",
+    "Name"
 })
-public class HP {
+public class Skill {
 
-    @JsonProperty("Notes")
-    public String notes;
-    @JsonProperty("Value")
-    public String value;
+    @JsonProperty("Modifier")
+    public String modifier;
+    @JsonProperty("Name")
+    public String name;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public HP withNotes(String notes) {
-        this.notes = notes;
+    public Skill withModifier(String modifier) {
+        this.modifier = modifier;
         return this;
     }
 
-    public HP withValue(String value) {
-        this.value = value;
+    public Skill withName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -44,7 +44,7 @@ public class HP {
         this.additionalProperties.put(name, value);
     }
 
-    public HP withAdditionalProperty(String name, Object value) {
+    public Skill withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }

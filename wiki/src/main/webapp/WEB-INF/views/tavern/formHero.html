@@ -22,7 +22,6 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .conditions})"></div>
 	<div class="container" style="margin-top: 50px">
-
 		<form th:action="@{/tavern/add}" th:object="${hero}" method="post">
 			<div class="input-group mb-2">
 				<div class="input-group-prepend">
