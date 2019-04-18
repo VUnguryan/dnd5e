@@ -19,6 +19,7 @@ import com.dnd5e.wiki.model.creature.Creature;
 public class CreatureVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String HTML_REGEXP = "<\\/?[A-Za-z]+[^>]*>";
+
 	@XmlElement
 	private String name;
 	@XmlElement

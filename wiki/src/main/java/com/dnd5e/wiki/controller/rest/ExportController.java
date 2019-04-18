@@ -27,21 +27,22 @@ import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.State;
 import com.dnd5e.wiki.model.feat.Feat;
 import com.dnd5e.wiki.repository.CreatureRepository;
+import com.dnd5e.wiki.repository.SpellRepository;
 
 @RestController
 public class ExportController {
 	private static final String HTML_REGEXP = "\\\\<[^\\>]*\\>";
-	private CreatureRepository repository;
-
+	
 	@Autowired
-	public void setMonsterRepository(CreatureRepository repository) {
-		this.repository = repository;
-	}
-
+	private CreatureRepository creatureRepo;
+	
+	@Autowired
+	private SpellRepository spellRepo;
+	
 	@GetMapping(value = "/creatures/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<JsonCreature> getJsonCreatures() {
 		List<JsonCreature> creatures = new ArrayList<>();
-		for (Creature creature : repository.findAll()) {
+		for (Creature creature : creatureRepo.findAll()) {
 			JsonCreature jsonCreature = new JsonCreature();
 
 			AC ac = new AC();
@@ -166,9 +167,12 @@ public class ExportController {
 		return creatures;
 	}
 	
-	@GetMapping(value = "/creatures/xml" , produces = MediaType.APPLICATION_XML_VALUE)
+	@GetMapping(value = "/export/xml" , produces = MediaType.APPLICATION_XML_VALUE)
 	public CreatureList getXmlCreatures() {
-		return new CreatureList(repository.findAll());
+		CreatureList list = new CreatureList();
+		list.setMonsters(creatureRepo.findAll());
+		list.setSpells(spellRepo.findAll());
+		return list;
 	}
 	
 	private String firstLetter(String string) {

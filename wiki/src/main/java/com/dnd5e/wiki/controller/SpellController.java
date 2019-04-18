@@ -194,9 +194,9 @@ public class SpellController {
 			String text = reader.readLine();
 			String[] levelAndSchool = text.split(",");
 			if (levelAndSchool[0].startsWith("Заговор")) {
-				spell.setLevel((short) 0);
+				spell.setLevel((byte)0);
 			} else {
-				short level = Short.valueOf(levelAndSchool[0].split(" ")[0]);
+				byte level = Byte.valueOf(levelAndSchool[0].split(" ")[0]);
 				spell.setLevel(level);
 			}
 			if (levelAndSchool[1].contains("ритуал")) {
@@ -321,7 +321,6 @@ public class SpellController {
 		if (verbal && !somatic && material) {
 			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")), cb.isFalse(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));	
 		}
-
 		return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")), cb.isTrue(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));	
 	}
 }

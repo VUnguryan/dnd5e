@@ -1,13 +1,13 @@
 package com.dnd5e.wiki.model.spell;
 
 public enum MagicSchool {
-	EMBODIMENTS("воплощение"),
-	INVOCATION("вызов"),
+	CONJURATION("воплощение"),
+	EVOCATION("вызов"),
 	ILLUSION("иллюзия"),
 	NECROMANCY("некромантия"),
-	PROTECTION("ограждение"),
-	CHARM("очарование"),
-	TRANSFORMATION("преобразование"),
+	ABJURATION("ограждение"),
+	ENCHANTMENT("очарование"),
+	TRANSMUTATION("преобразование"),
 	DIVINATION("прорицание");
 
 	private String name;

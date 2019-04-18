@@ -24,7 +24,8 @@ public class Spell {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Short level;
+	
+	private Byte level;
 	private String name;
 	private String englishName;
 	@Enumerated(javax.persistence.EnumType.ORDINAL)
@@ -47,6 +48,7 @@ public class Spell {
 	
 	@ManyToMany
 	private List<HeroClass> heroClass;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private Source source;
 }
