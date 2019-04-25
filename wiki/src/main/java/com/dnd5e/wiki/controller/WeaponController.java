@@ -1,9 +1,13 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -40,8 +44,13 @@ public class WeaponController {
 		Map<WeaponProperty, List<Weapon>> propertyByWeapons = weapons.stream()
 				.flatMap(weapon -> weapon.getProperties().stream().map(property -> new SimpleEntry<>(property, weapon)))
                 .collect(Collectors.groupingBy(Entry::getKey, Collectors.mapping(Entry::getValue, Collectors.toList())));
+		
+		Map<DamageType, List<Weapon>> damageTypeByWeapons = new EnumMap<>(DamageType.class); 
+		weapons.forEach(w -> damageTypeByWeapons.computeIfAbsent(w.getDamageType(), a -> new ArrayList<>()).add(w));
+		
 		model.addAttribute("properties", propertyByWeapons);
 		model.addAttribute("types", WeaponType.values());
+		model.addAttribute("damageTypes", damageTypeByWeapons);
 		model.addAttribute("currencies", Currency.values());
 		return "/hero/weapons";
 	}

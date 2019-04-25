@@ -146,8 +146,6 @@
 						th:if="${param.sort != null AND param.sort[0] == 'school,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
-					<th style="width: 1%">
-					</th>
 				</tr>
 			</thead>
 			<tr th:each="spell : ${spells}" style="cursor: pointer"
@@ -166,10 +164,6 @@
 				<td class="text-center">
 					<div th:insert="fragments/schoolIcon :: schoolIcon(${spell})"></div>
 				</td>
-				<td><a th:href="@{'/spellbook/add/' + ${spell.id}}"
-					class="btn-sm btn-light btn-lg active" role="button"
-					><img
-						th:src="@{/resources/open-iconic/svg/book.svg}"></img></a></td>
 			</tr>
 		</table>
 		<div th:insert="fragments/pages :: pages(${spells}, spells)"></div>

@@ -49,6 +49,9 @@
 			<li class="nav-item"><a class="nav-link" id="property-tab"
 				data-toggle="tab" href="#property" role="tab"
 				aria-controls="property" aria-selected="false">По свойствам</a></li>
+			<li class="nav-item"><a class="nav-link" id="property-tab"
+				data-toggle="tab" href="#damageType" role="tab"
+				aria-controls="damageType" aria-selected="false">По типу урона</a></li>
 		</ul>
 		<div class="tab-content" id="myTabContent">
 			<div class="tab-pane fade show active" id="weapon" role="tabpanel"
@@ -166,6 +169,50 @@
 					</th:block>
 				</table>
 			</div>
+			<div class="tab-pane fade" id="damageType" role="tabpanel"
+				aria-labelledby="damageType-tab">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col" style="width: 20%">Название</th>
+							<th class="text-center" scope="col" style="width: 15%">Стоимость</th>
+							<th class="text-center" scope="col">Урон</th>
+							<th class="text-center" scope="col">Вес</th>
+						</tr>
+					</thead>
+					<th:block th:each="damageType : ${damageTypes.keySet()}">
+						<tr class="table-active" data-toggle="collapse"
+							th:attr="data-target='#d'+ ${damageType.ordinal()}">
+							<td colspan="5" th:text="${damageType.cyrilicName}" />
+						</tr>
+						<tr th:each="weapon : ${damageTypes.get(damageType)}"
+							th:id="'d' + ${damageType.ordinal()}" class="collapse">
+							<td class="hiddenRow" th:title="${weapon.description}">
+								<div th:text="${weapon.name}"></div>
+							</td>
+							<td class="text-center">
+								<div>
+									<span th:if="${weapon.cost > 5}"
+										th:text="${weapon.cost + ' ' + weapon.currency.name}">
+									</span><img th:if="${weapon.cost <= 5}"
+										th:each="i: ${#numbers.sequence(1, weapon.cost)}"
+										th:alt="${weapon.currency.name}"
+										th:src="@{'/resources/currency/'+ ${weapon.currency} +'.png'}"
+										height="25" th:title="${weapon.currency.name}" />
+								</div>
+							</td>
+							<td class="text-center">
+								<div
+									th:text="${weapon.numberDice + '' + weapon.damageDice}"></div>
+							</td>
+							<td class="text-center">
+								<div th:text="${weapon.weight}"></div>
+							</td>
+						</tr>
+					</th:block>
+				</table>
+			</div>
+
 		</div>
 	</div>
 </body>

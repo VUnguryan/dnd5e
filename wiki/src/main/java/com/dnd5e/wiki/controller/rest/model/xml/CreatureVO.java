@@ -1,7 +1,9 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
-import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,17 +11,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.h2.util.StringUtils;
+import org.thymeleaf.util.StringUtils;
 
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.feat.Trait;
 
 @XmlRootElement(name = "monster")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CreatureVO implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private static final String HTML_REGEXP = "<\\/?[A-Za-z]+[^>]*>";
-
+public class CreatureVO {
 	@XmlElement
 	private String name;
 	@XmlElement
@@ -67,7 +67,7 @@ public class CreatureVO implements Serializable {
 	@XmlElement
 	private String cr;
 	@XmlElement
-	private List<Trait> trait;
+	private List<TraitVO> trait;
 	@XmlElement
 	private List<Action> action;
 	@XmlElement
@@ -76,10 +76,12 @@ public class CreatureVO implements Serializable {
 	private List<Legendary> legendary;
 	@XmlElement
 	private String description;
+	@XmlElement(name="spells", required=false)
+	private String spells;
+	@XmlElement(required=false)
+	private String slots;
 	
-	public CreatureVO() {
-
-	}
+	public CreatureVO() {}
 
 	public CreatureVO(Creature creature) {
 		this.name = creature.getName();
@@ -98,7 +100,7 @@ public class CreatureVO implements Serializable {
 		this.save = creature.getSavingThrows()
 				.stream()
 				.map(s-> String.format("%s %s%d", 
-						StringUtils.cache(s.getAbility().name().toLowerCase()), s.getBonus()>=0 ? "+" : "-",s.getBonus()))
+						StringUtils.capitalize(s.getAbility().name().toLowerCase()), s.getBonus()>=0 ? "+" : "-",s.getBonus()))
 				.collect(Collectors.joining(","));
 		this.skill = creature.getSkills()
 				.stream()
@@ -108,38 +110,90 @@ public class CreatureVO implements Serializable {
 		this.vulnerable = creature.getVulnerabilityDamages().stream().map(v->v.getCyrilicName()).collect(Collectors.joining(", "));
 		this.immune = creature.getImmunityDamages().stream().map(v->v.getCyrilicName()).collect(Collectors.joining(","));
 		this.conditionImmune = creature.getImmunityStates().stream().map(v->v.getCyrilicName()).collect(Collectors.joining(", ")); 
-		this.senses = creature.getSenses();
-		this.passive = creature.getPassivePerception();
+		
+		if (creature.getPassivePerception()!=0) {
+			this.passive = creature.getPassivePerception();
+		}
+		else if (creature.getVision() != null)
+		{
+			int index = creature.getVision().indexOf("пассивная Внимательность");
+			if (index >-1) {
+				this.passive = Byte.valueOf(creature.getVision().substring("пассивная Внимательность".length() + index +1).trim());
+				this.senses = creature.getVision().substring(0, index);
+			}
+			else
+			{
+				this.senses = creature.getVision();
+			}
+			
+		}
 		this.languages = creature.getLanguages().stream().map(l -> l.getName()).collect(Collectors.joining(", "));
 		this.cr = creature.getChallengeRating();
 		this.trait = creature.getFeats()
 				.stream()
-				.map(f -> new Trait(f.getName(), removeHtml(f.getDescription())))
+				.map(f -> new TraitVO(f.getName(), Conpendium.removeHtml(f.getDescription())))
 				.collect(Collectors.toList());
 
 		this.action = creature.getActions()
 				.stream()
 				.filter(a->a.getActionType()== ActionType.ACTION)
-				.map(a -> new Action(a.getName(), removeHtml(a.getDescription())))
+				.map(a -> new Action(a.getName(), Conpendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		this.reaction = creature.getActions()
 				.stream()
 				.filter(a->a.getActionType()== ActionType.REACTION)
-				.map(a -> new Reaction(a.getName(), removeHtml(a.getDescription())))
+				.map(a -> new Reaction(a.getName(), Conpendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		this.legendary = creature.getActions()
 				.stream()
 				.filter(a->a.getActionType()== ActionType.LEGENDARY)
-				.map(a -> new Legendary(a.getName(), removeHtml(a.getDescription())))
+				.map(a -> new Legendary(a.getName(), Conpendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
-		this.description = removeHtml(creature.getDescription());
+		this.description = Conpendium.removeHtml(creature.getDescription());
+		for (Trait trait : creature.getFeats()) {
+			if (trait.getName().contains("Колдовство") || trait.getName().contains("колдовство")
+					|| trait.getName().contains("Использование заклинаний") || trait.getName().contains("Колдовство")) {
+				String descr = Conpendium.removeHtml(trait.getDescription());
+				int index = descr.indexOf("Заговоры (неограниченно):");
+				if (index >= 0) {
+					parseSpell(descr.substring(index+ "Заговоры (неограниченно):".length()));
+				} 
+				index = descr.indexOf("Неограниченно:");
+				if (index >= 0){
+					parseSpell(descr.substring(index + "Неограниченно:".length()));
+				}
+			}
+		}
 	}
 
-
-	private String removeHtml(String string) {
-		return string == null ? ""
-				: string.replaceAll(HTML_REGEXP, "").replace("&nbsp;", " ").replace("&mdash;", "")
-						.replace("&ndash;", "").replace("&laquo;", "").replace("&raquo;", "").replace("&rsquo;", "")
-						.replace("&bull;", "").replace("&times;", "").replace("&minus;", "-");
+	private void parseSpell(String descr) {
+		descr = descr.replaceAll("\\[[^\\]]*\\]", "");
+		descr = descr.replace(".", "");
+		descr = descr.replace("*", "");
+		Pattern p = Pattern.compile("(\\d.*?:)");
+		Matcher m = p.matcher(descr);
+		int[] slots = new int[9];
+		while (m.find()) {
+			for (int i = 0; i < m.groupCount(); i++) {
+				int start = m.group(i).indexOf("(");
+				int slotsCount = Character.getNumericValue(m.group(i).charAt(start + 1));
+				int startLevel = Character.getNumericValue(m.group(i).charAt(0)) -1;
+				slots[startLevel] = slotsCount;
+				if(m.group(i).charAt(1)=='–') {
+					for (int j = startLevel +1 ; j < Character.getNumericValue(m.group(i).charAt(2)); j++) {
+						slots[j] = slotsCount;
+					}
+				}
+			}
+		}
+		this.slots = Arrays.stream(slots).mapToObj(String::valueOf).collect(Collectors.joining(","));
+		
+		descr = descr.replaceAll("(\\d{1}.*?:)", ", ");
+		this.spells = Arrays.stream(descr.split(","))
+				.map(s -> s.replaceAll("\\([^\\]]*\\)", ""))
+				.map(String::trim)
+				.map(String::toLowerCase)
+				.map(StringUtils::capitalize)
+				.collect(Collectors.joining(", "));
 	}
 }

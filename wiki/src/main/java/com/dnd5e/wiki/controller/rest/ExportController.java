@@ -18,14 +18,15 @@ import com.dnd5e.wiki.controller.rest.model.json.LegendaryAction;
 import com.dnd5e.wiki.controller.rest.model.json.Reaction;
 import com.dnd5e.wiki.controller.rest.model.json.Safe;
 import com.dnd5e.wiki.controller.rest.model.json.Skill;
-import com.dnd5e.wiki.controller.rest.model.json.Trait;
-import com.dnd5e.wiki.controller.rest.model.xml.CreatureList;
+import com.dnd5e.wiki.controller.rest.model.json.TraitJS;
+import com.dnd5e.wiki.controller.rest.model.xml.Conpendium;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.State;
-import com.dnd5e.wiki.model.feat.Feat;
+import com.dnd5e.wiki.model.feat.Trait;
+import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 
@@ -38,6 +39,9 @@ public class ExportController {
 	
 	@Autowired
 	private SpellRepository spellRepo;
+	
+	@Autowired
+	private ArtifactRepository artRepo;
 	
 	@GetMapping(value = "/creatures/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<JsonCreature> getJsonCreatures() {
@@ -151,9 +155,9 @@ public class ExportController {
 			}
 			jsonCreature.withSpeed(speeds);
 
-			List<Trait> traits = new ArrayList<>();
-			for (Feat feat : creature.getFeats()) {
-				Trait trait = new Trait();
+			List<TraitJS> traits = new ArrayList<>();
+			for (Trait feat : creature.getFeats()) {
+				TraitJS trait = new TraitJS();
 				trait.withName(feat.getName()).withContent(feat.getDescription().replaceAll(HTML_REGEXP, ""));
 				traits.add(trait);
 			}
@@ -168,10 +172,11 @@ public class ExportController {
 	}
 	
 	@GetMapping(value = "/export/xml" , produces = MediaType.APPLICATION_XML_VALUE)
-	public CreatureList getXmlCreatures() {
-		CreatureList list = new CreatureList();
+	public Conpendium getXmlCreatures() {
+		Conpendium list = new Conpendium();
 		list.setMonsters(creatureRepo.findAll());
 		list.setSpells(spellRepo.findAll());
+		list.setMagicThings(artRepo.findAll());
 		return list;
 	}
 	

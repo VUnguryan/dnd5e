@@ -13,8 +13,6 @@ import lombok.Getter;
 
 @Getter
 public class SpellVO {
-	private static final String HTML_REGEXP = "<\\/?[A-Za-z]+[^>]*>";
-	
 	@XmlElement
 	private String name;
 	@XmlElement
@@ -81,16 +79,11 @@ public class SpellVO {
 		if (spell.getRitual()) {
 			this.ritual = "YES";
 		}
-		this.text = removeHtml(spell.getDescription());
+		this.text = Conpendium.removeHtml(spell.getDescription());
 		this.classes = spell.getHeroClass().stream().distinct().map(c -> toEnglishName(c)).distinct().filter(t->!t.isEmpty()).collect(Collectors.joining(", "));
 
 	}
-	private String removeHtml(String string) {
-		return string == null ? ""
-				: string.replaceAll(HTML_REGEXP, "").replace("&nbsp;", " ").replace("&mdash;", "")
-						.replace("&ndash;", "").replace("&laquo;", "").replace("&raquo;", "").replace("&rsquo;", "")
-						.replace("&bull;", "").replace("&times;", "").replace("&minus;", "-");
-	}
+
 	private String toEnglishName(HeroClass heroClass) {
 		switch(heroClass.getName()) {
 			case "БАРД": return "Bard";

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.dnd5e.wiki.model.feat.Feat;
+import com.dnd5e.wiki.model.feat.Trait;
 import com.dnd5e.wiki.repository.FeatRepository;
 
 @Controller
@@ -30,19 +30,19 @@ final class FeatController {
 
 	@RequestMapping(value = { "/feat/{id}" }, method = RequestMethod.GET)
 	public String getFeat(Model model, @PathVariable Integer id) {
-		Feat feat = featRepository.findById(id).get();
+		Trait feat = featRepository.findById(id).get();
 		model.addAttribute("feat", feat);
 		return "featView";
 	}
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.GET)
 	public String getAddForm(Model model) {
-		model.addAttribute("feat", new Feat());
+		model.addAttribute("feat", new Trait());
 		return "addFeat";
 	}
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
-	public String getArtifact(@ModelAttribute Feat feat) {
+	public String getArtifact(@ModelAttribute Trait feat) {
 
 		if (!featRepository.findByNameContaining(feat.getName()).isEmpty()) {
 			return "redirect:/feats/add";

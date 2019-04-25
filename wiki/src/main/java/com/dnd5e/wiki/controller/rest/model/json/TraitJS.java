@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "Name",
     "Usage"
 })
-public class Trait {
+public class TraitJS {
 
     @JsonProperty("Content")
     public String content;
@@ -27,17 +27,17 @@ public class Trait {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public Trait withContent(String content) {
+    public TraitJS withContent(String content) {
         this.content = content;
         return this;
     }
 
-    public Trait withName(String name) {
+    public TraitJS withName(String name) {
         this.name = name;
         return this;
     }
 
-    public Trait withUsage(String usage) {
+    public TraitJS withUsage(String usage) {
         this.usage = usage;
         return this;
     }
@@ -52,9 +52,8 @@ public class Trait {
         this.additionalProperties.put(name, value);
     }
 
-    public Trait withAdditionalProperty(String name, Object value) {
+    public TraitJS withAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
         return this;
     }
-
 }

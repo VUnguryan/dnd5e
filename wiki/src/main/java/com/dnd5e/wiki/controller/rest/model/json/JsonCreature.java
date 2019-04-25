@@ -88,7 +88,7 @@ public class JsonCreature {
     @JsonProperty("Speed")
     public List<String> speed = null;
     @JsonProperty("Traits")
-    public List<Trait> traits = null;
+    public List<TraitJS> traits = null;
     @JsonProperty("Type")
     public String type;
     @JsonProperty("Unique")
@@ -210,7 +210,7 @@ public class JsonCreature {
         return this;
     }
 
-    public JsonCreature withTraits(List<Trait> traits) {
+    public JsonCreature withTraits(List<TraitJS> traits) {
         this.traits = traits;
         return this;
     }
