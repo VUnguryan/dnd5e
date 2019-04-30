@@ -115,7 +115,7 @@
 					</div>
 				</div>
 			</div>
-			<a th:href="@{/spells?clear}" role="button" class="btn btn-danger"><img
+			<a th:if ="${filtered}" th:href="@{/spells?clear}" role="button" class="btn btn-danger"><img
 							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp; Сбросить фильтры</a>
 		</div>
 		<table class="table table-striped">

@@ -147,6 +147,9 @@ public class SpellController {
 		this.classSelectedId = Optional.empty();
 		this.schoolSelected = Optional.empty();
 		this.timeCastSelected = Optional.empty();
+		this.verbal = false;
+		this.somatic = false;
+		this.material = false;
 		return "redirect:/spells?sort=level,asc";
 	}
 	
