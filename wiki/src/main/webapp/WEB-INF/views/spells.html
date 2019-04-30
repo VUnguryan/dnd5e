@@ -113,15 +113,10 @@
 								th:selected="${timeCast.present && timeCastType==timeCast.get()}" />
 						</select>
 					</div>
-					<div class="input-group mb-4">
-						<a th:href="@{/spells(search='')}"
-							class="btn-sm btn-secondary btn-lg active" role="button"
-							aria-pressed="true" th:if="${searchText.present}"><th:block
-								th:text="${searchText.get()}" />&nbsp;<img
-							th:src="@{/resources/open-iconic/svg/x.svg}"></img></a>
-					</div>
 				</div>
 			</div>
+			<a th:href="@{/spells?clear}" role="button" class="btn btn-danger"><img
+							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp; Сбросить фильтры</a>
 		</div>
 		<table class="table table-striped">
 			<thead>
