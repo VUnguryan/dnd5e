@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.dnd5e.wiki.model.feat.Trait;
-import com.dnd5e.wiki.repository.FeatRepository;
+import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.repository.CreatureTraitRepository;
 
 @Controller
 @RequestMapping("/feats")
 final class FeatController {
-	private FeatRepository featRepository;
+	private CreatureTraitRepository featRepository;
 
 	@Autowired
-	public void setFeatRepository(FeatRepository featRepository) {
+	public void setFeatRepository(CreatureTraitRepository featRepository) {
 		this.featRepository = featRepository;
 	}
 
@@ -30,19 +30,19 @@ final class FeatController {
 
 	@RequestMapping(value = { "/feat/{id}" }, method = RequestMethod.GET)
 	public String getFeat(Model model, @PathVariable Integer id) {
-		Trait feat = featRepository.findById(id).get();
+		CreatureTrait feat = featRepository.findById(id).get();
 		model.addAttribute("feat", feat);
 		return "featView";
 	}
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.GET)
 	public String getAddForm(Model model) {
-		model.addAttribute("feat", new Trait());
+		model.addAttribute("feat", new CreatureTrait());
 		return "addFeat";
 	}
 
 	@RequestMapping(value = { "/add" }, method = RequestMethod.POST)
-	public String getArtifact(@ModelAttribute Trait feat) {
+	public String getArtifact(@ModelAttribute CreatureTrait feat) {
 
 		if (!featRepository.findByNameContaining(feat.getName()).isEmpty()) {
 			return "redirect:/feats/add";

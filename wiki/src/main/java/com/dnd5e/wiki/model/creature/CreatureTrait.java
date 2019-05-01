@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.feat;
+package com.dnd5e.wiki.model.creature;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import lombok.Data;
 @Entity
 @Table(name = "feats")
 @Data
-public class Trait {
+public class CreatureTrait {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

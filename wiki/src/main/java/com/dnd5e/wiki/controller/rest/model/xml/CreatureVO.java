@@ -15,7 +15,7 @@ import org.thymeleaf.util.StringUtils;
 
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
-import com.dnd5e.wiki.model.feat.Trait;
+import com.dnd5e.wiki.model.creature.CreatureTrait;
 
 @XmlRootElement(name = "monster")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -150,7 +150,7 @@ public class CreatureVO {
 				.map(a -> new Legendary(a.getName(), Conpendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		this.description = Conpendium.removeHtml(creature.getDescription());
-		for (Trait trait : creature.getFeats()) {
+		for (CreatureTrait trait : creature.getFeats()) {
 			if (trait.getName().contains("Колдовство") || trait.getName().contains("колдовство")
 					|| trait.getName().contains("Использование заклинаний") || trait.getName().contains("Колдовство")) {
 				String descr = Conpendium.removeHtml(trait.getDescription());

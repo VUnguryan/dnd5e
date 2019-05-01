@@ -22,10 +22,10 @@ import com.dnd5e.wiki.controller.rest.model.json.TraitJS;
 import com.dnd5e.wiki.controller.rest.model.xml.Conpendium;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.State;
-import com.dnd5e.wiki.model.feat.Trait;
 import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
@@ -156,7 +156,7 @@ public class ExportController {
 			jsonCreature.withSpeed(speeds);
 
 			List<TraitJS> traits = new ArrayList<>();
-			for (Trait feat : creature.getFeats()) {
+			for (CreatureTrait feat : creature.getFeats()) {
 				TraitJS trait = new TraitJS();
 				trait.withName(feat.getName()).withContent(feat.getDescription().replaceAll(HTML_REGEXP, ""));
 				traits.add(trait);

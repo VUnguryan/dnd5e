@@ -56,6 +56,9 @@
 									<li class="list-group-item"><strong>Снаряжение:</strong> <th:block
 											th:each="equipment, iterStat : ${background.equipments}"
 											th:text="${iterStat.last} ? ${equipment.name}: ${equipment.name}  + ', '"></th:block></li>
+									<li class="list-group-item"><strong>Умение: <th:block
+												th:utext="${background.skillName}" /></strong> <th:block
+											th:utext="${background.skillDescription}" /></li>
 								</ul>
 							</div>
 						</div>

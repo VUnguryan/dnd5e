@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.SkillType;
 
 import lombok.Data;
@@ -37,6 +38,10 @@ public class Background {
 	
 	@ManyToMany
 	private List<Equipment> equipments;
+	
+	private String skillName;
+	@Column(columnDefinition = "TEXT")
+	private String skillDescription;
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
