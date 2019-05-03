@@ -40,7 +40,7 @@
 
 				<div>
 					<b>Класс доспеха</b>
-					<th:block th:text="*{AC}" />
+					<th:block th:text="*{AC}" /> <th:block th:if="${creature.armorType != null}" th:text="*{armorType.cyrillicName}" />
 				</div>
 				<div>
 					<b>Хиты</b> <span th:text="*{averageHp}"></span> (<span

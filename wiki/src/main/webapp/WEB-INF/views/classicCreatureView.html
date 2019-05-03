@@ -46,7 +46,7 @@
 				<div class="property-line first">
 					<h4>Класс Доспеха</h4>
 					<p>
-						<span th:text="*{AC}"></span>
+						<span th:text="*{AC}"></span> <th:block th:if="${creature.armorType != null}" th:text="'(' +  *{armorType.cyrillicName} + ')'" />
 					</p>
 				</div>
 				<!-- property line -->
