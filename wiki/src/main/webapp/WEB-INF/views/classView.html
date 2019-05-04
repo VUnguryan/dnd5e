@@ -39,6 +39,14 @@
 				<li class="list-group-item"><b>Навыки:</b> <th:block
 						th:text="*{skills}" /></li>
 			</ul>
+
+			<h5 class="card-header">Умения</h5>
+			<ul class="list-group list-group-flush">
+				<li th:each="trait: *{traits}" class="list-group-item"><b><th:block
+							th:text="${trait.name}">:</b> <th:block
+						th:utext="${trait.description}" /></li>
+			</ul>
+
 			<h5 class="card-header" th:text="*{archetypeName}"></h5>
 			<div class="card-body">
 				<table class="table-hover">
@@ -67,8 +75,9 @@
 					</th:block>
 				</table>
 			</div>
-			<h5 class="card-header">Доступные заклинания</h5>
-			<div class="card-body">
+			
+			<h5 th:if = "${!heroClass.spells.empty}" class="card-header">Доступные заклинания</h5>
+			<div th:if = "${!heroClass.spells.empty}" class="card-body">
 				<table class="table table-striped">
 					<thead>
 						<tr>

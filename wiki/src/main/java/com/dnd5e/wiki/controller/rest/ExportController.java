@@ -28,6 +28,7 @@ import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.State;
 import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
+import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 
 @RestController
@@ -42,6 +43,9 @@ public class ExportController {
 	
 	@Autowired
 	private ArtifactRepository artRepo;
+	
+	@Autowired
+	private EquipmentRepository equRepo;
 	
 	@GetMapping(value = "/creatures/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<JsonCreature> getJsonCreatures() {
@@ -176,7 +180,8 @@ public class ExportController {
 		Conpendium list = new Conpendium();
 		list.setMonsters(creatureRepo.findAll());
 		list.setSpells(spellRepo.findAll());
-		list.setMagicThings(artRepo.findAll());
+		list.setMagicItems(artRepo.findAll());
+		list.setItems(equRepo.findAll());
 		return list;
 	}
 	

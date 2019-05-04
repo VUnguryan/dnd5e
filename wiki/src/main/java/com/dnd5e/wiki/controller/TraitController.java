@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dnd5e.wiki.repository.TraitRepository;
 
 @Controller
-@RequestMapping({ "/traits" })
+@RequestMapping("/traits")
 public class TraitController {
 	@Autowired
 	private TraitRepository repo;
-	
+
 	@GetMapping
 	public String getTraits(Model model) {
 		model.addAttribute("traits", repo.findAll());

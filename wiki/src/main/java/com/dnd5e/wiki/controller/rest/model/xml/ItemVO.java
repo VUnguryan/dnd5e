@@ -1,81 +1,33 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
-import java.util.stream.Collectors;
-
 import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.artifact.Artifact;
+import com.dnd5e.wiki.model.hero.Currency;
+import com.dnd5e.wiki.model.hero.Equipment;
 
 public class ItemVO {
 	@XmlElement
 	private String name;
 	@XmlElement(required = false)
 	private String type;
-	@XmlElement(required = false)
-	private String weight;
-	@XmlElement(required = false)
-	private String magic;
-	@XmlElement
-	private String rarity;
-	@XmlElement(name="text")
-	private String rarityText;
-	@XmlElement(name="text", required=false)
-	private String requiresAttunement;
 	@XmlElement()
 	private String text;
-	
-	public ItemVO(){
-		
+	@XmlElement(required = false)
+	private float weight;
+	@XmlElement()
+	private float value;
+
+	public ItemVO() {
+
 	}
 
-	public ItemVO(Artifact art) {
-		this.name = StringUtils.capitalize(art.getName().toLowerCase());
-		this.magic = "1";
-		this.rarity = StringUtils.capitalize(art.getRarity().name().toLowerCase().replace("_", " "));
-		this.rarityText = "Редкость: " + art.getRarity().getCyrilicName();
-		if (art.getCustomization()!= null && art.getCustomization())	{
-			this.requiresAttunement = "Требуется настройка";
-			if (!art.getCustClasses().isEmpty()) {
-				requiresAttunement+=": ";
-				requiresAttunement += art.getCustClasses()
-						.stream()
-						.map(c -> StringUtils.capitalize(c.getName().toLowerCase()))
-						.collect(Collectors.joining(", "));
-			}
-		}
-		this.text = Conpendium.removeHtml(art.getDescription());
-		switch (art.getType())
-		{
-		case ARMOR:
-			this.type = "LA";
-			break;
-		case POTION:
-			this.type = "P";
-			break;
-		case RING:
-			this.type = "RG";
-			break;
-		case ROD:
-			this.type = "RD";
-			break;
-		case SCROLL:
-			this.type = "SC";
-			break;
-		case STAFF:
-			this.type = "ST";
-			break;
-		case SUBJECT:
-			this.type = "W";
-			break;
-		case WAND:
-			this.type = "WD";
-			break;
-		case WEAPON:
-			this.type = "M";
-			break;
-		
-		}
+	public ItemVO(Equipment equipment) {
+		this.name = StringUtils.capitalize(equipment.getName().toLowerCase());
+		this.text = Conpendium.removeHtml(equipment.getDescription());
+		this.type = "AG";
+		this.value = Math.round(100*Currency.GM.convert(equipment.getCurrency(), equipment.getCost()))/100f;
+		this.weight = equipment.getWeight(); 
 	}
 }

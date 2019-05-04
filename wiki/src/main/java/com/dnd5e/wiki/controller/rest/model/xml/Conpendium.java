@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.dnd5e.wiki.model.artifact.Artifact;
 import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.hero.Equipment;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Getter;
@@ -26,7 +27,10 @@ public class Conpendium implements Serializable {
 	private List<SpellVO> spells;
 
 	@XmlElement(name="item")
-	private List<ItemVO> items;
+	private List<MagicItemVO> magivItems;
+	
+	@XmlElement(name="item")
+	private List<ItemVO> items;	
 	
 	@XmlElement(name="monster")
 	private List<CreatureVO> monsters;
@@ -44,10 +48,12 @@ public class Conpendium implements Serializable {
 		this.spells = spells.stream().map(s -> new SpellVO(s)).collect(Collectors.toList());
 	}
 	
-	public void setMagicThings(List<Artifact> artifacts) {
-		this.items = artifacts.stream().map(a -> new ItemVO(a)).collect(Collectors.toList());
+	public void setMagicItems(List<Artifact> artifacts) {
+		this.magivItems = artifacts.stream().map(a -> new MagicItemVO(a)).collect(Collectors.toList());
 	}
-	
+	public void setItems(List<Equipment> equipments) {
+		this.items = equipments.stream().map(a -> new ItemVO(a)).collect(Collectors.toList());
+	}
 	public static String removeHtml(String string) {
 		return string == null ? ""
 				: string.replaceAll(HTML_REGEXP, "").replace("&nbsp;", " ").replace("&mdash;", "")

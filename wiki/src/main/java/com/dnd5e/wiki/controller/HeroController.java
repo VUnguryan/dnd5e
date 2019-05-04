@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dnd5e.wiki.model.hero.Condition;
-import com.dnd5e.wiki.model.hero.HeroClassFeat;
+import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.classes.Archetype;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.repository.ArchetypeRepository;
@@ -89,13 +89,13 @@ public class HeroController {
 		}
 		model.addAttribute("classTypeId", classTypeId);
 		model.addAttribute("archiTypeId", archiTypeId);
-		model.addAttribute("feat", new HeroClassFeat());
+		model.addAttribute("feat", new ArchetypeTrait());
 
 		return "/hero/addClassTypeFeat";
 	}
 
 	@PostMapping("/archetype/feat/add")
-	public String addArchitypeFeat(HeroClassFeat feat, Integer classTypeId) {
+	public String addArchitypeFeat(ArchetypeTrait feat, Integer classTypeId) {
 		featRepo.save(feat);
 		return "redirect:/archetype/feat/add?classTypeId=" + classTypeId + "&archiTypeId="
 				+ feat.getArchetype().getId();

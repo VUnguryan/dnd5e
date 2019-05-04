@@ -15,7 +15,7 @@ import lombok.Data;
 @Entity
 @Table(name = "hero_class_feats")
 @Data
-public class HeroClassFeat {
+public class ArchetypeTrait {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

@@ -45,8 +45,17 @@
 							class="dropdown-item" th:href="@{/artifacts?sort=name,asc}">Магические
 							вещи</a>
 					</div></li>
+					
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbardrop"
+					data-toggle="dropdown">Путешествия</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" th:href="@{/transports}">Транспорт</a> <a
+							class="dropdown-item" th:href="@{/idle}">Простой</a>
+					</div></li>
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/creatures?sort=exp,asc}">Бестиарий</a></li>
+					
 				<th:block sec:authorize="isAuthenticated()">
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbardrop"

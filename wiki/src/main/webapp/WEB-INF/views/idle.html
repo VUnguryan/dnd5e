@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<title>DnD 5E Простой</title>
+<meta charset="utf-8">
+
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
+	<div class="container" style="margin-top: 50px">
+		<div class="card">
+			<div class="card-header">Калькулятор стоимости проживания</div>
+			<div class="card-body">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="basic-addon1">Дни
+							простоя</span>
+					</div>
+					<input id="lifeDay" type="number" class="form-control" disabled
+						placeholder="Количество дней простоя"
+						aria-label="Количество дней простоя"
+						aria-describedby="basic-addon1">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="cost">Стоимость: 0 зм.</span>
+					</div>
+				</div>
+				<select id="lifeStyle" class="custom-select">
+					<option value="-1">Выбери стиль жизни</option>
+					<option th:each="lifeStyle : ${lifeStyles}"
+						th:value="${lifeStyle.ordinal()}"
+						th:text="${lifeStyle.cyrilicName}"></option>
+				</select>
+				<div id="0" class="hiddenRow" style="display: none">
+					<div class="card">
+						<div class="card-body">Вы живёте в нечеловеческих условиях.
+							У вас нет дома, вы спите где придётся, шныряя по сараям, прячась
+							под ящиками и надеясь на подачки от тех, у кого дела обстоят
+							лучше вашего. Никудышный стиль жизни опасен. Вас всегда
+							преследуют насилие, болезни и голод. Те, кто вместе с вами ведёт
+							никудышное существование, хотят заполучить ваши доспехи, оружие и
+							снаряжение, так как для них это целое состояние. За вами все
+							пристально следят.</div>
+					</div>
+				</div>
+				<div id="1" class="hiddenRow" style="display: none">
+					<div class="card">
+						<div class="card-body">Вы живёте в протекающем стойле,
+							землянке за городом или кишащей клопами ночлежке в трущобах. Вы
+							укрыты от стихий, но окружение всё равно опасно, так как грозит
+							болезнями, голодом и неудачами. Многие за вами следят, и закон
+							вас почти не защищает. Многие из тех, что ведут такое
+							существование, испытывают трудности. Им не дают покоя, их клеймят
+							изгоями и они страдают от болезней.</div>
+					</div>
+				</div>
+				<div id="2" class="hiddenRow" style="display: none">
+					<div class="card">
+						<div class="card-body">Бедное существование означает
+							отсутствие благ, доступных в стабильном обществе. Однообразная
+							пища и плохой ночлег, рваная одежда и непредсказуемое будущее
+							приводят к неприятным последствиям. Вы можете жить в комнате
+							в ночлежке или в общем зале над таверной. Закон вас частично
+							защищает, но вам всё равно придётся бороться с насилием,
+							преступлениями и болезнями. Те, кто ведут такое существование,
+							обычно трудятся чернорабочими, лоточниками, коробейниками, ворами
+							и занимают другие не престижные должности.</div>
+					</div>
+				</div>
+				<div id="3" class="hiddenRow" style="display: none">
+					<div class="card">
+						<div class="card-body">Скромное существование выводит вас из
+							трущоб и означает, что вы можете поддерживать своё снаряжение. Вы
+							живёте в старой части города, снимая комнату в пансионе, на
+							постоялом дворе или в храме. Вас не мучают голод и жажда, и вы
+							живёте в чистоте, хотя и по-простецки. Скромное существование
+							ведут солдаты и их семьи, разнорабочие, студенты,
+							священники,начинающие волшебники и другие.</div>
+					</div>
+				</div>
+				<div id="4" class="hiddenRow" style="display: none">
+					<div class="card">
+						<div class="card-body">Комфортное существование означает,
+							что вы можете позволить себе хорошую одежду и поддерживаете своё
+							снаряжение в хорошем состоянии. Вы живёте в небольшом домике
+							с оседями среднего класса или в личной комнате на хорошем
+							постоялом дворе. Вы ведёте дела с купцами, опытными торговцами и
+							военными офицерами.</div>
+					</div>
+				</div>
+				<div id="5" class="hiddenRow" style="display: none">
+					<div class="card">
+						<div class="card-body">Богатое существование означает жизнь
+							в роскоши, хотя у вас может и не быть унаследованных состояний
+							как у дворян или членов королевской семьи. Такую же как вы жизнь
+							ведут успешные торговцы, любимые слуги при дворе, или владельцы
+							нескольких успешных предприятий. У вас комфортное жилище, обычно
+							это просторный дом в хорошем районе города или комфортный номер в
+							отличной гостинице. Возможно, у вас есть несколько слуг.</div>
+					</div>
+				</div>
+				<div id="6" class="hiddenRow" style="display: none">
+					<div class="card">
+						<div class="card-body">Вы живёте в достатке и комфорте. Вы
+							вращаетесь среди самых влиятельных членов общества. У вас
+							превосходное жилище, возможно, особняк в лучшей части города или
+							несколько комнат в отличной гостинице. Вы трапезничаете в лучших
+							ресторанах, одеваетесь у модных портных, и у вас есть слуги на
+							все случаи жизни. Вы получаете приглашения на сборы богатых и
+							влиятельных, и вечерами собираетесь в компании политиков, глав
+							гильдий, верховных жрецов и дворян. Вам угрожает ложь и
+							предательство. Чем вы богаче, тем больше шанс, что вас затянут в
+							политические интриги.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$('#lifeDay').change(function() {
+		updatePrice();
+	})
+
+	function updatePrice() {
+		var index = $('#lifeStyle').val();
+		var lifeday = $('#lifeDay').val();
+		var sum = 0;
+		if (lifeday.trim() != "") {
+			var day = parseInt(lifeday, 10);
+			var price = /*[[${costs}]]*/0;
+			sum = price[index] * day;
+		}
+		$('#cost').text("Стоимость: " + sum.toFixed(2) + " зм.");
+	}
+
+	$(document).ready(function() {
+		$('#lifeStyle').change(function() {
+			$('.hiddenRow').hide();
+			$('#' + $(this).val()).show();
+			$("#lifeDay").prop("disabled", $(this).val() == -1);
+			if ($(this).val() == -1) {
+				$('#cost').text("Стоимость: 0 зм.");
+			} else {
+				updatePrice();
+			}
+		})
+	});
+	/*]]>*/
+</script>
+</html>

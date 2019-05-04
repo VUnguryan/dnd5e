@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layouts/default">
 <head>
-<title>DnD 5E Планы и места</title>
+<title>DnD 5E Транспорт</title>
 <meta charset="utf-8">
 
 <link rel="icon" th:href="@{/resources/icon.png}">
@@ -23,21 +23,7 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
 	<div class="container" style="margin-top: 60px">
-		<div class="card" th:object="${place}">
-			<div class="card-header" th:text="*{name}"></div>
-			<div class="card-body">
-				<p th:utext="*{description}" />
-			</div>
-		</div>
-		<div class="card-deck">
-			<div th:each="child : ${children}" class="card" style="width: 400px">
-				<div class="card-body">
-					<h4 class="card-title" th:text="${child.name}"></h4>
-					<a th:href="@{'/place/'+${child.id}}" class="btn btn-secondary">Список
-						мест</a>
-				</div>
-			</div>
-		</div>
+	
 	</div>
 </body>
 </html>
