@@ -16,38 +16,38 @@ import com.dnd5e.wiki.service.UserService;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private SecurityService securityService;
+	@Autowired
+	private SecurityService securityService;
 
-    @GetMapping("/registration")
-    public String registration(Model model) {
-        model.addAttribute("user", new User());
-        return "/user/registration";
-    }
+	@GetMapping("/registration")
+	public String registration(Model model) {
+		model.addAttribute("user", new User());
+		return "/user/registration";
+	}
 
-    @PostMapping("/registration")
-    public String registration(@Valid  @ModelAttribute("user") User userForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "/user/registration";
-        }
-        userService.save(userForm);
+	@PostMapping("/registration")
+	public String registration(@Valid @ModelAttribute("user") User userForm, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "/user/registration";
+		}
+		userService.save(userForm);
 
-        securityService.autologin(userForm.getName(), userForm.getPasswordConfirm());
+		securityService.autologin(userForm.getName(), userForm.getPasswordConfirm());
 
-        return "redirect:/tavern?sort=name,asc";
-    }
+		return "redirect:/tavern?sort=name,asc";
+	}
 
-    @GetMapping("/login")
-    public String login(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Ваше имя пользователя или пароль неверны.");
-
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
-
-        return "/user/login";
-    }
+	@GetMapping("/login")
+	public String login(Model model, String error, String logout) {
+		if (error != null) {
+			model.addAttribute("error", "Ваше имя пользователя или пароль неверны.");
+		}
+		if (logout != null) {
+			model.addAttribute("message", "You have been logged out successfully.");
+		}
+		return "/user/login";
+	}
 }

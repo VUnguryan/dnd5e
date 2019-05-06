@@ -1,16 +1,16 @@
 package com.dnd5e.wiki.model.hero;
 
 public enum Currency {
-	MM("мм", 1),
-	SM("см", 10),
-	EM("эм", 50),
-	GM("зм",100),
-	PM("пм", 1000);
+	MM("мм", 1f),
+	SM("см", 10f),
+	EM("эм", 50f),
+	GM("зм", 100f),
+	PM("пм", 1000f);
 	
 	private String name;
-	private int coef;
+	private float coef;
 	
-	Currency(String name, int coef) {
+	Currency(String name, float coef) {
 		this.name = name;
 		this.coef = coef;
 	}
@@ -19,7 +19,7 @@ public enum Currency {
 		return name;
 	}
 
-	public int convert(Currency currency, int cost) {
+	public float convert(Currency currency, int cost) {
 		return currency.coef / this.coef * cost;
 	}
 }

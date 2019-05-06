@@ -75,7 +75,7 @@ public class EquipmentController {
 		if (currency.ordinal() <= selectedCurrency.ordinal()) {
 			return equipment;
 		}
-		equipment.setCost(selectedCurrency.convert(currency, equipment.getCost()));
+		equipment.setCost((int) selectedCurrency.convert(currency, equipment.getCost()));
 		equipment.setCurrency(selectedCurrency);
 		return equipment;
 	}

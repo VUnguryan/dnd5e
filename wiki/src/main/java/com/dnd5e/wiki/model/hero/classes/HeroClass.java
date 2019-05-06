@@ -19,6 +19,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.creature.SkillType;
+import com.dnd5e.wiki.model.hero.HeroClassTrait;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Data;
@@ -46,12 +47,15 @@ public class HeroClass {
 	private List<Spell> spells;
 	
 	@OneToMany()
+	@JoinColumn(name = "hero_class_id")
+	private List<HeroClassTrait> traits;
+	
+	private int enabledArhitypeLevel;
+	@OneToMany()
 	@JoinColumn(name = "class_id")
 	private List<Archetype> archetypes;
-	private int enabledArhitypeLevel;
-	
+
 	private short skillAvailableCount;
-	
 	@ElementCollection(targetClass = SkillType.class)
 	@JoinTable(name = "class_available_skills", joinColumns = @JoinColumn(name = "class_id"))
 	@Column(name = "skill", nullable = false)

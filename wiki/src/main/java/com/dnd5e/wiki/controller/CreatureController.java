@@ -28,6 +28,7 @@ import com.dnd5e.wiki.model.creature.Alignment;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureRace;
 import com.dnd5e.wiki.model.creature.CreatureSize;
+import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.CreatureType;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Dice;
@@ -36,7 +37,6 @@ import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.Skill;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.creature.State;
-import com.dnd5e.wiki.model.feat.Trait;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.LanguagesRepository;
@@ -330,8 +330,8 @@ public class CreatureController {
 			creature.setExp(Integer.valueOf(crAndExp[1].replaceAll("[^0-9]", "").trim()));
 
 			// Фиты
-			Trait feat = new Trait();
-			List<Trait> feats = new ArrayList<>();
+			CreatureTrait feat = new CreatureTrait();
+			List<CreatureTrait> feats = new ArrayList<>();
 			boolean newFeet = true;
 			do {
 				skillText = reader.readLine();
@@ -363,7 +363,7 @@ public class CreatureController {
 				if (skillText.endsWith(".")) {
 					feat.setDescription(description);
 					feats.add(feat);
-					feat = new Trait();
+					feat = new CreatureTrait();
 					newFeet = true;
 				}
 			} while (!skillText.trim().equals("Действия"));

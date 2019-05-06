@@ -3,11 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
@@ -26,6 +30,8 @@
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/classes}">Классы</a> <a
 							class="dropdown-item" th:href="@{/races}">Расы</a> <a
+							class="dropdown-item" th:href="@{/backgrounds}">Предистории</a> <a
+							class="dropdown-item" th:href="@{/traits}">Черты</a> <a
 							class="dropdown-item" th:href="@{/spells?sort=name,asc}">Заклинания</a>
 						<a class="dropdown-item" th:href="@{/conditions}">Состояния</a>
 					</div></li>
@@ -33,13 +39,23 @@
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown">Склад</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/equipments}">Снаряжение</a>
-						<a class="dropdown-item" th:href="@{/armors}">Доспехи</a>  
-						<a class="dropdown-item" th:href="@{/weapons}">Оружие</a>
-						<a class="dropdown-item" th:href="@{/artifacts?sort=name,asc}">Магические вещи</a>
+						<a class="dropdown-item" th:href="@{/equipments}">Снаряжение</a> <a
+							class="dropdown-item" th:href="@{/armors}">Доспехи</a> <a
+							class="dropdown-item" th:href="@{/weapons}">Оружие</a> <a
+							class="dropdown-item" th:href="@{/artifacts?sort=name,asc}">Магические
+							вещи</a>
+					</div></li>
+					
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbardrop"
+					data-toggle="dropdown">Путешествия</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" th:href="@{/transports}">Транспорт</a> <a
+							class="dropdown-item" th:href="@{/idle}">Простой</a>
 					</div></li>
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/creatures?sort=exp,asc}">Бестиарий</a></li>
+					
 				<th:block sec:authorize="isAuthenticated()">
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbardrop"
@@ -52,14 +68,9 @@
 				</th:block>
 			</ul>
 			<form class="form-inline my-2 my-lg-0" th:action="${search}">
-				<div class="input-group">
-					<input name="search" type="text" class="form-control mr-sm-2"
-						id="usr" placeholder="Поиск">
-					<div class="input-group-btn">
-						<button class="btn btn-outline-secondary my-2 my-sm-0"
-							type="submit">Поиск</button>
-					</div>
-				</div>
+				<input name="search" type="text" class="form-control mr-sm-2"
+					id="usr" placeholder="Поиск">
+				<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск</button>
 			</form>
 			<th:block sec:authorize="!isAuthenticated()">
 				<form class="form-inline my-2 my-lg-0" th:action="@{/login}">

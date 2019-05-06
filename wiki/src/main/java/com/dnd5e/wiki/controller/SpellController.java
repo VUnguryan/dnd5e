@@ -138,7 +138,21 @@ public class SpellController {
 		}
 		return "redirect:/spells?sort=level,asc";
 	}
-
+	
+	@GetMapping(params = { "clear" })
+	public String cleaarFilters(Model model, String search) {
+		this.search = Optional.empty();
+		this.minLevel = Optional.empty();
+		this.maxLevel = Optional.empty();
+		this.classSelectedId = Optional.empty();
+		this.schoolSelected = Optional.empty();
+		this.timeCastSelected = Optional.empty();
+		this.verbal = false;
+		this.somatic = false;
+		this.material = false;
+		return "redirect:/spells?sort=level,asc";
+	}
+	
 	@GetMapping(params = { "minLevel", "maxLevel" })
 	public String filterSpellByLevels(Model model, String sort, Integer minLevel, Integer maxLevel, Pageable page) {
 		this.minLevel = minLevel >= 0 ? Optional.of(minLevel) : Optional.empty();

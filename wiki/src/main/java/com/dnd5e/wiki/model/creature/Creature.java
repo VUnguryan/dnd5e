@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.feat.Trait;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Data;
@@ -115,7 +114,7 @@ public class Creature {
 	private List<Language> languages;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<Trait> feats;
+	private List<CreatureTrait> feats;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Action> actions;
