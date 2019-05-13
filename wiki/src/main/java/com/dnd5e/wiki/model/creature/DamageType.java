@@ -15,7 +15,8 @@ public enum DamageType {
 	CHOPPING ("рубящий"),
 	PHYSICAL("дробящий, колющий и рубящий урон от немагических атак"),
 	NO_NOSILVER("дробящий, колющий и рубящий урон от немагических атак, а также от немагического оружия, которое при этом не посеребрено"),
-	;
+	NO_DAMAGE("без урона");
+	
 	private String cyrilicName;
 
 	DamageType(String cyrilicName){

@@ -24,7 +24,7 @@ import com.dnd5e.wiki.model.artifact.Rarity;
 import com.dnd5e.wiki.repository.ArtifactRepository;
 
 @Controller
-@RequestMapping("/artifacts")
+@RequestMapping("/stock/artifacts")
 @Scope("session")
 public class MagicalThingsController {
 	private Optional<String> search = Optional.empty(); 
@@ -82,7 +82,7 @@ public class MagicalThingsController {
 		{
 			this.search = Optional.of(search);
 		}
-		return "redirect:/artifacts";
+		return "redirect:/stock/artifacts";
 	}
 
 	@GetMapping(params = { "sort", "type", "rarity" })
@@ -134,7 +134,7 @@ public class MagicalThingsController {
 		}
 		artifact.setDescription(builder.toString());
 		repository.save(artifact);
-		return "redirect:/artifacts/add";
+		return "redirect:/stock/artifacts/add";
 	}
 
 	private String removeHyphenation(String string) {

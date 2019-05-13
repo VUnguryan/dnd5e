@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dnd5e.wiki.repository.RaceRepository;
 
 @Controller
-@RequestMapping("/races")
+@RequestMapping("/hero/races")
 public class RaceController {
 	private  RaceRepository repo;
 	

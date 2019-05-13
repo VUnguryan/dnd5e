@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.user;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,34 +11,42 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import lombok.Data;
+import com.dnd5e.wiki.dto.UserForm;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "users")
-@Data
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
-    @NotNull
-    @Size(min=2, max=30)
+	private Long id;
+
 	private String name;
-	
-    @NotNull
-    @Size(min=6)
 	private String password;
-    
-	@Transient
-    @NotNull
-    @Size(min=6)
-	private String passwordConfirm;
-	
+	private String email;
+	private Date createDate;
+
 	@ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
+
+	public User(UserForm userForm) {
+		this.name = userForm.getName();
+		this.password = userForm.getPassword();
+		this.email = userForm.getEmail();
+		this.createDate = new Date();
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 }

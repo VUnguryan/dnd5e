@@ -9,16 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
-@Data
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private String name;
 	
 	@ManyToMany(mappedBy = "roles")

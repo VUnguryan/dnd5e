@@ -23,7 +23,7 @@ import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.repository.UserRepository;
 
 @Controller
-@RequestMapping("tavern")
+@RequestMapping("/tavern")
 public class TavernController {
 	@Autowired
 	private ClassRepository classRepo;

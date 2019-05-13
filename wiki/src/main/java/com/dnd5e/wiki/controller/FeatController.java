@@ -12,7 +12,7 @@ import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.repository.CreatureTraitRepository;
 
 @Controller
-@RequestMapping("/feats")
+@RequestMapping("/hero/feats")
 final class FeatController {
 	private CreatureTraitRepository featRepository;
 

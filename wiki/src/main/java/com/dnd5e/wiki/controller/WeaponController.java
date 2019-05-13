@@ -1,13 +1,11 @@
 package com.dnd5e.wiki.controller;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -29,10 +27,12 @@ import com.dnd5e.wiki.repository.WeaponPropertyRepository;
 import com.dnd5e.wiki.repository.WeaponRepository;
 
 @Controller
-@RequestMapping("/weapons")
+@RequestMapping("/stock/weapons")
 public class WeaponController {
+
 	@Autowired
 	private WeaponRepository repo;
+
 	@Autowired
 	private WeaponPropertyRepository propertyRepo;
 
@@ -54,6 +54,7 @@ public class WeaponController {
 		model.addAttribute("currencies", Currency.values());
 		return "/hero/weapons";
 	}
+
 	@GetMapping("/property/{id}")
 	public String getPropertyForm(Model model,  @PathVariable Integer id) {
 		model.addAttribute("property", propertyRepo.findById(id).orElseGet(WeaponProperty::new));
@@ -63,7 +64,7 @@ public class WeaponController {
 	@GetMapping("/add")
 	public String getForm(Model model) {
 		model.addAttribute("weapon", new Weapon());
-		model.addAttribute("damageTypes", EnumSet.of(DamageType.PIERCING, DamageType.CRUSHING, DamageType.CHOPPING));
+		model.addAttribute("damageTypes", EnumSet.of(DamageType.PIERCING, DamageType.CRUSHING, DamageType.CHOPPING, DamageType.NO_DAMAGE));
 		model.addAttribute("dices", Dice.values());
 		model.addAttribute("types", WeaponType.values());
 		model.addAttribute("currencies", Currency.values());

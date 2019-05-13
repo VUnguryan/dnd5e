@@ -16,7 +16,7 @@ import com.dnd5e.wiki.model.hero.Equipment;
 import com.dnd5e.wiki.repository.EquipmentRepository;
 
 @Controller
-@RequestMapping({ "/equipments" })
+@RequestMapping({ "/stock/equipments" })
 public class EquipmentController {
 
 	private EquipmentRepository equipmentRepository;

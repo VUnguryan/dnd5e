@@ -40,10 +40,4 @@ public class HomeController {
 		model.addAttribute("children", place.getChildren());
 		return "place";
 	}
-	
-	@GetMapping("/conditions/")
-	public String getConditions()
-	{
-		return "condition";
-	}
 }

@@ -11,7 +11,7 @@ import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.repository.ClassRepository;
 
 @Controller
-@RequestMapping("/classes")
+@RequestMapping("/hero/classes")
 public class ClassController {
 
 	private ClassRepository repository;

@@ -1,5 +1,7 @@
 package com.dnd5e.wiki.service;
 
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void save(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRoles(roleRepository.findAll());
+		user.setRoles(roleRepository.findAllById(Collections.singleton(1L)));
 		userRepository.save(user);
 	}
 
