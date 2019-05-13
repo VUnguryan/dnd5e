@@ -131,11 +131,12 @@
 </body>
 <script>
 	function rowClicked(value) {
-		var baseUrl = '[[@{/artifacts/artifact/}]]';
+		var baseUrl = '[[@{/stock/artifacts/artifact/}]]';
 		location.href = baseUrl + value;
 	}
+
 	function sortTable(n) {
-		var baseUrl = '[[@{/artifacts?}]]';
+		var baseUrl = '[[@{/stock/artifacts?}]]';
 		var sort = getParameterByName('sort');
 		var page = getParameterByName('page');
 		var parameters = "";
@@ -178,7 +179,7 @@
 	}
 
 	function filter(select) {
-		var baseUrl = '[[@{/artifacts?}]]';
+		var baseUrl = '[[@{/stock/artifacts?}]]';
 		var type = $("#artifactType").val();
 		var rarity = $("#rarityType").val();
 		var sort = getParameterByName('sort');
@@ -189,5 +190,6 @@
 		}
 		window.location = baseUrl + parameters;
 	}
+	
 </script>
 </html>

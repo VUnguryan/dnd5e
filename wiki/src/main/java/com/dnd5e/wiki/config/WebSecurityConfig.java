@@ -28,12 +28,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/**").permitAll()
-			.antMatchers("/tavern/*").hasRole("USER").anyRequest().authenticated()
-			.anyRequest().permitAll()
-			.and().formLogin().loginPage("/login").permitAll()
+				.antMatchers("/hero/**", "/places/**", "/stock/**", "/creatures/**", "/travel/**", "/registration")
+			.permitAll()
+				.antMatchers("/tavern/**").hasRole("USER")
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.anyRequest().authenticated()
 			.and()
-			.logout().logoutSuccessUrl("/login").logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll();
+			      .exceptionHandling().accessDeniedPage("/login")
+			.and()
+				.formLogin()
+					.loginPage("/login")
+					.permitAll()
+					.and()
+			.logout()
+				.logoutSuccessUrl("/login")
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.permitAll();
 	}
 
 	@Autowired

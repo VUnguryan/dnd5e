@@ -16,7 +16,7 @@ import com.dnd5e.wiki.model.hero.ArmorType;
 import com.dnd5e.wiki.repository.ArmorRepository;
 
 @Controller
-@RequestMapping("/armors")
+@RequestMapping("/stock/armors")
 public class ArmorController {
 	
 	@Autowired

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dnd5e.wiki.repository.BackgroundRepository;
 
 @Controller
-@RequestMapping("/backgrounds")
+@RequestMapping("/hero/backgrounds")
 public class BackgroundController {
 	@Autowired
 	private BackgroundRepository repo;

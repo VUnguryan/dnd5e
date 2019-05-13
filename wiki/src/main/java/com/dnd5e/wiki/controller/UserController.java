@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.dnd5e.wiki.dto.UserForm;
 import com.dnd5e.wiki.model.user.User;
 import com.dnd5e.wiki.service.SecurityService;
 import com.dnd5e.wiki.service.UserService;
@@ -24,20 +25,18 @@ public class UserController {
 
 	@GetMapping("/registration")
 	public String registration(Model model) {
-		model.addAttribute("user", new User());
+		model.addAttribute("user", new UserForm());
 		return "/user/registration";
 	}
 
 	@PostMapping("/registration")
-	public String registration(@Valid @ModelAttribute("user") User userForm, BindingResult bindingResult) {
+	public String registration(@Valid @ModelAttribute("user") UserForm userForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "/user/registration";
 		}
-		userService.save(userForm);
-
+		userService.save(new User(userForm));
 		securityService.autologin(userForm.getName(), userForm.getPasswordConfirm());
-
-		return "redirect:/tavern?sort=name,asc";
+		return "redirect:/travel/tavern?sort=name,asc";
 	}
 
 	@GetMapping("/login")

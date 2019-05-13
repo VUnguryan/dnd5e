@@ -47,7 +47,7 @@ public class HeroController {
 		this.featRepo = featRepo;
 	}
 
-	@GetMapping("/conditions")
+	@GetMapping("/hero/conditions")
 	public String getCondinons(Model model) {
 		model.addAttribute("conditions", conditionRepositoryl.findAll());
 		return "/hero/conditions";

@@ -29,7 +29,7 @@ import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 
 @Controller
-@RequestMapping({ "/spells" })
+@RequestMapping({ "/hero/spells" })
 @Scope("session")
 public class SpellController {
 	private Optional<String> search = Optional.empty();
@@ -136,7 +136,7 @@ public class SpellController {
 		} else {
 			this.search = Optional.of(search);
 		}
-		return "redirect:/spells?sort=level,asc";
+		return "redirect:/hero/spells?sort=level,asc";
 	}
 	
 	@GetMapping(params = { "clear" })
@@ -150,14 +150,14 @@ public class SpellController {
 		this.verbal = false;
 		this.somatic = false;
 		this.material = false;
-		return "redirect:/spells?sort=level,asc";
+		return "redirect:/hero/spells?sort=level,asc";
 	}
 	
 	@GetMapping(params = { "minLevel", "maxLevel" })
 	public String filterSpellByLevels(Model model, String sort, Integer minLevel, Integer maxLevel, Pageable page) {
 		this.minLevel = minLevel >= 0 ? Optional.of(minLevel) : Optional.empty();
 		this.maxLevel = maxLevel >= 0 ? Optional.of(maxLevel) : Optional.empty();
-		return "redirect:/spells?sort=" + sort;
+		return "redirect:/hero/spells?sort=" + sort;
 	}
 
 	@GetMapping(params = { "sort", "classType", "schoolType", "timeCast" })
@@ -170,7 +170,7 @@ public class SpellController {
 		this.verbal = "on".equals(verbal);
 		this.somatic = "on".equals(somatic);
 		this.material = "on".equals(material);
-		return "redirect:/spells?sort=" + sort;
+		return "redirect:/hero/spells?sort=" + sort;
 	}
 
 	@GetMapping("/spell/{id}")

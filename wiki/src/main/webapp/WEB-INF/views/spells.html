@@ -115,7 +115,7 @@
 					</div>
 				</div>
 			</div>
-			<a th:if ="${filtered}" th:href="@{/spells?clear}" role="button" class="btn btn-danger"><img
+			<a th:if ="${filtered}" th:href="@{/hero/spells?clear}" role="button" class="btn btn-danger"><img
 							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp; Сбросить фильтры</a>
 		</div>
 		<table class="table table-striped">
@@ -167,7 +167,7 @@
 
 <script>
 	function sortTable(n) {
-		var baseUrl = '[[@{/spells?}]]';
+		var baseUrl = '[[@{/hero/spells?}]]';
 		var sort = getParameterByName('sort');
 		var page = getParameterByName('page');
 		var parameters = "";
@@ -217,12 +217,12 @@
 	}
 
 	function spellClicked(value) {
-		var baseUrl = '[[@{/spells/spell/}]]';
+		var baseUrl = '[[@{/hero/spells/spell/}]]';
 		location.href = baseUrl + value;
 	}
 
 	function filterLevel(select) {
-		var baseUrl = '[[@{/spells?}]]';
+		var baseUrl = '[[@{/hero/spells?}]]';
 		var minLevel = $("#minLevel").val();
 		var maxLevel = $("#maxLevel").val();
 		var sort = getParameterByName('sort');
@@ -234,7 +234,7 @@
 	}
 
 	function filter(select) {
-		var baseUrl = '[[@{/spells?}]]';
+		var baseUrl = '[[@{/hero/spells?}]]';
 		var type = $("#classType").val();
 		var schoolType = $("#schoolType").val();
 		var timeCast = $("#timeCast").val();
@@ -248,19 +248,6 @@
 			parameters += "&sort=" + sort;
 		}
 		window.location = baseUrl + parameters;
-	}
-	
-	function getParameterByName(name, url) {
-		if (!url)
-			url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
-				.exec(url);
-		if (!results)
-			return null;
-		if (!results[2])
-			return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 </script>
 </html>
