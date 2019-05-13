@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dnd5e.wiki.model.hero.LifeStyle;
 
 @Controller
-@RequestMapping("/idle")
+@RequestMapping("/travel/idle")
 public class IdleController {
 	@GetMapping
 	public String getIdleForm(Model model) {
