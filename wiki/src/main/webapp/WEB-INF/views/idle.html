@@ -127,6 +127,54 @@
 				</div>
 			</div>
 		</div>
+		<div class="card" style="margin-top: 5px">
+			<div class="card-header">Покупка магических предметов</div>
+			<div class="card-body">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="basic-addon1">Редкость</span>
+					</div>
+					<select id="raritySelect" class="custom-select">
+						<option th:each="rarity : ${rarities}"
+							th:text="${rarity.cyrilicName}" th:value="${rarity.ordinal()}"></option>
+					</select>
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="basic-addon1">Недель
+							простоя</span>
+					</div>
+					<select id="idleWeeks" class="custom-select">
+						<option th:each="i: ${#numbers.sequence(1, 10)}" th:text="${i}"
+							th:value="${i -1}"></option>
+					</select>
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="basic-addon1">Вложения в
+							зм.</span>
+					</div>
+					<select id="investment" class="custom-select">
+						<option th:each="i: ${#numbers.sequence(1, 10)}"
+							th:text="${i * 100}" th:value="${i -1}"></option>
+					</select>
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Сложность: Убеждение</span>
+					</div>
+					<input id="bayDC" type="text" class="form-control" disabled
+						value="10">
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Вероятность осложнений в %</span>
+					</div>
+					<input id="problems" type="text" class="form-control" disabled
+						value="10">
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 
@@ -160,6 +208,28 @@
 			}
 		})
 	});
+
+	$('#raritySelect').change(function() {
+		calculateDC();
+	})
+	$('#idleWeeks').change(function() {
+		calculateDC();
+	})
+	$('#investment').change(function() {
+		calculateDC();
+	})
+	function calculateDC() {
+		var index = $('#raritySelect').val();
+		var idleWeeks = $('#idleWeeks').val();
+		var investment = $('#investment').val();
+		var dcs = [ 10, 15, 20, 25, 30 ];
+		var bonus = parseInt(idleWeeks, 10) + parseInt(investment, 10);
+		bonus = bonus > 10 ? 10 : bonus;
+		var dc = dcs[index] - bonus;
+		document.getElementById("bayDC").value = dc.toString();
+		var problemFactor = 10 + 10 * idleWeeks;
+		document.getElementById("problems").value = problemFactor.toString();
+	}
 	/*]]>*/
 </script>
 </html>
