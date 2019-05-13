@@ -68,7 +68,7 @@
 							onchange="filterLevel(this)">
 							<option value="-1">---</option>
 							<option
-								th:each="i: ${#numbers.sequence(0,maxLevel.present? maxLevel.get(): 9)}"
+								th:each="i: ${#numbers.sequence(0, maxLevel.present? maxLevel.get(): 9)}"
 								th:text="${i}" th:value="${i}"
 								th:selected="${minLevel.present && i==minLevel.get()}" />
 						</select>
