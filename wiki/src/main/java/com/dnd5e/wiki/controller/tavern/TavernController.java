@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller.tavern;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -40,8 +41,8 @@ public class TavernController {
 	public String getHeroes(Model model, Authentication authentication,
 			@PageableDefault(size = 12, sort = "name") Pageable page) {
 		if (authentication != null) {
-			User user = userRepo.findByName(authentication.getName());
-			model.addAttribute("heroes", heroRepo.findByUserId(user.getId(), page));
+			Optional<User> user = userRepo.findByName(authentication.getName());
+			model.addAttribute("heroes", heroRepo.findByUserId(user.orElseGet(User::new).getId(), page));
 		}
 		else
 		{
@@ -60,7 +61,8 @@ public class TavernController {
 
 	@PostMapping("/add")
 	public String createHero(Hero hero, Authentication authentication) {
-		hero.setUser(userRepo.findByName(authentication.getName()));
+		Optional<User> user = userRepo.findByName(authentication.getName());
+		hero.setUser(user.get());
 		authentication.getName();
 		hero.setHp(hero.getHeroClass().getDiceHp());
 		hero = heroRepo.save(hero);
