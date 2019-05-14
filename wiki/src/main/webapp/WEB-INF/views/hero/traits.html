@@ -36,11 +36,15 @@
 			<thead>
 				<tr>
 					<th scope="col">Черты</th>
+					<th></th>
 				</tr>
 			</thead>
 			<th:block th:each="trait : ${traits}">
 				<tr data-toggle="collapse" th:attr="data-target='#d'+ ${trait.id}">
 					<td th:text="${trait.name}">
+					<td><img
+						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"
+						height="25"/></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="hiddenRow">
