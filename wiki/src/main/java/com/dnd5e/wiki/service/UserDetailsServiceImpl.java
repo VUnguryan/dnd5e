@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dnd5e.wiki.model.user.Role;
 import com.dnd5e.wiki.model.user.User;
 import com.dnd5e.wiki.repository.UserRepository;
 
@@ -22,12 +23,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = usersRepository.findByName(userName).orElseThrow(() -> new UsernameNotFoundException("Email " + userName + " not found"));;
-		return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), getAuthorities(user));
+		User user = usersRepository.findByName(userName)
+				.orElseThrow(() -> new UsernameNotFoundException("Email " + userName + " not found"));
+		return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
+				getAuthorities(user));
 	}
-    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
-        return authorities;
-    }
+
+	private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+		String[] userRoles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
+		Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+		return authorities;
+	}
 }
