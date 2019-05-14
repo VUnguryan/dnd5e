@@ -90,14 +90,6 @@
 						</div>
 					</div>
 				</form>
-				<form class="form-inline my-2 my-lg-0" th:action="@{/registration}">
-					<div class="input-group">
-						<div class="input-group-btn">
-							<button class="btn btn-outline-secondary my-2 my-sm-0"
-								type="submit">Регистрация</button>
-						</div>
-					</div>
-				</form>
 			</th:block>
 			<div sec:authorize="isAuthenticated()">
 				<form class="form-inline my-2 my-lg-0" th:action="@{/logout}">

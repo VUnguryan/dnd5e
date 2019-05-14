@@ -18,6 +18,7 @@ import com.dnd5e.wiki.repository.UserRepository;
 @Service
 @Transactional(readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
+	
 	@Autowired
 	private UserRepository usersRepository;
 
@@ -30,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-		String[] userRoles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
+		String[] userRoles = user.getRoles().stream().map(Role::getName).map(s -> "ROLE_" + s).toArray(String[]::new);
 		Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
 		return authorities;
 	}

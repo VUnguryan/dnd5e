@@ -33,10 +33,10 @@
 						placeholder="Количество дней простоя"
 						aria-label="Количество дней простоя"
 						aria-describedby="basic-addon1">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="cost">Стоимость: 0 зм.</span>
-					</div>
+					<div class="input-group-prepend"></div>
+					
 				</div>
+				<span class="input-group-text" id="cost">Стоимость: 0 зм.</span>
 				<select id="lifeStyle" class="custom-select">
 					<option value="-1">Выбери стиль жизни</option>
 					<option th:each="lifeStyle : ${lifeStyles}"
@@ -168,10 +168,10 @@
 				</div>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
-						<span class="input-group-text">Вероятность осложнений в %</span>
+						<span class="input-group-text">Стоимость</span>
 					</div>
-					<input id="problems" type="text" class="form-control" disabled
-						value="10">
+					<input id="thingPrice" type="text" class="form-control" disabled
+						value="10 зм.">
 				</div>
 			</div>
 		</div>
@@ -227,9 +227,31 @@
 		bonus = bonus > 10 ? 10 : bonus;
 		var dc = dcs[index] - bonus;
 		document.getElementById("bayDC").value = dc.toString();
-		var problemFactor = 10 + 10 * idleWeeks;
-		document.getElementById("problems").value = problemFactor.toString();
+		var price = 0;
+		switch (index) {
+		case '0':
+			price = (Math.floor(Math.random() * 6 + 1) + 1) * 10;
+			break;
+		case '1':
+			price = (Math.floor(Math.random() * 6 + 1) + 1) * 100;
+			break;
+		case '2':
+			price = (Math.floor(Math.random() * 10 + 1) + Math.floor(Math
+					.random() * 10 + 1)) * 1000;
+			break;
+		case '3':
+			price = (Math.floor(Math.random() * 4 + 1) + 1) * 10000;
+			break;
+		case '4':
+			price = (Math.floor(Math.random() * 6 + 1) + Math.floor(Math
+					.random() * 6 + 1)) * 25000;
+			break;
+		default:
+			price = 0;
+		}
+		document.getElementById("thingPrice").value = price.toString() + ' зм.';
 	}
+
 	/*]]>*/
 </script>
 </html>

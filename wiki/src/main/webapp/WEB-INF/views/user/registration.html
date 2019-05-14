@@ -35,6 +35,9 @@
 					<input th:field="*{name}" type="text" class="form-control"
 						placeholder="Имя пользователя" aria-label="Имя пользователя"
 						aria-describedby="basic-addon1" />
+					<div class="alert alert-danger" role="alert"
+						th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Неверное
+						имя</div>
 				</div>
 				<div class="input-group mb-3">
 					<input th:field="*{email}" type="text" class="form-control"
