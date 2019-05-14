@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.dto;
+package com.dnd5e.wiki.dto.user;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -12,7 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserForm {
+@PasswordMatches
+public class UserRegForm {
 	@NotNull
 	@NotEmpty
 	@Size(min = 2, max = 30)

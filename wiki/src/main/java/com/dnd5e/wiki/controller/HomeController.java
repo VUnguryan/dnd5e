@@ -20,8 +20,7 @@ public class HomeController {
 	private PlaceRepository repo;
 
 	@Autowired
-	private void setRepository(PlaceRepository repo)
-	{
+	private void setRepository(PlaceRepository repo) {
 		this.repo = repo;
 	}
 
@@ -39,5 +38,10 @@ public class HomeController {
 		model.addAttribute("place", repo.findById(id).get());
 		model.addAttribute("children", place.getChildren());
 		return "place";
+	}
+
+	@GetMapping("/403")
+	public String getAccessError() {
+		return "403";
 	}
 }

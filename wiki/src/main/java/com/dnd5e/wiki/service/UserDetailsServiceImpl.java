@@ -1,8 +1,10 @@
 package com.dnd5e.wiki.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,22 +15,23 @@ import com.dnd5e.wiki.model.user.Role;
 import com.dnd5e.wiki.model.user.User;
 import com.dnd5e.wiki.repository.UserRepository;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
-    @Autowired
-    private UserRepository userRepository;
+@Transactional(readOnly = true)
+public class UserDetailsServiceImpl implements UserDetailsService {
+	@Autowired
+	private UserRepository usersRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        User user = userRepository.findByName(name);
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), grantedAuthorities);
-    }
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		User user = usersRepository.findByName(userName)
+				.orElseThrow(() -> new UsernameNotFoundException("Email " + userName + " not found"));
+		return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
+				getAuthorities(user));
+	}
+
+	private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+		String[] userRoles = user.getRoles().stream().map(Role::getName).toArray(String[]::new);
+		Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+		return authorities;
+	}
 }
