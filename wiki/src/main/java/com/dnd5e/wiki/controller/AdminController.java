@@ -24,7 +24,7 @@ public class AdminController {
 	
 	@GetMapping("/spell/add")
 	public String getSpellAddForm(Model model) {
-		return "addSpell";
+		return "/admin/addSpell";
 	}
 
 	@PostMapping("/spell/add")
@@ -126,6 +126,6 @@ public class AdminController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "addSpell";
+		return "/admin/addSpell";
 	}
 }

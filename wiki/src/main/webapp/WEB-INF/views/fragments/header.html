@@ -69,11 +69,13 @@
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown">Админка</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/tavern/add}">Добавить
-							заклинание</a> <a class="dropdown-item" th:href="@{/tavern/add}">Добавить
-							класс</a> <a class="dropdown-item" th:href="@{/tavern/add}">Добавить
-							рассу</a> <a class="dropdown-item" th:href="@{/tavern?sort=name,asc}">Добавить
+						<a class="dropdown-item" th:href=@{/admin/spell/add}>Добавить
+							заклинание</a> <a class="dropdown-item" th:href="@{/admin/class/add}">Добавить
+							класс</a> <a class="dropdown-item" th:href="@{/admin/race/add}">Добавить
+							рассу</a> <a class="dropdown-item" th:href="@{/admin/background/add}">Добавить
 							предисторию</a>
+							<a class="dropdown-item" th:href="@{/admin/trait/add}">Добавить
+							черту</a>
 					</div></li>
 			</ul>
 			<form class="form-inline my-2 my-lg-0" th:action="${search}">
