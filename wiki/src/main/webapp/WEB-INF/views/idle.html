@@ -36,7 +36,7 @@
 					<div class="input-group-prepend"></div>
 					
 				</div>
-				<span class="input-group-text" id="cost">Стоимость: 0 зм.</span>
+				<span class="input-group-text" id="cost">Расходы: 0 зм.</span>
 				<select id="lifeStyle" class="custom-select">
 					<option value="-1">Выбери стиль жизни</option>
 					<option th:each="lifeStyle : ${lifeStyles}"
@@ -193,7 +193,7 @@
 			var price = /*[[${costs}]]*/0;
 			sum = price[index] * day;
 		}
-		$('#cost').text("Стоимость: " + sum.toFixed(2) + " зм.");
+		$('#cost').text("Расходы: " + sum.toFixed(2) + " зм.");
 	}
 
 	$(document).ready(function() {
@@ -202,7 +202,7 @@
 			$('#' + $(this).val()).show();
 			$("#lifeDay").prop("disabled", $(this).val() == -1);
 			if ($(this).val() == -1) {
-				$('#cost').text("Стоимость: 0 зм.");
+				$('#cost').text("Расходы: 0 зм.");
 			} else {
 				updatePrice();
 			}
