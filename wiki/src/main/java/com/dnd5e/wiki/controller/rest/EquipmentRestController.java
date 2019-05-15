@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd5e.wiki.model.hero.Equipment;
+import com.dnd5e.wiki.model.stock.Equipment;
 import com.dnd5e.wiki.repository.EquipmentRepository;
 
 @RestController

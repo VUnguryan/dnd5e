@@ -10,11 +10,15 @@ import javax.persistence.Table;
 
 import org.springframework.util.StringUtils;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "skills")
-@Data
 public class Skill {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +28,6 @@ public class Skill {
 	private byte bonus;
 	
 	public String getText() {
-		return type!=null ? String.format("%s %+d", StringUtils.capitalize(type.name().toLowerCase()), bonus) : "";
+		return type != null ? String.format("%s %+d", StringUtils.capitalize(type.name().toLowerCase()), bonus) : "";
 	}
 }

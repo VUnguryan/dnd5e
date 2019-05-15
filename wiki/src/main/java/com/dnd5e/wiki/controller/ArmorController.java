@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dnd5e.wiki.model.hero.Armor;
-import com.dnd5e.wiki.model.hero.ArmorType;
+import com.dnd5e.wiki.model.stock.Armor;
+import com.dnd5e.wiki.model.stock.ArmorType;
 import com.dnd5e.wiki.repository.ArmorRepository;
 
 @Controller

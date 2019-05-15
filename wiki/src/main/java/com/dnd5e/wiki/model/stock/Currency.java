@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.hero;
+package com.dnd5e.wiki.model.stock;
 
 public enum Currency {
 	MM("мм", 1f),

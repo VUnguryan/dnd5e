@@ -7,7 +7,6 @@ import static com.dnd5e.wiki.model.creature.Ability.STRENGTH;
 import static com.dnd5e.wiki.model.creature.Ability.WISDOM;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,11 +15,14 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
+
 /**
  * Навыки 
  * @author VUnguryan
  *
  */
+
 public enum SkillType {
 	ATHLETICS(STRENGTH, "Атлетика"),
 	ACROBATICS(DEXTERITY, "Акробатика"),
@@ -41,18 +43,15 @@ public enum SkillType {
 	PERFORMANCE(CHARISMA, "Выступление"),
 	PERSUASION(CHARISMA, "Убеждение");
 	
-	private String cyrilicName;
+	@Getter() private Ability ability;
+	@Getter() private String cyrilicName;
 	private Set<String> cyrilicNames;
-	private Ability ability;
+
 	
 	SkillType(Ability ability, String ... cyrilicNames){
 		this.ability = ability;
 		this.cyrilicName = cyrilicNames[0];
 		this.cyrilicNames = Arrays.stream(cyrilicNames).collect(Collectors.toSet());
-	}
-
-	public String getCyrilicName() {
-		return cyrilicName;
 	}
 
 	public static SkillType parse(String cyrilicName) {
@@ -62,9 +61,6 @@ public enum SkillType {
 			}
 		}
 		return null;
-	}
-	public Ability getAbility() {
-		return ability;
 	}
 	
 	public static Map<Ability, List<SkillType>> getSkillsToAbbility() {

@@ -1,5 +1,10 @@
 package com.dnd5e.wiki.model.creature;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum CreatureSize {
 	TINY("Крошечный"),
 	SMALL("Маленький"),
@@ -9,14 +14,6 @@ public enum CreatureSize {
 	GARGANTUM("Громадный");
 
 	private String cyrilicName;
-
-	private CreatureSize(String cyrilicName) {
-		this.cyrilicName = cyrilicName;
-	}
-
-	public String getCyrilicName() {
-		return this.cyrilicName;
-	}
 
 	public static CreatureSize parse(String size) {
 		for (CreatureSize creatureSize : values()) {

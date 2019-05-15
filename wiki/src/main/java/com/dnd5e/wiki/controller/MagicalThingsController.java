@@ -104,7 +104,7 @@ public class MagicalThingsController {
 			Rarity raritySelected = Rarity.valueOf(rarity);
 			this.rarityFilter = Optional.of(raritySelected);
 		}
-		return "redirect:/artifacts?sort=" + sort;
+		return "redirect:/stock/artifacts?sort=" + sort;
 	}
 
 	@GetMapping("/add")
@@ -119,7 +119,7 @@ public class MagicalThingsController {
 	public String getArtifact(@ModelAttribute Artifact artifact) {
 
 		if (!repository.findByNameContaining(PageRequest.of(1, 1), artifact.getName()).getContent().isEmpty()) {
-			return "redirect:/artifacts/add";
+			return "redirect:/stock/artifacts/add";
 		}
 		StringReader reader = new StringReader(artifact.getDescription());
 		LineNumberReader lr = new LineNumberReader(reader);

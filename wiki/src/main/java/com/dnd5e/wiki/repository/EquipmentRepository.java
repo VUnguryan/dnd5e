@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.dnd5e.wiki.model.hero.Equipment;
+import com.dnd5e.wiki.model.stock.Equipment;
 
 @Repository
 public interface EquipmentRepository extends JpaRepository<Equipment, Integer> {

@@ -1,11 +1,18 @@
 package com.dnd5e.wiki.model.creature;
 
+import java.util.Arrays;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * Состояния
  * 
  * @author VUnguryan
  *
  */
+@Getter
+@AllArgsConstructor
 public enum State {
 	BLINDED("ослепление"),
 	CHARMED("очарование"),
@@ -24,23 +31,13 @@ public enum State {
 	RESTRAINED("опутанность"),
 	STUNNED("ошеломление"),
 	UNCONSCIOUS("бессознательность");
-	
+
 	private String cyrilicName;
 
-	State(String cyrilicName) {
-		this.cyrilicName = cyrilicName;
-	}
-
-	public String getCyrilicName() {
-		return cyrilicName;
-	}
-
 	public static State parse(String stateString) {
-		for (State state : values()) {
-			if (state.cyrilicName.equals(stateString)) {
-				return state;
-			}
-		}
-		return null;
+		return Arrays.stream(values())
+				.filter(s -> s.getCyrilicName().equals(stateString))
+				.findFirst()
+				.orElseThrow(IllegalArgumentException::new);
 	}
 }

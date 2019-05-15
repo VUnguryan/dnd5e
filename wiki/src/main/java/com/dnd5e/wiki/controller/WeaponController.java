@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Dice;
-import com.dnd5e.wiki.model.hero.Currency;
-import com.dnd5e.wiki.model.hero.Weapon;
-import com.dnd5e.wiki.model.hero.WeaponProperty;
-import com.dnd5e.wiki.model.hero.WeaponType;
+import com.dnd5e.wiki.model.stock.Currency;
+import com.dnd5e.wiki.model.stock.Weapon;
+import com.dnd5e.wiki.model.stock.WeaponProperty;
+import com.dnd5e.wiki.model.stock.WeaponType;
 import com.dnd5e.wiki.repository.WeaponPropertyRepository;
 import com.dnd5e.wiki.repository.WeaponRepository;
 

@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.creature.Source;
+import com.dnd5e.wiki.model.Source;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 import lombok.Data;

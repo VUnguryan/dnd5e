@@ -20,19 +20,24 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .races})"></div>
-	
-	<div class="container" style="margin-top: 50px">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col" class="text-center">Наименование</th>
-				</tr>
-			</thead>
-			<tr th:each="race : ${races}" style="cursor: pointer"
-				th:onclick="'javascript:rowClicked(\'' + ${race.id} + '\');'">
-				<td class="text-center"><th:block th:text="${race.name}" /></td>
-			</tr>
-		</table>
+	<div class="container" style="margin-top: 60px">
+		<div class="card-columns">
+			<div th:each="race : ${races}" class="card mb-3 text-center">
+				<div class="card-header d-flex">
+					<h4 th:text="${race.name}"
+						class="my-0 font-weight-normal flex-grow-1"></h4>
+				</div>
+				<div class="card-body ">
+					<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img
+						class="img-thumbnail rounded"
+						th:src="@{'/resources/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
+				</div>
+				<footer class="blockquote-footer">
+					<small class="text-muted"
+						th:text="'Источник: ' + ${race.source.cyrilicName}"></small>
+				</footer>
+			</div>
+		</div>
 	</div>
 </body>
 <script>

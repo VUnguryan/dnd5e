@@ -1,5 +1,10 @@
 package com.dnd5e.wiki.model.creature;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum DamageType {
 	FAIR("огонь"),
 	COLD("холод"),
@@ -18,14 +23,6 @@ public enum DamageType {
 	NO_DAMAGE("без урона");
 	
 	private String cyrilicName;
-
-	DamageType(String cyrilicName){
-		this.cyrilicName = cyrilicName;
-	}
-
-	public String getCyrilicName() {
-		return cyrilicName;
-	}
 
 	public static DamageType parse(String damageTypeString) {
 		for (DamageType damageType : values()) {

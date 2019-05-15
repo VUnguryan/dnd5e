@@ -1,5 +1,10 @@
-package com.dnd5e.wiki.model.hero;
+package com.dnd5e.wiki.model.stock;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ArmorType {
 	LIGHT("Лёгкий доспех", "1 минута", "1 минута", "+ модификатор Лов"),
 	MEDIUM("Средний доспех", "5 минут",	"1 минута", "+ модификатор Лов (макс. 2)"),
@@ -13,25 +18,5 @@ public enum ArmorType {
 
 	ArmorType(String name, String dressingTime, String removalTime) {
 		this.name = name;
-	}
-
-	ArmorType(String name, String dressingTime, String removalTime, String bonus) {
-		this(name, dressingTime, removalTime);
-		this.bonus = bonus;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDressingTime() {
-		return dressingTime;
-	}
-
-	public String getRemovalTime() {
-		return removalTime;
-	}
-	public String getBonus() {
-		return bonus;
 	}
 }

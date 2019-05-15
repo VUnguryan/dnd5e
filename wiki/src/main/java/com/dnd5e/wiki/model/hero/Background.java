@@ -12,37 +12,40 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.SkillType;
+import com.dnd5e.wiki.model.stock.Equipment;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "backgrounds")
-@Data
 public class Background {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String name;
-	
-	@ElementCollection (targetClass = SkillType.class)
-	@CollectionTable(name="background_skill_type")
+
+	@ElementCollection(targetClass = SkillType.class)
+	@CollectionTable(name = "background_skill_type")
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private List<SkillType> skills;
-	
+
 	@ManyToMany
 	private List<Equipment> equipments;
-	
+
 	private String skillName;
 	@Column(columnDefinition = "TEXT")
 	private String skillDescription;
-	
+
 	@Column(columnDefinition = "TEXT")
 	private String description;
 }

@@ -25,7 +25,7 @@ public enum CreatureType {
 	  SLIME("слизь"),
 	  SMALL_BEAST("стая крошечных зверей","крохотных зверей");
 
-	private String displayCyrilicName;
+	private final String displayCyrilicName;
 	private Set<String> cyrilicNames;
 
 	private CreatureType(String... cyrilicNames) {

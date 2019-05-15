@@ -4,8 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.hero.Currency;
-import com.dnd5e.wiki.model.hero.Equipment;
+import com.dnd5e.wiki.model.stock.Currency;
+import com.dnd5e.wiki.model.stock.Equipment;
 
 public class ItemVO {
 	@XmlElement

@@ -1,23 +1,24 @@
 package com.dnd5e.wiki.model.creature;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Alignment {
 	LAWFUL_GOOD("законно-добрый"),
-	LAWFUL_NEUTRAL("законно-нейтральный"), LAWFUL_EVIL("законно-злой"), TRUE_NEUTRAL(
-			"законно-нейтральный"), NEUTRAL_GOOD("нейтрально-добрый"), NEUTRAL_EVIL("нейтрально-злой"), CHAOTIC_GOOD(
-					"хаотично-добрый"), CHAOTIC_NEUTRAL(
-							"хаотично-нейтральный"), CHAOTIC_EVIL("хаотично-злой"),
+	LAWFUL_NEUTRAL("законно-нейтральный"),
+	LAWFUL_EVIL("законно-злой"),
+	TRUE_NEUTRAL("законно-нейтральный"),
+	NEUTRAL_GOOD("нейтрально-добрый"),
+	NEUTRAL_EVIL("нейтрально-злой"), 
+	CHAOTIC_GOOD("хаотично-добрый"),
+	CHAOTIC_NEUTRAL("хаотично-нейтральный"),
+	CHAOTIC_EVIL("хаотично-злой"),
 	NEUTRAL("нейтральный"),
 	WITHOUT("без мировоззрения");
 
 	private String cyrilicName;
-
-	Alignment(String cyrilicName) {
-		this.cyrilicName = cyrilicName;
-	}
-
-	public String getCyrilicName() {
-		return cyrilicName;
-	}
 
 	public static Alignment parse(String alignment) {
 		if (alignment.equals("нейтральный")) {

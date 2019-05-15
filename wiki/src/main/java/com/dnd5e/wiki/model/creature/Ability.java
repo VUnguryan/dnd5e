@@ -1,5 +1,10 @@
 package com.dnd5e.wiki.model.creature;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Ability {
 	STRENGTH("Сила"),
 	DEXTERITY("Ловкость"),
@@ -10,14 +15,6 @@ public enum Ability {
 
 	private String cyrilicName;
 
-	Ability(String cyrilicName) {
-		this.cyrilicName = cyrilicName;
-	}
-
-	public String getCyrilicName() {
-		return cyrilicName;
-	}
-	
 	public String getShortName() {
 		return cyrilicName.substring(0,3);
 	}

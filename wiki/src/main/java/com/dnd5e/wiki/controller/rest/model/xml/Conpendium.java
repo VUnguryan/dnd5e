@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.dnd5e.wiki.model.artifact.Artifact;
 import com.dnd5e.wiki.model.creature.Creature;
-import com.dnd5e.wiki.model.hero.Equipment;
 import com.dnd5e.wiki.model.spell.Spell;
+import com.dnd5e.wiki.model.stock.Equipment;
 
 import lombok.Getter;
 

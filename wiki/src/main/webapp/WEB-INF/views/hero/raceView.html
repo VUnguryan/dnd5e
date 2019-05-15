@@ -30,6 +30,7 @@
 			<div class="card-body">
 				<p th:utext="*{description}" />
 			</div>
+			<div class="card-footer text-muted" th:text="'Источник: ' + *{source.cyrilicName}"></div>
 		</div>
 		<div class="card">
 			<h5 class="card-header">Особенности</h5>
@@ -46,9 +47,7 @@
 			<h5 class="card-header">Разновидности</h5>
 			<div class="card-body"></div>
 		</div>
-
 	</div>
-
 </body>
 <script>
 	

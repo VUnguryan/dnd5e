@@ -16,7 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.spell.Spell;
+import com.dnd5e.wiki.model.Source;
 
 import lombok.Data;
 

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dnd5e.wiki.model.hero.Currency;
-import com.dnd5e.wiki.model.hero.Equipment;
+import com.dnd5e.wiki.model.stock.Currency;
+import com.dnd5e.wiki.model.stock.Equipment;
 import com.dnd5e.wiki.repository.EquipmentRepository;
 
 @Controller

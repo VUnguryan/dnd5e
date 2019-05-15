@@ -1,5 +1,10 @@
 package com.dnd5e.wiki.model.artifact;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ArtifactType
 {
   WEAPON("оружие"),
@@ -11,16 +16,6 @@ public enum ArtifactType
   RING("кольцо"),  
   SCROLL("свиток"),
   SUBJECT("чудесный предмет");
-  
+
   private String cyrilicName;
-  
-  private ArtifactType(String cyrilicName)
-  {
-    this.cyrilicName = cyrilicName;
-  }
-  
-  public String getCyrilicName()
-  {
-    return this.cyrilicName;
-  }
 }

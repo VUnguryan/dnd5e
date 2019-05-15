@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.creature.Source;
+import com.dnd5e.wiki.model.Source;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 import lombok.Data;

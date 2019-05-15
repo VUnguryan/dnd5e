@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.hero;
+package com.dnd5e.wiki.model.stock;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,17 +12,22 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "equipments")
+@Table(name = "armors")
 @Data
-public class Equipment {
+public class Armor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private int cost;
-	@Enumerated(EnumType.ORDINAL)
-	private Currency currency;
 	private float weight;
-	@Column(columnDefinition = "TEXT")
+	
+	@Column(nullable = true)
+	private Integer forceRequirements;
+	private boolean stelsHindrance;
+	private int AC;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private ArmorType type;
 	private String description;
 }
