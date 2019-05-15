@@ -125,7 +125,7 @@ public class Creature {
 	@Column(columnDefinition = "TEXT")
 	private String legendary;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private Source source;
 	
 	public String strengthText() {

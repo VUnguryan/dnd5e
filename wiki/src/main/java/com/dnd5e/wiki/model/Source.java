@@ -3,7 +3,7 @@ package com.dnd5e.wiki.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@Getter
+
 @AllArgsConstructor
 public enum Source {
 	PHB("Книга игрока"),
@@ -14,5 +14,5 @@ public enum Source {
 	PG("Путиводитель игрока"),
 	EV("Элементальное зло");
 
-	private String cyrilicName;
+	@Getter private String cyrilicName;
 }
