@@ -44,8 +44,8 @@
 				<tr class="table-active" data-toggle="collapse"
 					th:attr="data-target='#d'+ ${type.ordinal()}">
 					<td colspan="4" th:text="${type.name}" />
-					<td th:text="${type.dressingTime}" />
-					<td th:text="${type.removalTime}" />
+					<td th:text="'Надевание ' + ${type.dressingTime}" />
+					<td th:text="'Снятие ' + ${type.removalTime}" />
 				</tr>
 
 				<tr th:each="armor : ${armors.get(type)}"

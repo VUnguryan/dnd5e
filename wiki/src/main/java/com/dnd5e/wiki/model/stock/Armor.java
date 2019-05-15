@@ -9,11 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
 
 @Entity
 @Table(name = "armors")
-@Data
+@Getter
 public class Armor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,12 @@ public class Armor {
 	private String name;
 	private int cost;
 	private float weight;
-	
+
 	@Column(nullable = true)
 	private Integer forceRequirements;
 	private boolean stelsHindrance;
 	private int AC;
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	private ArmorType type;
 	private String description;
