@@ -49,6 +49,6 @@ public class Spell {
 	@ManyToMany
 	private List<HeroClass> heroClass;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private Source source;
 }
