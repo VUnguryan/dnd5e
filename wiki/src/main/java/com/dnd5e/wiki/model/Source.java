@@ -12,7 +12,8 @@ public enum Source {
 	XANATHARS("Руководство Зантара обо всем"),
 	VOLO("Справочник Воло по монстрам"),
 	PG("Путиводитель игрока"),
-	EV("Элементальное зло");
+	EV("Элементальное зло"),
+	MORDENKAIN("Том Морденкайнена о врагах");
 
 	@Getter private String cyrilicName;
 }

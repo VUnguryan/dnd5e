@@ -24,29 +24,30 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header(@{/races})"></div>
+	<div class="card">
+		<h5 class="card-header">Особенности</h5>
+		<div class="card-body">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item" th:each="feature : *{features}"><b><th:block
+							th:text="${feature.name}" /></b>&nbsp; <th:block
+						th:utext="${feature.description}" /></li>
+			</ul>
+		</div>
+	</div>
+	<div class="card" th:if="${!race.subRaces.empty}">
+		<h5 class="card-header">Разновидности</h5>
+		<div class="card-body"></div>
+	</div>
 	<div class="container" style="margin-top: 60px" th:object="${race}">
 		<div class="card">
 			<h5 class="card-header" th:text="*{name}"></h5>
 			<div class="card-body">
 				<p th:utext="*{description}" />
 			</div>
-			<div class="card-footer text-muted" th:text="'Источник: ' + *{source.cyrilicName}"></div>
+			<div class="card-footer text-muted"
+				th:text="'Источник: ' + *{source.cyrilicName}"></div>
 		</div>
-		<div class="card">
-			<h5 class="card-header">Особенности</h5>
-			<div class="card-body">
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item" th:each="feature : *{features}"><b><th:block
-								th:text="${feature.name}" /></b>&nbsp;
-					<th:block th:utext="${feature.description}" /></li>
-				</ul>
-			</div>
 
-		</div>
-		<div class="card" th:if="${!race.subRaces.empty}">
-			<h5 class="card-header">Разновидности</h5>
-			<div class="card-body"></div>
-		</div>
 	</div>
 </body>
 <script>

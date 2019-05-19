@@ -26,8 +26,14 @@ public class Skill {
 	@Enumerated(EnumType.ORDINAL)
 	private SkillType type;
 	private byte bonus;
-	
+
 	public String getText() {
 		return type != null ? String.format("%s %+d", StringUtils.capitalize(type.name().toLowerCase()), bonus) : "";
+	}
+
+	public String getCyrilicText() {
+		return type != null
+				? String.format("%s %+d", StringUtils.capitalize(type.getCyrilicName().toLowerCase()), bonus)
+				: "";
 	}
 }

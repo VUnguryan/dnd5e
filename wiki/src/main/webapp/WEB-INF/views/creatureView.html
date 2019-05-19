@@ -40,7 +40,9 @@
 
 				<div>
 					<b>Класс доспеха</b>
-					<th:block th:text="*{AC}" /> <th:block th:if="${creature.armorType != null}" th:text="*{armorType.cyrillicName}" />
+					<th:block th:text="*{AC}" />
+					<th:block th:if="${creature.armorType != null}"
+						th:text="*{armorType.cyrillicName}" />
 				</div>
 				<div>
 					<b>Хиты</b> <span th:text="*{averageHp}"></span> (<span
@@ -60,6 +62,7 @@
 									th:text="*{swimmingSpped}" /> фт.
 					<th:block th:if="${creature.diggingSpeed != null}" />, плавая <th:block
 									th:text="*{diggingSpeed}" /> фт.
+				
 				
 				
 				</div>
@@ -97,7 +100,7 @@
 					</div>
 					<div th:if="*{!skills.empty}">
 						<b>Навыки </b><span th:each="skill, iterStat : *{skills}"
-							th:text="${skill.text}"></span>
+							th:text="${iterStat.last} ? ${skill.cyrilicText} : ${skill.cyrilicText} +', '"></span>
 					</div>
 					<div th:if="*{!immunityDamages.empty}">
 						<b>Иммунитет к урону </b><span
@@ -166,12 +169,14 @@
 					</div>
 				</div>
 			</div>
-			<div th:if="${creature.description != null}" class="card">
+			<div th:if="${creature.description}" class="card">
 				<div class="card-header">Описание</div>
 				<div class="card-body">
 					<p th:utext="*{description}"></p>
 				</div>
 			</div>
+			<div class="card-footer text-muted" th:if="${creature.source}"
+				th:text="'Источник: ' + ${creature.source.cyrilicName}"></div>
 			<img class="card-img-bottom"
 				th:src="@{'/resources/creatures/'+ ${creature.id} +'.jpg'}"
 				align="middle" />
