@@ -23,7 +23,6 @@
 	<div th:insert="fragments/header :: header(@{/creatures})"></div>
 	<div class="container" style="margin-top: 60px">
 		<div class="card" th:object="${creature}">
-
 			<h5 class="card-header">
 				<span th:text="*{name} + ' ('+ *{englishName} + ')'"></span><small>
 					<span th:text="*{size.cyrilicName}"></span> <span
@@ -33,15 +32,13 @@
 						th:text="*{raceName}"></span></a>, <span
 					th:text="*{alignment.cyrilicName}"></span>
 				</small> <a class="card-link"
-					th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический
-					вид</a>
+					th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический вид</a>
 			</h5>
 			<div class="card-body">
-
 				<div>
 					<b>Класс доспеха</b>
 					<th:block th:text="*{AC}" />
-					<th:block th:if="${creature.armorType != null}"
+					<th:block th:if="${creature.armorType}"
 						th:text="*{armorType.cyrillicName}" />
 				</div>
 				<div>
@@ -54,17 +51,14 @@
 					<b>Скорость</b>
 					<th:block th:text="*{speed}" />
 					фт.
-					<th:block th:if="${creature.flySpeed != null}">, летая <th:block
+					<th:block th:if="${creature.flySpeed}">, летая <th:block
 							th:text="*{flySpeed}" /> фт.
-					<th:block th:if="${creature.climbingSpeed != null}">, лазая <th:block
+					<th:block th:if="${creature.climbingSpeed}">, лазая <th:block
 								th:text="*{climbingSpeed}"> фт.
-					<th:block th:if="${creature.swimmingSpped != null}" />, плавая <th:block
+					<th:block th:if="${creature.swimmingSpped}" />, плавая <th:block
 									th:text="*{swimmingSpped}" /> фт.
-					<th:block th:if="${creature.diggingSpeed != null}" />, плавая <th:block
+					<th:block th:if="${creature.diggingSpeed}" />, плавая <th:block
 									th:text="*{diggingSpeed}" /> фт.
-				
-				
-				
 				</div>
 			</div>
 			<div class="card">
@@ -105,24 +99,24 @@
 					<div th:if="*{!immunityDamages.empty}">
 						<b>Иммунитет к урону </b><span
 							th:each="immunityDamage, iterStat : *{immunityDamages}"
-							th:text="!${iterStat.last} ? ${immunityDamage.cyrilicName} + ', ': ${immunityDamage.cyrilicName}"></span>
+							th:text="${iterStat.last} ? ${immunityDamage.cyrilicName} : ${immunityDamage.cyrilicName} + ', '"></span>
 					</div>
 					<div th:if="*{!resistanceDamages.empty}">
 						<b>Сопротивление к урону </b><span
 							th:each="resistanceDamages, iterStat : *{resistanceDamages}"
-							th:text="!${iterStat.last} ? ${resistanceDamages.cyrilicName} + ', ': ${resistanceDamages.cyrilicName}"></span>
+							th:text="${iterStat.last} ? ${resistanceDamages.cyrilicName} : ${resistanceDamages.cyrilicName} + ', '"></span>
 					</div>
 					<div th:if="*{!immunityStates.empty}">
 						<b>Иммунитет к состоянию </b><span
 							th:each="state, iterStat : *{immunityStates}"
-							th:text="!${iterStat.last} ? ${state.cyrilicName} + ', ': ${state.cyrilicName}"></span>
+							th:text="${iterStat.last} ? ${state.cyrilicName} : ${state.cyrilicName} + ', '"></span>
 					</div>
 					<div>
 						<b>Чувства</b> <span th:text="*{vision}"></span>
 					</div>
 					<div>
 						<b>Языки</b> <span th:each="language, iterStat : *{languages}"
-							th:text="!${iterStat.last} ? ${language.name} + ', ': ${language.name}">
+							th:text="${iterStat.last} ? ${language.name} : ${language.name} + ', '">
 						</span>
 					</div>
 					<div>
@@ -131,7 +125,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="card">
+			<div th:if="*{!feats.empty}" class="card">
 				<div class="card-header">Особенности</div>
 				<div class="card-body">
 					<div th:each="feat : *{feats}">
@@ -181,7 +175,6 @@
 				th:src="@{'/resources/creatures/'+ ${creature.id} +'.jpg'}"
 				align="middle" />
 		</div>
-
 	</div>
 </body>
 </html>
