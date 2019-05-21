@@ -50,7 +50,7 @@
 			<h5 class="card-header" th:text="*{archetypeName}"></h5>
 			<div class="card-body">
 				<table class="table-hover">
-					<th:block th:each="archetype: *{archetypes}">
+					<th:block th:each="archetype : *{archetypes}">
 						<tr data-toggle="collapse"
 							th:attr="data-target='#d'+ ${archetype.id}">
 							<td th:text="${archetype.name}">

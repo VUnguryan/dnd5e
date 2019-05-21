@@ -22,6 +22,8 @@ public class SubRace {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String description;
+	
 	@OneToMany
 	@JoinColumn(name = "race_id")
 	List<Feature> features;

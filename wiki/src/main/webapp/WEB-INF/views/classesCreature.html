@@ -24,21 +24,6 @@
 		<div class="card" th:object="${race}" style="margin-top: 60px">
 			<h5 class="card-header" th:text="*{name}"></h5>
 			<div class="card-body" th:utext="*{description}">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col" style="width: 3%">CR</th>
-							<th scope="col">Наименование</th>
-							<th scope="col">Вид</th>
-						</tr>
-					</thead>
-					<tr th:each="creature : ${creatures}" style="cursor: pointer"
-						th:onclick="'javascript:rowClicked(\'' + ${creature.id} + '\');'">
-						<td th:text="${creature.challengeRating}" />
-						<td th:text="${creature.name}" />
-						<td th:text="${creature.type.cyrilicName}" />
-					</tr>
-				</table>
 			</div>
 			<div class="card-body">
 				<table class="table table-striped">
