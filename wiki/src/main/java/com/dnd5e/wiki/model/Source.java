@@ -13,7 +13,8 @@ public enum Source {
 	VOLO("Справочник Воло по монстрам"),
 	PG("Путиводитель игрока"),
 	EV("Элементальное зло"),
-	MORDENKAIN("Том Морденкайнена о врагах");
+	MORDENKAIN("Том Морденкайнена о врагах"),
+	TROT("Пробуждение Тиамат");
 
 	@Getter private String cyrilicName;
 }

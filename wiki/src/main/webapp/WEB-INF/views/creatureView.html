@@ -155,7 +155,7 @@
 				<div class="card-header text-white bg-danger">Легендарные
 					действия</div>
 				<div class="card-body">
-					<div th:if="${creature.legendary != null}" th:utext="*{legendary}"></div>
+					<div th:if="${creature.legendary}" th:utext="*{legendary}"></div>
 					<div th:each="action : ${legendary}">
 						<b th:text="${action.name}"></b>
 						<div th:utext="${action.description}"></div>
