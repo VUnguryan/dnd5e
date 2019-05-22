@@ -2,6 +2,7 @@ package com.dnd5e.wiki.model.hero.race;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -43,17 +45,13 @@ public class Race {
 	@OneToMany
 	List<Language> languages;
 	
-	@OneToMany
-	@JoinColumn(name = "race_id")
-	List<SubRace> subRaces;
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "parent_id")
+	private Race parent;
 	
-	private byte strength;
-	private byte dexterity;
-	private byte constitution;
-	private byte intellect;
-	private byte wizdom;
-	private byte charisma;
-
+	@OneToMany(mappedBy = "parent",  orphanRemoval=true)
+	private List<Race> subRaces;
+	
 	@Enumerated(EnumType.STRING)
 	private Source source;
 }

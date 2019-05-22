@@ -47,7 +47,7 @@
 									aria-expanded="false"></button>
 							</h5>
 						</div>
-						<div th:id="'collapse' + ${subClass.id}" class="collapse show"
+						<div th:id="'collapse' + ${subClass.id}" class="collapse"
 							th:attr="aria-labelledby=${subClass.id}"
 							data-parent="#subClasses">
 							<div class="card-body" th:utext="${subClass.description}">
@@ -55,9 +55,9 @@
 							<div class="card-body">
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item"
-										th:each="feature : ${subClass.features}"><b><th:block
-												th:text="${feature.name}" /></b>&nbsp; <th:block
-											th:utext="${feature.description}" /></li>
+										th:each="featureSubClass : ${subClass.features}"><b><th:block
+												th:text="${featureSubClass.name}" /></b>&nbsp; <th:block
+											th:utext="${featureSubClass.description}" /></li>
 								</ul>
 							</div>
 						</div>
