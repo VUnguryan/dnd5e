@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,8 +33,14 @@ import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.creature.State;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
+import com.dnd5e.wiki.model.stock.Armor;
+import com.dnd5e.wiki.model.stock.ArmorType;
+import com.dnd5e.wiki.model.stock.Currency;
+import com.dnd5e.wiki.model.stock.Equipment;
+import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
+import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.LanguagesRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 
@@ -43,7 +50,7 @@ public class AdminController {
 	private static final List<String> statusNames = Arrays.asList("Спасброски", "Навыки", "Иммунитет к урону",
 			"Сопротивление к урону", "Сопротивление урону", "Уязвимость к урону", "Иммунитет к состоянию",
 			"Иммунитет к состояниям", "Чувства");
-	
+
 	@Autowired
 	private SpellRepository spellRepository;
 	@Autowired
@@ -52,7 +59,11 @@ public class AdminController {
 	private CreatureRaceRepository creatureRaceRepository;
 	@Autowired
 	private CreatureRepository creatureRepository;
-	
+	@Autowired
+	private EquipmentRepository equipmentRepository;
+	@Autowired
+	private ArmorRepository armorRepository;
+
 	@GetMapping("/spell/add")
 	public String getSpellAddForm(Model model) {
 		return "/admin/addSpell";
@@ -80,7 +91,7 @@ public class AdminController {
 			String text = reader.readLine();
 			String[] levelAndSchool = text.split(",");
 			if (levelAndSchool[0].startsWith("Заговор")) {
-				spell.setLevel((byte)0);
+				spell.setLevel((byte) 0);
 			} else {
 				byte level = Byte.valueOf(levelAndSchool[0].split(" ")[0]);
 				spell.setLevel(level);
@@ -142,7 +153,8 @@ public class AdminController {
 				if (text.endsWith("-")) {
 					text = text.substring(0, text.length() - 1);
 				}
-				sb = new StringBuilder(text.replace("На более высоких уровнях.", "").replace("На более высоких кругах.",""));
+				sb = new StringBuilder(
+						text.replace("На более высоких уровнях.", "").replace("На более высоких кругах.", ""));
 				while ((text = reader.readLine()) != null) {
 					if (text.endsWith("-")) {
 						text = text.substring(0, text.length() - 1);
@@ -160,12 +172,38 @@ public class AdminController {
 		return "/admin/addSpell";
 	}
 
+	@GetMapping("/equipment/add")
+
+	public String getEquipmentForm(Model model) {
+		model.addAttribute("equipment", new Equipment());
+		model.addAttribute("currencies", Currency.values());
+		return "/equipment/addEquipment";
+	}
+
+	@PostMapping("/equipment/add")
+	public String addEquipment(@ModelAttribute Equipment equipment) {
+		equipmentRepository.save(equipment);
+		return "redirect:/equipment/equipments/add";
+	}
+
+	@GetMapping("/armor/add")
+	public String getForm(Model model) {
+		model.addAttribute("armor", new Armor());
+		model.addAttribute("types", ArmorType.values());
+		return "/equipment/addArmor";
+	}
+
+	@PostMapping("/armor/add")
+	public String addArmor(Armor armor) {
+		armorRepository.save(armor);
+		return "redirect:/armors/add";
+	}
+
 	@GetMapping("/creature/add")
 	public String getMonsterForm(Model model) {
 		model.addAttribute("monster", new Creature());
 		return "/admin/parseMonster";
 	}
-	
 
 	@PostMapping("/creature/add")
 	public String createCreature(Model model, String description) {
@@ -180,7 +218,7 @@ public class AdminController {
 			} else {
 				creature.setName(name.trim());
 			}
-			if (creatureRepository.findByName(creature.getName())!= null) {
+			if (creatureRepository.findByName(creature.getName()) != null) {
 				return "parseMonster";
 			}
 			String sizeTypeAligmentString = reader.readLine();

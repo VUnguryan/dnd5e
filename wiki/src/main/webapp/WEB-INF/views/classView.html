@@ -49,35 +49,36 @@
 
 			<h5 class="card-header" th:text="*{archetypeName}"></h5>
 			<div class="card-body">
-				<table class="table-hover">
-					<th:block th:each="archetype : *{archetypes}">
-						<tr data-toggle="collapse"
-							th:attr="data-target='#d'+ ${archetype.id}">
-							<td th:text="${archetype.name}">
-						</tr>
-						<tr>
-							<td colspan="6" class="hiddenRow">
-								<div th:id="'d' + ${archetype.id}" class="collapse">
-									<div class="card">
-										<div class="card-body">
-											<p th:utext="${archetype.description}"></p>
-											<ul class="list-group list-group-flush">
-												<li th:each="feat: ${archetype.feats}"
-													class="list-group-item"><h5 class="card-title"
-														th:text="${feat.name}" /></h5> <th:block
-														th:utext="${feat.description}"></th:block>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</th:block>
-				</table>
+				<div class="accordion" id="subClasses">
+					<div class="card" th:each="archetype : *{archetypes}">
+						<div class="card-header" th:id="${archetype.id}">
+							<h5 class="mb-0">
+								<button class="btn btn-link" th:text="${archetype.name}"
+									type="button" data-toggle="collapse"
+									th:attr="data-target='#collapse'+ ${archetype.id}, aria-controls=${'collapse'+ archetype.id}"
+									aria-expanded="false"></button>
+							</h5>
+						</div>
+						<div th:id="'collapse' + ${archetype.id}" class="collapse"
+							th:attr="aria-labelledby=${archetype.id}"
+							data-parent="#subClasses">
+							<div class="card-body">
+								<ul class="list-group list-group-flush">
+									<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5
+											class="card-title" th:text="${feat.name}" /></h5> <th:block
+											th:utext="${feat.description}"></th:block>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
 			</div>
-			
-			<h5 th:if = "${!heroClass.spells.empty}" class="card-header">Доступные заклинания</h5>
-			<div th:if = "${!heroClass.spells.empty}" class="card-body">
+
+			<h5 th:if="${!heroClass.spells.empty}" class="card-header">Доступные
+				заклинания</h5>
+			<div th:if="${!heroClass.spells.empty}" class="card-body">
 				<table class="table table-striped">
 					<thead>
 						<tr>

@@ -7,8 +7,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dnd5e.wiki.model.stock.Currency;
@@ -30,7 +28,7 @@ public class EquipmentController {
 	public String getAllEquipments(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
 		model.addAttribute("currencies", Currency.values());
 		model.addAttribute("equipments", equipmentRepository.findAll(page));
-		return "/hero/equipments";
+		return "/equipment/equipments";
 	}
 
 	@GetMapping(params = "search")
@@ -39,14 +37,14 @@ public class EquipmentController {
 			String search) {
 		model.addAttribute("currencies", Currency.values());
 		model.addAttribute("equipments", equipmentRepository.findByNameContaining(page, search));
-		return "/hero/equipments";
+		return "/equipment/equipments";
 	}
 
 	@GetMapping(params = "currencyType")
 	public String getEquipmentsForCurrencyType(Model model, @PageableDefault(size = 12, sort = "name") Pageable page,
 			String currencyType) {
 		if ("ALL".equals(currencyType)) {
-			return "redirect:/equipments";
+			return "redirect:/equipment/equipments";
 		}
 		Currency selectedCurrency = Currency.valueOf(currencyType);
 		model.addAttribute("currencySelected", selectedCurrency);
@@ -54,20 +52,7 @@ public class EquipmentController {
 		Page<Equipment> equipments = equipmentRepository.findAll(page);
 		equipments.forEach(e -> convertor(e, selectedCurrency));
 		model.addAttribute("equipments", equipments);
-		return "/hero/equipments";
-	}
-
-	@GetMapping("/add")
-	public String getEquipmentForm(Model model) {
-		model.addAttribute("equipment", new Equipment());
-		model.addAttribute("currencies", Currency.values());
-		return "/hero/addEquipment";
-	}
-
-	@PostMapping("/add")
-	public String addEquipment(@ModelAttribute Equipment equipment) {
-		equipmentRepository.save(equipment);
-		return "redirect:/equipments/add";
+		return "/equipment/equipments";
 	}
 
 	private Equipment convertor(Equipment equipment, Currency selectedCurrency) {

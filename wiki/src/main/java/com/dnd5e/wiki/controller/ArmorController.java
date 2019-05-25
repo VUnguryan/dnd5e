@@ -27,19 +27,6 @@ public class ArmorController {
 		Map<ArmorType, List<Armor>> types = repo.findAll().stream().collect(Collectors.groupingBy(Armor::getType));
 		model.addAttribute("armors", types);
 		model.addAttribute("types", ArmorType.values());
-		return "/hero/armors";
-	}
-	
-	@GetMapping("/add")
-	public String getForm(Model model) {
-		model.addAttribute("armor", new Armor());
-		model.addAttribute("types", ArmorType.values());
-		return "/hero/addArmor";
-	}
-	
-	@PostMapping("/add")
-	public String addArmor(Armor armor) {
-		repo.save(armor);
-		return "redirect:/armors/add";
+		return "/equipment/armors";
 	}
 }
