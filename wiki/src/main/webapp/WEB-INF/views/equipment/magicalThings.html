@@ -59,13 +59,10 @@
 								th:selected="${raritySelected.present && rarity==raritySelected.get()}" />
 						</select>
 					</div>
-					<div class="input-group mb-3">
-						<a th:href="@{/artifacts(search='')}"
-							class="btn-sm btn-secondary btn-lg active" role="button"
-							aria-pressed="true" th:if="${searchText.present}"><th:block
-								th:text="${searchText.get()}" />&nbsp;<img
-							th:src="@{/resources/open-iconic/svg/x.svg}"></img></a>
-					</div>
+					<a th:if="${filtered}" th:href="@{/stock/artifacts/?clear}"
+						role="button" class="btn btn-danger"><img
+						th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp;
+						Сбросить фильтры</a>
 				</div>
 			</div>
 		</div>

@@ -70,6 +70,7 @@ public class MagicalThingsController {
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("order", Integer.valueOf(1));
 		model.addAttribute("searchText", search);
+		model.addAttribute("filtered", search.isPresent() || rarityFilter.isPresent() || typeFilter.isPresent());
 		return "equipment/magicalThings";
 	}
 
@@ -82,6 +83,14 @@ public class MagicalThingsController {
 		{
 			this.search = Optional.of(search);
 		}
+		return "redirect:/stock/artifacts";
+	}
+	
+	@GetMapping(params = { "clear" })
+	public String cleaarFilters(Model model, String search) {
+		this.search = Optional.empty();
+		this.rarityFilter = Optional.empty();
+		this.typeFilter = Optional.empty();
 		return "redirect:/stock/artifacts";
 	}
 
