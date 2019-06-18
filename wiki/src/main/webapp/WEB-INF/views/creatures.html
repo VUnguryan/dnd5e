@@ -25,7 +25,7 @@
 			<button data-toggle="collapse" data-target="#filter"
 				class="btn btn-secondary">Фильтры</button>
 		</div>
-		<div id=filter class="collapse" th:classappend="${filter}  ? show">
+		<div id=filter class="collapse" th:classappend="${filtered}  ? show">
 			<div class="card">
 				<div class="card-body">
 					<div class="input-group mb-4">
@@ -87,11 +87,10 @@
 						</select>
 					</div>
 					<div class="input-group mb-4">
-						<a th:href="@{/creatures(search='')}"
-							class="btn-sm btn-secondary btn-lg active" role="button"
-							aria-pressed="true" th:if="${searchText.present}"><th:block
-								th:text="${searchText.get()}" />&nbsp;<img
-							th:src="@{/resources/open-iconic/svg/x.svg}"></img></a>
+						<a th:if="${filtered}" th:href="@{/creatures?clear}"
+							role="button" class="btn btn-danger"><img
+							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp;
+							Сбросить фильтры</a>
 					</div>
 				</div>
 			</div>
@@ -185,8 +184,9 @@
 		var crMin = $("#crMin").val();
 		var crMax = $("#crMax").val();
 		var size = $("#creatureSize").val();
-		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax=" + crMax + "&cSize=" + size;
-				+ crMax;
+		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax="
+				+ crMax + "&cSize=" + size;
+		+crMax;
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}

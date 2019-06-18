@@ -31,7 +31,7 @@
 				class="btn btn-secondary">Фильтры</button>
 		</div>
 		<div id=filter class="collapse"
-			th:classappend="${typeSelected.present || raritySelected.present || searchText.present}  ? show">
+			th:classappend="${filtered} ? show">
 			<div class="card">
 				<div class="card-body">
 					<div class="input-group mb-3">
@@ -60,11 +60,10 @@
 						</select>
 					</div>
 					<div class="input-group mb-3">
-						<a th:href="@{/artifacts(search='')}"
-							class="btn-sm btn-secondary btn-lg active" role="button"
-							aria-pressed="true" th:if="${searchText.present}"><th:block
-								th:text="${searchText.get()}" />&nbsp;<img
-							th:src="@{/resources/open-iconic/svg/x.svg}"></img></a>
+						<a th:if="${filtered}" th:href="@{/stock/artifacts?clear}"
+							role="button" class="btn btn-danger"><img
+							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp;
+							Сбросить фильтры</a>
 					</div>
 				</div>
 			</div>
