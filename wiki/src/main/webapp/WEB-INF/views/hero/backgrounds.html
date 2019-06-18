@@ -66,6 +66,10 @@
 												th:utext="${background.skillName}" /></strong> <th:block
 											th:utext="${background.skillDescription}" /></li>
 								</ul>
+								<footer class="blockquote-footer" th:if="${background.source}">
+									<small class="text-muted"
+										th:text="'Источник: ' + ${background.source.cyrilicName}"></small>
+								</footer>
 							</div>
 						</div>
 					</td>

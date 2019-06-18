@@ -69,11 +69,13 @@
 											th:utext="${feat.description}"></th:block>
 								</ul>
 							</div>
+							<footer class="blockquote-footer">
+								<small class="text-muted" th:if="${archetype.source}"
+									th:text="'Источник: ' + ${archetype.source.cyrilicName}"></small>
+							</footer>
 						</div>
 					</div>
 				</div>
-
-
 			</div>
 
 			<h5 th:if="${!heroClass.spells.empty}" class="card-header">Доступные
