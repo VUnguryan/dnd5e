@@ -23,6 +23,7 @@
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
 		<tiles.version>2.2.2</tiles.version>
+		<bootstrap.version>4.2.1</bootstrap.version>
 	</properties>
 
 	<dependencies>
@@ -81,7 +82,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		
+		<dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
 	</dependencies>
 
 	<build>

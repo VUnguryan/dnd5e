@@ -31,7 +31,8 @@
 						th:text="*{raceName}"></span></a>, <span
 					th:text="*{alignment.cyrilicName}"></span>
 				</small> <a class="card-link"
-					th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический вид</a>
+					th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический
+					вид</a>
 			</h5>
 			<div class="card-body">
 				<div>
@@ -58,6 +59,7 @@
 									th:text="*{swimmingSpped}" /> фт.
 					<th:block th:if="${creature.diggingSpeed}" />, плавая <th:block
 									th:text="*{diggingSpeed}" /> фт.
+				
 				</div>
 			</div>
 			<div class="card">
@@ -168,8 +170,10 @@
 					<p th:utext="*{description}"></p>
 				</div>
 			</div>
-			<div class="card-footer text-muted" th:if="${creature.source}"
-				th:text="'Источник: ' + ${creature.source.cyrilicName}"></div>
+			<footer class="blockquote-footer">
+				<small class="card-footer text-muted" th:if="${creature.source}"
+					th:text="'Источник: ' + ${creature.source.cyrilicName}"></small>
+			</footer>
 			<img class="card-img-bottom"
 				th:src="@{'/resources/creatures/'+ ${creature.id} +'.jpg'}"
 				align="middle" />

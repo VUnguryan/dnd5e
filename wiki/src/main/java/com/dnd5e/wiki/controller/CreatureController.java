@@ -40,7 +40,7 @@ public class CreatureController {
 	private Optional<CreatureSize> sizeSelected = Optional.empty();
 
 	@GetMapping
-	public String getCreatures(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
+	public String getCreatures(Model model, @PageableDefault(size = 12, sort = "exp") Pageable page) {
 		Specification<Creature> specification = null;
 		if (search.isPresent()) {
 			specification = byName();
@@ -136,7 +136,7 @@ public class CreatureController {
 		this.crMax = Optional.empty();
 		this.sizeSelected = Optional.empty();
 		this.typeSelected = Optional.empty();
-		return "redirect:/creatures";
+		return "redirect:/creatures?sort=exp,asc";
 	}
 	
 	private Specification<Creature> byName() {

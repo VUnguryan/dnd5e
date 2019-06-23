@@ -124,7 +124,7 @@ public class MagicalThingsController {
 		this.search = Optional.empty();
 		this.typeFilter = Optional.empty();
 		this.rarityFilter = Optional.empty();
-		return "redirect:/stock/artifacts";
+		return "redirect:/stock/artifacts?sort=name,asc";
 	}
 	
 	@PostMapping("/add")
