@@ -30,7 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/tavern/**").hasRole("USER");
 		http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
-
+		http.authorizeRequests().antMatchers("/webjars/**").permitAll();
+		
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
 		http.authorizeRequests().and().formLogin().loginPage("/login").permitAll();
