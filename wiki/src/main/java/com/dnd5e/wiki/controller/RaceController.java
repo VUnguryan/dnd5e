@@ -23,12 +23,12 @@ public class RaceController {
 	@GetMapping
 	public String getRaces(Model model) {
 		model.addAttribute("races", repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name")));
-		return "/hero/races";
+		return "hero/races";
 	}
 
 	@GetMapping("/race/{id}")
 	public String getRace(Model model, @PathVariable Integer id) {
 		model.addAttribute("race", repo.findById(id).get());
-		return "/hero/raceView";
+		return "hero/raceView";
 	}
 }
