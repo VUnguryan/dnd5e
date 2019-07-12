@@ -10,12 +10,11 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+
 <style>
 .table>tbody .hiddenRow {
 	padding: 0 8px;
@@ -74,6 +73,73 @@
 				</div>
 
 
+=======
+<link rel="stylesheet"
+	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<style>
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+</style>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(@{/classes})"></div>
+	<div class="container" style="margin-top: 60px">
+		<div class="card" th:object="${heroClass}">
+			<h5 class="card-header" th:text="*{name}"></h5>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item"><b>Кость Хитов:</b> <th:block
+						th:text="*{boneHits}" /></li>
+				<li class="list-group-item"><b>Доспехи:</b> <th:block
+						th:text="*{armor}" /></li>
+				<li class="list-group-item"><b>Оружие:</b> <th:block
+						th:text="*{weapon}" /></li>
+				<li class="list-group-item"><b>Спаброски:</b> <th:block
+						th:text="*{savingThrows}" /></li>
+				<li class="list-group-item"><b>Навыки:</b> <th:block
+						th:text="*{skills}" /></li>
+			</ul>
+
+			<h5 class="card-header">Умения</h5>
+			<ul class="list-group list-group-flush">
+				<li th:each="trait: *{traits}" class="list-group-item"><b><th:block
+							th:text="${trait.name}">:</b> <th:block
+						th:utext="${trait.description}" /></li>
+			</ul>
+
+			<h5 class="card-header" th:text="*{archetypeName}"></h5>
+			<div class="card-body">
+				<div class="accordion" id="subClasses">
+					<div class="card" th:each="archetype : *{archetypes}">
+						<div class="card-header" th:id="${archetype.id}">
+							<h5 class="mb-0">
+								<button class="btn btn-link" th:text="${archetype.name}"
+									type="button" data-toggle="collapse"
+									th:attr="data-target='#collapse'+ ${archetype.id}, aria-controls=${'collapse'+ archetype.id}"
+									aria-expanded="false"></button>
+							</h5>
+						</div>
+						<div th:id="'collapse' + ${archetype.id}" class="collapse"
+							th:attr="aria-labelledby=${archetype.id}"
+							data-parent="#subClasses">
+							<div class="card-body">
+								<ul class="list-group list-group-flush">
+									<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5
+											class="card-title" th:text="${feat.name}" /></h5> <th:block
+											th:utext="${feat.description}"></th:block>
+								</ul>
+							</div>
+							<footer class="blockquote-footer">
+								<small class="text-muted" th:if="${archetype.source}"
+									th:text="'Источник: ' + ${archetype.source.cyrilicName}"></small>
+							</footer>
+						</div>
+					</div>
+				</div>
+>>>>>>> branch 'master' of https://github.com/VUnguryan/dnd5e
 			</div>
 
 			<h5 th:if="${!heroClass.spells.empty}" class="card-header">Доступные

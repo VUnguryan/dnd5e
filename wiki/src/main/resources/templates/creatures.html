@@ -185,6 +185,184 @@
 		var size = $("#creatureSize").val();
 		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax=" + crMax + "&cSize=" + size;
 				+ crMax;
+=======
+
+<link rel="stylesheet"
+	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .creatures})"></div>
+	<div class="container" style="margin-top: 50px">
+		<div>
+			<button data-toggle="collapse" data-target="#filter"
+				class="btn btn-secondary">Фильтры</button>
+		</div>
+		<div id=filter class="collapse" th:classappend="${filtered}  ? show">
+			<div class="card">
+				<div class="card-body">
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="minLevel">Опасность:
+							</label>
+						</div>
+						<select id="crMin" class="custom-select" onchange="filter()">
+							<option value="-1">---</option>
+							<option value="1/8"
+								th:selected="${crMin.present && #strings.equals('1/8', crMin.get())}">1/8</option>
+							<option value="1/4"
+								th:selected="${crMin.present && #strings.equals('1/4', crMin.get())}">1/4</option>
+							<option value="1/2"
+								th:selected="${crMin.present && #strings.equals('1/2', crMin.get())}">1/2</option>
+							<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
+								th:value="${i}"
+								th:selected="${crMin.present && #strings.equals(#strings.toString(i), crMin.get())}" />
+						</select>
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="maxLevel">до</label>
+						</div>
+						<select id="crMax" class="custom-select" onchange="filter()">
+							<option value="-1">---</option>
+
+							<option value="1/8"
+								th:selected="${crMax.present && #strings.equals('1/8', crMax.get())}">1/8</option>
+							<option value="1/4"
+								th:selected="${crMax.present && #strings.equals('1/4', crMax.get())}">1/4</option>
+							<option value="1/2"
+								th:selected="${crMax.present && #strings.equals('1/2', crMax.get())}">1/2</option>
+							<option th:each="i: ${#numbers.sequence(1, 30)}" th:text="${i}"
+								th:value="${i}"
+								th:selected="${crMax.present && #strings.equals(#strings.toString(i), crMax.get())}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="schoolType">Тип</label>
+						</div>
+						<select id="creatureType" class="custom-select"
+							onchange="filter()">
+							<option value="ALL">все</option>
+							<option th:each="type : ${types}" th:value="${type}"
+								th:text="${type.cyrilicName}"
+								th:selected="${typeSelected.present && type==typeSelected.get()}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="ctreatureSize">Размер</label>
+						</div>
+						<select id="creatureSize" class="custom-select"
+							onchange="filter()">
+							<option value="ALL">все</option>
+							<option th:each="size : ${sizes}" th:value="${size}"
+								th:text="${size.cyrilicName}"
+								th:selected="${sizeSelected.present && size==sizeSelected.get()}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<a th:if="${filtered}" th:href="@{/creatures?clear}"
+							role="button" class="btn btn-danger"><img
+							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp;
+							Сбросить фильтры</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="table table-striped">
+			<thead>
+				<tr style="cursor: pointer">
+					<th onclick="sortTable(0)" scope="col" style="width: 3%">CR <img
+						th:if="${param.sort != null AND param.sort[0] == 'exp,asc'}"
+						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
+						th:if="${param.sort != null AND param.sort[0] == 'exp,desc'}"
+						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
+					</th>
+					<th onclick="sortTable(1)" scope="col">Наименование <img
+						th:if="${param.sort != null AND param.sort[0] == 'name,asc'}"
+						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
+						th:if="${param.sort != null AND param.sort[0] == 'name,desc'}"
+						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
+					</th>
+					<th onclick="sortTable(2)" scope="col">Вид <img
+						th:if="${param.sort != null AND param.sort[0] == 'type,asc'}"
+						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
+						th:if="${param.sort != null AND param.sort[0] == 'type,desc'}"
+						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
+					</th>
+				</tr>
+			</thead>
+			<tr th:each="creature : ${creatures}" style="cursor: pointer"
+				th:onclick="'javascript:rowClicked(\'' + ${creature.id} + '\');'">
+				<td th:text="${creature.challengeRating}" />
+				<td th:text="${creature.name}" />
+				<td th:text="${creature.type.cyrilicName}" />
+			</tr>
+		</table>
+		<div th:insert="fragments/pages :: pages(${creatures}, creatures)"></div>
+	</div>
+</body>
+<script>
+	function sortTable(n) {
+		var baseUrl = '[[@{/creatures?}]]';
+		var sort = getParameterByName('sort');
+		var page = getParameterByName('page');
+		var parameters = "";
+		if (n == 0) {
+			if (sort == 'exp,desc') {
+				parameters = "sort=exp,asc";
+			} else {
+				parameters = "sort=exp,desc";
+			}
+		}
+		if (n == 1) {
+			if (sort == 'name,desc') {
+				parameters = "sort=name,asc";
+			} else {
+				parameters = "sort=name,desc";
+			}
+		}
+		if (n == 2) {
+			if (sort == 'type,desc') {
+				parameters = "sort=type,asc";
+			} else {
+				parameters = "sort=type,desc";
+			}
+		}
+		location.href = baseUrl + parameters;
+	}
+
+	function getParameterByName(name, url) {
+		if (!url)
+			url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
+				.exec(url);
+		if (!results)
+			return null;
+		if (!results[2])
+			return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	function rowClicked(value) {
+		var baseUrl = '[[@{/creatures/creature/}]]';
+		location.href = baseUrl + value;
+	}
+
+	function filter() {
+		var baseUrl = '[[@{/creatures?}]]';
+		var sort = getParameterByName('sort');
+		var type = $("#creatureType").val();
+		var sort = getParameterByName('sort');
+		var crMin = $("#crMin").val();
+		var crMax = $("#crMax").val();
+		var size = $("#creatureSize").val();
+		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax="
+				+ crMax + "&cSize=" + size;
+		+crMax;
+>>>>>>> branch 'master' of https://github.com/VUnguryan/dnd5e
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}

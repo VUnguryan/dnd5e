@@ -70,7 +70,10 @@ public class MagicalThingsController {
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("order", Integer.valueOf(1));
 		model.addAttribute("searchText", search);
-		model.addAttribute("filtered", search.isPresent() || rarityFilter.isPresent() || typeFilter.isPresent());
+		model.addAttribute("filtered",
+				rarityFilter.isPresent() 
+				|| typeFilter.isPresent() 
+				|| search.isPresent());
 		return "equipment/magicalThings";
 	}
 
@@ -123,7 +126,15 @@ public class MagicalThingsController {
 		model.addAttribute("artifact", new Artifact());
 		return "equipment/addArtifact";
 	}
-
+	
+	@GetMapping(params = { "clear" })
+	public String cleaarFilters() {
+		this.search = Optional.empty();
+		this.typeFilter = Optional.empty();
+		this.rarityFilter = Optional.empty();
+		return "redirect:/stock/artifacts?sort=name,asc";
+	}
+	
 	@PostMapping("/add")
 	public String getArtifact(@ModelAttribute Artifact artifact) {
 

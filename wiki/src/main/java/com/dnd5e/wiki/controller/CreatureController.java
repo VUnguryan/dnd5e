@@ -40,7 +40,7 @@ public class CreatureController {
 	private Optional<CreatureSize> sizeSelected = Optional.empty();
 
 	@GetMapping
-	public String getCreatures(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
+	public String getCreatures(Model model, @PageableDefault(size = 12, sort = "exp") Pageable page) {
 		Specification<Creature> specification = null;
 		if (search.isPresent()) {
 			specification = byName();
@@ -58,7 +58,7 @@ public class CreatureController {
 			specification = (specification == null) ? bySize() : Specification.where(specification).and(bySize());
 		}
 		model.addAttribute("creatures", repository.findAll(specification, page));
-		model.addAttribute("filter",
+		model.addAttribute("filtered",
 				crMin.isPresent() 
 				|| crMax.isPresent() 
 				|| search.isPresent() 
@@ -128,7 +128,17 @@ public class CreatureController {
 		this.sizeSelected = "ALL".equals(cSize) ? Optional.empty() : Optional.of(CreatureSize.valueOf(cSize));
 		return "redirect:/creatures?sort=" + sort;
 	}
-
+	
+	@GetMapping(params = { "clear" })
+	public String cleaarFilters() {
+		this.search = Optional.empty();
+		this.crMin = Optional.empty();
+		this.crMax = Optional.empty();
+		this.sizeSelected = Optional.empty();
+		this.typeSelected = Optional.empty();
+		return "redirect:/creatures?sort=exp,asc";
+	}
+	
 	private Specification<Creature> byName() {
 		return (root, query, cb) -> cb.or(cb.like(root.get("name"), "%" + search.get() + "%"),
 				cb.like(root.get("englishName"), "%" + search.get() + "%"));
