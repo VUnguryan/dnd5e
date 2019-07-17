@@ -52,13 +52,13 @@ public class WeaponController {
 		model.addAttribute("types", WeaponType.values());
 		model.addAttribute("damageTypes", damageTypeByWeapons);
 		model.addAttribute("currencies", Currency.values());
-		return "/hero/weapons";
+		return "hero/weapons";
 	}
 
 	@GetMapping("/property/{id}")
 	public String getPropertyForm(Model model,  @PathVariable Integer id) {
 		model.addAttribute("property", propertyRepo.findById(id).orElseGet(WeaponProperty::new));
-		return "/hero/weaponProperty";
+		return "hero/weaponProperty";
 	}
 
 	@GetMapping("/add")
@@ -68,7 +68,7 @@ public class WeaponController {
 		model.addAttribute("dices", Dice.values());
 		model.addAttribute("types", WeaponType.values());
 		model.addAttribute("currencies", Currency.values());
-		return "/hero/addWeapon";
+		return "hero/addWeapon";
 	}
 
 	@PostMapping("/add")
@@ -80,7 +80,7 @@ public class WeaponController {
 	@GetMapping("/property/add")
 	public String getPropertyForm(Model model) {
 		model.addAttribute("weaponProperty", new WeaponProperty());
-		return "/hero/addWeaponProperty";
+		return "hero/addWeaponProperty";
 	}
 
 	@PostMapping("/property/add")

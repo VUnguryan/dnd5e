@@ -17,6 +17,6 @@ public class BackgroundController {
 	@GetMapping
 	public String getBackgrounds(Model model) {
 		model.addAttribute("backgrounds", repo.findAll());
-		return "/hero/backgrounds";
+		return "hero/backgrounds";
 	}
 }

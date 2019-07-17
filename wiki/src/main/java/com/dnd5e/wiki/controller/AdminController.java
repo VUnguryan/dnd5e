@@ -66,7 +66,7 @@ public class AdminController {
 
 	@GetMapping("/spell/add")
 	public String getSpellAddForm(Model model) {
-		return "/admin/addSpell";
+		return "admin/addSpell";
 	}
 
 	@PostMapping("/spell/add")
@@ -172,12 +172,12 @@ public class AdminController {
 		return "/admin/addSpell";
 	}
 
-	@GetMapping("/equipment/add")
+	@GetMapping("equipment/add")
 
 	public String getEquipmentForm(Model model) {
 		model.addAttribute("equipment", new Equipment());
 		model.addAttribute("currencies", Currency.values());
-		return "/equipment/addEquipment";
+		return "equipment/addEquipment";
 	}
 
 	@PostMapping("/equipment/add")
@@ -190,7 +190,7 @@ public class AdminController {
 	public String getForm(Model model) {
 		model.addAttribute("armor", new Armor());
 		model.addAttribute("types", ArmorType.values());
-		return "/equipment/addArmor";
+		return "equipment/addArmor";
 	}
 
 	@PostMapping("/armor/add")
@@ -202,7 +202,7 @@ public class AdminController {
 	@GetMapping("/creature/add")
 	public String getMonsterForm(Model model) {
 		model.addAttribute("monster", new Creature());
-		return "/admin/parseMonster";
+		return "admin/parseMonster";
 	}
 
 	@PostMapping("/creature/add")
@@ -457,7 +457,7 @@ public class AdminController {
 			e.printStackTrace();
 		}
 		creatureRepository.save(creature);
-		return "/admin/parseMonster";
+		return "admin/parseMonster";
 	}
 
 	private void parseLanguage(String skillText, Creature monster) {

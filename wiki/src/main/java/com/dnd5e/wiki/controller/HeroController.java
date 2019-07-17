@@ -50,14 +50,14 @@ public class HeroController {
 	@GetMapping("/hero/conditions")
 	public String getCondinons(Model model) {
 		model.addAttribute("conditions", conditionRepositoryl.findAll());
-		return "/hero/conditions";
+		return "hero/conditions";
 	}
 
 	@RequestMapping(value = "conditions", params = "search" )
 	public String searchConditions(Model model, String search) {
 		List<Condition> conditions = conditionRepositoryl.findAll(byName(search));
 		model.addAttribute("conditions", conditions);
-		return "/hero/conditions";
+		return "hero/conditions";
 	}
 
 	@GetMapping("/archetype/add")
@@ -65,7 +65,7 @@ public class HeroController {
 
 		model.addAttribute("classes", classRepo.findAll());
 		model.addAttribute("archetype", new Archetype());
-		return "/hero/addClassType";
+		return "hero/addClassType";
 	}
 
 	@PostMapping("/archetype/add")
@@ -77,7 +77,7 @@ public class HeroController {
 	@GetMapping("/archetype/feat/add")
 	public String getArchitypeFeat(Model model) {
 		model.addAttribute("classes", classRepo.findAll());
-		return "/hero/addClassTypeFeat";
+		return "hero/addClassTypeFeat";
 	}
 
 	@GetMapping(value = "/archetype/feat/add", params = { "classTypeId", "archiTypeId" })
@@ -91,7 +91,7 @@ public class HeroController {
 		model.addAttribute("archiTypeId", archiTypeId);
 		model.addAttribute("feat", new ArchetypeTrait());
 
-		return "/hero/addClassTypeFeat";
+		return "hero/addClassTypeFeat";
 	}
 
 	@PostMapping("/archetype/feat/add")

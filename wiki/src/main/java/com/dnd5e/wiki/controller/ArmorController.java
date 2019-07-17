@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dnd5e.wiki.model.stock.Armor;
@@ -27,6 +26,6 @@ public class ArmorController {
 		Map<ArmorType, List<Armor>> types = repo.findAll().stream().collect(Collectors.groupingBy(Armor::getType));
 		model.addAttribute("armors", types);
 		model.addAttribute("types", ArmorType.values());
-		return "/equipment/armors";
+		return "equipment/armors";
 	}
 }

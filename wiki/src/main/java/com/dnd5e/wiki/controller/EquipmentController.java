@@ -28,7 +28,7 @@ public class EquipmentController {
 	public String getAllEquipments(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
 		model.addAttribute("currencies", Currency.values());
 		model.addAttribute("equipments", equipmentRepository.findAll(page));
-		return "/equipment/equipments";
+		return "equipment/equipments";
 	}
 
 	@GetMapping(params = "search")
@@ -37,7 +37,7 @@ public class EquipmentController {
 			String search) {
 		model.addAttribute("currencies", Currency.values());
 		model.addAttribute("equipments", equipmentRepository.findByNameContaining(page, search));
-		return "/equipment/equipments";
+		return "equipment/equipments";
 	}
 
 	@GetMapping(params = "currencyType")
@@ -52,7 +52,7 @@ public class EquipmentController {
 		Page<Equipment> equipments = equipmentRepository.findAll(page);
 		equipments.forEach(e -> convertor(e, selectedCurrency));
 		model.addAttribute("equipments", equipments);
-		return "/equipment/equipments";
+		return "equipment/equipments";
 	}
 
 	private Equipment convertor(Equipment equipment, Currency selectedCurrency) {

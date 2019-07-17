@@ -89,14 +89,6 @@ public class MagicalThingsController {
 		return "redirect:/stock/artifacts";
 	}
 	
-	@GetMapping(params = { "clear" })
-	public String cleaarFilters(Model model, String search) {
-		this.search = Optional.empty();
-		this.rarityFilter = Optional.empty();
-		this.typeFilter = Optional.empty();
-		return "redirect:/stock/artifacts";
-	}
-
 	@GetMapping(params = { "sort", "type", "rarity" })
 	public String filterArtifact(Model model, String sort, String type, String rarity) {
 		if ("ALL".equals(type)) {
