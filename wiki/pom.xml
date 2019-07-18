@@ -5,7 +5,7 @@
 
 	<groupId>com.dnd5</groupId>
 	<artifactId>wiki</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>DnD5ERUS</name>
 	<version>0.0.2-SNAPSHOT</version>
 	<description>DnD 5E WIKI RUS</description>
