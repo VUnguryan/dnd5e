@@ -71,10 +71,10 @@ public class SpellVO {
 		}
 		this.time = spell.getTimeCast();
 		this.range = spell.getDistance();
-		this.components = (spell.getVerbalComponent() ? "V" : "");
-		this.components += !this.components.isEmpty() && spell.getSomaticComponent() ? ", S" : spell.getSomaticComponent() ? "S": "";
-		this.components += !this.components.isEmpty() && spell.getMaterialComponent() ? ", M" : ""; 
-		this.components += spell.getAdditionalMaterialComponent()!= null ? " (" + spell.getAdditionalMaterialComponent() + ")"  :"";
+		this.components = spell.getVerbalComponent()!= null && spell.getVerbalComponent() ? "V" : "";
+		this.components += !this.components.isEmpty() && (spell.getSomaticComponent() != null && spell.getSomaticComponent()) ? ", S" : spell.getSomaticComponent() ? "S": "";
+		this.components += !this.components.isEmpty() && (spell.getMaterialComponent() != null && spell.getMaterialComponent()) ? ", M" : ""; 
+		this.components += spell.getAdditionalMaterialComponent() != null ? " (" + spell.getAdditionalMaterialComponent() + ")"  :"";
 		this.duration = spell.getDuration();
 		if (spell.getRitual()) {
 			this.ritual = "YES";

@@ -157,7 +157,10 @@ public class Creature {
 	}
 
 	public String getHp() {
-		if (bonusHP==null) {
+		if (bonusHP == null && diceHp == null) {
+			return String.format("%d", averageHp);
+		}
+		if (bonusHP == null) {
 			return String.format("%d (%d%s)" , averageHp, countDiceHp, diceHp.name());
 		}
 		return String.format("%d (%d%s+%d)" , averageHp, countDiceHp, diceHp.name(), bonusHP);

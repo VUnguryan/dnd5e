@@ -12,9 +12,9 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
         th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<link rel="stylesheet"
+    th:href="@{/webjars/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css}" />
+
 <style>
 .table>tbody .hiddenRow {
 	padding: 0 8px;
@@ -48,7 +48,7 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="schoolType">Школа</label>
 						</div>
-						<select id="schoolType" class="custom-select"
+						<select id="schoolType" class="custom-select" multiple="multiple"
 							onchange="filter(this)">
 							<option value="ALL">все</option>
 							<option th:each="school : ${schoolTypes}" th:value="${school}"
@@ -160,7 +160,17 @@
 		<div th:insert="fragments/pages :: pages(${spells}, spells)"></div>
 	</div>
 </body>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script
+    th:src="@{/webjars/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js}"></script>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#schoolType').multiselect();
+    });
+</script>
 <script>
 	function sortTable(n) {
 		var baseUrl = '[[@{/hero/spells?}]]';

@@ -117,7 +117,7 @@ public class CreatureVO {
 		else if (creature.getVision() != null)
 		{
 			int index = creature.getVision().indexOf("пассивная Внимательность");
-			if (index >-1) {
+			if (index !=-1) {
 				this.passive = Byte.valueOf(creature.getVision().substring("пассивная Внимательность".length() + index +1).trim());
 				this.senses = creature.getVision().substring(0, index);
 			}

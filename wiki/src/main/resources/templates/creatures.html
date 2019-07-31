@@ -10,11 +10,10 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Bootstrap CSS -->
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .creatures})"></div>
@@ -180,7 +179,8 @@
 		var crMin = $("#crMin").val();
 		var crMax = $("#crMax").val();
 		var size = $("#creatureSize").val();
-		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax=" + crMax + "&cSize=" + size;
+		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax="
+				+ crMax + "&cSize=" + size;
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}

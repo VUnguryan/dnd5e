@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dnd5e.wiki.controller.rest.model.json.AC;
@@ -32,6 +33,7 @@ import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 
 @RestController
+@RequestMapping("/admin/export")
 public class ExportController {
 	private static final String HTML_REGEXP = "\\\\<[^\\>]*\\>";
 	
@@ -47,7 +49,7 @@ public class ExportController {
 	@Autowired
 	private EquipmentRepository equRepo;
 	
-	@GetMapping(value = "/creatures/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<JsonCreature> getJsonCreatures() {
 		List<JsonCreature> creatures = new ArrayList<>();
 		for (Creature creature : creatureRepo.findAll()) {
@@ -175,7 +177,7 @@ public class ExportController {
 		return creatures;
 	}
 	
-	@GetMapping(value = "/export/xml" , produces = MediaType.APPLICATION_XML_VALUE)
+	@GetMapping(value = "/xml" , produces = MediaType.APPLICATION_XML_VALUE)
 	public Conpendium getXmlCreatures() {
 		Conpendium list = new Conpendium();
 		list.setMonsters(creatureRepo.findAll());
