@@ -11,9 +11,9 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
-        th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <link rel="stylesheet"
-    th:href="@{/webjars/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css}" />
+	th:href="@{/resources/css/bootstrap-multiselect.css}" />
 
 <style>
 .table>tbody .hiddenRow {
@@ -50,10 +50,9 @@
 						</div>
 						<select id="schoolType" class="custom-select" multiple="multiple"
 							onchange="filter(this)">
-							<option value="ALL">все</option>
 							<option th:each="school : ${schoolTypes}" th:value="${school}"
 								th:text="${school.name}"
-								th:selected="${schoolSelected.present && school==schoolSelected.get()}" />
+								th:selected="${schoolSelected.contains(school)}" />
 						</select>
 					</div>
 					<div class="input-group mb-4">
@@ -111,8 +110,10 @@
 					</div>
 				</div>
 			</div>
-			<a th:if ="${filtered}" th:href="@{/hero/spells?clear}" role="button" class="btn btn-danger"><img
-							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp; Сбросить фильтры</a>
+			<a th:if="${filtered}" th:href="@{/hero/spells?clear}" role="button"
+				class="btn btn-danger"><img
+				th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp; Сбросить
+				фильтры</a>
 		</div>
 		<table class="table table-striped">
 			<thead>
@@ -141,12 +142,10 @@
 			</thead>
 			<tr th:each="spell : ${spells}" style="cursor: pointer"
 				th:onclick="'javascript:spellClicked(\'' + ${spell.id} + '\');'">
-				<td align="center"><th:block th:text="${spell.level}" />
-				<img
+				<td align="center"><th:block th:text="${spell.level}" /> <img
 					th:if="${spell.ritual}"
-					th:src="@{/resources/open-iconic/svg/clock.svg}"
-					th:title="ритуал" height="15">
-				</td>
+					th:src="@{/resources/open-iconic/svg/clock.svg}" th:title="ритуал"
+					height="15"></td>
 				<td th:title="${spell.englishName}"><th:block
 						th:text="${spell.name}"></th:block>&nbsp;<img
 					th:if="${spell.concentration}"
@@ -163,13 +162,17 @@
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script
-    th:src="@{/webjars/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js}"></script>
+<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#schoolType').multiselect();
-    });
+	$(document).ready(function() {
+		$('#schoolType').multiselect({
+            enableFiltering: true,
+            includeSelectAllOption: true,
+            selectAllJustVisible: false,
+            selectAllText: 'Все'
+        });
+	});
 </script>
 <script>
 	function sortTable(n) {
@@ -248,8 +251,9 @@
 		var somatic = $("#somatic:checked").val();
 		var material = $("#material:checked").val();
 		var sort = getParameterByName('sort');
-		var parameters = "classType=" + type + "&schoolType=" + schoolType 
-				+ "&timeCast=" + timeCast + "&verbal=" + verbal + "&somatic=" + somatic + "&material=" + material;
+		var parameters = "classType=" + type + "&schoolType=" + schoolType
+				+ "&timeCast=" + timeCast + "&verbal=" + verbal + "&somatic="
+				+ somatic + "&material=" + material;
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}

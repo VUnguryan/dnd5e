@@ -101,7 +101,7 @@
 			<artifactId>bootstrap-multiselect</artifactId>
 			<version>0.9.15</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>popper.js</artifactId>
@@ -113,7 +113,6 @@
 			<artifactId>webjars-locator</artifactId>
 			<version>0.30</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

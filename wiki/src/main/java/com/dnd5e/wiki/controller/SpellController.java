@@ -1,6 +1,10 @@
 package com.dnd5e.wiki.controller;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -32,7 +36,7 @@ public class SpellController {
 	private Optional<Integer> minLevel = Optional.empty();
 	private Optional<Integer> maxLevel = Optional.empty();
 	private Optional<Integer> classSelectedId = Optional.empty();
-	private Optional<MagicSchool> schoolSelected = Optional.empty();
+	private Set<MagicSchool> schoolsSelected = EnumSet.allOf(MagicSchool.class);
 	private Optional<TimeCast> timeCastSelected = Optional.empty();
 	private boolean verbal;
 	private boolean somatic;
@@ -67,7 +71,7 @@ public class SpellController {
 				specification = Specification.where(specification).and(byClassId());
 			}
 		}
-		if (schoolSelected.isPresent()) {
+		if (!schoolsSelected.isEmpty()) {
 			if (specification == null) {
 				specification = bySchool();
 			} else {
@@ -95,8 +99,7 @@ public class SpellController {
 				specification = Specification.where(specification).and(byMaxLevel());
 			}
 		}
-		if (verbal || somatic || material)
-		{
+		if (verbal || somatic || material) {
 			if (specification == null) {
 				specification = byComponents();
 			} else {
@@ -112,7 +115,7 @@ public class SpellController {
 		model.addAttribute("schoolTypes", MagicSchool.values());
 		model.addAttribute("searchText", search);
 		model.addAttribute("classSelected", classSelectedId);
-		model.addAttribute("schoolSelected", schoolSelected);
+		model.addAttribute("schoolSelected", schoolsSelected);
 		model.addAttribute("minLevel", minLevel);
 		model.addAttribute("maxLevel", maxLevel);
 		model.addAttribute("timeCast", timeCastSelected);
@@ -120,8 +123,10 @@ public class SpellController {
 		model.addAttribute("verbal", verbal);
 		model.addAttribute("somatic", somatic);
 		model.addAttribute("material", material);
-		model.addAttribute("filtered", search.isPresent() || minLevel.isPresent() || maxLevel.isPresent()
-				|| classSelectedId.isPresent() || schoolSelected.isPresent() || timeCastSelected.isPresent() || verbal || somatic || material);
+		model.addAttribute("filtered",
+				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent() || classSelectedId.isPresent()
+						|| (schoolsSelected.size() != MagicSchool.values().length) || timeCastSelected.isPresent()
+						|| verbal || somatic || material);
 		return "spells";
 	}
 
@@ -134,21 +139,21 @@ public class SpellController {
 		}
 		return "redirect:/hero/spells?sort=level,asc";
 	}
-	
+
 	@GetMapping(params = { "clear" })
 	public String cleaarFilters(Model model, String search) {
 		this.search = Optional.empty();
 		this.minLevel = Optional.empty();
 		this.maxLevel = Optional.empty();
 		this.classSelectedId = Optional.empty();
-		this.schoolSelected = Optional.empty();
+		this.schoolsSelected = EnumSet.copyOf(Arrays.asList(MagicSchool.values()));
 		this.timeCastSelected = Optional.empty();
 		this.verbal = false;
 		this.somatic = false;
 		this.material = false;
 		return "redirect:/hero/spells?sort=level,asc";
 	}
-	
+
 	@GetMapping(params = { "minLevel", "maxLevel" })
 	public String filterSpellByLevels(Model model, String sort, Integer minLevel, Integer maxLevel, Pageable page) {
 		this.minLevel = minLevel >= 0 ? Optional.of(minLevel) : Optional.empty();
@@ -158,10 +163,9 @@ public class SpellController {
 
 	@GetMapping(params = { "sort", "classType", "schoolType", "timeCast" })
 	public String filterSpellByTypes(Model model, String sort, @RequestParam("classType") Integer classId,
-			String schoolType, String timeCast, String verbal, String somatic, String material, Pageable page) {
+			String[] schoolType, String timeCast, String verbal, String somatic, String material, Pageable page) {
 		this.classSelectedId = classId == -1 ? Optional.empty() : Optional.of(classId);
-		this.schoolSelected = "ALL".equals(schoolType) ? Optional.empty()
-				: Optional.of(MagicSchool.valueOf(schoolType));
+		this.schoolsSelected = Arrays.stream(schoolType).map(MagicSchool::valueOf).collect(Collectors.toSet());
 		this.timeCastSelected = "ALL".equals(timeCast) ? Optional.empty() : Optional.of(TimeCast.valueOf(timeCast));
 		this.verbal = "on".equals(verbal);
 		this.somatic = "on".equals(somatic);
@@ -177,13 +181,13 @@ public class SpellController {
 		return "spellView";
 	}
 
-
 	private Specification<Spell> byName(String search) {
-		return (root, query, cb) -> cb.or(cb.like(root.get("name"), "%" + search + "%"), cb.like(root.get("englishName"), "%" + search + "%"));
+		return (root, query, cb) -> cb.or(cb.like(root.get("name"), "%" + search + "%"),
+				cb.like(root.get("englishName"), "%" + search + "%"));
 	}
 
 	private Specification<Spell> bySchool() {
-		return (root, query, cb) -> cb.and(cb.equal(root.get("school"), schoolSelected.get()));
+		return (root, query, cb) -> cb.and(root.get("school").in(schoolsSelected));
 	}
 
 	private Specification<Spell> byTimeCast() {
@@ -207,24 +211,31 @@ public class SpellController {
 
 	private Specification<Spell> byComponents() {
 		if (verbal && !somatic && !material) {
-			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")), cb.isFalse(root.get("somaticComponent")), cb.isFalse(root.get("materialComponent")));	
+			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")),
+					cb.isFalse(root.get("somaticComponent")), cb.isFalse(root.get("materialComponent")));
 		}
 		if (!verbal && somatic && !material) {
-			return (root, query, cb) -> cb.and(cb.isFalse(root.get("verbalComponent")), cb.isTrue(root.get("somaticComponent")), cb.isFalse(root.get("materialComponent")));	
+			return (root, query, cb) -> cb.and(cb.isFalse(root.get("verbalComponent")),
+					cb.isTrue(root.get("somaticComponent")), cb.isFalse(root.get("materialComponent")));
 		}
 		if (!verbal && !somatic && material) {
-			return (root, query, cb) -> cb.and(cb.isFalse(root.get("verbalComponent")), cb.isFalse(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));	
+			return (root, query, cb) -> cb.and(cb.isFalse(root.get("verbalComponent")),
+					cb.isFalse(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));
 		}
-		
+
 		if (verbal && somatic && !material) {
-			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")), cb.isTrue(root.get("somaticComponent")), cb.isFalse(root.get("materialComponent")));	
+			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")),
+					cb.isTrue(root.get("somaticComponent")), cb.isFalse(root.get("materialComponent")));
 		}
 		if (!verbal && somatic && material) {
-			return (root, query, cb) -> cb.and(cb.isFalse(root.get("verbalComponent")), cb.isTrue(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));	
+			return (root, query, cb) -> cb.and(cb.isFalse(root.get("verbalComponent")),
+					cb.isTrue(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));
 		}
 		if (verbal && !somatic && material) {
-			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")), cb.isFalse(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));	
+			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")),
+					cb.isFalse(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));
 		}
-		return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")), cb.isTrue(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));	
+		return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")),
+				cb.isTrue(root.get("somaticComponent")), cb.isTrue(root.get("materialComponent")));
 	}
 }

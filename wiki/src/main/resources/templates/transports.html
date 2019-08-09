@@ -14,7 +14,6 @@
 	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <link rel="stylesheet"
 	th:href="@{/webjars/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css}" />
-
 </body>
 
 </body>
@@ -22,22 +21,15 @@
 
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
-	<div class="container" style="margin-top: 60px">
-		<select id="demo" multiple="multiple">
-			<option value="Javascript">Javascript</option>
-			<option value="Python">Python</option>
-			<option value="LISP">LISP</option>
-			<option value="C++">C++</option>
-			<option value="jQuery">jQuery</option>
-			<option value="Ruby">Ruby</option>
-		</select>
+	<div class="container" style="margin-top: 50px">
+		> <img th:src="@{/resources/lock.jpg}" />
 	</div>
 </body>
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script
-    th:src="@{/webjars/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js}"></script>
+	th:src="@{/webjars/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js}"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
