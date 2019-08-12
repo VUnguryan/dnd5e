@@ -6,7 +6,6 @@
 <link rel="icon" th:href="@{/resources/icon.png}">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
@@ -40,18 +39,18 @@
 
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown">Склад</a>
+					data-toggle="dropdown">Снаряжение</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/stock/equipments}">Снаряжение</a>
 						<a class="dropdown-item" th:href="@{/stock/armors}">Доспехи</a> <a
 							class="dropdown-item" th:href="@{/stock/weapons}">Оружие</a>
+			         <a class="dropdown-item" th:href="@{/stock/equipments}">Инструменты</a>
+			         <a class="dropdown-item" th:href="@{/travel/transports}">Транспорт</a>
 					</div></li>
 
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown">Путешествия</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/travel/transports}">Транспорт</a>
 						<a class="dropdown-item" th:href="@{/travel/idle}">Простой</a>
 					</div></li>
 
