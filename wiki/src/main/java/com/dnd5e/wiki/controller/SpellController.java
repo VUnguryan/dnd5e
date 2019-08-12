@@ -2,10 +2,12 @@ package com.dnd5e.wiki.controller;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 
@@ -35,19 +37,17 @@ public class SpellController {
 	private Optional<String> search = Optional.empty();
 	private Optional<Integer> minLevel = Optional.empty();
 	private Optional<Integer> maxLevel = Optional.empty();
-	private Optional<Integer> classSelectedId = Optional.empty();
-	private Set<MagicSchool> schoolsSelected = EnumSet.allOf(MagicSchool.class);
+	private Set<Integer> clases;
+	private Set<MagicSchool> schools = EnumSet.allOf(MagicSchool.class);
 	private Optional<TimeCast> timeCastSelected = Optional.empty();
 	private boolean verbal;
 	private boolean somatic;
 	private boolean material;
+	private Set<String> distances;
 
 	private SpellRepository spellRepository;
 	private ClassRepository classRepository;
-
-	public SpellController() {
-	}
-
+	
 	@Autowired
 	public void setSpellRepository(SpellRepository spellRepository) {
 		this.spellRepository = spellRepository;
@@ -57,6 +57,13 @@ public class SpellController {
 	public void setClassRepository(ClassRepository classRepository) {
 		this.classRepository = classRepository;
 	}
+	
+	public SpellController() {}
+
+	@PostConstruct
+	public void initClssses() {
+		this.clases = classRepository.findAll().stream().map(HeroClass::getId).collect(Collectors.toSet());
+	}
 
 	@GetMapping
 	public String getSpells(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
@@ -64,14 +71,14 @@ public class SpellController {
 		if (search.isPresent()) {
 			specification = byName(search.get());
 		}
-		if (classSelectedId.isPresent()) {
+		if (!clases.isEmpty() && clases.size() < classRepository.count()) {
 			if (specification == null) {
 				specification = byClassId();
 			} else {
 				specification = Specification.where(specification).and(byClassId());
 			}
 		}
-		if (!schoolsSelected.isEmpty()) {
+		if (!schools.isEmpty()) {
 			if (specification == null) {
 				specification = bySchool();
 			} else {
@@ -114,8 +121,8 @@ public class SpellController {
 		model.addAttribute("classTypes", classRepository.findAll());
 		model.addAttribute("schoolTypes", MagicSchool.values());
 		model.addAttribute("searchText", search);
-		model.addAttribute("classSelected", classSelectedId);
-		model.addAttribute("schoolSelected", schoolsSelected);
+		model.addAttribute("classSelected", clases);
+		model.addAttribute("schoolSelected", schools);
 		model.addAttribute("minLevel", minLevel);
 		model.addAttribute("maxLevel", maxLevel);
 		model.addAttribute("timeCast", timeCastSelected);
@@ -124,8 +131,8 @@ public class SpellController {
 		model.addAttribute("somatic", somatic);
 		model.addAttribute("material", material);
 		model.addAttribute("filtered",
-				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent() || classSelectedId.isPresent()
-						|| (schoolsSelected.size() != MagicSchool.values().length) || timeCastSelected.isPresent()
+				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent() || clases.size() < classRepository.count()
+						|| (schools.size() != MagicSchool.values().length) || timeCastSelected.isPresent()
 						|| verbal || somatic || material);
 		return "spells";
 	}
@@ -145,8 +152,8 @@ public class SpellController {
 		this.search = Optional.empty();
 		this.minLevel = Optional.empty();
 		this.maxLevel = Optional.empty();
-		this.classSelectedId = Optional.empty();
-		this.schoolsSelected = EnumSet.copyOf(Arrays.asList(MagicSchool.values()));
+		this.clases = classRepository.findAll().stream().map(HeroClass::getId).collect(Collectors.toSet());
+		this.schools = EnumSet.copyOf(Arrays.asList(MagicSchool.values()));
 		this.timeCastSelected = Optional.empty();
 		this.verbal = false;
 		this.somatic = false;
@@ -162,10 +169,10 @@ public class SpellController {
 	}
 
 	@GetMapping(params = { "sort", "classType", "schoolType", "timeCast" })
-	public String filterSpellByTypes(Model model, String sort, @RequestParam("classType") Integer classId,
+	public String filterSpellByTypes(Model model, String sort, @RequestParam("classType") Integer[] classId,
 			String[] schoolType, String timeCast, String verbal, String somatic, String material, Pageable page) {
-		this.classSelectedId = classId == -1 ? Optional.empty() : Optional.of(classId);
-		this.schoolsSelected = Arrays.stream(schoolType).map(MagicSchool::valueOf).collect(Collectors.toSet());
+		this.clases = Arrays.stream(classId).collect(Collectors.toSet());
+		this.schools = Arrays.stream(schoolType).map(MagicSchool::valueOf).collect(Collectors.toSet());
 		this.timeCastSelected = "ALL".equals(timeCast) ? Optional.empty() : Optional.of(TimeCast.valueOf(timeCast));
 		this.verbal = "on".equals(verbal);
 		this.somatic = "on".equals(somatic);
@@ -187,7 +194,7 @@ public class SpellController {
 	}
 
 	private Specification<Spell> bySchool() {
-		return (root, query, cb) -> cb.and(root.get("school").in(schoolsSelected));
+		return (root, query, cb) -> cb.and(root.get("school").in(schools));
 	}
 
 	private Specification<Spell> byTimeCast() {
@@ -205,7 +212,7 @@ public class SpellController {
 	private Specification<Spell> byClassId() {
 		return (root, query, cb) -> {
 			Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.LEFT);
-			return cb.equal(hero.get("id"), classSelectedId.get());
+			return cb.and(hero.get("id").in(clases));
 		};
 	}
 

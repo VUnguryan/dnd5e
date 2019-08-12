@@ -36,12 +36,10 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="artifactType">Класс</label>
 						</div>
-						<select id="classType" class="custom-select"
-							onchange="filter(this)">
-							<option value="-1">все</option>
+						<select id="classType" class="custom-select" multiple>
 							<option th:each="type : ${classTypes}" th:value="${type.id}"
 								th:text="${type.name}"
-								th:selected="${classSelected.present && type.id==classSelected.get()}">
+								th:selected="${classSelected.contains(type.id)}">
 							</option>
 						</select>
 					</div>
@@ -182,6 +180,23 @@
 				filter(this);
 			}
 		});
+		$('#classType').multiselect({
+			enableFiltering : true,
+			includeSelectAllOption : true,
+			selectAllJustVisible : false,
+			selectAllText : 'Все',
+
+			onDropdownHide : function(event) {
+				filter(this);
+			},
+			onSelectAll : function() {
+				filter(this);
+			},
+			onDeselectAll : function() {
+				filter(this);
+			}
+		});
+
 	});
 </script>
 <script>
