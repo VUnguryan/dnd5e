@@ -1,5 +1,7 @@
 package com.dnd5e.wiki.model.tavern;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -65,6 +67,8 @@ public class Hero {
 	private int gold;
 	private int electrium;
 	private int platinum;
+	
+	private Date createDate;
 	
 	public int getAc() {
 		if ("ВАРВАР".equals(heroClass.getName())) {

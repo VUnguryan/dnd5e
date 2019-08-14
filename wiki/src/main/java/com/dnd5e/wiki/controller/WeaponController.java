@@ -64,7 +64,7 @@ public class WeaponController {
 	@GetMapping("/add")
 	public String getForm(Model model) {
 		model.addAttribute("weapon", new Weapon());
-		model.addAttribute("damageTypes", EnumSet.of(DamageType.PIERCING, DamageType.CRUSHING, DamageType.CHOPPING, DamageType.NO_DAMAGE));
+		model.addAttribute("damageTypes", EnumSet.of(DamageType.PIERCING, DamageType.BLUDGEONING, DamageType.SLASHING, DamageType.NO_DAMAGE));
 		model.addAttribute("dices", Dice.values());
 		model.addAttribute("types", WeaponType.values());
 		model.addAttribute("currencies", Currency.values());

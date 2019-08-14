@@ -11,7 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.dnd5e.wiki.model.artifact.Artifact;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.spell.Spell;
+import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.Equipment;
+import com.dnd5e.wiki.model.stock.Weapon;
 
 import lombok.Getter;
 
@@ -51,9 +53,13 @@ public class Conpendium implements Serializable {
 	public void setMagicItems(List<Artifact> artifacts) {
 		this.magivItems = artifacts.stream().map(a -> new MagicItemVO(a)).collect(Collectors.toList());
 	}
-	public void setItems(List<Equipment> equipments) {
-		this.items = equipments.stream().map(a -> new ItemVO(a)).collect(Collectors.toList());
+
+	public void setItems(List<Equipment> equipments, List<Weapon> weapons, List<Armor> armors) {
+		this.items = equipments.stream().map(ItemVO::new).collect(Collectors.toList());
+		this.items.addAll(weapons.stream().map(ItemVO::new).collect(Collectors.toList()));
+		this.items.addAll(armors.stream().map(ItemVO::new).collect(Collectors.toList()));
 	}
+
 	public static String removeHtml(String string) {
 		return string == null ? ""
 				: string.replaceAll(HTML_REGEXP, "").replace("&nbsp;", " ").replace("&mdash;", "")

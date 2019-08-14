@@ -160,7 +160,7 @@ public class CreatureController {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("size"), sizeSelected.get()));
 	}
 
-	private int toExp(String cr) {
+	private static int toExp(String cr) {
 		switch (cr) {
 		case "0":
 			return 10;
