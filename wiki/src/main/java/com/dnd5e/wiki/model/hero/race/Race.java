@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Source;
+import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.hero.Bonus;
 import com.dnd5e.wiki.model.hero.classes.Feature;
@@ -51,7 +52,10 @@ public class Race {
 	
 	@OneToMany(mappedBy = "parent",  orphanRemoval=true)
 	private List<Race> subRaces;
-	
+
+	@Enumerated(EnumType.STRING)
+	private CreatureSize size;
+
 	@Enumerated(EnumType.STRING)
 	private Source source;
 }
