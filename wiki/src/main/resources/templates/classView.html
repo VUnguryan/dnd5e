@@ -34,42 +34,60 @@
 						th:text="*{skills}" /></li>
 			</ul>
 			<div class="card">
+				<h5 class="card-header">Уровни</h5>
 				<div class="card-body">
 					<table class="table table-striped">
 						<thead>
-							<tr>
-								<td>Уровень</td>
-								<td>Бонус мастерста</td>
-								<td>Умения</td>
-								<td>Известные заговоры</td>
-								<td>Известные заклинания</td>
-								<td>1</td>
-								<td>2</td>
-								<td>3</td>
-								<td>4</td>
-								<td>5</td>
-								<td>6</td>
-								<td>7</td>
-								<td>8</td>
-								<td>9</td>
+							<tr align="center">
+								<th rowspan="2" style="width: 10%">Уровень</th>
+								<th align="center" rowspan="2" style="width: 10%">Бонус
+									мастерста</th>
+								<th align="center" rowspan="2">Умения</th>
+								<th align="center" rowspan="2" style="width: 10%">Известные
+									заговоры</th>
+								<th
+									th:if="${heroClass.id == 1 || heroClass.id == 5 || heroClass.id == 7 || heroClass.id == 8}"
+									align="center" rowspan="2" style="width: 10%">Известные
+									заклинания</th>
+								<th align="center" colspan="9">Ячейки заклинаний на уровень
+									заклинаний</th>
 							</tr>
+							<tr align="center">
+								<th>1</th>
+								<th>2</th>
+								<th>3</th>
+								<th>4</th>
+								<th>5</th>
+								<th>6</th>
+								<th>7</th>
+								<th>8</th>
+								<th>9</th>
+							</tr>
+
 						</thead>
 						<tbody>
-							<tr th:each="levelDefinition : *{levelDefenitions}">
+							<tr th:each="levelDefinition : *{levelDefenitions}"
+								align="center">
 								<td align="center" th:text="${levelDefinition.level}" />
-								<td align="center" th:text="'+' +${levelDefinition.masteryBonus}" />
-								<td></td>
-								<td align="center" th:text="${levelDefinition.slot0}" />
-								<td align="center" th:text="${levelDefinition.spells}" />
-								<td align="center" th:text="${levelDefinition.slot1}" />
-								<td align="center" th:text="${levelDefinition.slot2}" />
-								<td align="center" th:text="${levelDefinition.slot3}" />
-								<td align="center" th:text="${levelDefinition.slot4}" />
-								<td align="center" th:text="${levelDefinition.slot5}" />
-								<td align="center" th:text="${levelDefinition.slot6}" />
-								<td align="center" th:text="${levelDefinition.slot7}" />
-								<td align="center" th:text="${levelDefinition.slot8}" />
-								<td align="center" th:text="${levelDefinition.slot9}" />
+								<td align="center"
+									th:text="'+' +${levelDefinition.masteryBonus}" />
+								<td><th:block th:each="trait : *{traits}">
+										<a th:href="${'#t' + trait.id}"
+											th:if="${levelDefinition.level == trait.level}"
+											th:text="${trait.name.toLowerCase() + ' ' }"></a>
+									</th:block></td>
+								<td th:text="${levelDefinition.slot0}" />
+								<td th:if="${levelDefinition.spells != -1}"
+									th:text="${levelDefinition.spells}" />
+								<td th:text="${levelDefinition.slot1}" />
+								<td th:text="${levelDefinition.slot2}" />
+								<td th:text="${levelDefinition.slot3}" />
+								<td th:text="${levelDefinition.slot4}" />
+								<td th:text="${levelDefinition.slot5}" />
+								<td th:text="${levelDefinition.slot6}" />
+								<td th:text="${levelDefinition.slot7}" />
+								<td th:text="${levelDefinition.slot8}" />
+								<td th:text="${levelDefinition.slot9}" />
 							</tr>
 						</tbody>
 					</table>
@@ -77,9 +95,9 @@
 			</div>
 			<h5 class="card-header">Умения</h5>
 			<ul class="list-group list-group-flush">
-				<li th:each="trait: *{traits}" class="list-group-item"><b><th:block
-							th:text="${trait.name}">:</b> <th:block
-						th:utext="${trait.description}" /></li>
+				<li th:each="trait: *{traits}" class="list-group-item"><b
+					th:id="${'t'+trait.id}"><th:block th:text="${trait.name}">:</b>
+					<th:block th:utext="${trait.description}" /></li>
 			</ul>
 
 			<h5 class="card-header" th:text="*{archetypeName}"></h5>

@@ -56,9 +56,10 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="distanceType">Дистанция</label>
 						</div>
-						<select id="distanceType" class="custom-select" multiple="multiple">
-							<option th:each="distance : ${distanceTypes}" th:value="${distance}"
-								th:text="${distance}"
+						<select id="distanceType" class="custom-select"
+							multiple="multiple">
+							<option th:each="distance : ${distanceTypes}"
+								th:value="${distance}" th:text="${distance}"
 								th:selected="${distances.contains(distance)}" />
 						</select>
 					</div>
@@ -204,13 +205,20 @@
 		});
 		$('#distanceType').multiselect({
 			buttonWidth : '300px',
-			maxHeight: 200,
-			includeSelectAllOption: true,
-			enableFiltering: true,
+			maxHeight : 200,
+			includeSelectAllOption : true,
+			enableFiltering : true,
 			selectAllText : 'Любая дистанция ',
 			nonSelectedText : 'Любая дистанция',
 			onDropdownHide : function(event) {
-				filter(this);
+				var baseUrl = '[[@{/hero/spells?}]]';
+				var sort = getParameterByName('sort');
+				var distance = $("#distanceType").val();
+				var parameters = "distance=" + distance;
+				if (sort != null) {
+					parameters += "&sort=" + sort;
+				}
+				window.location = baseUrl + parameters;
 			}
 		});
 	});

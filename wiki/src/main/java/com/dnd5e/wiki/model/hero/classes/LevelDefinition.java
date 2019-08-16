@@ -6,9 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.dnd5e.wiki.model.hero.HeroClassTrait;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,9 +40,6 @@ public class LevelDefinition {
 	private byte slot7;
 	private byte slot8;
 	private byte slot9;
-	
-	@OneToMany
-	private List<Feature> features;
 	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;

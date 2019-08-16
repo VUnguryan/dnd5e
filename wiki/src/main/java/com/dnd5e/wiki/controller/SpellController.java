@@ -1,8 +1,10 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,8 +48,8 @@ public class SpellController {
 
 	private SpellRepository spellRepository;
 	private ClassRepository classRepository;
-	private Set<String> distanceTypes;
-	
+	private List<String> distanceTypes;
+
 	@Autowired
 	public void setSpellRepository(SpellRepository spellRepository) {
 		this.spellRepository = spellRepository;
@@ -57,14 +59,20 @@ public class SpellController {
 	public void setClassRepository(ClassRepository classRepository) {
 		this.classRepository = classRepository;
 	}
-	
-	public SpellController() {}
+
+	public SpellController() {
+	}
 
 	@PostConstruct
 	public void initClssses() {
 		this.clases = classRepository.findAll().stream().map(HeroClass::getId).collect(Collectors.toSet());
 		this.components = EnumSet.noneOf(Component.class);
-		this.distanceTypes = spellRepository.findAllDistanceName();
+		Comparator<String> comparator = (s1, s2) -> {
+			//s1.split(" ");
+			return s1.compareTo(s2);
+		};
+		this.distanceTypes = spellRepository.findAllDistanceName().stream()
+				.sorted(comparator).collect(Collectors.toList());
 		this.distances = new HashSet<>();
 	}
 
@@ -86,6 +94,13 @@ public class SpellController {
 				specification = bySchool();
 			} else {
 				specification = Specification.where(specification).and(bySchool());
+			}
+		}
+		if (!distances.isEmpty()) {
+			if (specification == null) {
+				specification = byDistance();
+			} else {
+				specification = Specification.where(specification).and(byDistance());
 			}
 		}
 		if (timeCastSelected.isPresent()) {
@@ -137,9 +152,9 @@ public class SpellController {
 		model.addAttribute("distances", distances);
 
 		model.addAttribute("filtered",
-				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent() || clases.size() < classRepository.count()
-						|| (schools.size() != MagicSchool.values().length) || timeCastSelected.isPresent()
-						|| !components.isEmpty());
+				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent()
+						|| clases.size() < classRepository.count() || (schools.size() != MagicSchool.values().length)
+						|| timeCastSelected.isPresent() || !components.isEmpty() || !distances.isEmpty());
 		return "spells";
 	}
 
@@ -162,23 +177,30 @@ public class SpellController {
 		this.schools = EnumSet.copyOf(Arrays.asList(MagicSchool.values()));
 		this.timeCastSelected = Optional.empty();
 		this.components = EnumSet.noneOf(Component.class);
+		distances.clear();
 		return "redirect:/hero/spells?sort=level,asc";
 	}
 
 	@GetMapping(params = { "minLevel", "maxLevel" })
-	public String filterSpellByLevels(Model model, String sort, Integer minLevel, Integer maxLevel, Pageable page) {
+	public String filterByLevels(Model model, String sort, Integer minLevel, Integer maxLevel, Pageable page) {
 		this.minLevel = minLevel >= 0 ? Optional.of(minLevel) : Optional.empty();
 		this.maxLevel = maxLevel >= 0 ? Optional.of(maxLevel) : Optional.empty();
 		return "redirect:/hero/spells?sort=" + sort;
 	}
 
+	@GetMapping(params = "distance")
+	public String filterByDistance(Model model, String sort, @RequestParam String[] distance, Pageable page) {
+		distances = new HashSet<>(Arrays.asList(distance));
+		return "redirect:/hero/spells?sort=" + sort;
+	}
+
 	@GetMapping(params = { "sort", "classType", "schoolType", "timeCast" })
-	public String filterSpellByTypes(Model model, String sort, @RequestParam("classType") Integer[] classId,
+	public String filterByTypes(Model model, String sort, @RequestParam("classType") Integer[] classId,
 			String[] schoolType, String timeCast, String[] components, Pageable page) {
 		clases = Arrays.stream(classId).collect(Collectors.toSet());
 		schools = Arrays.stream(schoolType).map(MagicSchool::valueOf).collect(Collectors.toSet());
 		timeCastSelected = "ALL".equals(timeCast) ? Optional.empty() : Optional.of(TimeCast.valueOf(timeCast));
-		this.components =  Arrays.stream(components).map(Component::valueOf).collect(Collectors.toSet());
+		this.components = Arrays.stream(components).map(Component::valueOf).collect(Collectors.toSet());
 		return "redirect:/hero/spells?sort=" + sort;
 	}
 
@@ -209,6 +231,10 @@ public class SpellController {
 
 	private Specification<Spell> byMaxLevel() {
 		return (root, query, cb) -> cb.and(cb.lessThan(root.get("level"), maxLevel.get() + 1));
+	}
+
+	private Specification<Spell> byDistance() {
+		return (root, query, cb) -> cb.and(root.get("distance").in(distances));
 	}
 
 	private Specification<Spell> byClassId() {

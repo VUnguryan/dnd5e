@@ -20,7 +20,7 @@ public class HeroClassTrait {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private int level;
+	private byte level;
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	
