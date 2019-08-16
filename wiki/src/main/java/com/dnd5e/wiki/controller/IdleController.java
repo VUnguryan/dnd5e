@@ -5,8 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dnd5e.wiki.model.artifact.Rarity;
 import com.dnd5e.wiki.model.hero.LifeStyle;
+import com.dnd5e.wiki.model.treasure.Rarity;
 
 @Controller
 @RequestMapping("/travel/idle")

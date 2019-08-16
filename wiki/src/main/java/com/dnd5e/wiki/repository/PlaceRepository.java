@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.dnd5e.wiki.model.paces.Place;
+import com.dnd5e.wiki.model.places.Place;
 
 public interface PlaceRepository extends JpaRepository<Place, Integer> {
 

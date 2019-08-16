@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.artifact.Artifact;
+import com.dnd5e.wiki.model.treasure.Artifact;
 
 public class MagicItemVO {
 	@XmlElement
@@ -75,7 +75,6 @@ public class MagicItemVO {
 		case WEAPON:
 			this.type = "M";
 			break;
-		
 		}
 	}
 }

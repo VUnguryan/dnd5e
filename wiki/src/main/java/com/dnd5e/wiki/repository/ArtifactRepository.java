@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import com.dnd5e.wiki.model.artifact.Artifact;
+import com.dnd5e.wiki.model.treasure.Artifact;
 
 public interface ArtifactRepository extends JpaRepository<Artifact, Integer>, JpaSpecificationExecutor<Artifact> {
 	Page<Artifact> findByNameContaining(Pageable pagable, String paramString);

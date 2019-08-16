@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.paces;
+package com.dnd5e.wiki.model.places;
 
 import java.util.List;
 

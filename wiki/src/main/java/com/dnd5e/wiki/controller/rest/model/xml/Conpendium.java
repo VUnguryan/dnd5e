@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.dnd5e.wiki.model.artifact.Artifact;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.Equipment;
 import com.dnd5e.wiki.model.stock.Weapon;
+import com.dnd5e.wiki.model.treasure.Artifact;
 
 import lombok.Getter;
 
