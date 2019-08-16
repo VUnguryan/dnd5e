@@ -10,7 +10,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -75,9 +75,10 @@
 					<thead>
 						<tr>
 							<th scope="col" style="width: 20%">Название</th>
-							<th class="text-center" scope="col" style="width: 15%">Стоимость</th>
-							<th class="text-center" scope="col">Урон</th>
-							<th class="text-center" scope="col">Вес</th>
+							<th class="text-center" scope="col" style="width: 10%">Стоимость</th>
+							<th class="text-center" scope="col" style="width: 15%">Урон</th>
+							<th class="text-center" scope="col" style="width: 12%">Вес
+								(в фнт.)</th>
 							<th class="text-center" scope="col">Свойства</th>
 						</tr>
 					</thead>
@@ -85,6 +86,11 @@
 						<tr class="table-active" data-toggle="collapse"
 							th:attr="data-target='#d'+ ${type.ordinal()}">
 							<td colspan="5" th:text="${type.name}" />
+							<td>
+							<td />
+							<td><img
+								th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"
+								height="25" /></td>
 						</tr>
 
 						<tr th:each="weapon : ${weapons.get(type)}"
@@ -94,13 +100,7 @@
 							</td>
 							<td class="text-center">
 								<div>
-									<span th:if="${weapon.cost > 5}"
-										th:text="${weapon.cost + ' ' + weapon.currency.name}">
-									</span><img th:if="${weapon.cost <= 5}"
-										th:each="i: ${#numbers.sequence(1, weapon.cost)}"
-										th:alt="${weapon.currency.name}"
-										th:src="@{'/resources/currency/'+ ${weapon.currency} +'.png'}"
-										height="25" th:title="${weapon.currency.name}" />
+									<th:block th:text="${weapon.cost + ' ' + weapon.currency.name}" />
 								</div>
 							</td>
 							<td class="text-center">
@@ -122,6 +122,10 @@
 										th:href="@{'weapons/property/' + ${property.id} + ${weapon.id}}"
 										th:text="${iterStat.last ? property.name : property.name + ' '}">
 									</a>
+									<th:block th:if="${property.id eq 10}"
+										th:text="'('+ ${weapon.numberDice} + ${weapon.twoHandDamageDice + ')'}" />
+									<th:block th:if="${property.id eq 1 or property.id eq 6}"
+										th:text="'(дис. '+ ${weapon.minDistance} + '/' + ${weapon.maxDistance + ')'}" />
 									<div th:if="${property.id == 7}" class="modal fade"
 										th:id="'d'+ ${property.id} + ${weapon.id}" tabindex="-1"
 										role="dialog"
@@ -154,14 +158,19 @@
 						<tr>
 							<th scope="col" style="width: 20%">Название</th>
 							<th class="text-center" scope="col" style="width: 15%">Стоимость</th>
-							<th class="text-center" scope="col">Урон</th>
-							<th class="text-center" scope="col">Вес</th>
+							<th class="text-center" scope="col" style="width: 15%">Урон</th>
+							<th class="text-center" scope="col" style="width: 15%">Вес</th>
 						</tr>
 					</thead>
 					<th:block th:each="property : ${properties.keySet()}">
 						<tr class="table-active" data-toggle="collapse"
 							th:attr="data-target='#d'+ ${property.id}">
 							<td colspan="5" th:text="${property.name}" />
+							<td />
+							<td />
+							<td><img
+								th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"
+								height="25" /></td>
 						</tr>
 						<tr th:each="weapon : ${properties.get(property)}"
 							th:id="'d' + ${property.id}" class="collapse">
@@ -197,14 +206,19 @@
 						<tr>
 							<th scope="col" style="width: 20%">Название</th>
 							<th class="text-center" scope="col" style="width: 15%">Стоимость</th>
-							<th class="text-center" scope="col">Урон</th>
-							<th class="text-center" scope="col">Вес</th>
+							<th class="text-center" scope="col" style="width: 15%">Урон</th>
+							<th class="text-center" scope="col" style="width: 15%">Вес</th>
 						</tr>
 					</thead>
 					<th:block th:each="damageType : ${damageTypes.keySet()}">
 						<tr class="table-active" data-toggle="collapse"
 							th:attr="data-target='#d'+ ${damageType.ordinal()}">
 							<td colspan="5" th:text="${damageType.cyrilicName}" />
+							<td />
+							<td />
+							<td><img
+								th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"
+								height="25" /></td>
 						</tr>
 						<tr th:each="weapon : ${damageTypes.get(damageType)}"
 							th:id="'d' + ${damageType.ordinal()}" class="collapse">

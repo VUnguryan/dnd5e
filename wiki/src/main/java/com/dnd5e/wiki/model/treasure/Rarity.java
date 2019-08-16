@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.artifact;
+package com.dnd5e.wiki.model.treasure;
 
 public enum Rarity {
 	COMMON("обычный", 100),

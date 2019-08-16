@@ -40,7 +40,10 @@ public class ItemVO {
 	private String dmg2;
 	@XmlElement(required = false)
 	private String dmgType;
-
+	
+	@XmlElement(required = false)
+	private String range;
+	
 	@XmlElement(required = false)
 	private String property;
 
@@ -75,6 +78,14 @@ public class ItemVO {
 				.collect(Collectors.joining(","));
 		dmg1 = weapon.getNumberDice() == null ? "" : String.valueOf(weapon.getNumberDice());
 		dmg1 += weapon.getDamageDice() == null ? "" : weapon.getDamageDice().name();
+		if (weapon.getMinDistance() != null && weapon.getMaxDistance() != null)
+		{
+			range = weapon.getMinDistance() + "/"+ weapon.getMaxDistance();
+		}
+		if (weapon.getTwoHandDamageDice() != null)
+		{
+			dmg2 = weapon.getNumberDice() == null ? "" : String.valueOf(weapon.getNumberDice()) + weapon.getTwoHandDamageDice();
+		}
 		if (weapon.getDamageType()!= null)
 		{
 			dmgType = String.valueOf(weapon.getDamageType().name().charAt(0));

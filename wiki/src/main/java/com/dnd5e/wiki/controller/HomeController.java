@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.dnd5e.wiki.model.paces.Place;
+import com.dnd5e.wiki.model.places.Place;
 import com.dnd5e.wiki.repository.PlaceRepository;
 
 @Controller

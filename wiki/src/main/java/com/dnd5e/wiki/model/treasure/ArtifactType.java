@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.artifact;
+package com.dnd5e.wiki.model.treasure;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

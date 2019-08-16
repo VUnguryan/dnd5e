@@ -26,9 +26,9 @@ public enum Dice {
 			case 100:
 				return d100;
 		}
-		
 		return null;
 	}
+
 	public String getName() {
 		return name();
 	}

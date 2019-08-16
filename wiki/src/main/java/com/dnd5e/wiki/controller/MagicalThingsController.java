@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dnd5e.wiki.model.artifact.Artifact;
-import com.dnd5e.wiki.model.artifact.ArtifactType;
-import com.dnd5e.wiki.model.artifact.Rarity;
+import com.dnd5e.wiki.model.treasure.Artifact;
+import com.dnd5e.wiki.model.treasure.ArtifactType;
+import com.dnd5e.wiki.model.treasure.Rarity;
 import com.dnd5e.wiki.repository.ArtifactRepository;
 
 @Controller
