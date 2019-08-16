@@ -37,6 +37,10 @@ public class Weapon {
 	@Column(nullable = true)
 	private Dice damageDice;
 	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(nullable = true)
+	private Dice twoHandDamageDice;
+	
 	@Column(nullable = true)
 	private Byte numberDice;
 	
@@ -47,6 +51,12 @@ public class Weapon {
 	@Enumerated(EnumType.ORDINAL)
 	private WeaponType type;
 	
+	@Column(nullable = true)
+	private Short minDistance;
+
+	@Column(nullable = true)
+	private Short maxDistance;
+
 	@ManyToMany
 	List<WeaponProperty> properties;
 	

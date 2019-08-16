@@ -5,10 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.dnd5e.wiki.model.hero.race.Race;
 
 import lombok.Data;
 
@@ -22,7 +19,4 @@ public class Feature {
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	
-	@ManyToOne(optional= true)
-	private Race race;
 }

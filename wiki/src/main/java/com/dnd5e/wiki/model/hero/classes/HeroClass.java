@@ -32,7 +32,11 @@ public class HeroClass {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	
+
+	@OneToMany()
+	@JoinColumn(name = "hero_class_id")
+	private List<LevelDefinition> levelDefenitions;
+
 	private String boneHits;
 	private byte diceHp;
 
@@ -41,21 +45,23 @@ public class HeroClass {
 	private String savingThrows;
 	private String skills;
 	private String archetypeName;
-	
-	@ManyToMany (fetch = FetchType.LAZY)
+
+	@ManyToMany(fetch = FetchType.LAZY)
 	@OrderBy("level")
 	private List<Spell> spells;
-	
+
 	@OneToMany()
 	@JoinColumn(name = "hero_class_id")
 	private List<HeroClassTrait> traits;
-	
+
 	private int enabledArhitypeLevel;
+
 	@OneToMany()
 	@JoinColumn(name = "class_id")
 	private List<Archetype> archetypes;
 
 	private short skillAvailableCount;
+
 	@ElementCollection(targetClass = SkillType.class)
 	@JoinTable(name = "class_available_skills", joinColumns = @JoinColumn(name = "class_id"))
 	@Column(name = "skill", nullable = false)
