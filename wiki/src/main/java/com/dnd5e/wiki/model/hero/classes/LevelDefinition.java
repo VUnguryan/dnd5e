@@ -24,7 +24,9 @@ public class LevelDefinition {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private byte level;
-
+	private byte masteryBonus;
+	private byte spells;
+	
 	private byte slot0;
 	private byte slot1;
 	private byte slot2;
