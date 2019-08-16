@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
+import com.dnd5e.wiki.model.spell.Component;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.spell.TimeCast;
@@ -40,13 +41,12 @@ public class SpellController {
 	private Set<Integer> clases;
 	private Set<MagicSchool> schools = EnumSet.allOf(MagicSchool.class);
 	private Optional<TimeCast> timeCastSelected = Optional.empty();
-	private boolean verbal;
-	private boolean somatic;
-	private boolean material;
+	private Set<Component> components;
 	private Set<String> distances;
 
 	private SpellRepository spellRepository;
 	private ClassRepository classRepository;
+	private Set<String> distanceTypes;
 	
 	@Autowired
 	public void setSpellRepository(SpellRepository spellRepository) {
@@ -63,6 +63,9 @@ public class SpellController {
 	@PostConstruct
 	public void initClssses() {
 		this.clases = classRepository.findAll().stream().map(HeroClass::getId).collect(Collectors.toSet());
+		this.components = EnumSet.noneOf(Component.class);
+		this.distanceTypes = spellRepository.findAllDistanceName();
+		this.distances = new HashSet<>();
 	}
 
 	@GetMapping
@@ -106,7 +109,7 @@ public class SpellController {
 				specification = Specification.where(specification).and(byMaxLevel());
 			}
 		}
-		if (verbal || somatic || material) {
+		if (!components.isEmpty()) {
 			if (specification == null) {
 				specification = byComponents();
 			} else {
@@ -127,13 +130,16 @@ public class SpellController {
 		model.addAttribute("maxLevel", maxLevel);
 		model.addAttribute("timeCast", timeCastSelected);
 		model.addAttribute("timeCastTypes", TimeCast.values());
-		model.addAttribute("verbal", verbal);
-		model.addAttribute("somatic", somatic);
-		model.addAttribute("material", material);
+		model.addAttribute("components", components);
+		model.addAttribute("componentNames", Component.values());
+		model.addAttribute("componentNames", Component.values());
+		model.addAttribute("distanceTypes", distanceTypes);
+		model.addAttribute("distances", distances);
+
 		model.addAttribute("filtered",
 				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent() || clases.size() < classRepository.count()
 						|| (schools.size() != MagicSchool.values().length) || timeCastSelected.isPresent()
-						|| verbal || somatic || material);
+						|| !components.isEmpty());
 		return "spells";
 	}
 
@@ -155,9 +161,7 @@ public class SpellController {
 		this.clases = classRepository.findAll().stream().map(HeroClass::getId).collect(Collectors.toSet());
 		this.schools = EnumSet.copyOf(Arrays.asList(MagicSchool.values()));
 		this.timeCastSelected = Optional.empty();
-		this.verbal = false;
-		this.somatic = false;
-		this.material = false;
+		this.components = EnumSet.noneOf(Component.class);
 		return "redirect:/hero/spells?sort=level,asc";
 	}
 
@@ -170,13 +174,11 @@ public class SpellController {
 
 	@GetMapping(params = { "sort", "classType", "schoolType", "timeCast" })
 	public String filterSpellByTypes(Model model, String sort, @RequestParam("classType") Integer[] classId,
-			String[] schoolType, String timeCast, String verbal, String somatic, String material, Pageable page) {
-		this.clases = Arrays.stream(classId).collect(Collectors.toSet());
-		this.schools = Arrays.stream(schoolType).map(MagicSchool::valueOf).collect(Collectors.toSet());
-		this.timeCastSelected = "ALL".equals(timeCast) ? Optional.empty() : Optional.of(TimeCast.valueOf(timeCast));
-		this.verbal = "on".equals(verbal);
-		this.somatic = "on".equals(somatic);
-		this.material = "on".equals(material);
+			String[] schoolType, String timeCast, String[] components, Pageable page) {
+		clases = Arrays.stream(classId).collect(Collectors.toSet());
+		schools = Arrays.stream(schoolType).map(MagicSchool::valueOf).collect(Collectors.toSet());
+		timeCastSelected = "ALL".equals(timeCast) ? Optional.empty() : Optional.of(TimeCast.valueOf(timeCast));
+		this.components =  Arrays.stream(components).map(Component::valueOf).collect(Collectors.toSet());
 		return "redirect:/hero/spells?sort=" + sort;
 	}
 
@@ -217,6 +219,9 @@ public class SpellController {
 	}
 
 	private Specification<Spell> byComponents() {
+		boolean verbal = components.contains(Component.VERBAL);
+		boolean somatic = components.contains(Component.SOMATIC);
+		boolean material = components.contains(Component.MATERIAL);
 		if (verbal && !somatic && !material) {
 			return (root, query, cb) -> cb.and(cb.isTrue(root.get("verbalComponent")),
 					cb.isFalse(root.get("somaticComponent")), cb.isFalse(root.get("materialComponent")));

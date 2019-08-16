@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.dnd5e.wiki.model.Source;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
-import com.dnd5e.wiki.model.hero.Bonus;
+import com.dnd5e.wiki.model.hero.AbilityBonus;
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Data;
@@ -41,7 +41,7 @@ public class Race {
 	
 	@OneToMany
 	@JoinColumn(name = "race_id")
-	private List<Bonus> bonuses;
+	private List<AbilityBonus> abilityBonuses;
 	
 	@OneToMany
 	List<Language> languages;
@@ -54,8 +54,12 @@ public class Race {
 	private List<Race> subRaces;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, columnDefinition = "varchar(255) default MEDIUM")
 	private CreatureSize size;
-
+	
+	@Column(columnDefinition = "int default 30")
+	private int speed; 
+	
 	@Enumerated(EnumType.STRING)
 	private Source source;
 }

@@ -1,10 +1,10 @@
 package com.dnd5e.wiki.model.creature;
 
-import static com.dnd5e.wiki.model.creature.Ability.CHARISMA;
-import static com.dnd5e.wiki.model.creature.Ability.DEXTERITY;
-import static com.dnd5e.wiki.model.creature.Ability.INTELLIGENCE;
-import static com.dnd5e.wiki.model.creature.Ability.STRENGTH;
-import static com.dnd5e.wiki.model.creature.Ability.WISDOM;
+import static com.dnd5e.wiki.model.creature.AbilityType.CHARISMA;
+import static com.dnd5e.wiki.model.creature.AbilityType.DEXTERITY;
+import static com.dnd5e.wiki.model.creature.AbilityType.INTELLIGENCE;
+import static com.dnd5e.wiki.model.creature.AbilityType.STRENGTH;
+import static com.dnd5e.wiki.model.creature.AbilityType.WISDOM;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,12 +43,12 @@ public enum SkillType {
 	PERFORMANCE(CHARISMA, "Выступление"),
 	PERSUASION(CHARISMA, "Убеждение");
 	
-	@Getter() private Ability ability;
+	@Getter() private AbilityType ability;
 	@Getter() private String cyrilicName;
 	private Set<String> cyrilicNames;
 
 	
-	SkillType(Ability ability, String ... cyrilicNames){
+	SkillType(AbilityType ability, String ... cyrilicNames){
 		this.ability = ability;
 		this.cyrilicName = cyrilicNames[0];
 		this.cyrilicNames = Arrays.stream(cyrilicNames).collect(Collectors.toSet());
@@ -63,7 +63,7 @@ public enum SkillType {
 		return null;
 	}
 	
-	public static Map<Ability, List<SkillType>> getSkillsToAbbility() {
+	public static Map<AbilityType, List<SkillType>> getSkillsToAbbility() {
 		return Arrays.stream(values()).collect(sortedGroupingBy(SkillType::getAbility));
 	}
 	

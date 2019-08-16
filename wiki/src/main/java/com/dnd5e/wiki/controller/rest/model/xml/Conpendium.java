@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.dnd5e.wiki.model.artifact.Artifact;
 import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.hero.race.Race;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.Equipment;
@@ -37,21 +38,24 @@ public class Conpendium implements Serializable {
 	@XmlElement(name="monster")
 	private List<CreatureVO> monsters;
 	
+	@XmlElement(name="race")
+	private List<RaceVO> races;
+	
 	public Conpendium(){
 		
 	}
 	
 	public void setMonsters(List<Creature> creatures) {
-		this.monsters = creatures.stream().map(c -> new CreatureVO(c)).collect(Collectors.toList());
+		this.monsters = creatures.stream().map(CreatureVO::new).collect(Collectors.toList());
 	}
 	
 	public void setSpells(List<Spell> spells)
 	{
-		this.spells = spells.stream().map(s -> new SpellVO(s)).collect(Collectors.toList());
+		this.spells = spells.stream().map(SpellVO::new).collect(Collectors.toList());
 	}
 	
 	public void setMagicItems(List<Artifact> artifacts) {
-		this.magivItems = artifacts.stream().map(a -> new MagicItemVO(a)).collect(Collectors.toList());
+		this.magivItems = artifacts.stream().map(MagicItemVO::new).collect(Collectors.toList());
 	}
 
 	public void setItems(List<Equipment> equipments, List<Weapon> weapons, List<Armor> armors) {
@@ -65,5 +69,10 @@ public class Conpendium implements Serializable {
 				: string.replaceAll(HTML_REGEXP, "").replace("&nbsp;", " ").replace("&mdash;", "")
 						.replace("&ndash;", "").replace("&laquo;", "").replace("&raquo;", "").replace("&rsquo;", "")
 						.replace("&bull;", "").replace("&times;", "").replace("&minus;", "-");
+	}
+
+	public void setRaces(List<Race> races) {
+		this.races = races.stream().map(RaceVO::new).collect(Collectors.toList());;
+		
 	}
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Ability {
+public enum AbilityType {
 	STRENGTH("Сила"),
 	DEXTERITY("Ловкость"),
 	CONSTITUTION("Телосложение"),
@@ -19,22 +19,22 @@ public enum Ability {
 		return cyrilicName.substring(0,3);
 	}
 
-	public static Ability parseShortName(String shortName) {
+	public static AbilityType parseShortName(String shortName) {
 
 		switch (shortName) {
 			case "Сил":
-				return Ability.STRENGTH;
+				return AbilityType.STRENGTH;
 			case "Лов":
-				return Ability.DEXTERITY;
+				return AbilityType.DEXTERITY;
 			case "Тел":
-				return Ability.CONSTITUTION;
+				return AbilityType.CONSTITUTION;
 			case "Инт":
-				return Ability.INTELLIGENCE;
+				return AbilityType.INTELLIGENCE;
 			case "Мдр":
 			case "Муд":			
-				return Ability.WISDOM;
+				return AbilityType.WISDOM;
 			case "Хар":
-				return Ability.CHARISMA;
+				return AbilityType.CHARISMA;
 		}
 		return null;
 	}

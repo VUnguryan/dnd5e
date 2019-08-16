@@ -39,8 +39,7 @@
 						<select id="classType" class="custom-select" multiple>
 							<option th:each="type : ${classTypes}" th:value="${type.id}"
 								th:text="${type.name}"
-								th:selected="${classSelected.contains(type.id)}">
-							</option>
+								th:selected="${classSelected.contains(type.id)}"></option>
 						</select>
 					</div>
 					<div class="input-group mb-4">
@@ -51,6 +50,16 @@
 							<option th:each="school : ${schoolTypes}" th:value="${school}"
 								th:text="${school.name}"
 								th:selected="${schoolSelected.contains(school)}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="distanceType">Дистанция</label>
+						</div>
+						<select id="distanceType" class="custom-select" multiple="multiple">
+							<option th:each="distance : ${distanceTypes}" th:value="${distance}"
+								th:text="${distance}"
+								th:selected="${distances.contains(distance)}" />
 						</select>
 					</div>
 					<div class="input-group mb-4">
@@ -80,17 +89,11 @@
 					<div class="input-group mb-4">
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="components">Компоненты</label>
-							<div class="form-check">
-								&nbsp;<span class="input-group-addon">Вербалный</span> <input
-									th:checked="${verbal}" type="checkbox" class="control"
-									id="verbal" onchange="filter()"> &nbsp;<span
-									class="input-group-addon">Соматический</span> <input
-									th:checked="${somatic}" type="checkbox" class="control"
-									id="somatic" onchange="filter()"> &nbsp;<span
-									class="input-group-addon">Материальный</span> <input
-									th:checked="${material}" type="checkbox" class="control"
-									id="material" onchange="filter()">
-							</div>
+							<select id="components" class="custom-select" multiple="multiple">
+								<option th:each="component : ${componentNames}"
+									th:value="${component}" th:text="${component.name}"
+									th:selected="${components.contains(component)}" />
+							</select>
 						</div>
 					</div>
 					<div class="input-group mb-4">
@@ -165,38 +168,51 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#schoolType').multiselect({
+			buttonWidth : '250px',
 			enableFiltering : true,
 			includeSelectAllOption : true,
 			selectAllJustVisible : false,
 			selectAllText : 'Все',
-
+			nSelectedText : ' - выбрано',
+			allSelectedText : "Выбраны все школы магии",
+			nonSelectedText : 'школы магии не выбраны',
 			onDropdownHide : function(event) {
-				filter(this);
-			},
-			onSelectAll : function() {
-				filter(this);
-			},
-			onDeselectAll : function() {
 				filter(this);
 			}
 		});
 		$('#classType').multiselect({
+			allSelectedText : "Выбраны все классы",
+			buttonWidth : '250px',
 			enableFiltering : true,
 			includeSelectAllOption : true,
 			selectAllJustVisible : false,
 			selectAllText : 'Все',
-
+			nSelectedText : ' - выбрано',
+			nonSelectedText : 'классы не выбраны',
 			onDropdownHide : function(event) {
-				filter(this);
-			},
-			onSelectAll : function() {
-				filter(this);
-			},
-			onDeselectAll : function() {
 				filter(this);
 			}
 		});
+		$('#components').multiselect({
+			buttonWidth : '200px',
+			selectAllText : 'Все компонетны ',
+			nonSelectedText : 'Любая комбинация компонентов',
 
+			onChange : function(event) {
+				filter(this);
+			}
+		});
+		$('#distanceType').multiselect({
+			buttonWidth : '300px',
+			maxHeight: 200,
+			includeSelectAllOption: true,
+			enableFiltering: true,
+			selectAllText : 'Любая дистанция ',
+			nonSelectedText : 'Любая дистанция',
+			onDropdownHide : function(event) {
+				filter(this);
+			}
+		});
 	});
 </script>
 <script>
@@ -272,13 +288,10 @@
 		var type = $("#classType").val();
 		var schoolType = $("#schoolType").val();
 		var timeCast = $("#timeCast").val();
-		var verbal = $("#verbal:checked").val();
-		var somatic = $("#somatic:checked").val();
-		var material = $("#material:checked").val();
+		var components = $("#components").val();
 		var sort = getParameterByName('sort');
 		var parameters = "classType=" + type + "&schoolType=" + schoolType
-				+ "&timeCast=" + timeCast + "&verbal=" + verbal + "&somatic="
-				+ somatic + "&material=" + material;
+				+ "&timeCast=" + timeCast + "&components=" + components;
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}

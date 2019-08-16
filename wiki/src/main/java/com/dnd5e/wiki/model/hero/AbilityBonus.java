@@ -8,19 +8,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.creature.Ability;
+import com.dnd5e.wiki.model.creature.AbilityType;
 
 import lombok.Data;
 
 @Entity
 @Table(name = "race_bonuses")
 @Data
-public class Bonus {
+public class AbilityBonus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private Ability ability;
+	private AbilityType ability;
 	private byte bonus;
 }

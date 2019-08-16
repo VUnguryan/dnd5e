@@ -20,7 +20,7 @@ public class SavingThrow {
 	private Integer id;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private Ability ability;
+	private AbilityType ability;
 	private byte bonus;
  
 	public String getText() {
