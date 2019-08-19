@@ -24,6 +24,7 @@ public class RaceVO {
 	
 	@XmlElement
 	private String ability;
+	
 	@XmlElement
 	private List<TraitVO> trait;
 	

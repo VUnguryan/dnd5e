@@ -29,10 +29,12 @@ import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.State;
 import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.ArtifactRepository;
+import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
+import com.dnd5e.wiki.repository.TraitRepository;
 import com.dnd5e.wiki.repository.WeaponRepository;
 
 @RestController
@@ -60,6 +62,12 @@ public class ExportController {
 	
 	@Autowired
 	private RaceRepository raceRepo;
+	
+	@Autowired
+	private TraitRepository traitRepo;
+	
+	@Autowired
+	private ClassRepository classRepo;
 
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<JsonCreature> getJsonCreatures() {
@@ -197,6 +205,8 @@ public class ExportController {
 		list.setMagicItems(artRepo.findAll());
 		list.setItems(equRepo.findAll(), weponRepo.findAll(), armorRepo.findAll());
 		list.setRaces(raceRepo.findAll());
+		list.setFetures(traitRepo.findAll());
+		list.setClasses(classRepo.findAll());
 		return list;
 	}
 	
