@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import org.thymeleaf.util.StringUtils;
+
 import com.dnd5e.wiki.model.hero.Trait;
 
 import lombok.NoArgsConstructor;
@@ -19,7 +21,7 @@ public class FeatVO implements Serializable {
 	private String prerequisite;
 	
 	public FeatVO(Trait trait) {
-		name = trait.getName();
+		name = StringUtils.capitalize(trait.getName().toLowerCase());
 		text = Conpendium.removeHtml(trait.getDescription());
 		prerequisite = trait.getRequirement();
 	}

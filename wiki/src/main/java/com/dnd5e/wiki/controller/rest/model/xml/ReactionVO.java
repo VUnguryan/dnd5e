@@ -7,18 +7,15 @@ import javax.xml.bind.annotation.XmlElement;
 import lombok.Getter;
 
 @Getter
-public class Reaction implements Serializable{
+public class ReactionVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
 	private String name;
 	@XmlElement
 	private String text;
-	public Reaction() {
-		
-	}
 	
-	public Reaction(String name, String text) {
+	public ReactionVO(String name, String text) {
 		this.name = name;
 		this.text = text;
 	}

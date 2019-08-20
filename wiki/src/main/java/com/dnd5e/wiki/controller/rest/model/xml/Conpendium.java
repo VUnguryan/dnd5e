@@ -44,7 +44,7 @@ public class Conpendium implements Serializable {
 	private List<RaceVO> races;
 	
 	@XmlElement(name="feat")
-	private List<FeatVO> features;
+	private List<FeatVO> feats;
 	
 	@XmlElement(name="class")
 	private List<ClassVO> classes;
@@ -84,7 +84,7 @@ public class Conpendium implements Serializable {
 	}
 
 	public void setFetures(List<Trait> traits) {
-		this.features = traits.stream().map(FeatVO::new).collect(Collectors.toList());
+		this.feats = traits.stream().map(FeatVO::new).collect(Collectors.toList());
 	}
 
 	public void setClasses(List<HeroClass> classes) {

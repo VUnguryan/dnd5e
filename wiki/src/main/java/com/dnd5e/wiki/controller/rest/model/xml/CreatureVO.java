@@ -71,7 +71,7 @@ public class CreatureVO {
 	@XmlElement
 	private List<Action> action;
 	@XmlElement
-	private List<Reaction> reaction;
+	private List<ReactionVO> reaction;
 	@XmlElement
 	private List<Legendary> legendary;
 	@XmlElement
@@ -144,7 +144,7 @@ public class CreatureVO {
 				.map(a -> new Action(a.getName(), Conpendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		this.reaction = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION)
-				.map(a -> new Reaction(a.getName(), Conpendium.removeHtml(a.getDescription())))
+				.map(a -> new ReactionVO(a.getName(), Conpendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		this.legendary = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY)
 				.map(a -> new Legendary(a.getName(), Conpendium.removeHtml(a.getDescription())))
