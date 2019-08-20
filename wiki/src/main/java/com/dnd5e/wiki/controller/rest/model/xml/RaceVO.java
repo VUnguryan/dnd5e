@@ -27,6 +27,9 @@ public class RaceVO {
 	
 	@XmlElement
 	private List<TraitVO> trait;
+
+	@XmlElement(name = "text")
+	private String source;
 	
 	public RaceVO(Race race) {
 		name = StringUtils.capitalize(race.getName().toLowerCase());
@@ -34,5 +37,6 @@ public class RaceVO {
 		speed = race.getSpeed();
 		ability = race.getAbilityBonuses().stream().map(r -> r.getAbility().name() + r.getBonus()).collect(Collectors.joining(", "));
 		trait = race.getFeatures().stream().map(TraitVO::new).collect(Collectors.toList());
+		source = "Источник: " +  race.getSource().getCyrilicName();
 	}
 }

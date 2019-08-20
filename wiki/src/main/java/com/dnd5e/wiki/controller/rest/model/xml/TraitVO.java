@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
 
+import org.thymeleaf.util.StringUtils;
+
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Getter;
@@ -19,8 +21,8 @@ public class TraitVO implements Serializable {
 	public TraitVO() {}
 
 	public TraitVO(String name, String text) {
-		this.name = name;
-		this.text = text;
+		this.name =  StringUtils.capitalize(name.toLowerCase());
+		this.text =  Conpendium.removeHtml(text);
 	}
 	public TraitVO(Feature feature) {
 		name = feature.getName();

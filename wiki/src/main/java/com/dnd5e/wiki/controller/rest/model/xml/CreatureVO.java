@@ -80,7 +80,9 @@ public class CreatureVO {
 	private String spells;
 	@XmlElement(required = false)
 	private String slots;
-
+	
+	@XmlElement(name = "text", required = false)
+	private String source;
 	public CreatureVO() {
 	}
 
@@ -164,6 +166,7 @@ public class CreatureVO {
 				}
 			}
 		}
+		source = "Источник: " + creature.getSource().getCyrilicName();
 	}
 
 	private void parseSpell(String descr) {

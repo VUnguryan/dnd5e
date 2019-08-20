@@ -38,4 +38,13 @@ public enum AbilityType {
 		}
 		return null;
 	}
+	
+	public static AbilityType parse(String name) {
+		for (AbilityType abilityType : values()) {
+			if (abilityType.getCyrilicName().equalsIgnoreCase(name)) {
+				return abilityType;
+			}
+		}
+		return null;
+	}
 }

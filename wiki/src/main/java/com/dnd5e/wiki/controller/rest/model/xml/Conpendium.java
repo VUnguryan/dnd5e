@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.hero.Background;
 import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.hero.race.Race;
@@ -42,12 +43,15 @@ public class Conpendium implements Serializable {
 	
 	@XmlElement(name="race")
 	private List<RaceVO> races;
-	
+
+	@XmlElement(name="class")
+	private List<ClassVO> classes;
+
 	@XmlElement(name="feat")
 	private List<FeatVO> feats;
 	
-	@XmlElement(name="class")
-	private List<ClassVO> classes;
+	@XmlElement(name="background")
+	private List<BackgroundVO> backgrounds;
 	
 	public Conpendium(){
 		
@@ -89,5 +93,9 @@ public class Conpendium implements Serializable {
 
 	public void setClasses(List<HeroClass> classes) {
 		this.classes = classes.stream().map(ClassVO::new).collect(Collectors.toList());
+	}
+
+	public void setBsckgrounds(List<Background> backgrounds) {
+		this.backgrounds = backgrounds.stream().map(BackgroundVO::new).collect(Collectors.toList());
 	}
 }

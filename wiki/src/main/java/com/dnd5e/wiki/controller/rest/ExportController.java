@@ -27,8 +27,10 @@ import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.model.hero.Background;
 import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.ArtifactRepository;
+import com.dnd5e.wiki.repository.BackgroundRepository;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.EquipmentRepository;
@@ -68,6 +70,9 @@ public class ExportController {
 	
 	@Autowired
 	private ClassRepository classRepo;
+	
+	@Autowired
+	private BackgroundRepository backgroundRepo;
 
 	@GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public List<JsonCreature> getJsonCreatures() {
@@ -205,8 +210,10 @@ public class ExportController {
 		list.setMagicItems(artRepo.findAll());
 		list.setItems(equRepo.findAll(), weponRepo.findAll(), armorRepo.findAll());
 		list.setRaces(raceRepo.findAll());
-		list.setFetures(traitRepo.findAll());
 		list.setClasses(classRepo.findAll());
+		list.setFetures(traitRepo.findAll());
+		list.setBsckgrounds(backgroundRepo.findAll());
+		
 		return list;
 	}
 	
