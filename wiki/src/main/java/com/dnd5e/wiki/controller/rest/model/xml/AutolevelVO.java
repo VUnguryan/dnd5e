@@ -29,7 +29,15 @@ public class AutolevelVO {
 		{
 			scoreImprovement = "YES";
 		}
-		features = traits.stream().filter(f -> !f.getName().equals("УВЕЛИЧЕНИЕ ХАРАКТЕРИСТИК")).map(FeatureVO::new).collect(Collectors.toList());
-		optionalFeatures = aTraits.stream().map(OptionalFeatureVO::new).collect(Collectors.toList());
+		features = traits
+				.stream()
+				.filter(f -> !f.getName().equals("УВЕЛИЧЕНИЕ ХАРАКТЕРИСТИК"))
+				.map(FeatureVO::new)
+				.collect(Collectors.toList());
+
+		optionalFeatures = aTraits
+				.stream()
+				.map(OptionalFeatureVO::new)
+				.collect(Collectors.toList());
 	}
 }

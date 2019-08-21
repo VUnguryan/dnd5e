@@ -78,7 +78,7 @@ public class Conpendium implements Serializable {
 
 	public static String removeHtml(String string) {
 		return string == null ? ""
-				: string.replaceAll(HTML_REGEXP, "").replace("&nbsp;", " ").replace("&mdash;", "")
+				: string.replaceAll(HTML_REGEXP, " ").replace("&nbsp;", " ").replace("&mdash;", "")
 						.replace("&ndash;", "").replace("&laquo;", "").replace("&raquo;", "").replace("&rsquo;", "")
 						.replace("&bull;", "").replace("&times;", "").replace("&minus;", "-");
 	}

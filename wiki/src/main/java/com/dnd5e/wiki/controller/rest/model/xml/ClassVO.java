@@ -35,7 +35,10 @@ public class ClassVO {
 	
 	@XmlElement (required = false)
 	private String tools;
-
+	
+	@XmlElement (required = false)
+	private String spellAbility;
+	
 	@XmlElement(name = "autolevel", required = false)
 	private List<SlotVO> slots;
 	
@@ -71,6 +74,10 @@ public class ClassVO {
 				.collect(Collectors.joining(","));
 		weapons = hero.getWeapon();
 		armor = hero.getArmor();
+		if (hero.getSpellAbility()!=null) {
+			spellAbility = StringUtils.capitalize(hero.getSpellAbility().name().toLowerCase());
+		}
+ 
 		if (hero.getId() <9) {
 			slots = hero.getLevelDefenitions().stream().map(SlotVO::new).collect(Collectors.toList());
 		}

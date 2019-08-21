@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.creature.AbilityType;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.HeroClassTrait;
 import com.dnd5e.wiki.model.spell.Spell;
@@ -49,6 +50,10 @@ public class HeroClass {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@OrderBy("level")
 	private List<Spell> spells;
+
+	@Column(nullable = true)
+	@Enumerated(EnumType.STRING)
+	private AbilityType spellAbility;
 
 	@OneToMany()
 	@JoinColumn(name = "hero_class_id")
