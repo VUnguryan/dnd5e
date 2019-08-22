@@ -31,12 +31,20 @@ public class RaceVO {
 	@XmlElement(name = "text")
 	private String source;
 	
+	@XmlElement(name = "modifier", required = false)
+	private List<ModifierVO> modifiers;
+	
 	public RaceVO(Race race) {
 		name = StringUtils.capitalize(race.getName().toLowerCase());
 		size = String.valueOf(race.getSize().name().charAt(0));
 		speed = race.getSpeed();
-		ability = race.getAbilityBonuses().stream().map(r -> r.getAbility().name() + r.getBonus()).collect(Collectors.joining(", "));
-		trait = race.getFeatures().stream().map(TraitVO::new).collect(Collectors.toList());
+		ability = race.getAbilityBonuses()
+				.stream()
+				.map(r -> StringUtils.capitalize(r.getAbility().name().toLowerCase().substring(0, 3)) + " " + r.getBonus())
+				.collect(Collectors.joining(", "));
+		trait = race.getFeatures()
+				.stream().map(TraitVO::new)
+				.collect(Collectors.toList());
 		source = "Источник: " +  race.getSource().getCyrilicName();
 	}
 }
