@@ -6,20 +6,21 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Alignment {
-	LAWFUL_GOOD("законно-добрый"),
-	LAWFUL_NEUTRAL("законно-нейтральный"),
-	LAWFUL_EVIL("законно-злой"),
-	TRUE_NEUTRAL("законно-нейтральный"),
-	NEUTRAL_GOOD("нейтрально-добрый"),
-	NEUTRAL_EVIL("нейтрально-злой"), 
-	CHAOTIC_GOOD("хаотично-добрый"),
-	CHAOTIC_NEUTRAL("хаотично-нейтральный"),
-	CHAOTIC_EVIL("хаотично-злой"),
-	NEUTRAL("нейтральный"),
-	WITHOUT("без мировоззрения");
+	LAWFUL_GOOD("законно-добрый", "ЗД"),
+	LAWFUL_NEUTRAL("законно-нейтральный", "ЗН"),
+	LAWFUL_EVIL("законно-злой", "ЗЗ"),
+	TRUE_NEUTRAL("законно-нейтральный", "ЗН"),
+	NEUTRAL_GOOD("нейтрально-добрый", "НД"),
+	NEUTRAL_EVIL("нейтрально-злой", "НЗ"), 
+	CHAOTIC_GOOD("хаотично-добрый", "ХД"),
+	CHAOTIC_NEUTRAL("хаотично-нейтральный", "ХН"),
+	CHAOTIC_EVIL("хаотично-злой", "ХЗ"),
+	NEUTRAL("нейтральный", "Н"),
+	WITHOUT("без мировоззрения", "");
 
 	private String cyrilicName;
-
+	private String shortName;
+	
 	public static Alignment parse(String alignment) {
 		if (alignment.equals("нейтральный")) {
 			return NEUTRAL;

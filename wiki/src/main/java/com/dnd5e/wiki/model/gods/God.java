@@ -13,20 +13,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.creature.Alignment;
+
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 
 @Entity
 @Table(name = "gods")
-@Getter
-@Setter
 public class God {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String commitment;
-
+	
+	@Enumerated(EnumType.STRING)
+	private GodSex sex;
+	
+	@Enumerated(EnumType.STRING)
+	Alignment aligment;
+	
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private String symbol;

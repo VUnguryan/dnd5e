@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Добавление заклинания</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .races})"></div>
+	<div class="container-fluid" style="margin-top: 40px">
+		<form action="#" th:action="@{/admin/gods/add}" method="post">
+			<textarea name="godsText" rows="30" cols="80"></textarea>
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+</body>
+</html>

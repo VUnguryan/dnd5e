@@ -5,7 +5,10 @@ import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,9 @@ import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.Skill;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.model.gods.Domain;
+import com.dnd5e.wiki.model.gods.God;
+import com.dnd5e.wiki.model.gods.GodSex;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.stock.Armor;
@@ -41,6 +47,7 @@ import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.EquipmentRepository;
+import com.dnd5e.wiki.repository.GodRepository;
 import com.dnd5e.wiki.repository.LanguagesRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 
@@ -64,9 +71,69 @@ public class AdminController {
 	@Autowired
 	private ArmorRepository armorRepository;
 
+	@Autowired
+	private GodRepository godRepository;
+
+	@GetMapping("/gods/add")
+	public String getGods(Model model) {
+		return "admin/parseGods";
+	}
+
+	@PostMapping("/gods/add")
+	public String parseGods(String godsText) {
+		try (LineNumberReader reader = new LineNumberReader(new StringReader(godsText))) {
+			String line = null;
+			do {
+				line = reader.readLine();
+				if (line == null) {
+					break;
+				}
+				int endIndex = line.indexOf(",");
+
+				God god = new God();
+				god.setName(line.substring(0, endIndex));
+				line = line.substring(endIndex + 2);
+				endIndex = line.indexOf(" ");
+				god.setSex(GodSex.parse(line.substring(0, endIndex)));
+				line = line.substring(endIndex + 1);
+				for (Alignment aligment : Alignment.values()) {
+					endIndex = line.indexOf(aligment.getShortName());
+					if (endIndex != -1) {
+						god.setAligment(aligment);
+						break;
+					}
+				}
+				god.setCommitment(line.substring(0, endIndex));
+				line = line.substring(endIndex + god.getAligment().getShortName().length() + 1);
+				List<Domain> domains = new ArrayList<Domain>(2);
+				boolean foundDomain = false;
+				do {
+					foundDomain = false;
+					for (Domain domain : Domain.values()) {
+						if (line.contains(domain.getCyrilicName())) {
+							domains.add(domain);
+							line = line.replace(domain.getCyrilicName(), "");
+							foundDomain = true;
+						}
+					}
+				} while (foundDomain);
+				god.setDomains(domains);
+				if (line.startsWith(", ")) {
+					line = line.substring(2);
+				}
+				god.setSymbol(line.trim());
+				godRepository.save(god);
+			} while (line != null);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "admin/parseGods";
+	}
+
 	@GetMapping("/spell/add")
 	public String getSpellAddForm(Model model) {
-		return "admin/addSpell";
+		return "admin/parseSpell";
 	}
 
 	@PostMapping("/spell/add")
