@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.model.hero.classes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.creature.AbilityType;
 import com.dnd5e.wiki.model.creature.SkillType;
+import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.HeroClassTrait;
 import com.dnd5e.wiki.model.spell.Spell;
 
@@ -72,4 +74,12 @@ public class HeroClass {
 	@Column(name = "skill", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private List<SkillType> availableSkills;
+	
+	public List<ArchetypeTrait> getArhitypeTraitNames(int level){
+		return archetypes
+				.stream()
+				.flatMap(a -> a.getFeats().stream())
+				.filter(t->t.getLevel()==level)
+				.collect(Collectors.toList());
+	}
 }

@@ -12,8 +12,9 @@
 <link rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 </head>
 <body>
@@ -85,9 +86,25 @@
 								<td align="center"
 									th:text="'+' +${levelDefinition.masteryBonus}" />
 								<td><th:block th:each="trait : *{traits}">
-										<a th:href="${'#t' + trait.name}"
-											th:if="${levelDefinition.level == trait.level}"
-											th:text="${trait.name.toLowerCase() + ' ' }"></a>
+										<th:block th:if="${levelDefinition.level == trait.level}">
+											<th:block th:if=${trait.architype}>
+												<div class="dropdown">
+													<a class="dropdown-toggle" href="#" role="button"
+														id="archetypeMenu" data-toggle="dropdown"
+														aria-haspopup="true" aria-expanded="false"
+														th:text="${trait.name.toLowerCase() + ' ' }"></a>
+													<div class="dropdown-menu" aria-labelledby="archetypeMenu">
+														<a
+															th:each="architypeTrait : ${heroClass.getArhitypeTraitNames(levelDefinition.level)}"
+															th:text="${#strings.toLowerCase(architypeTrait.name) + ' (' + #strings.capitalize(#strings.toLowerCase(architypeTrait.archetype.name))+')'}"
+															class="dropdown-item"
+															th:href="${'#f'+architypeTrait.name}"></a>
+													</div>
+												</div>
+											</th:block>
+											<a th:if=${!trait.architype} th:href="${'#t' + trait.name}"
+												th:utext="${trait.name.toLowerCase() + '<br>' }"></a>
+										</th:block>
 									</th:block></td>
 
 								<td th:if="${levelDefinition.slot0 != -1}"
@@ -136,10 +153,13 @@
 								<p th:utext="${archetype.description}"></p>
 								<ul class="list-group list-group-flush">
 									<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5
-											class="card-title" th:text="${feat.name}" /></h5> <th:block
+											th:id="${'f'+feat.name}" class="card-title"
+											th:text="${feat.name}" /></h5> <th:block
 											th:utext="${feat.description}"></th:block>
 								</ul>
 							</div>
+							<footer class="blockquote-footer" th:if="${archetype.source}"
+								th:text="'Источник: ' + ${archetype.source.cyrilicName}"></footer>
 						</div>
 					</div>
 				</div>

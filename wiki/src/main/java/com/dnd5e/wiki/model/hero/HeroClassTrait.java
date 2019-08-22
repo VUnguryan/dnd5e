@@ -26,4 +26,6 @@ public class HeroClassTrait {
 	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;
+	
+	private boolean architype;
 }
