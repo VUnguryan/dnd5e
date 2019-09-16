@@ -25,6 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+
 @Entity
 @Table(name = "backgrounds")
 public class Background {

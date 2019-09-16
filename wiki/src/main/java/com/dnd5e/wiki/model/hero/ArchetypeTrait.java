@@ -10,11 +10,11 @@ import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.hero.classes.Archetype;
 
-import lombok.Data;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "hero_class_feats")
-@Data
 public class ArchetypeTrait {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
