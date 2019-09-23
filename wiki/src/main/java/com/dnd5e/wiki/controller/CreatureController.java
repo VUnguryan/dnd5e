@@ -116,7 +116,7 @@ public class CreatureController {
 
 	@GetMapping(params = "search")
 	public String searchCreature(Model model, String search) {
-		this.search = search.isEmpty() ? this.search = Optional.empty() : Optional.of(search);
+		this.search = search.isEmpty() ? this.search = Optional.empty() : Optional.of(search.trim());
 		return "redirect:/creatures";
 	}
 

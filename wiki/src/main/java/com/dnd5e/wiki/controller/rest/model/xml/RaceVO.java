@@ -45,6 +45,6 @@ public class RaceVO {
 		trait = race.getFeatures()
 				.stream().map(TraitVO::new)
 				.collect(Collectors.toList());
-		source = "Источник: " +  race.getSource().getCyrilicName();
+		source = "Источник: " +  race.getBook().getName();
 	}
 }

@@ -70,7 +70,7 @@
 					<p th:utext="*{description}" />
 				</div>
 				<div class="card-footer text-muted"
-					th:text="'Источник: ' + *{source.cyrilicName}"></div>
+					th:text="'Источник: ' + *{book.name}"></div>
 			</div>
 			<img class="card-img-top"
 				th:src="@{'/resources/races/' + *{id}+ '.jpg'}" th:title="*{name}" />

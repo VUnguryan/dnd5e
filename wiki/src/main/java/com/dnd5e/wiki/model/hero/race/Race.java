@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.Source;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
@@ -60,6 +61,7 @@ public class Race {
 	@Column(columnDefinition = "int default 30")
 	private int speed; 
 	
-	@Enumerated(EnumType.STRING)
-	private Source source;
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
 }
