@@ -268,11 +268,22 @@ public class AdminController {
 
 	@GetMapping("/creature/add")
 	public String getMonsterForm(Model model) {
+		model.addAttribute("creature", new Creature());
+		model.addAttribute("sizes", CreatureSize.values());
+		model.addAttribute("aligments", Alignment.values());
+		model.addAttribute("dices", Dice.values());
+		model.addAttribute("abilities", AbilityType.values());
+		return "admin/addCreature";
+	}
+
+	
+	@GetMapping("/creature/parse")
+	public String getMonsterParseForm(Model model) {
 		model.addAttribute("monster", new Creature());
 		return "admin/parseMonster";
 	}
 
-	@PostMapping("/creature/add")
+	@PostMapping("/creature/parse")
 	public String createCreature(Model model, String description) {
 		Creature creature = new Creature();
 		try (LineNumberReader reader = new LineNumberReader(new StringReader(description))) {

@@ -70,12 +70,12 @@ public class Creature {
 	private Short diggingSpeed;
 
 	// Абилки
-	private byte strength;
-	private byte dexterity;
-	private byte constitution;
-	private byte intellect;
-	private byte wizdom;
-	private byte charisma;
+	private byte strength = 10;
+	private byte dexterity = 10;
+	private byte constitution = 10;
+	private byte intellect = 10;
+	private byte wizdom = 10;
+	private byte charisma = 10;
 
 	@ElementCollection
 	@Enumerated(EnumType.ORDINAL)

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<title>DnD 5E Состояния персонажа</title>
+<meta charset="utf-8">
+
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .conditions})"></div>
+	<div class="container" style="margin-top: 50px">
+		<form action="#" th:action="@{/creature/add}" th:object="${creature}"
+			method="post">
+			<div class="card">
+				<div class="card-body">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">Наименование</span>
+						</div>
+						<input type="text" class="form-control" placeholder="Имя"
+							aria-label="Имя" aria-describedby="basic-addon1"
+							th:field="*{name}">
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="inputGroupSelect01">Размер</label>
+						</div>
+						<select class="custom-select" id="inputGroupSelect01">
+							<option th:each="size : ${sizes}" th:value="${size}"
+								th:text="${size.cyrilicName}"></option>
+						</select>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="inputGroupSelect01">Мировозрение</label>
+						</div>
+						<select class="custom-select" id="inputGroupSelect01">
+							<option th:each="aligment : ${aligments}" th:value="${aligment}"
+								th:text="${aligment.cyrilicName}"></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon1">Класс
+								доспеха</span>
+						</div>
+						<input type="text" class="form-control" placeholder="AC"
+							aria-label="AC" aria-describedby="basic-addon1" th:field="*{AC}">
+					</div>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Количество кубов хила/ куб
+								хила/ бонус</span>
+						</div>
+						<input type="text" aria-label="First name" class="form-control">
+						<select class="custom-select" id="inputGroupSelect01">
+							<option th:each="dice : ${dices}" th:value="${dice}"
+								th:text="${dice.name()}"></option>
+						</select> <input type="text" aria-label="Last name" class="form-control">
+					</div>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Скорость</span> <span
+								class="input-group-text">Летая</span> <span
+								class="input-group-text">Плавая</span> <span
+								class="input-group-text">Копая</span> <span
+								class="input-group-text">Лазая</span>
+						</div>
+						<input type="text" aria-label="speed" class="form-control">
+						<input type="text" aria-label="Last name" class="form-control">
+						<input type="text" aria-label="Last name" class="form-control">
+						<input type="text" aria-label="Last name" class="form-control">
+						<input type="text" aria-label="Last name" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="card-header">Опасность</div>
+					<select id="crMin" class="custom-select" onchange="filter()">
+						<option value="1/8">1/8</option>
+						<option value="1/4">1/4</option>
+						<option value="1/2">1/2</option>
+						<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
+							th:value="${i}" />
+					</select>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-header">Характеристики</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-2">
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="labelability">STR</span>
+								</div>
+								<input id="strId" type="number" class="form-control w-15"
+									aria-describedby="basic-addon1" th:field="*{strength}">
+								<div class="input-group-prepend ">
+									<span class="input-group-text" id="str_bonus">0</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2">
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="labelability">DEX</span>
+								</div>
+								<input id="dex" type="number" class="form-control w-15"
+									aria-describedby="basic-addon1" th:field="*{dexterity}">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="dex_bonus">0</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2">
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="labelability">CON</span>
+								</div>
+								<input id="con" type="number" class="form-control w-15"
+									aria-describedby="basic-addon1" th:field="*{constitution}">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="con_bonus">0</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2">
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="labelability">INT</span>
+								</div>
+								<input id="ints" type="number" class="form-control w-15"
+									aria-describedby="basic-addon1" th:field="*{intellect}">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="int_bonus">0</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2">
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="labelability">WIZ</span>
+								</div>
+								<input id="wiz" type="number" class="form-control w-15"
+									aria-describedby="basic-addon1" th:field="*{wizdom}">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="wiz_bonus">0</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2">
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="labelability">CHR</span>
+								</div>
+								<input id="cha" type="number" class="form-control w-15"
+									aria-describedby="basic-addon1" th:field="*{charisma}">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="cha_bonus">0</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+<script>
+	$('#strId').change(function() {
+		updateBonus('#strId', '#str_bonus');
+	})
+	$('#con').change(function() {
+		updateBonus('#con', '#con_bonus');
+	});
+	$('#dex').change(function() {
+		updateBonus('#dex', '#dex_bonus');
+	})
+	$('#ints').change(function() {
+		updateBonus('#ints', '#int_bonus');
+	})
+	$('#wiz').change(function() {
+		updateBonus('#wiz', '#wiz_bonus');
+	})
+
+	$('#cha').change(function() {
+		updateBonus('#cha', '#cha_bonus');
+	})
+	function updateBonus(value, source) {
+		var bonus = getBonus($(value).val());
+		$(source).text(bonus);
+	}
+	function getBonus(value) {
+		if (value == 1)
+			return -5;
+		else if (value <= 3)
+			return -4;
+		else if (value <= 5)
+			return -3;
+		else if (value <= 7)
+			return -2;
+		else if (value <= 9)
+			return -1;
+		else if (value <= 11)
+			return 0;
+		else if (value <= 13)
+			return 1;
+		else if (value <= 15)
+			return 2;
+		else if (value <= 17)
+			return 3;
+		else if (value <= 19)
+			return 4;
+		else if (value <= 21)
+			return 5;
+		else if (value <= 23)
+			return 6;
+		else if (value <= 25)
+			return 7;
+		else if (value <= 27)
+			return 8;
+		else if (value <= 29)
+			return 9;
+		return 10;
+	}
+</script>
+</html>
