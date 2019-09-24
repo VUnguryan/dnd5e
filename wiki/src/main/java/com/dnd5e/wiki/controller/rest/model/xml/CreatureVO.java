@@ -108,6 +108,7 @@ public class CreatureVO {
 		this.dex = creature.getDexterity();
 		this.con = creature.getConstitution();
 		this.intl = creature.getIntellect();
+		this.wis = creature.getWizdom();
 		this.cha = creature.getCharisma();
 		this.save = creature.getSavingThrows().stream()
 				.map(s -> String.format("%s %s%d", StringUtils.capitalize(s.getAbility().name().toLowerCase()),
