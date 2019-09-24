@@ -270,6 +270,7 @@ public class AdminController {
 	public String getMonsterForm(Model model) {
 		model.addAttribute("creature", new Creature());
 		model.addAttribute("sizes", CreatureSize.values());
+		model.addAttribute("types", CreatureType.values());
 		model.addAttribute("aligments", Alignment.values());
 		model.addAttribute("dices", Dice.values());
 		model.addAttribute("abilities", AbilityType.values());

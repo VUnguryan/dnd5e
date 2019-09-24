@@ -44,6 +44,16 @@
 					</div>
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
+							<label class="input-group-text" for="inputGroupSelect01">Тип</label>
+						</div>
+						<select class="custom-select" id="inputGroupSelect01">
+							<option th:each="type : ${types}" th:value="${type}"
+								th:text="${type.cyrilicName}"></option>
+						</select>
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
 							<label class="input-group-text" for="inputGroupSelect01">Мировозрение</label>
 						</div>
 						<select class="custom-select" id="inputGroupSelect01">
@@ -60,7 +70,7 @@
 							<span class="input-group-text" id="basic-addon1">Класс
 								доспеха</span>
 						</div>
-						<input type="text" class="form-control" placeholder="AC"
+						<input type="number" class="form-control" placeholder="AC"
 							aria-label="AC" aria-describedby="basic-addon1" th:field="*{AC}">
 					</div>
 					<div class="input-group">
@@ -68,38 +78,31 @@
 							<span class="input-group-text">Количество кубов хила/ куб
 								хила/ бонус</span>
 						</div>
-						<input type="text" aria-label="First name" class="form-control">
+						<input type="number" aria-label="First name" class="form-control">
 						<select class="custom-select" id="inputGroupSelect01">
 							<option th:each="dice : ${dices}" th:value="${dice}"
 								th:text="${dice.name()}"></option>
-						</select> <input type="text" aria-label="Last name" class="form-control">
+						</select> <input type="number" aria-label="Last name" class="form-control">
 					</div>
 					<div class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text">Скорость</span> <span
+							<span class="input-group-text">Скорость в фт.</span> <span
 								class="input-group-text">Летая</span> <span
 								class="input-group-text">Плавая</span> <span
-								class="input-group-text">Копая</span> <span
-								class="input-group-text">Лазая</span>
+								class="input-group-text">Лазая</span><span
+								class="input-group-text">Копая</span>
 						</div>
-						<input type="text" aria-label="speed" class="form-control">
-						<input type="text" aria-label="Last name" class="form-control">
-						<input type="text" aria-label="Last name" class="form-control">
-						<input type="text" aria-label="Last name" class="form-control">
-						<input type="text" aria-label="Last name" class="form-control">
+						<input type="number" aria-label="speed" class="form-control"
+							th:field="*{speed}"> <input type="number"
+							aria-label="Last name" class="form-control"
+							th:field="*{flySpeed}"> <input type="number"
+							aria-label="Last name" class="form-control"
+							th:field="*{swimmingSpped}"> <input type="number"
+							aria-label="Last name" class="form-control"
+							th:field="*{climbingSpeed}"> <input type="number"
+							aria-label="Last name" class="form-control"
+							th:field="*{diggingSpeed}">
 					</div>
-				</div>
-			</div>
-			<div class="card">
-				<div class="card-body">
-					<div class="card-header">Опасность</div>
-					<select id="crMin" class="custom-select" onchange="filter()">
-						<option value="1/8">1/8</option>
-						<option value="1/4">1/4</option>
-						<option value="1/2">1/2</option>
-						<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
-							th:value="${i}" />
-					</select>
 				</div>
 			</div>
 			<div class="card">
@@ -179,6 +182,33 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<select id="crMin" class="custom-select" onchange="filter()">
+						<option value="1/8">1/8</option>
+						<option value="1/4">1/4</option>
+						<option value="1/2">1/2</option>
+						<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
+							th:value="${i}" />
+					</select>
+				</div>
+			</div>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="card-header">Особенности</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="card-header">Действия</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="card-header">Реакции</div>
 				</div>
 			</div>
 		</form>
