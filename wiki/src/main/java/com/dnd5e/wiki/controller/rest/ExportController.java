@@ -27,7 +27,6 @@ import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.State;
-import com.dnd5e.wiki.model.hero.Background;
 import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.BackgroundRepository;

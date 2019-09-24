@@ -35,13 +35,14 @@
 						th:if="${param.sort != null AND param.sort[0] == 'name,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
-					<th onclick="sortTable(1)" scope="col" style="width: 3%">Мировоззрение<img
+					<th class="text-center" onclick="sortTable(1)" scope="col"
+						style="width: 3%">Миро<br>воззрение<img
 						th:if="${param.sort != null AND param.sort[0] == 'aligment,asc'}"
 						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
 						th:if="${param.sort != null AND param.sort[0] == 'aligment,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
-					<th onclick="sortTable(2)" scope="col" style="width: 20%"
+					<th onclick="sortTable(2)" scope="col" style="width: 15%"
 						class="text-center">Домены<img
 						th:if="${param.sort != null AND param.sort[0] == 'domains,asc'}"
 						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
@@ -52,11 +53,11 @@
 					</th>
 				</tr>
 			</thead>
-			<tr th:each="god : ${gods}" style="cursor: pointer"
+			<tr th:each="god : ${gods}"
 				th:onclick="'javascript:spellClicked(\'' + ${god.id} + '\');'">
 				<td align="center"><th:block
 						th:text="${god.name + ', '+ god.sex.name + ' ' + god.commitment}" /></td>
-				<td th:text="${god.aligment.shortName}" class="text-center" />
+				<td th:text="${god.aligment.shortName}" class="text-center" th:title="${god.aligment.cyrilicName}"/>
 				<td class="text-center"><th:block
 						th:each="domain, iterStat : ${god.domains}"
 						th:text="${iterStat.last} ? ${domain.cyrilicName} : ${domain.cyrilicName + ', '}" /></td>

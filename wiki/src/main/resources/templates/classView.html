@@ -158,8 +158,8 @@
 											th:utext="${feat.description}"></th:block>
 								</ul>
 							</div>
-							<footer class="blockquote-footer" th:if="${archetype.source}"
-								th:text="'Источник: ' + ${archetype.source.cyrilicName}"></footer>
+							<footer class="blockquote-footer" th:if="${archetype.book}"
+								th:text="'Источник: ' + ${archetype.book.name}"></footer>
 						</div>
 					</div>
 				</div>
