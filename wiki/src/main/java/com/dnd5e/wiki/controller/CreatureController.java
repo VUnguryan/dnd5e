@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -109,6 +110,7 @@ public class CreatureController {
 	@GetMapping("/race/{id}")
 	public String getCreatureRace(Model model, @PathVariable Integer id) {
 		CreatureRace race = creatureRaceRepository.getOne(id);
+		model.addAttribute("creatureRaces", creatureRaceRepository.findAll(Sort.by("name")));
 		model.addAttribute("race", race);
 		model.addAttribute("creatures", repository.findAllByRaceIdOrderByExpAsc(id));
 		return "classesCreature";

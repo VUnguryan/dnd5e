@@ -12,7 +12,8 @@ public enum ArmorType {
 	CHAINMAIL("кольчужная рубаха"),
 	SCRAPPY("лоскутный доспех"),
 	SCALED("чешуйчатый доспех"),
-	PLATE("латный доспех");
+	PLATE("латный доспех"),
+	RIVETED_LEATHER("проклёпанный кожаный доспех");
 
 	private String cyrillicName;
 }
