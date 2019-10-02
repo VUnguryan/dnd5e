@@ -1,5 +1,8 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -23,8 +26,9 @@ public class MagicItemVO {
 	private String rarityText;
 	@XmlElement(name="text", required=false)
 	private String requiresAttunement;
+	
 	@XmlElement()
-	private String text;
+	private List<String >text;
 	
 	public MagicItemVO(){
 		
@@ -45,7 +49,14 @@ public class MagicItemVO {
 						.collect(Collectors.joining(", "));
 			}
 		}
-		this.text = Conpendium.removeHtml(art.getDescription());
+
+		this.text = Arrays.stream(art.getDescription().split("<p>"))
+				.filter(Objects::nonNull)
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.map(Conpendium::removeHtml)
+				.collect(Collectors.toList());
+
 		switch (art.getType())
 		{
 		case ARMOR:

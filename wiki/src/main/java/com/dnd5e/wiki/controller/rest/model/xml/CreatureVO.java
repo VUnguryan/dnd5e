@@ -69,12 +69,12 @@ public class CreatureVO {
 	@XmlElement
 	private List<TraitVO> trait;
 	@XmlElement
-	private List<Action> action;
+	private List<ActionVO> action;
 	@XmlElement
 	private List<ReactionVO> reaction;
 	@XmlElement
 	private List<Legendary> legendary;
-	@XmlElement
+	@XmlElement(required = false)
 	private String description;
 	@XmlElement(name = "spells", required = false)
 	private String spells;
@@ -144,7 +144,7 @@ public class CreatureVO {
 				.collect(Collectors.toList());
 
 		this.action = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION)
-				.map(a -> new Action(a.getName(), Conpendium.removeHtml(a.getDescription())))
+				.map(a -> new ActionVO(a.getName(), a.getDescription()))
 				.collect(Collectors.toList());
 		this.reaction = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION)
 				.map(a -> new ReactionVO(a.getName(), Conpendium.removeHtml(a.getDescription())))
@@ -152,7 +152,7 @@ public class CreatureVO {
 		this.legendary = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY)
 				.map(a -> new Legendary(a.getName(), Conpendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
-		this.description = Conpendium.removeHtml(creature.getDescription());
+		//this.description = Conpendium.removeHtml(creature.getDescription());
 		for (CreatureTrait trait : creature.getFeats()) {
 			if (trait.getName().contains("Колдовство") || trait.getName().contains("колдовство")
 					|| trait.getName().contains("Использование заклинаний") || trait.getName().contains("Колдовство")) {

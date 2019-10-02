@@ -36,7 +36,7 @@ public class Artifact {
 	private boolean consumed;
 	@Column(nullable = true)
 	private Integer cost;
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private Source source;
 	
 	@OneToMany

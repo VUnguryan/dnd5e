@@ -20,7 +20,6 @@ public class SlotVO {
 		builder.append(levelDefinition.getSlot3()).append(",");
 		builder.append(levelDefinition.getSlot4()).append(",");
 		builder.append(levelDefinition.getSlot5()).append(",");
-		
 		builder.append(levelDefinition.getSlot6()).append(",");
 		builder.append(levelDefinition.getSlot7()).append(",");
 		builder.append(levelDefinition.getSlot8()).append(",");

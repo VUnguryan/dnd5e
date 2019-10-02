@@ -1,5 +1,8 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -30,7 +33,10 @@ public class SpellVO {
 	@XmlElement(required = false)
 	private String ritual;
 	@XmlElement
-	private String text;
+	private List<String> text;
+
+	@XmlElement(name = "text", required = false)
+	private String source;
 	@XmlElement
 	private String classes;
 
@@ -79,8 +85,21 @@ public class SpellVO {
 		if (spell.getRitual()) {
 			this.ritual = "YES";
 		}
-		this.text = Conpendium.removeHtml(spell.getDescription());
-		this.classes = spell.getHeroClass().stream().distinct().map(c -> toEnglishName(c)).distinct().filter(t->!t.isEmpty()).collect(Collectors.joining(", "));
+		this.text = Arrays.stream(spell.getDescription().split("<p>"))
+				.filter(Objects::nonNull)
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.map(Conpendium::removeHtml)
+				.collect(Collectors.toList());
+		if (spell.getSource() != null)
+		{
+			this.source = "Источник: " + spell.getSource().getCyrilicName(); 
+		}
+
+		this.classes = spell.getHeroClass().stream()
+				.distinct()
+				.map(c -> toEnglishName(c)).distinct().filter(t->!t.isEmpty())
+				.collect(Collectors.joining(", "));
 
 	}
 
