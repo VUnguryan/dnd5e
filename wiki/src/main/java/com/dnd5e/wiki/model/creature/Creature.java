@@ -12,10 +12,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.Source;
 
 import lombok.Data;
@@ -59,7 +62,7 @@ public class Creature {
 	@Column(nullable = true)
 	private Short bonusHP;
 
-	private short speed;
+	private byte speed = 30;
 	@Column(nullable = true)
 	private Short flySpeed;
 	@Column(nullable = true)
@@ -125,8 +128,9 @@ public class Creature {
 	@Column(columnDefinition = "TEXT")
 	private String legendary;
 	
-	@Enumerated(EnumType.STRING)
-	private Source source;
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
 	
 	public String strengthText() {
 		return getFormatAbility(strength);

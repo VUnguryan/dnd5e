@@ -359,7 +359,7 @@ public class AdminController {
 			if (speedString.contains("Скорость")) {
 				String[] speeds = speedString.split(",");
 				speeds[0] = speeds[0].replaceAll("[^0-9]", "");
-				creature.setSpeed(Short.parseShort(speeds[0].trim()));
+				creature.setSpeed(Byte.parseByte(speeds[0].trim()));
 				for (int i = 1; i < speeds.length; i++) {
 					String otherSpeed = speeds[i];
 					if (otherSpeed.contains("летая") || otherSpeed.contains("полёт")) {

@@ -165,8 +165,8 @@
 					<p th:utext="*{description}"></p>
 				</div>
 			</div>
-			<div class="card-footer text-muted" th:if="${creature.source}"
-				th:text="'Источник: ' + ${creature.source.cyrilicName}"></div>
+			<div class="card-footer text-muted" th:if="${creature.book}"
+				th:text="'Источник: ' + ${creature.book.name}"></div>
 			<img class="card-img-bottom"
 				th:src="@{'/resources/creatures/'+ ${creature.id} +'.jpg'}"
 				align="middle" />

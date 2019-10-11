@@ -167,7 +167,7 @@ public class CreatureVO {
 				}
 			}
 		}
-		source = "Источник: " + creature.getSource().getCyrilicName();
+		source = "Источник: " + creature.getBook().getName();
 	}
 
 	private void parseSpell(String descr) {
