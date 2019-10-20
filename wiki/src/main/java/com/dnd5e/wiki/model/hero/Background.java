@@ -11,10 +11,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.Source;
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.stock.Equipment;
 
@@ -51,6 +53,7 @@ public class Background {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	
-	@Enumerated(EnumType.STRING)
-	private Source source;
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
 }

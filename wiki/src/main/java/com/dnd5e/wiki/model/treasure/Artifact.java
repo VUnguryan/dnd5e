@@ -9,10 +9,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.Source;
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 import lombok.Data;
@@ -36,8 +38,9 @@ public class Artifact {
 	private boolean consumed;
 	@Column(nullable = true)
 	private Integer cost;
-	@Enumerated(EnumType.STRING)
-	private Source source;
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
 	
 	@OneToMany
 	private List<HeroClass> custClasses;
