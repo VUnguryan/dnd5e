@@ -80,8 +80,8 @@
 				</p>
 			</div>
 			<footer class="blockquote-footer">
-				<small class="text-muted" th:if="${spell.source}"
-					th:text="'Источник: ' + ${spell.source.cyrilicName}"></small>
+				<small class="text-muted" th:if="${spell.book}"
+					th:text="'Источник: ' + ${spell.book.name}"></small>
 			</footer>
 		</div>
 	</div>
