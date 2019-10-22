@@ -14,6 +14,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+    <div th:insert="fragments/header :: header(~{ :: .spells})"></div>
 	<form action="#" th:action="@{/monsters/add}" th:object="${monster}"
 		method="post">
 		<div class="panel panel-default">

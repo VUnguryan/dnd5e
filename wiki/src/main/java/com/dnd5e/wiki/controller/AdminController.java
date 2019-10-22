@@ -43,6 +43,9 @@ import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.ArmorType;
 import com.dnd5e.wiki.model.stock.Currency;
 import com.dnd5e.wiki.model.stock.Equipment;
+import com.dnd5e.wiki.model.treasure.Artifact;
+import com.dnd5e.wiki.model.treasure.ArtifactType;
+import com.dnd5e.wiki.model.treasure.Rarity;
 import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
@@ -264,6 +267,14 @@ public class AdminController {
 	public String addArmor(Armor armor) {
 		armorRepository.save(armor);
 		return "redirect:/armors/add";
+	}
+
+	@GetMapping("/artifact/add")
+	public String getArtifactForm(Model model) {
+		model.addAttribute("artifact", new Artifact());
+		model.addAttribute("rarityTypes", Rarity.values());
+		model.addAttribute("artifactTypes", ArtifactType.values());
+		return "admin/addArtifact";
 	}
 
 	@GetMapping("/creature/add")
