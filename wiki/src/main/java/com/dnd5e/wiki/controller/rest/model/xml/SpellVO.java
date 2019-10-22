@@ -91,9 +91,9 @@ public class SpellVO {
 				.filter(s -> !s.isEmpty())
 				.map(Conpendium::removeHtml)
 				.collect(Collectors.toList());
-		if (spell.getSource() != null)
+		if (spell.getBook() != null)
 		{
-			this.source = "Источник: " + spell.getSource().getCyrilicName(); 
+			this.source = "Источник: " + spell.getBook().getName(); 
 		}
 
 		this.classes = spell.getHeroClass().stream()

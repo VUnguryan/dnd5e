@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
-import com.dnd5e.wiki.model.Source;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.hero.AbilityBonus;
