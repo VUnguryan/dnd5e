@@ -3,16 +3,19 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layouts/default">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Добавление магической вещи</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/resources/css/bootstrap-multiselect.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
@@ -21,21 +24,21 @@
 		th:object="${artifact}" method="post">
 		<div class="panel panel-default">
 			<div class="form-group row">
-				<div class="col-xs-4">
+				<div class="col-xs-1">
 					<label for="name">Название</label> <input type="text"
 						class="form-control" id="name" th:field="*{name}" />
 				</div>
-				<div class="col-xs-3">
-					<label for="sizeControl">Size</label> <select class="form-control"
+				<div class="col-xs-2">
+					<label for="sizeControl">Размер</label> <select class="form-control"
 						id="sizeControl">
 						<option th:each="rarity : ${rarityTypes}" th:value="${rarity}"
 							th:text="${rarity.cyrilicName}">
 					</select>
 				</div>
 				<div class="col-xs-3">
-					<label for="sizeControl">Size</label> <select th:field="*{{type}}">
+					<label for="sizeControl">Тип</label> <select class="form-control" th:field="*{{type}}">
 						<option th:each="type : ${artifactTypes}" th:value="${type}"
-							th:text="${type}">
+							th:text="${type.cyrilicName}">
 					</select>
 				</div>
 			</div>
