@@ -28,7 +28,7 @@ public class Conpendium implements Serializable {
 	private static final String HTML_REGEXP = "<\\/?[A-Za-z]+[^>]*>";
 	
 	@XmlAttribute
-	private int verson = 5;
+	private int version = 5;
 	@XmlElement(name="spell")
 	private List<SpellVO> spells;
 
