@@ -54,7 +54,7 @@ public class MagicItemVO {
 				.filter(Objects::nonNull)
 				.map(String::trim)
 				.filter(s -> !s.isEmpty())
-				.map(Conpendium::removeHtml)
+				.map(Compendium::removeHtml)
 				.collect(Collectors.toList());
 
 		switch (art.getType())

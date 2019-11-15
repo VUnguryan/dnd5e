@@ -23,7 +23,7 @@ import lombok.Getter;
 
 @XmlRootElement (name="compendium")
 @Getter 
-public class Conpendium implements Serializable {
+public class Compendium implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String HTML_REGEXP = "<\\/?[A-Za-z]+[^>]*>";
 	
@@ -53,7 +53,7 @@ public class Conpendium implements Serializable {
 	@XmlElement(name="background")
 	private List<BackgroundVO> backgrounds;
 	
-	public Conpendium(){
+	public Compendium(){
 		
 	}
 	

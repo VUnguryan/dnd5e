@@ -23,7 +23,7 @@ public class FeatureVO {
 			text = Arrays.stream(trait.getDescription().split("<strong>"))
 					.filter(Objects::nonNull)
 					.filter(s -> !s.isEmpty())
-					.map(Conpendium::removeHtml)
+					.map(Compendium::removeHtml)
 					.collect(Collectors.toList()); 
 		}
 	}

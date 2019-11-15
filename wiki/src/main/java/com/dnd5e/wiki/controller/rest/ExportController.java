@@ -20,7 +20,7 @@ import com.dnd5e.wiki.controller.rest.model.json.Reaction;
 import com.dnd5e.wiki.controller.rest.model.json.Safe;
 import com.dnd5e.wiki.controller.rest.model.json.Skill;
 import com.dnd5e.wiki.controller.rest.model.json.TraitJS;
-import com.dnd5e.wiki.controller.rest.model.xml.Conpendium;
+import com.dnd5e.wiki.controller.rest.model.xml.Compendium;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureTrait;
@@ -202,8 +202,8 @@ public class ExportController {
 	}
 	
 	@GetMapping(value = "/xml" , produces = MediaType.APPLICATION_XML_VALUE)
-	public Conpendium getXmlCreatures() {
-		Conpendium list = new Conpendium();
+	public Compendium getXmlCreatures() {
+		Compendium list = new Compendium();
 		list.setMonsters(creatureRepo.findAll());
 		list.setSpells(spellRepo.findAll());
 		list.setMagicItems(artRepo.findAll());

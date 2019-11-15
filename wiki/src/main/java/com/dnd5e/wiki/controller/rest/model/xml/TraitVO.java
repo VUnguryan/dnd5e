@@ -28,14 +28,14 @@ public class TraitVO implements Serializable {
 
 	public TraitVO(String name, String text) {
 		this.name = StringUtils.capitalize(name.toLowerCase());
-		this.text = Conpendium.removeHtml(text);
+		this.text = Compendium.removeHtml(text);
 		setRecharge();
 	}
 
 	public TraitVO(Feature feature) {
 		name = feature.getName();
 		setRecharge();
-		text = Conpendium.removeHtml(feature.getDescription());
+		text = Compendium.removeHtml(feature.getDescription());
 	}
 
 	private void setRecharge() {

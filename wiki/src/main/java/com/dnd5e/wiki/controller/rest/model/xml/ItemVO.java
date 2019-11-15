@@ -53,7 +53,7 @@ public class ItemVO {
 
 	public ItemVO(Equipment equipment) {
 		this.name = StringUtils.capitalize(equipment.getName().toLowerCase());
-		this.text = Conpendium.removeHtml(equipment.getDescription());
+		this.text = Compendium.removeHtml(equipment.getDescription());
 		this.type = "G";
 		this.value = Math.round(100 * Currency.GM.convert(equipment.getCurrency(), equipment.getCost())) / 100f;
 		this.weight = equipment.getWeight();
@@ -61,7 +61,7 @@ public class ItemVO {
 
 	public ItemVO(Weapon weapon) {
 		this.name = StringUtils.capitalize(weapon.getName().toLowerCase());
-		this.text = Conpendium.removeHtml(weapon.getDescription());
+		this.text = Compendium.removeHtml(weapon.getDescription());
 		switch (weapon.getType()) {
 		case EXOTIC_MELE:
 		case SIMPLE_MELE:
@@ -96,7 +96,7 @@ public class ItemVO {
 
 	public ItemVO(Armor armor) {
 		name = StringUtils.capitalize(armor.getName().toLowerCase());
-		text = Conpendium.removeHtml(armor.getDescription());
+		text = Compendium.removeHtml(armor.getDescription());
 		if (armor.getType() == ArmorType.HEAVY) {
 			type = "HA";
 		} else if (armor.getType() == ArmorType.MEDIUM) {

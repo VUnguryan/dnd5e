@@ -140,23 +140,23 @@ public class CreatureVO {
 		this.languages = creature.getLanguages().stream().map(l -> l.getName()).collect(Collectors.joining(", "));
 		this.cr = creature.getChallengeRating();
 		this.trait = creature.getFeats().stream()
-				.map(f -> new TraitVO(f.getName(), Conpendium.removeHtml(f.getDescription())))
+				.map(f -> new TraitVO(f.getName(), Compendium.removeHtml(f.getDescription())))
 				.collect(Collectors.toList());
 
 		this.action = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION)
 				.map(a -> new ActionVO(a.getName(), a.getDescription()))
 				.collect(Collectors.toList());
 		this.reaction = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION)
-				.map(a -> new ReactionVO(a.getName(), Conpendium.removeHtml(a.getDescription())))
+				.map(a -> new ReactionVO(a.getName(), Compendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		this.legendary = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY)
-				.map(a -> new Legendary(a.getName(), Conpendium.removeHtml(a.getDescription())))
+				.map(a -> new Legendary(a.getName(), Compendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		//this.description = Conpendium.removeHtml(creature.getDescription());
 		for (CreatureTrait trait : creature.getFeats()) {
 			if (trait.getName().contains("Колдовство") || trait.getName().contains("колдовство")
 					|| trait.getName().contains("Использование заклинаний") || trait.getName().contains("Колдовство")) {
-				String descr = Conpendium.removeHtml(trait.getDescription());
+				String descr = Compendium.removeHtml(trait.getDescription());
 				int index = descr.indexOf("Заговоры (неограниченно):");
 				if (index >= 0) {
 					parseSpell(descr.substring(index + "Заговоры (неограниченно):".length()));
