@@ -44,7 +44,7 @@ public class EquipmentController {
 	public String getEquipmentsForCurrencyType(Model model, @PageableDefault(size = 12, sort = "name") Pageable page,
 			String currencyType) {
 		if ("ALL".equals(currencyType)) {
-			return "redirect:/equipment/equipments";
+			return "redirect:/stock/equipments";
 		}
 		Currency selectedCurrency = Currency.valueOf(currencyType);
 		model.addAttribute("currencySelected", selectedCurrency);
