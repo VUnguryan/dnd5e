@@ -244,7 +244,7 @@ public class AdminController {
 
 	@GetMapping("equipment/add")
 
-	public String getEquipmentForm(Model model) {
+	public String getAddEquipmentForm(Model model) {
 		model.addAttribute("equipment", new Equipment());
 		model.addAttribute("currencies", Currency.values());
 		return "equipment/addEquipment";
@@ -257,7 +257,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/armor/add")
-	public String getForm(Model model) {
+	public String getAddArmorForm(Model model) {
 		model.addAttribute("armor", new Armor());
 		model.addAttribute("types", ArmorType.values());
 		return "equipment/addArmor";
@@ -270,7 +270,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/artifact/add")
-	public String getArtifactForm(Model model) {
+	public String getAddArtifactForm(Model model) {
 		model.addAttribute("artifact", new Artifact());
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
@@ -278,11 +278,16 @@ public class AdminController {
 	}
 
 	@GetMapping("/creature/add")
-	public String getMonsterForm(Model model) {
+	public String getAddMonsterForm(Model model) {
 		model.addAttribute("creature", new Creature());
 		model.addAttribute("sizes", CreatureSize.values());
 		model.addAttribute("types", CreatureType.values());
 		model.addAttribute("aligments", Alignment.values());
+		model.addAttribute("savingThrows", AbilityType.values());
+		model.addAttribute("skillTypes", SkillType.values());
+		model.addAttribute("vulnerabilityTypes", DamageType.getVulnerability());
+		model.addAttribute("resistanceTypes", DamageType.getResistance());
+		
 		model.addAttribute("dices", Dice.values());
 		model.addAttribute("abilities", AbilityType.values());
 		return "admin/addCreature";

@@ -39,7 +39,8 @@
 						</div>
 						<select class="custom-select" id="inputGroupSelect01">
 							<option th:each="size : ${sizes}" th:value="${size}"
-								th:text="${size.cyrilicName}"></option>
+								th:text="${size.cyrilicName}"
+								th:selected="${size.ordinal() == 2}"></option>
 						</select>
 					</div>
 					<div class="input-group mb-3">
@@ -58,7 +59,8 @@
 						</div>
 						<select class="custom-select" id="inputGroupSelect01">
 							<option th:each="aligment : ${aligments}" th:value="${aligment}"
-								th:text="${aligment.cyrilicName}"></option>
+								th:text="${aligment.cyrilicName}"
+								th:selected="${aligment.ordinal() == 9}"></option>
 						</select>
 					</div>
 				</div>
@@ -112,7 +114,7 @@
 						<div class="col-lg-2">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="labelability">STR</span>
+									<span class="input-group-text" id="labelability">СТР</span>
 								</div>
 								<input id="strId" type="number" class="form-control w-15"
 									aria-describedby="basic-addon1" th:field="*{strength}">
@@ -124,7 +126,7 @@
 						<div class="col-lg-2">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="labelability">DEX</span>
+									<span class="input-group-text" id="labelability">ЛОВ</span>
 								</div>
 								<input id="dex" type="number" class="form-control w-15"
 									aria-describedby="basic-addon1" th:field="*{dexterity}">
@@ -136,7 +138,7 @@
 						<div class="col-lg-2">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="labelability">CON</span>
+									<span class="input-group-text" id="labelability">ТЕЛ</span>
 								</div>
 								<input id="con" type="number" class="form-control w-15"
 									aria-describedby="basic-addon1" th:field="*{constitution}">
@@ -148,7 +150,7 @@
 						<div class="col-lg-2">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="labelability">INT</span>
+									<span class="input-group-text" id="labelability">ИНТ</span>
 								</div>
 								<input id="ints" type="number" class="form-control w-15"
 									aria-describedby="basic-addon1" th:field="*{intellect}">
@@ -160,7 +162,7 @@
 						<div class="col-lg-2">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="labelability">WIZ</span>
+									<span class="input-group-text" id="labelability">МДР</span>
 								</div>
 								<input id="wiz" type="number" class="form-control w-15"
 									aria-describedby="basic-addon1" th:field="*{wizdom}">
@@ -172,7 +174,7 @@
 						<div class="col-lg-2">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="labelability">CHR</span>
+									<span class="input-group-text" id="labelability">ХАР</span>
 								</div>
 								<input id="cha" type="number" class="form-control w-15"
 									aria-describedby="basic-addon1" th:field="*{charisma}">
@@ -185,18 +187,99 @@
 				</div>
 			</div>
 			<div class="card">
+				<div class="card-header">Спасброски</div>
 				<div class="card-body">
-					<select id="crMin" class="custom-select" onchange="filter()">
-						<option value="1/8">1/8</option>
-						<option value="1/4">1/4</option>
-						<option value="1/2">1/2</option>
-						<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
-							th:value="${i}" />
-					</select>
+					<div class="form-row align-items-center">
+						<th:block th:each="savingThrow : ${savingThrows}">
+							<div class="col-auto">
+								<div class="form-check mb-2">
+									<input class="form-check-input" type="checkbox"
+										th:id="${savingThrow}" value="option1"> <label
+										class="form-check-label" th:for="${savingThrow}"
+										th:text="${savingThrow.shortName}"> </label>
+								</div>
+							</div>
+							<div class="form-group col-md-1">
+								<input type="number" class="form-control"
+									id="formGroupExampleInput">
+							</div>
+						</th:block>
+					</div>
 				</div>
-			</div>
+				<div class="card-header">Навыки</div>
+				<div class="card-body">
+					<div class="form-row align-items-center">
+						<th:block th:each="skillType : ${skillTypes}">
+							<div class="col-auto">
+								<div class="form-check mb-1">
+									<input class="form-check-input" type="checkbox"
+										th:id="${skillType}" value="option1"> <label
+										class="form-check-label" th:for="${skillType}"
+										th:text="${skillType.cyrilicName}"> </label>
+								</div>
+							</div>
+							<div class="form-group col-md-1">
+								<input type="number" class="form-control"
+									id="formGroupExampleInput">
+							</div>
+						</th:block>
+					</div>
 
-			<div class="card">
+				</div>
+				<div class="card-header">Уязвимость к урону</div>
+				<div class="card-body">
+					<div class="form-row align-items-center">
+						<th:block th:each="damageType : ${vulnerabilityTypes}">
+							<div class="col-auto">
+								<div class="form-check mb-1">
+									<input class="form-check-input" type="checkbox"
+										th:id="${damageType}" value="option1"> <label
+										class="form-check-label" th:for="${skillType}"
+										th:text="${damageType.cyrilicName}"> </label>
+								</div>
+							</div>
+						</th:block>
+					</div>
+				</div>
+				<div class="card-header">Сопротивление к урону</div>
+				<div class="card-body">
+					<div class="form-row align-items-center">
+						<th:block th:each="damageType : ${resistanceTypes}">
+							<div class="col-auto">
+								<div class="form-check mb-1">
+									<input class="form-check-input" type="checkbox"
+										th:id="${damageType}" value="option1"> <label
+										class="form-check-label" th:for="${skillType}"
+										th:text="${damageType.cyrilicName}"> </label>
+								</div>
+							</div>
+						</th:block>
+					</div>
+					<div class="card-body">
+						<div class="card-header">Иммунитет к урону</div>
+					</div>
+					<div class="card-body">
+						<div class="card-header">Иммунитет к состоянию</div>
+					</div>
+					<div class="card-body">
+						<div class="card-header">Чувства</div>
+					</div>
+					<div class="card-body">
+						<div class="card-header">Языки</div>
+					</div>
+					<div class="card-body">
+						<div class="card-header">Опасность</div>
+						<select id="crMin" class="custom-select" onchange="filter()">
+							<option value="1/8">1/8</option>
+							<option value="1/4">1/4</option>
+							<option value="1/2">1/2</option>
+							<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
+								th:value="${i}" />
+						</select>
+					</div>
+				</div>
+
+				<div class="card">
 				<div class="card-body">
 					<div class="card-header">Особенности</div>
 					<button type="button" class="btn btn-primary" data-toggle="modal"
@@ -206,11 +289,22 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="card-header">Действия</div>
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
 				</div>
 			</div>
 			<div class="card">
 				<div class="card-body">
 					<div class="card-header">Реакции</div>
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<div class="card-header">Легендарные действия</div>
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
 				</div>
 			</div>
 			<div class="form-group">
