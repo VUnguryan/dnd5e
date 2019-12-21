@@ -36,14 +36,16 @@
 				</h2>
 			</div>
 			<!-- creature heading -->
-			<svg  class="tapered-rule">
+			<svg class="tapered-rule">
 	    		<polyline points="0,0 600,2.5 0,5"></polyline>
 	  		</svg>
 			<div class="top-stats">
 				<div class="property-line first">
 					<h4>Класс Доспеха</h4>
 					<p>
-						<span th:text="*{AC}"></span> <th:block th:if="${creature.armorType != null}" th:text="'(' +  *{armorType.cyrillicName} + ')'" />
+						<span th:text="*{AC}"></span>
+						<th:block th:if="${creature.armorType != null}"
+							th:text="'(' +  *{armorType.cyrillicName} + ')'" />
 					</p>
 				</div>
 				<!-- property line -->
@@ -119,6 +121,12 @@
 				</div>
 				<!-- property line -->
 				<div class="property-line" th:if="*{!immunityDamages.empty}">
+					<h4>Уязвимость к урону</h4>
+					<p
+						th:each="vulnerabilityDamage, iterStat : *{vulnerabilityDamages}"
+						th:text="!${iterStat.last} ? ${vulnerabilityDamage} + ', ': ${vulnerabilityDamage.cyrilicName}" />
+				</div>
+				<div class="property-line" th:if="*{!immunityDamages.empty}">
 					<h4>Иммунитет к урону</h4>
 					<p th:each="immunityDamage, iterStat : *{immunityDamages}"
 						th:text="!${iterStat.last} ? ${immunityDamage.cyrilicName} + ', ': ${immunityDamage.cyrilicName}" />
@@ -158,31 +166,29 @@
 				<h4 th:text="${feat.name}"></h4>
 				<p th:utext="${feat.description}" />
 			</div>
-				<div class="section-right">
-			<div class="actions" th:if="${!actions.empty}">
-				<h3>Действия</h3>
-				<div class="property-block" th:each="action : ${actions}">
-					<h4 th:text="${action.name}"></h4>
-					<p th:utext="${action.description}" />
+			<div class="section-right">
+				<div class="actions" th:if="${!actions.empty}">
+					<h3>Действия</h3>
+					<div class="property-block" th:each="action : ${actions}">
+						<h4 th:text="${action.name}"></h4>
+						<p th:utext="${action.description}" />
+					</div>
 				</div>
-			</div>
-			<div class="actions" th:if="${!reactions.empty}">
-				<h3>Реакции</h3>
-				<div class="property-block" th:each="action : ${reactions}">
-					<h4 th:text="${action.name}"></h4>
-					<p th:utext="${action.description}" />
+				<div class="actions" th:if="${!reactions.empty}">
+					<h3>Реакции</h3>
+					<div class="property-block" th:each="action : ${reactions}">
+						<h4 th:text="${action.name}"></h4>
+						<p th:utext="${action.description}" />
+					</div>
 				</div>
-			</div>
-
-			<!-- actions -->
-			<div class="actions" th:if="${!legendary.empty}">
-				<h3>Легендарные Действия</h3>
-				<div th:if="${creature.legendary != null}" th:utext ="*{legendary}"></div>
-				<div class="property-block" th:each="action : ${legendary}">
-					<h4 th:text="${action.name}">.</h4>
-					<p th:utext="${action.description}" />
+				<div class="actions" th:if="${!legendary.empty}">
+					<h3>Легендарные Действия</h3>
+					<div th:if="${creature.legendary != null}" th:utext="*{legendary}"></div>
+					<div class="property-block" th:each="action : ${legendary}">
+						<h4 th:text="${action.name}">.</h4>
+						<p th:utext="${action.description}" />
+					</div>
 				</div>
-			</div>
 			</div>
 			<!-- actions -->
 			<hr class="orange-border bottom" />

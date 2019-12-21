@@ -9,7 +9,8 @@
 <link rel="icon" th:href="@{/resources/icon.png}">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
@@ -28,7 +29,8 @@
 						th:text="*{raceName}"></span></a>, <span
 					th:text="*{alignment.cyrilicName}"></span>
 				</small> <a class="card-link"
-					th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический вид</a>
+					th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический
+					вид</a>
 			</h5>
 			<div class="card-body">
 				<div>
@@ -55,6 +57,7 @@
 									th:text="*{swimmingSpped}" /> фт.
 					<th:block th:if="${creature.diggingSpeed}" />, плавая <th:block
 									th:text="*{diggingSpeed}" /> фт.
+				
 				</div>
 			</div>
 			<div class="card">
@@ -92,15 +95,20 @@
 						<b>Навыки </b><span th:each="skill, iterStat : *{skills}"
 							th:text="${iterStat.last} ? ${skill.cyrilicText} : ${skill.cyrilicText} +', '"></span>
 					</div>
-					<div th:if="*{!immunityDamages.empty}">
-						<b>Иммунитет к урону </b><span
-							th:each="immunityDamage, iterStat : *{immunityDamages}"
-							th:text="${iterStat.last} ? ${immunityDamage.cyrilicName} : ${immunityDamage.cyrilicName} + ', '"></span>
+					<div th:if="*{!vulnerabilityDamages.empty}">
+						<b>Уязвимость к урону </b><span
+							th:each="vulnerabilityDamage, iterStat : *{vulnerabilityDamages}"
+							th:text="${iterStat.last} ? ${vulnerabilityDamage.cyrilicName} : ${vulnerabilityDamage.cyrilicName} + ', '"></span>
 					</div>
 					<div th:if="*{!resistanceDamages.empty}">
 						<b>Сопротивление к урону </b><span
 							th:each="resistanceDamages, iterStat : *{resistanceDamages}"
 							th:text="${iterStat.last} ? ${resistanceDamages.cyrilicName} : ${resistanceDamages.cyrilicName} + ', '"></span>
+					</div>
+					<div th:if="*{!immunityDamages.empty}">
+						<b>Иммунитет к урону </b><span
+							th:each="immunityDamage, iterStat : *{immunityDamages}"
+							th:text="${iterStat.last} ? ${immunityDamage.cyrilicName} : ${immunityDamage.cyrilicName} + ', '"></span>
 					</div>
 					<div th:if="*{!immunityStates.empty}">
 						<b>Иммунитет к состоянию </b><span

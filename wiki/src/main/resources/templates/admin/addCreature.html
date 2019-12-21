@@ -206,42 +206,66 @@
 						</th:block>
 					</div>
 				</div>
-				<div class="card-header">Навыки</div>
-				<div class="card-body">
-					<div class="form-row align-items-center">
-						<th:block th:each="skillType : ${skillTypes}">
-							<div class="col-auto">
-								<div class="form-check mb-1">
-									<input class="form-check-input" type="checkbox"
-										th:id="${skillType}" value="option1"> <label
-										class="form-check-label" th:for="${skillType}"
-										th:text="${skillType.cyrilicName}"> </label>
-								</div>
+			</div>
+			<div class="card-header">Навыки</div>
+			<div class="card-body">
+				<div class="form-row align-items-center">
+					<th:block th:each="skillType : ${skillTypes}">
+						<div class="col-auto">
+							<div class="form-check mb-1">
+								<input class="form-check-input" type="checkbox"
+									th:id="${skillType}" value="option1"> <label
+									class="form-check-label" th:for="${skillType}"
+									th:text="${skillType.cyrilicName}"> </label>
 							</div>
-							<div class="form-group col-md-1">
-								<input type="number" class="form-control"
-									id="formGroupExampleInput">
-							</div>
-						</th:block>
-					</div>
-
+						</div>
+						<div class="form-group col-md-1">
+							<input type="number" class="form-control"
+								id="formGroupExampleInput">
+						</div>
+					</th:block>
 				</div>
-				<div class="card-header">Уязвимость к урону</div>
-				<div class="card-body">
-					<div class="form-row align-items-center">
-						<th:block th:each="damageType : ${vulnerabilityTypes}">
-							<div class="col-auto">
-								<div class="form-check mb-1">
-									<input class="form-check-input" type="checkbox"
-										th:id="${damageType}" value="option1"> <label
-										class="form-check-label" th:for="${skillType}"
-										th:text="${damageType.cyrilicName}"> </label>
-								</div>
+			</div>
+			<div class="card-header">Уязвимость к урону</div>
+			<div class="card-body">
+				<div class="form-row align-items-center">
+					<th:block th:each="damageType : ${vulnerabilityTypes}">
+						<div class="col-auto">
+							<div class="form-check mb-1">
+								<input class="form-check-input" type="checkbox"
+									th:id="${damageType}" value="option1"> <label
+									class="form-check-label" th:for="${skillType}"
+									th:text="${damageType.cyrilicName}"> </label>
 							</div>
-						</th:block>
-					</div>
+						</div>
+					</th:block>
 				</div>
-				<div class="card-header">Сопротивление к урону</div>
+			</div>
+			<div class="card-header">Сопротивление к урону</div>
+			<div class="card-body">
+				<div class="form-row align-items-center">
+					<th:block th:each="damageType : ${resistanceTypes}">
+						<div class="col-auto">
+							<div class="form-check mb-1">
+								<input class="form-check-input" type="checkbox"
+									th:id="${damageType}" value="option1"> <label
+									class="form-check-label" th:for="${skillType}"
+									th:text="${damageType.cyrilicName}"> </label>
+							</div>
+						</div>
+					</th:block>
+					<th:block th:each="damageType : ${specialTypes}">
+						<div class="col-auto">
+							<div class="form-check mb-1">
+								<input class="form-check-input" type="checkbox"
+									th:id="${damageType}" value="option1"> <label
+									class="form-check-label" th:for="${skillType}"
+									th:text="${damageType.cyrilicName}"> </label>
+							</div>
+						</div>
+					</th:block>
+				</div>
+				<div class="card-header">Иммунитет к урону</div>
 				<div class="card-body">
 					<div class="form-row align-items-center">
 						<th:block th:each="damageType : ${resistanceTypes}">
@@ -254,32 +278,72 @@
 								</div>
 							</div>
 						</th:block>
+						<th:block th:each="damageType : ${specialTypes}">
+							<div class="col-auto">
+								<div class="form-check mb-1">
+									<input class="form-check-input" type="checkbox"
+										th:id="${damageType}" value="option1"> <label
+										class="form-check-label" th:for="${skillType}"
+										th:text="${damageType.cyrilicName}"> </label>
+								</div>
+							</div>
+						</th:block>
 					</div>
-					<div class="card-body">
-						<div class="card-header">Иммунитет к урону</div>
+				</div>
+				<div class="card-header">Иммунитет к состоянию</div>
+				<div class="card-body">
+					<div class="form-row align-items-center">
+						<th:block th:each="state : ${states}">
+							<div class="col-auto">
+								<div class="form-check mb-1">
+									<input class="form-check-input" type="checkbox"
+										th:id="${state}" value="option1"> <label
+										class="form-check-label" th:for="${state}"
+										th:text="${state.cyrilicName}"> </label>
+								</div>
+							</div>
+						</th:block>
 					</div>
-					<div class="card-body">
-						<div class="card-header">Иммунитет к состоянию</div>
+				</div>
+				<div class="card-header">Чувства</div>
+				<div class="card-body">
+					<div class="form-row align-items-center">
+						<th:block th:each="sense : ${senses}">
+							<div class="col-auto">
+								<div class="form-check mb-1">
+									<input class="form-check-input" type="checkbox"
+										th:id="${sense}" value="option1"> <label
+										class="form-check-label" th:for="${sense}"
+										th:text="${sense.cyrilicName}"> </label>
+								</div>
+							</div>
+							<div class="form-group col-md-1">
+								<input type="number" class="form-control"
+									id="formGroupExampleInput">
+							</div>
+						</th:block>
 					</div>
-					<div class="card-body">
-						<div class="card-header">Чувства</div>
-					</div>
-					<div class="card-body">
-						<div class="card-header">Языки</div>
-					</div>
-					<div class="card-body">
-						<div class="card-header">Опасность</div>
-						<select id="crMin" class="custom-select" onchange="filter()">
+				</div>
+				<div class="card-header">Языки</div>
+				<div class="card-body"></div>
+				<div class="card-header">Опасность</div>
+				<div class="card-body">
+					<div class="input-group mb-3">
+						<select id="expgr" class="custom-select" onchange="exp()">
 							<option value="1/8">1/8</option>
 							<option value="1/4">1/4</option>
 							<option value="1/2">1/2</option>
 							<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
 								th:value="${i}" />
 						</select>
+						<div class="input-group-append">
+							<label id="expValue" class="input-group-text" for="expgr">опыта</label>
+						</div>
 					</div>
 				</div>
+			</div>
 
-				<div class="card">
+			<div class="card">
 				<div class="card-body">
 					<div class="card-header">Особенности</div>
 					<button type="button" class="btn btn-primary" data-toggle="modal"
@@ -404,6 +468,9 @@
 		else if (value <= 29)
 			return 9;
 		return 10;
+	}
+	function exp() {
+
 	}
 </script>
 </html>

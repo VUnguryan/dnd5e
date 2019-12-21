@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dnd5e.wiki.model.Sense;
 import com.dnd5e.wiki.model.creature.AbilityType;
 import com.dnd5e.wiki.model.creature.Action;
 import com.dnd5e.wiki.model.creature.ActionType;
@@ -287,6 +288,9 @@ public class AdminController {
 		model.addAttribute("skillTypes", SkillType.values());
 		model.addAttribute("vulnerabilityTypes", DamageType.getVulnerability());
 		model.addAttribute("resistanceTypes", DamageType.getResistance());
+		model.addAttribute("specialTypes", DamageType.getSpecil());
+		model.addAttribute("states", State.values());
+		model.addAttribute("senses", Sense.values());
 		
 		model.addAttribute("dices", Dice.values());
 		model.addAttribute("abilities", AbilityType.values());

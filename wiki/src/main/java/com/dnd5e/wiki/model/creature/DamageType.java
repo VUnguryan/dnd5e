@@ -47,6 +47,10 @@ public enum DamageType {
 	public static Set<DamageType> getResistance()
 	{
 		return EnumSet.of(BLUDGEONING, PIERCING, SLASHING, FAIR, COLD, LIGHTNING, POISON, ACID, SOUND, NECTOTIC,
-				PSYCHIC, RADIANT, PHYSICAL, NO_NOSILVER, NO_ADMANTIT, PHYSICAL_MAGIC);
+				RADIANT);
+	}
+	public static Set<DamageType> getSpecil()
+	{
+		return EnumSet.of(PHYSICAL, NO_NOSILVER, NO_ADMANTIT, PHYSICAL_MAGIC);
 	}
 }
