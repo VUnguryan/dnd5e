@@ -25,8 +25,8 @@ public class BackgroundVO {
 	private TraitVO trait;
 
 	public BackgroundVO(Background background) {
-		name = StringUtils.capitalize(background.getName().toLowerCase());
-		descriptions = Compendium.removeHtml(background.getDescription());
+		name = StringUtils.capitalize(background.getName().toLowerCase()).trim();
+		descriptions = Compendium.removeHtml(background.getDescription()).trim();
 		proficiency = background.getSkills().stream()
 			.map(SkillType::name)
 			.map(s -> s.replace('_', ' '))

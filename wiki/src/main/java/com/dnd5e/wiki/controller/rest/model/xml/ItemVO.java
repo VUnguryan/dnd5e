@@ -52,8 +52,8 @@ public class ItemVO {
 	}
 
 	public ItemVO(Equipment equipment) {
-		this.name = StringUtils.capitalize(equipment.getName().toLowerCase());
-		this.text = Compendium.removeHtml(equipment.getDescription());
+		this.name = StringUtils.capitalize(equipment.getName().toLowerCase()).trim();
+		this.text = Compendium.removeHtml(equipment.getDescription()).trim();
 		this.type = "G";
 		this.value = Math.round(100 * Currency.GM.convert(equipment.getCurrency(), equipment.getCost())) / 100f;
 		this.weight = equipment.getWeight();
@@ -74,8 +74,12 @@ public class ItemVO {
 			this.type = "R";
 			break;
 		}
-		property = weapon.getProperties().stream().map(this::getPropertyLiteral).filter(s -> !s.isEmpty())
+		property = weapon.getProperties()
+				.stream()
+				.map(this::getPropertyLiteral)
+				.filter(s -> !s.isEmpty())
 				.collect(Collectors.joining(","));
+		
 		dmg1 = weapon.getNumberDice() == null ? "" : String.valueOf(weapon.getNumberDice());
 		dmg1 += weapon.getDamageDice() == null ? "" : weapon.getDamageDice().name();
 		if (weapon.getMinDistance() != null && weapon.getMaxDistance() != null)

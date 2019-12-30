@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -22,23 +23,26 @@ public class TraitVO implements Serializable {
 	private Integer charges;
 	@XmlElement(required = false)
 	private Integer recharge;
-
+	
+	@XmlElement(name = "modifier", required = false)
+	private List<ModifierVO> modifiers;
+	
 	public TraitVO() {
 	}
 
 	public TraitVO(String name, String text) {
 		this.name = StringUtils.capitalize(name.toLowerCase());
 		this.text = Compendium.removeHtml(text);
-		setRecharge();
+		addRecharge();
 	}
 
 	public TraitVO(Feature feature) {
-		name = feature.getName();
-		setRecharge();
-		text = Compendium.removeHtml(feature.getDescription());
+		name = feature.getName().trim();
+		addRecharge();
+		text = Compendium.removeHtml(feature.getDescription().trim());
 	}
 
-	private void setRecharge() {
+	private void addRecharge() {
 		if (name.contains("2-6")) {
 			recharge = 2;
 		} else if (name.contains("3-6")) {

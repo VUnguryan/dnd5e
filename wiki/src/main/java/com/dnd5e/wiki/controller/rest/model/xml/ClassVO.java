@@ -79,7 +79,9 @@ public class ClassVO {
 		}
  
 		if (hero.getId() <9) {
-			slots = hero.getLevelDefenitions().stream().map(SlotVO::new).collect(Collectors.toList());
+			slots = hero.getLevelDefenitions()
+					.stream().map(SlotVO::new)
+					.collect(Collectors.toList());
 		}
 		for (int level = 1; level<=20; level++) {
 			features.add(getLevelFeature(level, hero));
@@ -94,7 +96,8 @@ public class ClassVO {
 				hero.getArchetypes()
 				.stream()
 				.flatMap(a -> a.getFeats().stream())
-				.filter(t -> t.getLevel() == level).collect(Collectors.toList())
+				.filter(t -> t.getLevel() == level)
+				.collect(Collectors.toList())
 		);
 	}
 }

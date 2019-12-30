@@ -79,7 +79,7 @@ public class HeroClass {
 		return archetypes
 				.stream()
 				.flatMap(a -> a.getFeats().stream())
-				.filter(t->t.getLevel()==level)
+				.filter(t->t.getLevel() == level)
 				.collect(Collectors.toList());
 	}
 }

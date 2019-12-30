@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 
 public class Legendary implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@XmlElement
 	private String name;
 	@XmlElement
@@ -24,5 +26,4 @@ public class Legendary implements Serializable{
 	public String getText() {
 		return text;
 	}
-	
 }

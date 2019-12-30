@@ -2,6 +2,7 @@ package com.dnd5e.wiki.controller.rest.model.xml;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -42,9 +43,19 @@ public class RaceVO {
 				.stream()
 				.map(r -> StringUtils.capitalize(r.getAbility().name().toLowerCase().substring(0, 3)) + " " + r.getBonus())
 				.collect(Collectors.joining(", "));
-		trait = race.getFeatures()
-				.stream().map(TraitVO::new)
-				.collect(Collectors.toList());
+		if (race.getParent() != null) {
+			
+			trait = Stream.concat(race.getParent().getFeatures().stream(), race.getFeatures().stream())
+					.map(TraitVO::new)
+					.collect(Collectors.toList());
+		}
+		else
+		{
+			trait = race.getFeatures()
+					.stream().map(TraitVO::new)
+					.collect(Collectors.toList());
+		}
+
 		source = "Источник: " +  race.getBook().getName();
 	}
 }

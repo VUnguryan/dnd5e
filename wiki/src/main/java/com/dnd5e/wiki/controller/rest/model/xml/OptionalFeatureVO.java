@@ -29,6 +29,7 @@ public class OptionalFeatureVO {
 					.filter(Objects::nonNull)
 					.filter(s -> !s.isEmpty())
 					.map(Compendium::removeHtml)
+					.map(String::trim)
 					.collect(Collectors.toList());
 		}
 	}

@@ -193,7 +193,12 @@ public class CreatureVO {
 		this.slots = Arrays.stream(slots).mapToObj(String::valueOf).collect(Collectors.joining(","));
 
 		descr = descr.replaceAll("(\\d{1}.*?:)", ", ");
-		this.spells = Arrays.stream(descr.split(",")).map(s -> s.replaceAll("\\([^\\]]*\\)", "")).map(String::trim)
-				.map(String::toLowerCase).map(StringUtils::capitalize).collect(Collectors.joining(", "));
+		this.spells = Arrays
+				.stream(descr.split(","))
+				.map(s -> s.replaceAll("\\([^\\]]*\\)", ""))
+				.map(String::trim)
+				.map(String::toLowerCase)
+				.map(StringUtils::capitalize)
+				.collect(Collectors.joining(", "));
 	}
 }

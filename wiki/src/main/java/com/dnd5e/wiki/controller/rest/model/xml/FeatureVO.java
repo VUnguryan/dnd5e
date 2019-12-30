@@ -24,6 +24,7 @@ public class FeatureVO {
 					.filter(Objects::nonNull)
 					.filter(s -> !s.isEmpty())
 					.map(Compendium::removeHtml)
+					.map(String::trim)
 					.collect(Collectors.toList()); 
 		}
 	}

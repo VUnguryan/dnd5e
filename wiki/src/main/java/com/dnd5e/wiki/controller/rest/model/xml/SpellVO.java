@@ -45,7 +45,7 @@ public class SpellVO {
 	}
 
 	public SpellVO(Spell spell) {
-		this.name = StringUtils.capitalize(spell.getName().toLowerCase());
+		this.name = StringUtils.capitalize(spell.getName().toLowerCase()).trim();
 		this.level = spell.getLevel();
 		switch (spell.getSchool()) {
 		case ABJURATION:
@@ -90,6 +90,7 @@ public class SpellVO {
 				.map(String::trim)
 				.filter(s -> !s.isEmpty())
 				.map(Compendium::removeHtml)
+				.map(String::trim)
 				.collect(Collectors.toList());
 		if (spell.getBook() != null)
 		{

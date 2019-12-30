@@ -35,7 +35,7 @@ public class MagicItemVO {
 	}
 
 	public MagicItemVO(Artifact art) {
-		this.name = StringUtils.capitalize(art.getName().toLowerCase());
+		this.name = StringUtils.capitalize(art.getName().toLowerCase()).trim();
 		this.magic = "1";
 		this.rarity = StringUtils.capitalize(art.getRarity().name().toLowerCase().replace("_", " "));
 		this.rarityText = "Редкость: " + art.getRarity().getCyrilicName();
@@ -55,6 +55,7 @@ public class MagicItemVO {
 				.map(String::trim)
 				.filter(s -> !s.isEmpty())
 				.map(Compendium::removeHtml)
+				.map(String::trim)
 				.collect(Collectors.toList());
 
 		switch (art.getType())
@@ -83,8 +84,14 @@ public class MagicItemVO {
 		case WAND:
 			this.type = "WD";
 			break;
-		case WEAPON:
+		case MELE_WEAPON:
 			this.type = "M";
+			break;
+		case RANGED_WEAPON:
+			this.type = "R";
+			break;			
+		case SHIELD:
+			this.type = "S";
 			break;
 		}
 	}

@@ -10,8 +10,11 @@ import lombok.Getter;
 @Getter
 public class ModifierVO {
 	@XmlAttribute
-	private String type;
+	private String category;
 	
 	@XmlValue
 	private String text;
+	enum Type {
+		bonus
+	}
 }

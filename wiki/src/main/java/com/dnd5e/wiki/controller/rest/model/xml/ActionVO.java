@@ -22,7 +22,6 @@ public class ActionVO {
 	private Integer recharge;
 
 	public ActionVO() {
-		
 	}
 	
 	public ActionVO(String name, String text) {
@@ -63,6 +62,7 @@ public class ActionVO {
 				.map(String::trim)
 				.filter(s -> !s.isEmpty())
 				.map(Compendium::removeHtml)
+				.map(String::trim)
 				.collect(Collectors.toList());
 	}
 }

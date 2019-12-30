@@ -21,8 +21,8 @@ public class FeatVO implements Serializable {
 	private String prerequisite;
 	
 	public FeatVO(Trait trait) {
-		name = StringUtils.capitalize(trait.getName().toLowerCase());
-		text = Compendium.removeHtml(trait.getDescription());
+		name = StringUtils.capitalize(trait.getName().toLowerCase()).trim();
+		text = Compendium.removeHtml(trait.getDescription()).trim();
 
 		prerequisite = trait.getRequirement();
 	}
