@@ -52,7 +52,7 @@ public class Background {
 
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;

@@ -64,6 +64,8 @@
 												th:utext="${background.skillName}" /></strong> <th:block
 											th:utext="${background.skillDescription}" /></li>
 								</ul>
+								<div class="card-footer text-muted"
+									th:text="'Источник: ' + ${background.book.name}"></div>
 							</div>
 						</div>
 					</td>

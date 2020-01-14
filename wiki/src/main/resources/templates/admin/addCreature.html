@@ -114,7 +114,7 @@
 						<div class="col-lg-2">
 							<div class="input-group mb-2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="labelability">СТР</span>
+									<span class="input-group-text" id="labelability">СИЛ</span>
 								</div>
 								<input id="strId" type="number" class="form-control w-15"
 									aria-describedby="basic-addon1" th:field="*{strength}">
@@ -410,7 +410,6 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 <script>
 	$('#strId').change(function() {
@@ -428,7 +427,6 @@
 	$('#wiz').change(function() {
 		updateBonus('#wiz', '#wiz_bonus');
 	})
-
 	$('#cha').change(function() {
 		updateBonus('#cha', '#cha_bonus');
 	})
