@@ -11,10 +11,15 @@ import lombok.Getter;
 public class ModifierVO {
 	@XmlAttribute
 	private String category;
-	
+
 	@XmlValue
 	private String text;
+
+	@AllArgsConstructor
+	@Getter
 	enum Type {
-		bonus
+		BONUS("Bonus"),
+		Ability_Score("Ability Score");
+		private String value;
 	}
 }
