@@ -1,12 +1,14 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
+import com.dnd5e.wiki.model.creature.AbilityType;
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Getter;
@@ -31,9 +33,16 @@ public class TraitVO implements Serializable {
 	}
 
 	public TraitVO(String name, String text) {
-		this.name = StringUtils.capitalize(name.toLowerCase());
-		this.text = Compendium.removeHtml(text);
+		this.name = StringUtils.capitalize(name.toLowerCase().trim());
+		this.text = Compendium.removeHtml(text).trim();
 		addRecharge();
+		if (name.contains("Увеличение характеристик")){
+			modifiers = new ArrayList<ModifierVO>(2);
+			for(AbilityType abilityType: AbilityType.values()) {
+				int index = text.indexOf(abilityType.getShortName());
+			}
+			
+		}
 	}
 
 	public TraitVO(Feature feature) {

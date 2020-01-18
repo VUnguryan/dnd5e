@@ -19,8 +19,8 @@ public class AbilityBonus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Enumerated(EnumType.ORDINAL)
+
+	@Enumerated(EnumType.STRING)
 	private AbilityType ability;
 	private byte bonus;
 }

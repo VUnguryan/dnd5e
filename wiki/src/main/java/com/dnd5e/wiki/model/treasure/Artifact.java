@@ -39,10 +39,11 @@ public class Artifact {
 	private boolean consumed;
 	@Column(nullable = true)
 	private Integer cost;
+
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
-	
+
 	@OneToMany
 	private List<HeroClass> custClasses;
 	
