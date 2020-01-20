@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import com.dnd5e.wiki.model.spell.Component;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.spell.TimeCast;
+import com.dnd5e.wiki.repository.BookRepository;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 
@@ -45,9 +47,12 @@ public class SpellController {
 	private Optional<TimeCast> timeCastSelected = Optional.empty();
 	private Set<Component> components;
 	private Set<String> distances;
+	private Set<String> sources;
 
 	private SpellRepository spellRepository;
 	private ClassRepository classRepository;
+	private BookRepository bookRepository;
+
 	private List<String> distanceTypes;
 
 	@Autowired
@@ -58,6 +63,11 @@ public class SpellController {
 	@Autowired
 	public void setClassRepository(ClassRepository classRepository) {
 		this.classRepository = classRepository;
+	}
+
+	@Autowired
+	public void setBookRepository(BookRepository bookRepository) {
+		this.bookRepository = bookRepository;
 	}
 
 	public SpellController() {
@@ -74,6 +84,7 @@ public class SpellController {
 		this.distanceTypes = spellRepository.findAllDistanceName().stream()
 				.sorted(comparator).collect(Collectors.toList());
 		this.distances = new HashSet<>();
+		this.sources = Collections.emptySet();
 	}
 
 	@GetMapping
@@ -131,6 +142,13 @@ public class SpellController {
 				specification = Specification.where(specification).and(byComponents());
 			}
 		}
+		if (!sources.isEmpty()) {
+			if (specification == null) {
+				specification = bySource();
+			} else {
+				specification = Specification.where(specification).and(bySource());
+			}
+		}
 		if (specification == null) {
 			model.addAttribute("spells", spellRepository.findAll(page));
 		} else {
@@ -150,11 +168,11 @@ public class SpellController {
 		model.addAttribute("componentNames", Component.values());
 		model.addAttribute("distanceTypes", distanceTypes);
 		model.addAttribute("distances", distances);
-
+		model.addAttribute("books", bookRepository.findAll());
 		model.addAttribute("filtered",
 				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent()
 						|| clases.size() < classRepository.count() || (schools.size() != MagicSchool.values().length)
-						|| timeCastSelected.isPresent() || !components.isEmpty() || !distances.isEmpty());
+						|| timeCastSelected.isPresent() || !components.isEmpty() || !distances.isEmpty() || !sources.isEmpty());
 		return "spells";
 	}
 
@@ -177,7 +195,8 @@ public class SpellController {
 		this.schools = EnumSet.copyOf(Arrays.asList(MagicSchool.values()));
 		this.timeCastSelected = Optional.empty();
 		this.components = EnumSet.noneOf(Component.class);
-		distances.clear();
+		this.distances = Collections.emptySet();
+		this.sources = Collections.emptySet();
 		return "redirect:/hero/spells?sort=level,asc";
 	}
 
@@ -194,6 +213,12 @@ public class SpellController {
 		return "redirect:/hero/spells?sort=" + sort;
 	}
 
+	@GetMapping(params = "source")
+	public String filterBySourceBook(Model model, String sort, @RequestParam String[] source, Pageable page) {
+		sources = new HashSet<>(Arrays.asList(source));
+		return "redirect:/hero/spells?sort=" + sort;
+	}
+	
 	@GetMapping(params = { "sort", "classType", "schoolType", "timeCast" })
 	public String filterByTypes(Model model, String sort, @RequestParam("classType") Integer[] classId,
 			String[] schoolType, String timeCast, String[] components, Pageable page) {
@@ -242,6 +267,10 @@ public class SpellController {
 			Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.LEFT);
 			return cb.and(hero.get("id").in(clases));
 		};
+	}
+	
+	private Specification<Spell> bySource() {
+		return (root, query, cb) -> cb.and(root.get("book").in(sources));
 	}
 
 	private Specification<Spell> byComponents() {
