@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class BackgroundController {
 	
 	@GetMapping
 	public String getBackgrounds(Model model) {
-		model.addAttribute("backgrounds", repo.findAll());
+		model.addAttribute("backgrounds", repo.findAll(Sort.by(Sort.Direction.ASC, "name")));
 		return "hero/backgrounds";
 	}
 }

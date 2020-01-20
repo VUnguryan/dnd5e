@@ -56,8 +56,7 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="distanceType">Дистанция</label>
 						</div>
-						<select id="distanceType" class="custom-select"
-							multiple="multiple">
+						<select id="distanceType" class="custom-select"	multiple="multiple">
 							<option th:each="distance : ${distanceTypes}"
 								th:value="${distance}" th:text="${distance}"
 								th:selected="${distances.contains(distance)}" />
@@ -108,6 +107,15 @@
 							<option id="timeCast" th:each="timeCastType : ${timeCastTypes}"
 								th:value="${timeCastType}" th:text="${timeCastType.name}"
 								th:selected="${timeCast.present && timeCastType==timeCast.get()}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="source">Источник</label>
+						</div>
+						<select id="sourceBook" class="custom-select" multiple="multiple">
+							<option th:each="book : ${books}"
+								th:value="${book.source}" th:text="${book.name}" />
 						</select>
 					</div>
 				</div>
@@ -198,7 +206,6 @@
 			buttonWidth : '200px',
 			selectAllText : 'Все компонетны ',
 			nonSelectedText : 'Любая комбинация компонентов',
-
 			onChange : function(event) {
 				filter(this);
 			}
@@ -219,6 +226,15 @@
 					parameters += "&sort=" + sort;
 				}
 				window.location = baseUrl + parameters;
+			}
+        });
+		$('#sourceBook').multiselect({
+			buttonWidth : '400px',
+			includeSelectAllOption : true,
+			selectAllText : 'Все источники ',
+			nonSelectedText : 'Любая комбинация источников',
+			onDropdownHide : function(event) {
+				filterSource(this);
 			}
 		});
 	});
@@ -283,8 +299,8 @@
 		var baseUrl = '[[@{/hero/spells?}]]';
 		var minLevel = $("#minLevel").val();
 		var maxLevel = $("#maxLevel").val();
-		var sort = getParameterByName('sort');
 		var parameters = "minLevel=" + minLevel + "&maxLevel=" + maxLevel;
+	    var sort = getParameterByName('sort');
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}
@@ -297,9 +313,20 @@
 		var schoolType = $("#schoolType").val();
 		var timeCast = $("#timeCast").val();
 		var components = $("#components").val();
-		var sort = getParameterByName('sort');
 		var parameters = "classType=" + type + "&schoolType=" + schoolType
 				+ "&timeCast=" + timeCast + "&components=" + components;
+	    var sort = getParameterByName('sort');
+		if (sort != null) {
+			parameters += "&sort=" + sort;
+		}
+	    window.location = baseUrl + parameters;
+	}
+
+	function filterSource(select) {
+		var baseUrl = '[[@{/hero/spells?}]]';
+		var source = $("#sourceBook").val();
+		var parameters = "source=" + source;
+	    var sort = getParameterByName('sort');
 		if (sort != null) {
 			parameters += "&sort=" + sort;
 		}
