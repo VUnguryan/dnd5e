@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
+import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.Weapon;
 
 import lombok.Data;
@@ -49,6 +50,8 @@ public class Artifact {
 	
 	@OneToMany
 	private List<Weapon> weapons;
+	@OneToMany
+	private List<Armor> armors;
 	
 	public int getCost() {
 		if (cost != null) {
