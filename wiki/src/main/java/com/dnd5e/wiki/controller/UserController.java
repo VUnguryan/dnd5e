@@ -1,7 +1,5 @@
 package com.dnd5e.wiki.controller;
 
-import java.sql.Date;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;

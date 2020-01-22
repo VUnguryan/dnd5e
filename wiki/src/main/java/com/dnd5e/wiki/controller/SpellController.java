@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.Component;
 import com.dnd5e.wiki.model.spell.MagicSchool;
@@ -54,6 +56,7 @@ public class SpellController {
 	private BookRepository bookRepository;
 
 	private List<String> distanceTypes;
+	private int sourceSize;
 
 	@Autowired
 	public void setSpellRepository(SpellRepository spellRepository) {
@@ -84,7 +87,12 @@ public class SpellController {
 		this.distanceTypes = spellRepository.findAllDistanceName().stream()
 				.sorted(comparator).collect(Collectors.toList());
 		this.distances = new HashSet<>();
-		this.sources = Collections.emptySet();
+		this.sources = bookRepository.finadAllByLeftJoinSpell()
+				.stream()
+				.filter(Objects::nonNull)
+				.map(Book::getSource)
+				.collect(Collectors.toSet());
+		this.sourceSize = sources.size(); 
 	}
 
 	@GetMapping
@@ -168,11 +176,13 @@ public class SpellController {
 		model.addAttribute("componentNames", Component.values());
 		model.addAttribute("distanceTypes", distanceTypes);
 		model.addAttribute("distances", distances);
-		model.addAttribute("books", bookRepository.findAll());
+		model.addAttribute("books", bookRepository.finadAllByLeftJoinSpell());
+		model.addAttribute("selectedBooks", sources);
 		model.addAttribute("filtered",
 				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent()
 						|| clases.size() < classRepository.count() || (schools.size() != MagicSchool.values().length)
-						|| timeCastSelected.isPresent() || !components.isEmpty() || !distances.isEmpty() || !sources.isEmpty());
+						|| timeCastSelected.isPresent() || !components.isEmpty() || !distances.isEmpty() 
+						|| sources.size() != sourceSize);
 		return "spells";
 	}
 
@@ -191,12 +201,19 @@ public class SpellController {
 		this.search = Optional.empty();
 		this.minLevel = Optional.empty();
 		this.maxLevel = Optional.empty();
-		this.clases = classRepository.findAll().stream().map(HeroClass::getId).collect(Collectors.toSet());
+		this.clases = classRepository.findAll()
+				.stream()
+				.map(HeroClass::getId)
+				.collect(Collectors.toSet());
 		this.schools = EnumSet.copyOf(Arrays.asList(MagicSchool.values()));
 		this.timeCastSelected = Optional.empty();
 		this.components = EnumSet.noneOf(Component.class);
 		this.distances = Collections.emptySet();
-		this.sources = Collections.emptySet();
+		this.sources = bookRepository.finadAllByLeftJoinSpell()
+				.stream()
+				.filter(Objects::nonNull)
+				.map(Book::getSource)
+				.collect(Collectors.toSet());
 		return "redirect:/hero/spells?sort=level,asc";
 	}
 
@@ -270,8 +287,10 @@ public class SpellController {
 	}
 	
 	private Specification<Spell> bySource() {
-		return (root, query, cb) -> cb.and(root.get("book").in(sources));
-	}
+		return (root, query, cb) -> {
+			Join<Book, Spell> hero = root.join("book", JoinType.LEFT);
+			return cb.and(hero.get("source").in(sources));
+		};	}
 
 	private Specification<Spell> byComponents() {
 		boolean verbal = components.contains(Component.VERBAL);

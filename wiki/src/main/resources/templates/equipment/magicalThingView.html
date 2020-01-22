@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layouts/default">
 <head>
-<title>DnD 5E Магические предметы</title>
+<title>DnD 5E Магические вещи</title>
 <meta charset="utf-8">
 
 <link rel="icon" th:href="@{/resources/icon.png}">
@@ -20,47 +20,6 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .artifactes})"></div>
 	<div class="container" style="margin-top: 25px">
-		<div>
-			<button data-toggle="collapse" data-target="#filter"
-				class="btn btn-secondary">Фильтры</button>
-		</div>
-		<div id=filter class="collapse" th:classappend="${filtered} ? show">
-			<div class="card">
-				<div class="card-body">
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<label class="input-group-text" for="artifactType">Тип</label>
-						</div>
-						<select id="artifactType" class="custom-select"
-							onchange="filter(this)">
-							<option value="ALL">все</option>
-							<option th:each="type : ${artifactTypes}" th:value="${type}"
-								th:text="${type.cyrilicName}"
-								th:selected="${typeSelected.present && type==typeSelected.get()}">
-							</option>
-						</select>
-					</div>
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<label class="input-group-text" for="rarityType">Редкость</label>
-						</div>
-						<select id="rarityType" class="custom-select"
-							onchange="filter(this)">
-							<option value="ALL">все</option>
-							<option th:each="rarity : ${rarityTypes}" th:value="${rarity}"
-								th:text="${rarity.cyrilicName}"
-								th:selected="${raritySelected.present && rarity==raritySelected.get()}" />
-						</select>
-					</div>
-					<div class="input-group mb-3">
-						<a th:if="${filtered}" th:href="@{/stock/artifacts?clear}"
-							role="button" class="btn btn-danger"><img
-							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp;
-							Сбросить фильтры</a>
-					</div>
-				</div>
-			</div>
-		</div>
 		<table class="table table-hover">
 			<thead>
 				<tr style="cursor: pointer">

@@ -115,7 +115,8 @@
 						</div>
 						<select id="sourceBook" class="custom-select" multiple="multiple">
 							<option th:each="book : ${books}"
-								th:value="${book.source}" th:text="${book.name}" />
+								th:value="${book.source}" th:text="${book.name}" 
+								th:selected="${selectedBooks.contains(book.source)}"/>
 						</select>
 					</div>
 				</div>
@@ -175,22 +176,31 @@
 <script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
 
 <script type="text/javascript">
+    var changed = false;
 	$(document).ready(function() {
 		$('#schoolType').multiselect({
 			buttonWidth : '250px',
 			enableFiltering : true,
 			includeSelectAllOption : true,
 			selectAllJustVisible : false,
-			selectAllText : 'Все',
+			selectAllText : 'Все классы',
 			nSelectedText : ' - выбрано',
-			allSelectedText : "Выбраны все школы магии",
+			allSelectedText : "Все школы магии",
 			nonSelectedText : 'школы магии не выбраны',
+            onSelectAll: function() {
+                changed = true;
+            },
+            onChange: function(option, checked, select) {
+                changed = true;
+            },
 			onDropdownHide : function(event) {
-				filter(this);
+				if (changed)
+				    filter(this);
+				changed = false;
 			}
 		});
 		$('#classType').multiselect({
-			allSelectedText : "Выбраны все классы",
+			allSelectedText : "Все классы",
 			buttonWidth : '250px',
 			enableFiltering : true,
 			includeSelectAllOption : true,
@@ -198,16 +208,32 @@
 			selectAllText : 'Все',
 			nSelectedText : ' - выбрано',
 			nonSelectedText : 'классы не выбраны',
+            onSelectAll: function() {
+                changed = true;
+            },
+            onChange: function(option, checked, select) {
+                changed = true;
+            },
 			onDropdownHide : function(event) {
-				filter(this);
+                if (changed)
+                    filter(this);
+                changed = false;
 			}
 		});
 		$('#components').multiselect({
 			buttonWidth : '200px',
 			selectAllText : 'Все компонетны ',
-			nonSelectedText : 'Любая комбинация компонентов',
-			onChange : function(event) {
-				filter(this);
+			nonSelectedText : 'комбинация компонентов',
+            onSelectAll: function() {
+                changed = true;
+            },
+            onChange: function(option, checked, select) {
+                changed = true;
+            },
+            onDropdownHide : function(event) {
+                if (changed)
+                    filter(this);
+                changed = false;
 			}
 		});
 		$('#distanceType').multiselect({
@@ -217,24 +243,44 @@
 			enableFiltering : true,
 			selectAllText : 'Любая дистанция ',
 			nonSelectedText : 'Любая дистанция',
+	        nSelectedText : ' - выбрано',
+            onSelectAll: function() {
+                changed = true;
+            },
+            onChange: function(option, checked, select) {
+                changed = true;
+            },
 			onDropdownHide : function(event) {
-				var baseUrl = '[[@{/hero/spells?}]]';
-				var sort = getParameterByName('sort');
-				var distance = $("#distanceType").val();
-				var parameters = "distance=" + distance;
-				if (sort != null) {
-					parameters += "&sort=" + sort;
-				}
-				window.location = baseUrl + parameters;
+				if(changed) {
+			      var baseUrl = '[[@{/hero/spells?}]]';
+			      var sort = getParameterByName('sort');
+			      var distance = $("#distanceType").val();
+			      var parameters = "distance=" + distance;
+				  if (sort != null) {
+					  parameters += "&sort=" + sort;
+				  }
+				  window.location = baseUrl + parameters;
+			    }
+                changed = false;
 			}
         });
 		$('#sourceBook').multiselect({
-			buttonWidth : '400px',
+			buttonWidth : '300px',
 			includeSelectAllOption : true,
-			selectAllText : 'Все источники ',
-			nonSelectedText : 'Любая комбинация источников',
+	        nSelectedText : ' - выбрано',
+	        allSelectedText : "Все источники",
+			selectAllText : 'Все источники',
+			nonSelectedText : 'Выберите источник',
+	        onSelectAll: function() {
+                changed = true;
+	        },
+            onChange: function(option, checked, select) {
+            	changed = true;
+            },
 			onDropdownHide : function(event) {
-				filterSource(this);
+				if (changed)
+				    filterSource(this);
+				changed = false;
 			}
 		});
 	});

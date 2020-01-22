@@ -5,10 +5,7 @@ import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -161,7 +158,7 @@ public class AdminController {
 			}
 			String text = reader.readLine();
 			String[] levelAndSchool = text.split(",");
-			if (levelAndSchool[0].startsWith("Заговор")) {
+			if (levelAndSchool[0].startsWith("Заговор") || levelAndSchool[0].startsWith("заговор")) {
 				spell.setLevel((byte) 0);
 			} else {
 				byte level = Byte.valueOf(levelAndSchool[0].split(" ")[0]);
