@@ -62,11 +62,13 @@
 
 				<li sec:authorize="hasRole('ROLE_USER')" class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown">Таверна</a>
+					data-toggle="dropdown">Мастерская</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/tavern/add}">Создать
-							героя</a> <a class="dropdown-item" th:href="@{/tavern?sort=name,asc}">Список
-							героев</a>
+							персонажа</a> 
+						<a class="dropdown-item" th:href="@{/tavern?sort=name,asc}">Список
+							персонажей</a>
+						<a class="dropdown-item" th:href="@{/magic/books}">Книги заклинаний</a>
 					</div></li>
 				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"

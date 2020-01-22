@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.stock.Equipment;
 
@@ -36,6 +37,7 @@ public class Background {
 	private Integer id;
 
 	private String name;
+	private String toolOwnership;
 
 	@ElementCollection(targetClass = SkillType.class)
 	@CollectionTable(name = "background_skill_type")
@@ -43,15 +45,18 @@ public class Background {
 	@Enumerated(EnumType.STRING)
 	private List<SkillType> skills;
 
-	@ManyToMany
-	private List<Equipment> equipments;
-
 	private String skillName;
 	@Column(columnDefinition = "TEXT")
 	private String skillDescription;
 
 	@Column(columnDefinition = "TEXT")
 	private String description;
+
+	@ManyToMany
+	private List<Equipment> equipments;
+
+	@ManyToMany
+	private List<Language> languages;
 
 	@ManyToOne
 	@JoinColumn(name = "source")

@@ -16,30 +16,43 @@
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<style>
+  @media (min-width:576px) {
+      .card-columns {
+        column-count: 2;
+      }
+  }
+    @media (min-width:768px) {
+      .card-columns {
+        column-count: 3;
+      }
+  }
+  @media (min-width:992px) {
+      .card-columns {
+        column-count: 4;
+      }
+  }
+  @media (min-width:1200px) {
+      .card-columns {
+        column-count: 6;
+      }
+  }
+</style>
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .classes})"></div>
-	<div class="container" style="margin-top: 50px">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th scope="col" class="text-center">Наименование</th>
-				</tr>
-			</thead>
-			<tr th:each="heroClass : ${classes}" style="cursor: pointer"
-				th:onclick="'javascript:rowClicked(\'' + ${heroClass.id} + '\');'">
-				<td class="text-center"><img
-					th:src="@{'/resources/classes/' + ${heroClass.id}+ '.png'}"
-					th:title="${heroClass.name}" height="50" width="50" /> <th:block
-						th:text="${heroClass.name}" /></td>
-			</tr>
-		</table>
-	</div>
+	   <div class="container-fluid" style="margin-top: 40px">
+        <div class="card-columns">
+            <div th:each="heroClass : ${classes}" class="card mb-3 text-center">
+                <div class="card-header">
+                    <h4 th:text="${heroClass.name}"
+                        class="my-1 font-weight-normal flex-grow-1"></h4>
+                </div>
+                <a th:href="@{'/hero/classes/class/'+ ${heroClass.id}}"> <img
+                    class="img-thumbnail rounded"
+                    th:src="@{'/resources/classes/art/'+ ${heroClass.id} +'.jpg'}" align="middle" /></a>
+            </div>
+        </div>
+    </div>
 </body>
-<script>
-	function rowClicked(value) {
-		var baseUrl = '[[@{/hero/classes/class/}]]';
-		location.href = baseUrl + value;
-	}
-</script>
 </html>
