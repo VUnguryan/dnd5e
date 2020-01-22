@@ -108,7 +108,10 @@
 								<div class="card-body">
 									<p th:utext="${artifact.description}"></p>
 								</div>
-								<div></div>
+								<footer class="blockquote-footer">
+									<small class="text-muted" th:if="${artifact.book}"
+										th:text="'Источник: ' + ${artifact.book.name}"></small>
+								</footer>
 							</div>
 						</div>
 					</td>

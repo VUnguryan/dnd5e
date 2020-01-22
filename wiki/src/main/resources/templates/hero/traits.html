@@ -16,7 +16,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -43,7 +43,7 @@
 					<td th:text="${trait.name}">
 					<td><img
 						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"
-						height="25"/></td>
+						height="25" /></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="hiddenRow">
@@ -55,6 +55,10 @@
 											th:text="${trait.requirement}" /></li>
 								</ul>
 								<div class="card-body" th:utext="${trait.description}"></div>
+								<footer class="blockquote-footer">
+									<small class="text-muted" th:if="${trait.book}"
+										th:text="'Источник: ' + ${trait.book.name}"></small>
+								</footer>
 							</div>
 						</div>
 					</td>
