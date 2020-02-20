@@ -26,6 +26,9 @@ public class ClassVO {
 
 	@XmlElement
 	private String proficiency;
+	
+	@XmlElement
+	private short numSkills;
 
 	@XmlElement
 	private String armor;
@@ -35,6 +38,9 @@ public class ClassVO {
 	
 	@XmlElement (required = false)
 	private String tools;
+	
+	@XmlElement
+	private String wealth;
 	
 	@XmlElement (required = false)
 	private String spellAbility;
@@ -72,13 +78,15 @@ public class ClassVO {
 				.map(String::toLowerCase)
 				.map(StringUtils::capitalize)
 				.collect(Collectors.joining(","));
+
+		numSkills = hero.getSkillAvailableCount();
 		weapons = hero.getWeapon();
 		armor = hero.getArmor();
 		if (hero.getSpellAbility()!=null) {
 			spellAbility = StringUtils.capitalize(hero.getSpellAbility().name().toLowerCase());
 		}
  
-		if (hero.getId() <9) {
+		if (hero.getId() < 9) {
 			slots = hero.getLevelDefenitions()
 					.stream().map(SlotVO::new)
 					.collect(Collectors.toList());

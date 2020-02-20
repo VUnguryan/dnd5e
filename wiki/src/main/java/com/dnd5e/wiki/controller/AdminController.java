@@ -625,7 +625,7 @@ public class AdminController {
 		}
 		case "Иммунитет к состоянию":
 			skillText = skillText.replace("Иммунитет к состоянию ", "");
-		case "Иммунитет к состояниям": {
+		case "Иммунитет к состояниям":
 			skillText = skillText.replace("Иммунитет к состояниям ", "");
 			String[] stateTypes = skillText.split(",");
 			List<State> immunityStateList = new ArrayList<>();
@@ -634,7 +634,6 @@ public class AdminController {
 			}
 			monster.setImmunityStates(immunityStateList);
 			break;
-		}
 		}
 	}
 
