@@ -1,9 +1,12 @@
 package com.dnd5e.wiki.model.creature;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Состояния
@@ -12,15 +15,14 @@ import lombok.Getter;
  *
  */
 @Getter
-@AllArgsConstructor
 public enum State {
-	BLINDED("ослепление"),
+	BLINDED("ослепление", "слепота"),
 	CHARMED("очарование"),
 	DYING("смерть"),
 	DODGING("уклонение"),
 	DEAFENED("глухота"),
 	EXHAUSTING("истощение"),
-	FRIGHTENED("испуг"),
+	FRIGHTENED("испуг", "страх"),
 	GRAPPLED("захват"),
 	INCAPACITATED("недееспособность"),
 	INVISIBLE("невидимый"),
@@ -33,10 +35,14 @@ public enum State {
 	UNCONSCIOUS("бессознательность");
 
 	private String cyrilicName;
-
+	private Set<String> names;
+	State(String ...  names){
+		cyrilicName = names[0];
+		this.names = Arrays.stream(names).collect(Collectors.toSet());
+	}
 	public static State parse(String stateString) {
 		return Arrays.stream(values())
-				.filter(s -> s.getCyrilicName().equals(stateString))
+				.filter(s -> s.getNames().stream().anyMatch(stateString::equalsIgnoreCase))
 				.findFirst()
 				.orElseThrow(IllegalArgumentException::new);
 	}

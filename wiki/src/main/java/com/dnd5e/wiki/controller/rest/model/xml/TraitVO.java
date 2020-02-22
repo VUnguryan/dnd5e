@@ -48,7 +48,8 @@ public class TraitVO implements Serializable {
 	public TraitVO(Feature feature) {
 		name = feature.getName().trim();
 		addRecharge();
-		text = Compendium.removeHtml(feature.getDescription().trim());
+		
+		text = feature.getDescription() == null ? "" : Compendium.removeHtml(feature.getDescription().trim());
 	}
 
 	private void addRecharge() {

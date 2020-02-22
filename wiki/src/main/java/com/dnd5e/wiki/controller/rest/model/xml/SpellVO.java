@@ -77,9 +77,9 @@ public class SpellVO {
 		}
 		this.time = spell.getTimeCast();
 		this.range = spell.getDistance();
-		this.components = spell.getVerbalComponent()!= null && spell.getVerbalComponent() ? "V" : "";
-		this.components += !this.components.isEmpty() && (spell.getSomaticComponent() != null && spell.getSomaticComponent()) ? ", S" : spell.getSomaticComponent() ? "S": "";
-		this.components += !this.components.isEmpty() && (spell.getMaterialComponent() != null && spell.getMaterialComponent()) ? ", M" : ""; 
+		this.components = isBoolean(spell.getVerbalComponent()) ? "V" : "";
+		this.components += !this.components.isEmpty() && isBoolean(spell.getSomaticComponent()) ? ", S" : isBoolean(spell.getSomaticComponent()) ? "S": "";
+		this.components += !this.components.isEmpty() && isBoolean(spell.getMaterialComponent()) ? ", M" : ""; 
 		this.components += spell.getAdditionalMaterialComponent() != null ? " (" + spell.getAdditionalMaterialComponent() + ")"  :"";
 		this.duration = spell.getDuration();
 		if (spell.getRitual()) {
@@ -102,6 +102,10 @@ public class SpellVO {
 				.map(c -> toEnglishName(c)).distinct().filter(t->!t.isEmpty())
 				.collect(Collectors.joining(", "));
 
+	}
+
+	private boolean isBoolean(Boolean b) {
+		return b == null ? false : b;
 	}
 
 	private String toEnglishName(HeroClass heroClass) {
