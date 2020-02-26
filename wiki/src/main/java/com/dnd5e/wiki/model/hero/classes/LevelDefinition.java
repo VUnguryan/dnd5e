@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.hero.classes;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +35,9 @@ public class LevelDefinition {
 	private byte slot7;
 	private byte slot8;
 	private byte slot9;
+	
+	@Column (nullable = true)
+	private String counter;
 	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;
