@@ -101,7 +101,6 @@ public class SpellVO {
 				.distinct()
 				.map(c -> toEnglishName(c)).distinct().filter(t->!t.isEmpty())
 				.collect(Collectors.joining(", "));
-
 	}
 
 	private boolean isBoolean(Boolean b) {

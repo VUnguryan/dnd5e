@@ -1,8 +1,16 @@
 package com.dnd5e.wiki.controller;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -15,13 +23,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.Action;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureRace;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.CreatureType;
+import com.dnd5e.wiki.repository.BookRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 
@@ -33,12 +44,28 @@ public class CreatureController {
 	private CreatureRepository repository;
 	@Autowired
 	private CreatureRaceRepository creatureRaceRepository;
+	@Autowired
+	private BookRepository bookRepository;
 
 	private Optional<String> search = Optional.empty();
 	private Optional<String> crMin = Optional.empty();
 	private Optional<String> crMax = Optional.empty();
 	private Optional<CreatureType> typeSelected = Optional.empty();
 	private Optional<CreatureSize> sizeSelected = Optional.empty();
+
+	private Set<String> sources;
+	private int sourceSize;
+
+	@PostConstruct
+	public void initClassses() {
+		this.sources = bookRepository.finadAllByLeftJoinCreature()
+				.stream()
+				.filter(Objects::nonNull)
+				.map(Book::getSource)
+				.collect(Collectors.toSet());
+		this.sourceSize = sources.size(); 
+
+	}
 
 	@GetMapping
 	public String getCreatures(Model model, @PageableDefault(size = 12, sort = "exp") Pageable page) {
@@ -58,13 +85,21 @@ public class CreatureController {
 		if (sizeSelected.isPresent()) {
 			specification = (specification == null) ? bySize() : Specification.where(specification).and(bySize());
 		}
+		if (!sources.isEmpty()) {
+			if (specification == null) {
+				specification = bySource();
+			} else {
+				specification = Specification.where(specification).and(bySource());
+			}
+		}
 		model.addAttribute("creatures", repository.findAll(specification, page));
 		model.addAttribute("filtered",
 				crMin.isPresent() 
 				|| crMax.isPresent() 
 				|| search.isPresent() 
 				|| typeSelected.isPresent() 
-				|| sizeSelected.isPresent());
+				|| sizeSelected.isPresent()
+				|| sources.size() != sourceSize);
 		model.addAttribute("searchText", search);
 		model.addAttribute("crMin", crMin);
 		model.addAttribute("crMax", crMax);
@@ -72,6 +107,10 @@ public class CreatureController {
 		model.addAttribute("sizes", CreatureSize.values());
 		model.addAttribute("typeSelected", typeSelected);
 		model.addAttribute("sizeSelected", sizeSelected);
+
+		model.addAttribute("books", bookRepository.finadAllByLeftJoinCreature());
+		model.addAttribute("selectedBooks", sources);
+
 		return "creatures";
 	}
 
@@ -138,7 +177,18 @@ public class CreatureController {
 		this.crMax = Optional.empty();
 		this.sizeSelected = Optional.empty();
 		this.typeSelected = Optional.empty();
+		this.sources = bookRepository.finadAllByLeftJoinCreature()
+				.stream()
+				.filter(Objects::nonNull)
+				.map(Book::getSource)
+				.collect(Collectors.toSet());
 		return "redirect:/creatures?sort=exp,asc";
+	}
+
+	@GetMapping(params = "source")
+	public String filterBySourceBook(Model model, String sort, @RequestParam String[] source, Pageable page) {
+		sources = new HashSet<>(Arrays.asList(source));
+		return "redirect:/creatures?sort=" + sort;
 	}
 	
 	private Specification<Creature> byName() {
@@ -160,6 +210,13 @@ public class CreatureController {
 
 	private Specification<Creature> bySize() {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("size"), sizeSelected.get()));
+	}
+
+	private Specification<Creature> bySource() {
+		return (root, query, cb) -> {
+			Join<Book, Creature> hero = root.join("book", JoinType.LEFT);
+			return cb.and(hero.get("source").in(sources));
+		};	
 	}
 
 	private static int toExp(String cr) {

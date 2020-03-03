@@ -77,7 +77,7 @@ public class SpellController {
 	}
 
 	@PostConstruct
-	public void initClssses() {
+	public void initClassses() {
 		this.clases = classRepository.findAll().stream().map(HeroClass::getId).collect(Collectors.toSet());
 		this.components = EnumSet.noneOf(Component.class);
 		Comparator<String> comparator = (s1, s2) -> {
@@ -290,7 +290,8 @@ public class SpellController {
 		return (root, query, cb) -> {
 			Join<Book, Spell> hero = root.join("book", JoinType.LEFT);
 			return cb.and(hero.get("source").in(sources));
-		};	}
+		};	
+	}
 
 	private Specification<Spell> byComponents() {
 		boolean verbal = components.contains(Component.VERBAL);

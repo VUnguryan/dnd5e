@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/default">
 <head>
 <title>DnD 5E Монстры</title>
 <meta charset="utf-8">
 
 <link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet" />
-<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap-multiselect.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 </head>
 <body>
@@ -84,6 +82,16 @@
 								th:selected="${sizeSelected.present && size==sizeSelected.get()}" />
 						</select>
 					</div>
+					<div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="source">Источник</label>
+                        </div>
+                        <select id="sourceBook" class="custom-select" multiple="multiple">
+                            <option th:each="book : ${books}"
+                                th:value="${book.source}" th:text="${book.name}" 
+                                th:selected="${selectedBooks.contains(book.source)}"/>
+                        </select>
+                    </div>
 					<a th:if="${filtered}" th:href="@{/creatures/?clear}" role="button"
 						class="btn btn-danger"><img
 						th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp;
@@ -124,6 +132,36 @@
 		<div th:insert="fragments/pages :: pages(${creatures}, creatures)"></div>
 	</div>
 </body>
+
+<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
+
+<script type="text/javascript">
+var changed = false;
+$(document).ready(function() {
+    $('#sourceBook').multiselect({
+        buttonWidth : '300px',
+        includeSelectAllOption : true,
+        nSelectedText : ' - выбрано',
+        allSelectedText : "Все источники",
+        selectAllText : 'Все источники',
+        nonSelectedText : 'Выберите источник',
+        onSelectAll: function() {
+            changed = true;
+        },
+        onChange: function(option, checked, select) {
+            changed = true;
+        },
+        onDropdownHide : function(event) {
+            if (changed)
+                filterSource(this);
+            changed = false;
+        }
+    });
+});
+</script>
 <script>
 	function sortTable(n) {
 		var baseUrl = '[[@{/creatures?}]]';
@@ -187,5 +225,16 @@
 		}
 		window.location = baseUrl + parameters;
 	}
+	
+	   function filterSource(select) {
+	        var baseUrl = '[[@{/creatures?}]]';
+	        var source = $("#sourceBook").val();
+	        var parameters = "source=" + source;
+	        var sort = getParameterByName('sort');
+	        if (sort != null) {
+	            parameters += "&sort=" + sort;
+	        }
+	        window.location = baseUrl + parameters;
+	    }
 </script>
 </html>
