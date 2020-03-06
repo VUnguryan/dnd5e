@@ -151,6 +151,26 @@
 							data-parent="#subClasses">
 							<div class="card-body">
 								<p th:utext="${archetype.description}"></p>
+                                <h5 th:if="${!archetype.spells.empty}" class="card-header" th:text="'Заклинания ' + ${archetype.name}"></h5>
+                                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 3%">Уровень<img
+                                th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"></th>
+                            <th scope="col" style="width: 50%">Наименование</th>
+                            <th scope="col" style="width: 20%" class="text-center">Школа
+                                / School</th>
+                        </tr>
+                    </thead>
+                    <tr th:each="spell : ${archetype.spells}" style="cursor: pointer"
+                        th:onclick="'javascript:rowClicked(\'' + ${spell.id} + '\');'">
+                        <td class="text-center" th:text="${spell.level}" />
+                        <td th:text="${spell.name}" />
+                        <td class="text-center">
+                            <div th:insert="fragments/schoolIcon :: schoolIcon(${spell})"></div>
+                        </td>
+                    </tr>
+                </table>
 								<ul class="list-group list-group-flush">
 									<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5
 											th:id="${'f'+feat.name}" class="card-title"

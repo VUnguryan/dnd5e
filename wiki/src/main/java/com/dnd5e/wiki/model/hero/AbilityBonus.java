@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.creature.AbilityType;
+import com.dnd5e.wiki.model.AbilityType;
 
 import lombok.Data;
 
@@ -23,4 +23,5 @@ public class AbilityBonus {
 	@Enumerated(EnumType.STRING)
 	private AbilityType ability;
 	private byte bonus;
+	
 }

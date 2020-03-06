@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
-import com.dnd5e.wiki.model.hero.AbilityBonus;
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Data;
@@ -40,10 +39,6 @@ public class Race {
 	private String description;
 	
 	@OneToMany
-	@JoinColumn(name = "race_id")
-	private List<AbilityBonus> abilityBonuses;
-	
-	@OneToMany
 	List<Language> languages;
 	
 	@ManyToOne(cascade = {CascadeType.ALL})
@@ -56,10 +51,10 @@ public class Race {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, columnDefinition = "varchar(255) default MEDIUM")
 	private CreatureSize size;
-	
+
 	@Column(columnDefinition = "int default 30")
 	private int speed; 
-	
+
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;

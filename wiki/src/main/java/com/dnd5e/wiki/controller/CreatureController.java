@@ -64,7 +64,6 @@ public class CreatureController {
 				.map(Book::getSource)
 				.collect(Collectors.toSet());
 		this.sourceSize = sources.size(); 
-
 	}
 
 	@GetMapping

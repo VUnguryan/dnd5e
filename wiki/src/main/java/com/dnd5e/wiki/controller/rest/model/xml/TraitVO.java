@@ -3,12 +3,15 @@ package com.dnd5e.wiki.controller.rest.model.xml;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.creature.AbilityType;
+import com.dnd5e.wiki.controller.rest.model.json.Abilities;
+import com.dnd5e.wiki.model.AbilityType;
+import com.dnd5e.wiki.model.hero.AbilityBonus;
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Getter;
@@ -36,13 +39,6 @@ public class TraitVO implements Serializable {
 		this.name = StringUtils.capitalize(name.toLowerCase().trim());
 		this.text = Compendium.removeHtml(text).trim();
 		addRecharge();
-		if (name.contains("Увеличение характеристик")){
-			modifiers = new ArrayList<ModifierVO>(2);
-			for(AbilityType abilityType: AbilityType.values()) {
-				int index = text.indexOf(abilityType.getShortName());
-			}
-			
-		}
 	}
 
 	public TraitVO(Feature feature) {
@@ -50,6 +46,13 @@ public class TraitVO implements Serializable {
 		addRecharge();
 		
 		text = feature.getDescription() == null ? "" : Compendium.removeHtml(feature.getDescription().trim());
+/*		if (!feature.getAbilityBonuses().isEmpty())
+		{
+			modifiers = new ArrayList<>();
+			for (AbilityBonus bonus :feature.getAbilityBonuses()) {
+				modifiers.add(new ModifierVO(ModifierVO.Type.ABILITY_SCORE, bonus));
+			}
+		}*/
 	}
 
 	private void addRecharge() {

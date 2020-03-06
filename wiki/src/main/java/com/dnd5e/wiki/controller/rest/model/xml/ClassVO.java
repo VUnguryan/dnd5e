@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.creature.AbilityType;
+import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 

@@ -1,10 +1,10 @@
 package com.dnd5e.wiki.model.creature;
 
-import static com.dnd5e.wiki.model.creature.AbilityType.CHARISMA;
-import static com.dnd5e.wiki.model.creature.AbilityType.DEXTERITY;
-import static com.dnd5e.wiki.model.creature.AbilityType.INTELLIGENCE;
-import static com.dnd5e.wiki.model.creature.AbilityType.STRENGTH;
-import static com.dnd5e.wiki.model.creature.AbilityType.WISDOM;
+import static com.dnd5e.wiki.model.AbilityType.CHARISMA;
+import static com.dnd5e.wiki.model.AbilityType.DEXTERITY;
+import static com.dnd5e.wiki.model.AbilityType.INTELLIGENCE;
+import static com.dnd5e.wiki.model.AbilityType.STRENGTH;
+import static com.dnd5e.wiki.model.AbilityType.WISDOM;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +14,8 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import com.dnd5e.wiki.model.AbilityType;
 
 import lombok.Getter;
 

@@ -23,7 +23,7 @@ public class RaceVO {
 	@XmlElement
 	private Integer speed;
 	
-	@XmlElement
+	@XmlElement (required = false)
 	private String ability;
 	
 	@XmlElement
@@ -39,10 +39,22 @@ public class RaceVO {
 		name = StringUtils.capitalize(race.getName().toLowerCase());
 		size = String.valueOf(race.getSize().name().charAt(0));
 		speed = race.getSpeed();
-		ability = race.getAbilityBonuses()
-				.stream()
-				.map(r -> StringUtils.capitalize(r.getAbility().name().toLowerCase().substring(0, 3)) + " " + r.getBonus())
+		ability = race.getFeatures().stream().flatMap(f -> f.getAbilityBonuses().stream())
+				.map(r -> 
+					String.format("%s %+d",	r.getAbility().getCapitalizeName(), r.getBonus())
+				)
 				.collect(Collectors.joining(", "));
+		if (race.getParent() != null) {
+			if (!ability.isEmpty())
+			{
+				ability += ", ";
+			}
+			ability += race.getParent().getFeatures().stream().flatMap(f -> f.getAbilityBonuses().stream())
+				.map(r -> 
+					String.format("%s %+d",	r.getAbility().getCapitalizeName(), r.getBonus())
+				)
+				.collect(Collectors.joining(", "));
+		}
 		if (race.getParent() != null) {
 			
 			trait = Stream.concat(race.getParent().getFeatures().stream(), race.getFeatures().stream())

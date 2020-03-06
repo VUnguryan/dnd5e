@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Sense;
-import com.dnd5e.wiki.model.creature.AbilityType;
 import com.dnd5e.wiki.model.creature.Action;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Alignment;

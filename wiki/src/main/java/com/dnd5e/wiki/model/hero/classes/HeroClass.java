@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.creature.AbilityType;
+import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.HeroClassTrait;
