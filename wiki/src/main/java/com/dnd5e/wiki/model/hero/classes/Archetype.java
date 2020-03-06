@@ -37,9 +37,6 @@ public class Archetype {
 	@JoinColumn(name = "archetype_id")
 	private List<ArchetypeTrait> feats;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Spell> spells;
-	
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;

@@ -1,11 +1,15 @@
 package com.dnd5e.wiki.model.hero.classes;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -36,8 +40,9 @@ public class LevelDefinition {
 	private byte slot8;
 	private byte slot9;
 	
-	@Column (nullable = true)
-	private String counter;
+	@OneToMany
+	@JoinColumn(name = "level_def_id")
+	private List<Counter> counters;
 	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;
