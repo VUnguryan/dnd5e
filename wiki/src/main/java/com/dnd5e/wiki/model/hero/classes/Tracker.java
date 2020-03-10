@@ -14,9 +14,9 @@ import com.dnd5e.wiki.model.Rest;
 import lombok.Data;
 
 @Entity
-@Table(name = "counters")
+@Table(name = "trackers")
 @Data
-public class Counter {
+public class Tracker {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

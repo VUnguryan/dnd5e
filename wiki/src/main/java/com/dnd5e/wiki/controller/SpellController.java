@@ -191,7 +191,7 @@ public class SpellController {
 		if (search.isEmpty()) {
 			this.search = Optional.empty();
 		} else {
-			this.search = Optional.of(search);
+			this.search = Optional.of(search.trim());
 		}
 		return "redirect:/hero/spells?sort=level,asc";
 	}
@@ -250,7 +250,6 @@ public class SpellController {
 	public String getSpell(Model model, @PathVariable Integer id) {
 		Spell spell = spellRepository.findById(id).get();
 		model.addAttribute("spell", spell);
-		model.addAttribute("classes", classRepository.findBySpellName(spell.getName()));
 		return "spellView";
 	}
 

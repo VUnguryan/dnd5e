@@ -2,7 +2,6 @@ package com.dnd5e.wiki.model.hero.classes;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,7 +41,7 @@ public class LevelDefinition {
 	
 	@OneToMany
 	@JoinColumn(name = "level_def_id")
-	private List<Counter> counters;
+	private List<Tracker> counters;
 	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;
