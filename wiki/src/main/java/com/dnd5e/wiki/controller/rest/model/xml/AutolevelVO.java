@@ -72,7 +72,11 @@ public class AutolevelVO {
 				.stream()
 				.map(OptionalFeatureVO::new)
 				.collect(Collectors.toList());
-
-		trackers = hero.getLevelDefenitions().get(level).getTrackers().stream().map(TrackerVO::new).collect(Collectors.toList());
+		if (hero.getLevelDefenitions().size() >= level) {
+			trackers = hero.getLevelDefenitions().get(level -1).getTrackers()
+					.stream()
+					.map(TrackerVO::new)
+					.collect(Collectors.toList());
+		}
 	}
 }
