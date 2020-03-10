@@ -10,10 +10,10 @@ public class TrackerVO {
 	@XmlElement
 	String value;
 	@XmlElement
-	String rest;
+	String reset;
 	TrackerVO(Tracker tracker) {
 		this.name = tracker.getName();
 		this.value = tracker.getValue();
-		this.rest = "" + tracker.getRest().name().charAt(0);
+		this.reset = "" + tracker.getRest().name().charAt(0);
 	}
 }
