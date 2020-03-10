@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.dnd5</groupId>
-	<artifactId>wiki</artifactId>
+	<artifactId>ROOT</artifactId>
 	<packaging>war</packaging>
 	<name>DnD5ERUS</name>
 	<version>0.0.2-SNAPSHOT</version>

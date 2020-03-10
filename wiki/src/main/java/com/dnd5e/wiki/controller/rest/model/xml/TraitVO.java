@@ -1,17 +1,15 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.controller.rest.model.json.Abilities;
-import com.dnd5e.wiki.model.AbilityType;
-import com.dnd5e.wiki.model.hero.AbilityBonus;
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Getter;
@@ -21,11 +19,13 @@ public class TraitVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlElement
 	private String name;
+
 	@XmlElement
-	private String text;
+	private List<String> text;
 
 	@XmlElement(required = false)
 	private Integer charges;
+
 	@XmlElement(required = false)
 	private Integer recharge;
 	
@@ -37,22 +37,26 @@ public class TraitVO implements Serializable {
 
 	public TraitVO(String name, String text) {
 		this.name = StringUtils.capitalize(name.toLowerCase().trim());
-		this.text = Compendium.removeHtml(text).trim();
+		this.text = Arrays.stream(text.split("<p>"))
+				.filter(Objects::nonNull)
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.map(Compendium::removeHtml)
+				.map(String::trim)
+				.collect(Collectors.toList());
 		addRecharge();
 	}
 
 	public TraitVO(Feature feature) {
 		name = feature.getName().trim();
 		addRecharge();
-		
-		text = feature.getDescription() == null ? "" : Compendium.removeHtml(feature.getDescription().trim());
-/*		if (!feature.getAbilityBonuses().isEmpty())
-		{
-			modifiers = new ArrayList<>();
-			for (AbilityBonus bonus :feature.getAbilityBonuses()) {
-				modifiers.add(new ModifierVO(ModifierVO.Type.ABILITY_SCORE, bonus));
-			}
-		}*/
+		text = Arrays.stream(feature.getDescription().split("<p>"))
+				.filter(Objects::nonNull)
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.map(Compendium::removeHtml)
+				.map(String::trim)
+				.collect(Collectors.toList());
 	}
 
 	private void addRecharge() {

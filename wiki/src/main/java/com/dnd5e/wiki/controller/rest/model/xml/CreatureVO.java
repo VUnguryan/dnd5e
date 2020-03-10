@@ -140,7 +140,7 @@ public class CreatureVO {
 		this.languages = creature.getLanguages().stream().map(l -> l.getName()).collect(Collectors.joining(", "));
 		this.cr = creature.getChallengeRating();
 		this.trait = creature.getFeats().stream()
-				.map(f -> new TraitVO(f.getName(), Compendium.removeHtml(f.getDescription())))
+				.map(f -> new TraitVO(f.getName(), f.getDescription()))
 				.collect(Collectors.toList());
 
 		this.action = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION)
