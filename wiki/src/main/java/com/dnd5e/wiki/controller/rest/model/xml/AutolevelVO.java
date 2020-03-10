@@ -24,7 +24,7 @@ public class AutolevelVO {
 	@XmlElement(name = "feature")
 	private List<OptionalFeatureVO> optionalFeatures;
 	
-	@XmlElement(name = "tracker")
+	@XmlElement(name = "counter")
 	private List<TrackerVO> trackers;
 
 	AutolevelVO(int level, List<HeroClassTrait> traits, List<ArchetypeTrait> aTraits){
@@ -73,6 +73,6 @@ public class AutolevelVO {
 				.map(OptionalFeatureVO::new)
 				.collect(Collectors.toList());
 
-		//trackers = hero.getLevelDefenitions().get(level).getTrackers();
+		trackers = hero.getLevelDefenitions().get(level).getTrackers().stream().map(TrackerVO::new).collect(Collectors.toList());
 	}
 }
