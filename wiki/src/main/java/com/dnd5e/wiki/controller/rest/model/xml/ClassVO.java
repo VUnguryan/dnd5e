@@ -96,16 +96,7 @@ public class ClassVO {
 		}
 	}
 
-	private AutolevelVO getLevelFeature(int level,HeroClass hero) {
-		return new AutolevelVO(level, hero.getTraits()
-				.stream()
-				.filter(t -> t.getLevel() == level)
-				.collect(Collectors.toList()),
-				hero.getArchetypes()
-				.stream()
-				.flatMap(a -> a.getFeats().stream())
-				.filter(t -> t.getLevel() == level)
-				.collect(Collectors.toList())
-		);
+	private AutolevelVO getLevelFeature(int level, HeroClass hero) {
+		return new AutolevelVO(level, hero);
 	}
 }
