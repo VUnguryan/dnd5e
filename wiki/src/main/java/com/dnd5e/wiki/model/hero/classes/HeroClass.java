@@ -20,6 +20,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.AbilityType;
+import com.dnd5e.wiki.model.Rest;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.HeroClassTrait;
@@ -46,7 +47,6 @@ public class HeroClass {
 	private String armor;
 	private String weapon;
 	private String savingThrows;
-	private String skills;
 	private String archetypeName;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -74,6 +74,9 @@ public class HeroClass {
 	@Column(name = "skill", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private List<SkillType> availableSkills;
+	
+	@Enumerated(EnumType.STRING)
+	private Rest slotsReset;
 	
 	public List<ArchetypeTrait> getArhitypeTraitNames(int level){
 		return archetypes
