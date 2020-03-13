@@ -69,11 +69,10 @@ public class MagicalThingsController {
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		model.addAttribute("order", Integer.valueOf(1));
-		model.addAttribute("searchText", search);
+		model.addAttribute("searchText", search.orElse(""));
 		model.addAttribute("filtered",
 				rarityFilter.isPresent() 
-				|| typeFilter.isPresent() 
-				|| search.isPresent());
+				|| typeFilter.isPresent());
 		return "equipment/magicalThings";
 	}
 

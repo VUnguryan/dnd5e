@@ -34,9 +34,9 @@
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/hero/spells?sort=name,asc}">Заклинания</a>
 						<a class="dropdown-item"
-							th:href="@{/stock/artifacts?sort=name,asc}">Магические предметы</a>
+							th:href="@{/stock/artifacts?sort=name,asc}">Магические
+							предметы</a>
 					</div></li>
-
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown">Снаряжение</a>
@@ -46,51 +46,43 @@
 							class="dropdown-item" th:href="@{/stock/equipments}">Инвентарь</a>
 						<a class="dropdown-item" th:href="@{/travel/transports}">Транспорт</a>
 					</div></li>
-
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown">Путешествия</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/travel/idle}">Простой</a>
 					</div></li>
-
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/gods?page=0&sort=name,asc}">Боги</a></li>
-
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/creatures?sort=exp,asc}">Бестиарий</a></li>
-
 				<li sec:authorize="hasRole('ROLE_USER')" class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown">Мастерская</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/tavern/add}">Создать
-							персонажа</a> 
-						<a class="dropdown-item" th:href="@{/tavern?sort=name,asc}">Список
-							персонажей</a>
-						<a class="dropdown-item" th:href="@{/magic/books}">Книги заклинаний</a>
+							персонажа</a> <a class="dropdown-item"
+							th:href="@{/tavern?sort=name,asc}">Список персонажей</a> <a
+							class="dropdown-item" th:href="@{/magic/books}">Книги
+							заклинаний</a>
 					</div></li>
 				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
 					data-toggle="dropdown">Админка</a>
 					<div class="dropdown-menu">
-					<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить
-							магическую вещь</a> 
-						<a class="dropdown-item" th:href=@{/admin/spell/add}>Добавить
-							заклинание</a> <a class="dropdown-item" th:href="@{/admin/class/add}">Добавить
+						<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить
+							магическую вещь</a> <a class="dropdown-item"
+							th:href=@{/admin/spell/add}>Добавить заклинание</a> <a
+							class="dropdown-item" th:href="@{/admin/class/add}">Добавить
 							класс</a> <a class="dropdown-item" th:href="@{/admin/race/add}">Добавить
 							рассу</a> <a class="dropdown-item" th:href="@{/admin/background/add}">Добавить
 							предисторию</a> <a class="dropdown-item"
 							th:href="@{/admin/trait/add}">Добавить черту</a> <a
-							class="dropdown-item" th:href="@{/admin/creature/add}">Добавить в бестиарий</a> <a class="dropdown-item"
+							class="dropdown-item" th:href="@{/admin/creature/add}">Добавить
+							в бестиарий</a> <a class="dropdown-item"
 							th:href="@{/admin/creature/parse}">Импорт монстра</a>
 					</div></li>
 			</ul>
-			<form class="form-inline my-2 my-lg-0" th:action="${search}">
-				<input name="search" type="text" class="form-control mr-sm-2"
-					id="usr" placeholder="Поиск">
-				<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Поиск</button>
-			</form>
 			<th:block sec:authorize="isAnonymous()">
 				<form class="form-inline my-2 my-lg-0" th:action="@{/login}">
 					<div class="input-group">
@@ -113,5 +105,23 @@
 			</div>
 		</div>
 	</nav>
+
+	<div class="card" th:fragment="saf">
+		<div class="card-body">
+			<div class="input-group">
+				<form th:action="${search}" class='form-inline'>
+					<div class="input-group">
+						<input class="form-control" name="search" type="text" id="usr"
+							placeholder="Поиск" th:value="${searchText}">
+						<button class="btn btn-outline-secondary" type="submit">Поиск</button>
+					</div>
+				</form>
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" data-toggle="collapse"
+						data-target="#filter">Фильтр</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

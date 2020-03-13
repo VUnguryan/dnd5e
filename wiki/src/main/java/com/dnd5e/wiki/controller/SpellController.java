@@ -41,7 +41,7 @@ import com.dnd5e.wiki.repository.SpellRepository;
 @RequestMapping({ "/hero/spells" })
 @Scope("session")
 public class SpellController {
-	private Optional<String> search = Optional.empty();
+	private String search = "";
 	private Optional<Integer> minLevel = Optional.empty();
 	private Optional<Integer> maxLevel = Optional.empty();
 	private Set<Integer> clases;
@@ -98,8 +98,8 @@ public class SpellController {
 	@GetMapping
 	public String getSpells(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
 		Specification<Spell> specification = null;
-		if (search.isPresent()) {
-			specification = byName(search.get());
+		if (!search.isEmpty()) {
+			specification = byName(search);
 		}
 		if (!clases.isEmpty() && clases.size() < classRepository.count()) {
 			if (specification == null) {
@@ -178,8 +178,9 @@ public class SpellController {
 		model.addAttribute("distances", distances);
 		model.addAttribute("books", bookRepository.finadAllByLeftJoinSpell());
 		model.addAttribute("selectedBooks", sources);
+		model.addAttribute("searchText", search);
 		model.addAttribute("filtered",
-				search.isPresent() || minLevel.isPresent() || maxLevel.isPresent()
+				 minLevel.isPresent() || maxLevel.isPresent()
 						|| clases.size() < classRepository.count() || (schools.size() != MagicSchool.values().length)
 						|| timeCastSelected.isPresent() || !components.isEmpty() || !distances.isEmpty() 
 						|| sources.size() != sourceSize);
@@ -188,17 +189,13 @@ public class SpellController {
 
 	@GetMapping(params = { "search" })
 	public String searchSpells(Model model, String search) {
-		if (search.isEmpty()) {
-			this.search = Optional.empty();
-		} else {
-			this.search = Optional.of(search.trim());
-		}
+		this.search = search.trim();
 		return "redirect:/hero/spells?sort=level,asc";
 	}
 
 	@GetMapping(params = { "clear" })
 	public String cleaarFilters(Model model, String search) {
-		this.search = Optional.empty();
+		this.search = "";
 		this.minLevel = Optional.empty();
 		this.maxLevel = Optional.empty();
 		this.clases = classRepository.findAll()

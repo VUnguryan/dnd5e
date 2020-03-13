@@ -11,11 +11,11 @@ public enum GodSex {
 	PHILOSOPHY("философия"),
 	UNDEFINE("божество");
 	
-	private String name;
+	private String cyrilicName;
 	
 	public static GodSex parse(String sex) {
 		for (GodSex godSex : values()) {
-			if (godSex.name.equals(sex)) {
+			if (godSex.cyrilicName.equals(sex)) {
 				return godSex;
 			}
 		}

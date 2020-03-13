@@ -47,7 +47,7 @@ public class CreatureController {
 	@Autowired
 	private BookRepository bookRepository;
 
-	private Optional<String> search = Optional.empty();
+	private String search = "";
 	private Optional<String> crMin = Optional.empty();
 	private Optional<String> crMax = Optional.empty();
 	private Optional<CreatureType> typeSelected = Optional.empty();
@@ -69,7 +69,7 @@ public class CreatureController {
 	@GetMapping
 	public String getCreatures(Model model, @PageableDefault(size = 12, sort = "exp") Pageable page) {
 		Specification<Creature> specification = null;
-		if (search.isPresent()) {
+		if (!search.isEmpty()) {
 			specification = byName();
 		}
 		if (typeSelected.isPresent()) {
@@ -95,7 +95,6 @@ public class CreatureController {
 		model.addAttribute("filtered",
 				crMin.isPresent() 
 				|| crMax.isPresent() 
-				|| search.isPresent() 
 				|| typeSelected.isPresent() 
 				|| sizeSelected.isPresent()
 				|| sources.size() != sourceSize);
@@ -156,7 +155,7 @@ public class CreatureController {
 
 	@GetMapping(params = "search")
 	public String searchCreature(Model model, String search) {
-		this.search = search.isEmpty() ? this.search = Optional.empty() : Optional.of(search.trim());
+		this.search = search.trim();
 		return "redirect:/creatures";
 	}
 
@@ -171,7 +170,7 @@ public class CreatureController {
 	
 	@GetMapping(params = { "clear" })
 	public String cleaarFilters() {
-		this.search = Optional.empty();
+		this.search = "";
 		this.crMin = Optional.empty();
 		this.crMax = Optional.empty();
 		this.sizeSelected = Optional.empty();
@@ -191,8 +190,8 @@ public class CreatureController {
 	}
 	
 	private Specification<Creature> byName() {
-		return (root, query, cb) -> cb.or(cb.like(root.get("name"), "%" + search.get() + "%"),
-				cb.like(root.get("englishName"), "%" + search.get() + "%"));
+		return (root, query, cb) -> cb.or(cb.like(root.get("name"), "%" + search + "%"),
+				cb.like(root.get("englishName"), "%" + search + "%"));
 	}
 
 	private Specification<Creature> byType() {

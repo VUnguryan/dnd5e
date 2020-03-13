@@ -37,6 +37,7 @@ public class EquipmentController {
 			String search) {
 		model.addAttribute("currencies", Currency.values());
 		model.addAttribute("equipments", equipmentRepository.findByNameContaining(page, search));
+		model.addAttribute("searchText", search);
 		return "equipment/equipments";
 	}
 

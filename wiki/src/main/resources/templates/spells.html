@@ -23,13 +23,10 @@
 </style>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
-	<div class="container " style="margin-top: 50px">
-		<div>
-			<button data-toggle="collapse" data-target="#filter"
-				class="btn btn-secondary">Фильтры</button>
-		</div>
-		<div id=filter class="collapse" th:classappend="${filtered} ? show">
+	<div th:replace = "fragments/header :: header(~{:: .spells})"></div>
+	<div class="container " style="margin-top: 25px">
+		<div th:replace = "fragments/header :: saf"></div>
+		<div id = "filter" class="collapse" th:classappend="${filtered} ? show">
 			<div class="card">
 				<div class="card-body">
 					<div class="input-group mb-4">
@@ -56,7 +53,8 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="distanceType">Дистанция</label>
 						</div>
-						<select id="distanceType" class="custom-select"	multiple="multiple">
+						<select id="distanceType" class="custom-select"
+							multiple="multiple">
 							<option th:each="distance : ${distanceTypes}"
 								th:value="${distance}" th:text="${distance}"
 								th:selected="${distances.contains(distance)}" />
@@ -114,9 +112,9 @@
 							<label class="input-group-text" for="source">Источник</label>
 						</div>
 						<select id="sourceBook" class="custom-select" multiple="multiple">
-							<option th:each="book : ${books}"
-								th:value="${book.source}" th:text="${book.name}" 
-								th:selected="${selectedBooks.contains(book.source)}"/>
+							<option th:each="book : ${books}" th:value="${book.source}"
+								th:text="${book.name}"
+								th:selected="${selectedBooks.contains(book.source)}" />
 						</select>
 					</div>
 				</div>
@@ -169,7 +167,7 @@
 		</table>
 		<div th:insert="fragments/pages :: pages(${spells}, spells)"></div>
 	</div>
-</body>
+
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
@@ -379,4 +377,5 @@
 		window.location = baseUrl + parameters;
 	}
 </script>
+</body>
 </html>

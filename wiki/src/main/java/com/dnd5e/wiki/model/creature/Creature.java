@@ -23,7 +23,7 @@ import com.dnd5e.wiki.model.Book;
 import lombok.Data;
 
 /**
- * Класс существа из бестиария
+ * Описание существа
  */
 @Entity
 @Table(name = "creatures")
