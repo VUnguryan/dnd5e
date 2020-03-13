@@ -22,8 +22,8 @@
 
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
-	<div class="container" style="margin-top: 60px">
-		<div class="card" th:object="${place}">
+    <div class="container" style="margin-top: 25px">
+    	<div class="card" th:object="${place}">
 			<div class="card-header" th:text="*{name}"></div>
 			<div class="card-body">
 				<p th:utext="*{description}" />

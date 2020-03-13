@@ -18,8 +18,8 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
-	<div class="container" style="margin-top: 50px">
-		<div class="card">
+    <div class="container" style="margin-top: 25px">
+    	<div class="card">
 			<div class="card-header">Калькулятор стоимости проживания</div>
 			<div class="card-body">
 				<div class="input-group mb-3">
@@ -31,8 +31,12 @@
 						placeholder="Количество дней простоя"
 						aria-label="Количество дней простоя"
 						aria-describedby="basic-addon1">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button"
+							id="calc">Расчитать</button>
+					</div>
 					<div class="input-group-prepend"></div>
-					
+
 				</div>
 				<span class="input-group-text" id="cost">Расходы: 0 зм.</span>
 				<select id="lifeStyle" class="custom-select">
@@ -125,54 +129,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="card" style="margin-top: 5px">
-			<div class="card-header">Покупка магических предметов</div>
-			<div class="card-body">
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">Редкость</span>
-					</div>
-					<select id="raritySelect" class="custom-select">
-						<option th:each="rarity : ${rarities}"
-							th:text="${rarity.cyrilicName}" th:value="${rarity.ordinal()}"></option>
-					</select>
-				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">Недель
-							простоя</span>
-					</div>
-					<select id="idleWeeks" class="custom-select">
-						<option th:each="i: ${#numbers.sequence(1, 10)}" th:text="${i}"
-							th:value="${i -1}"></option>
-					</select>
-				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="basic-addon1">Вложения в
-							зм.</span>
-					</div>
-					<select id="investment" class="custom-select">
-						<option th:each="i: ${#numbers.sequence(1, 10)}"
-							th:text="${i * 100}" th:value="${i -1}"></option>
-					</select>
-				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Сложность: Убеждение</span>
-					</div>
-					<input id="bayDC" type="text" class="form-control" disabled
-						value="10">
-				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Стоимость</span>
-					</div>
-					<input id="thingPrice" type="text" class="form-control" disabled
-						value="10 зм.">
-				</div>
-			</div>
-		</div>
 	</div>
 </body>
 
@@ -181,6 +137,9 @@
 	$('#lifeDay').change(function() {
 		updatePrice();
 	})
+    $('#calc').change(function() {
+        updatePrice();
+    })
 
 	function updatePrice() {
 		var index = $('#lifeStyle').val();
@@ -206,50 +165,6 @@
 			}
 		})
 	});
-
-	$('#raritySelect').change(function() {
-		calculateDC();
-	})
-	$('#idleWeeks').change(function() {
-		calculateDC();
-	})
-	$('#investment').change(function() {
-		calculateDC();
-	})
-	function calculateDC() {
-		var index = $('#raritySelect').val();
-		var idleWeeks = $('#idleWeeks').val();
-		var investment = $('#investment').val();
-		var dcs = [ 10, 15, 20, 25, 30 ];
-		var bonus = parseInt(idleWeeks, 10) + parseInt(investment, 10);
-		bonus = bonus > 10 ? 10 : bonus;
-		var dc = dcs[index] - bonus;
-		document.getElementById("bayDC").value = dc.toString();
-		var price = 0;
-		switch (index) {
-		case '0':
-			price = (Math.floor(Math.random() * 6 + 1) + 1) * 10;
-			break;
-		case '1':
-			price = (Math.floor(Math.random() * 6 + 1) + 1) * 100;
-			break;
-		case '2':
-			price = (Math.floor(Math.random() * 10 + 1) + Math.floor(Math
-					.random() * 10 + 1)) * 1000;
-			break;
-		case '3':
-			price = (Math.floor(Math.random() * 4 + 1) + 1) * 10000;
-			break;
-		case '4':
-			price = (Math.floor(Math.random() * 6 + 1) + Math.floor(Math
-					.random() * 6 + 1)) * 25000;
-			break;
-		default:
-			price = 0;
-		}
-		document.getElementById("thingPrice").value = price.toString() + ' зм.';
-	}
-
 	/*]]>*/
 </script>
 </html>

@@ -20,8 +20,8 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .artifactes})"></div>
 	<div class="container" style="margin-top: 25px">
-        <div th:replace = "fragments/header :: saf"></div>
-        <div id=filter class="collapse" th:classappend="${filtered} ? show">
+		<div th:replace="fragments/header :: saf"></div>
+		<div id=filter class="collapse" th:classappend="${filtered} ? show">
 			<div class="card">
 				<div class="card-body">
 					<div class="input-group mb-3">
@@ -79,7 +79,19 @@
 			<th:block th:each="artifact : ${artifacts}">
 				<tr data-toggle="collapse"
 					th:attr="data-target='#d'+ ${artifact.id}">
-					<td th:text="${#strings.toUpperCase(artifact.name)}" />
+					<td><th:block th:text="${#strings.toUpperCase(artifact.name)}"></th:block> <img
+						th:if="${artifact.rarity.ordinal() > 0}"
+						th:each="i: ${#numbers.sequence(1, artifact.rarity.ordinal())}"
+						th:src="@{/resources/open-iconic/svg/star.svg}"
+						th:title="${artifact.rarity.cyrilicName}" height="25" width="25">
+						<img th:if="${artifact.customization}"
+						th:src="@{/resources/open-iconic/svg/wrench.svg}"
+						title="Требуется настройка" height="25" width="25"> <a
+						th:each="hero : ${artifact.custClasses}"
+						th:href="@{'/hero/classes/class/' + ${hero.id}}"> <img
+							th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}"
+							th:title="${hero.name}" height="30" width="30" />
+					</a></td>
 					<td class="text-center"><span th:text="${artifact.cost}"></span><img
 						th:alt="зм" th:src="@{'/resources/currency/GM.png'}" height="25"
 						th:title="зм" /></td>
@@ -88,27 +100,13 @@
 					<td colspan="6" class="hiddenRow">
 						<div th:id="'d' + ${artifact.id}" class="collapse">
 							<div class="card">
-								<h2>
-									<img th:if="${artifact.rarity.ordinal() > 0}"
-										th:each="i: ${#numbers.sequence(1, artifact.rarity.ordinal())}"
-										th:src="@{/resources/open-iconic/svg/star.svg}"
-										th:title="${artifact.rarity.cyrilicName}" height="30"
-										width="30"> <img th:if="${artifact.customization}"
-										th:src="@{/resources/open-iconic/svg/wrench.svg}"
-										title="Требуется настройка" height="30" width="30"> <a
-										th:each="hero : ${artifact.custClasses}"
-										th:href="@{'/hero/classes/class/' + ${hero.id}}"> <img
-										th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}"
-										th:title="${hero.name}" height="60" width="60" />
-									</a>
-								</h2>
+								<h4 align="center" class="card-title"
+									th:text="${artifact.rarity.cyrilicName} + ' магический предмет'"></h4>
 								<div class="card-body">
 									<p th:utext="${artifact.description}"></p>
 								</div>
-								<footer class="blockquote-footer">
-									<small class="text-muted" th:if="${artifact.book}"
-										th:text="'Источник: ' + ${artifact.book.name}"></small>
-								</footer>
+								<footer class="blockquote-footer" th:if="${artifact.book}"
+									th:text="'Источник: ' + ${artifact.book.name}"> </footer>
 							</div>
 						</div>
 					</td>
@@ -117,67 +115,66 @@
 		</table>
 		<div th:insert="fragments/pages :: pages(${artifacts}, artifacts)"></div>
 	</div>
-</body>
 <script>
-	function rowClicked(value) {
-		var baseUrl = '[[@{/stock/artifacts/artifact/}]]';
-		location.href = baseUrl + value;
-	}
+    function rowClicked(value) {
+        var baseUrl = '[[@{/stock/artifacts/artifact/}]]';
+        location.href = baseUrl + value;
+    }
+    function sortTable(n) {
+        var baseUrl = '[[@{/stock/artifacts?}]]';
+        var sort = getParameterByName('sort');
+        var page = getParameterByName('page');
+        var parameters = "";
+        if (n == 0) {
+            if (sort == 'name,desc') {
+                parameters = "sort=name,asc";
+            } else {
+                parameters = "sort=name,desc";
+            }
+        }
+        if (n == 1) {
+            if (sort == 'rarity,desc') {
+                parameters = "sort=rarity,asc";
+            } else {
+                parameters = "sort=rarity,desc";
+            }
+        }
+        var type = getParameterByName('type');
+        if (type != null) {
+            parameters += "&type=" + type;
+        }
+        var rarity = getParameterByName('rarity');
+        if (rarity != null) {
+            parameters += "&rarity=" + rarity;
+        }
+        location.href = baseUrl + parameters;
+    }
 
-	function sortTable(n) {
-		var baseUrl = '[[@{/stock/artifacts?}]]';
-		var sort = getParameterByName('sort');
-		var page = getParameterByName('page');
-		var parameters = "";
-		if (n == 0) {
-			if (sort == 'name,desc') {
-				parameters = "sort=name,asc";
-			} else {
-				parameters = "sort=name,desc";
-			}
-		}
-		if (n == 1) {
-			if (sort == 'rarity,desc') {
-				parameters = "sort=rarity,asc";
-			} else {
-				parameters = "sort=rarity,desc";
-			}
-		}
-		var type = getParameterByName('type');
-		if (type != null) {
-			parameters += "&type=" + type;
-		}
-		var rarity = getParameterByName('rarity');
-		if (rarity != null) {
-			parameters += "&rarity=" + rarity;
-		}
-		location.href = baseUrl + parameters;
-	}
+    function getParameterByName(name, url) {
+        if (!url)
+            url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
+                .exec(url);
+        if (!results)
+            return null;
+        if (!results[2])
+            return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
-	function getParameterByName(name, url) {
-		if (!url)
-			url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
-				.exec(url);
-		if (!results)
-			return null;
-		if (!results[2])
-			return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
-
-	function filter(select) {
-		var baseUrl = '[[@{/stock/artifacts?}]]';
-		var type = $("#artifactType").val();
-		var rarity = $("#rarityType").val();
-		var sort = getParameterByName('sort');
-		var page = getParameterByName('page');
-		var parameters = "type=" + type + "&rarity=" + rarity;
-		if (sort != null) {
-			parameters += "&sort=" + sort;
-		}
-		window.location = baseUrl + parameters;
-	}
+    function filter(select) {
+        var baseUrl = '[[@{/stock/artifacts?}]]';
+        var type = $("#artifactType").val();
+        var rarity = $("#rarityType").val();
+        var sort = getParameterByName('sort');
+        var page = getParameterByName('page');
+        var parameters = "type=" + type + "&rarity=" + rarity;
+        if (sort != null) {
+            parameters += "&sort=" + sort;
+        }
+        window.location = baseUrl + parameters;
+    }
 </script>
+</body>
 </html>
