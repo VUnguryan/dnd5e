@@ -35,7 +35,7 @@ public enum SkillType {
 	INVESTIGATION(INTELLIGENCE, "Анализ"),
 	NATURE(INTELLIGENCE, "Природа"),
 	RELIGION(INTELLIGENCE, "Религия"),
-	ANIMAL_HANDLING(WISDOM, "Уход за животными"),
+	ANIMAL_HANDLING(WISDOM, "Уход за животными", "Обращение с животными"),
 	INSIGHT(WISDOM,"Проницательность"),
 	MEDICINE(WISDOM, "Медицина"),
 	PERCEPTION(WISDOM, "Внимательность", "Восприятие"),

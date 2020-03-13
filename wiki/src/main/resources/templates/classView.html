@@ -31,8 +31,11 @@
 						th:text="*{weapon}" /></li>
 				<li class="list-group-item"><b>Спаброски:</b> <th:block
 						th:text="*{savingThrows}" /></li>
-				<li class="list-group-item"><b>Навыки:</b> <th:block
-						th:text="*{skills}" /></li>
+				<li class="list-group-item"><b>Навыки:</b>
+				Выберите [[*{skillAvailableCount}]] навыка из следующих:
+				<th:block th:if="*{skillAvailableCount == 18}">Выберите [[*{skillAvailableCount}]] любых навыка.</th:block>
+				<th:block th:each="skill, iterStat : *{availableSkills}"
+						th:text="${iterStat.last} ? ${skill.cyrilicName} : ${skill.cyrilicName} + ', '" /></li>
 			</ul>
 			<div class="card">
 				<h5 class="card-header">Уровни</h5>

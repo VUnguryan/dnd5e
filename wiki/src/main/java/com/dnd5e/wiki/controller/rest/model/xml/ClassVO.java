@@ -48,29 +48,16 @@ public class ClassVO {
 	@XmlElement(name = "autolevel", required = false)
 	private List<SlotVO> slots;
 	
+	@XmlElement
+	private String slotsReset;
+	
 	@XmlElement(name = "autolevel", required = false)
 	private List<AutolevelVO> features = new ArrayList<AutolevelVO>(20);
 
 	public ClassVO(HeroClass hero) {
 		name = StringUtils.capitalize(hero.getName().toLowerCase());
 		hd = hero.getDiceHp();
-		proficiency = Arrays.stream(hero.getSkills().split(","))
-				.map(s -> SkillType.parse(s.trim()))
-				.filter(Objects::nonNull)
-				.map(SkillType::name)
-				.map(s -> s.replace('_', ' '))
-				.map(String::toLowerCase)
-				.map(StringUtils::capitalize)
-				.collect(Collectors.joining(","));
-		if ("Все".equals(hero.getSkills())) {
-			proficiency = Arrays.stream(SkillType.values())
-					.map(SkillType::name)
-					.map(s -> s.replace('_', ' '))
-					.map(String::toLowerCase)
-					.map(StringUtils::capitalize)
-					.collect(Collectors.joining(","));
-		}
-		proficiency += "," + Arrays.stream(hero.getSavingThrows().split(","))
+		proficiency = Arrays.stream(hero.getSavingThrows().split(","))
 				.map(s -> AbilityType.parse(s.trim()))
 				.filter(Objects::nonNull)
 				.map(AbilityType::name)
@@ -78,11 +65,16 @@ public class ClassVO {
 				.map(String::toLowerCase)
 				.map(StringUtils::capitalize)
 				.collect(Collectors.joining(","));
-
+		proficiency += "," + hero.getAvailableSkills().stream()
+				.map(SkillType::name)
+				.map(s -> s.replace('_', ' '))
+				.map(String::toLowerCase)
+				.map(StringUtils::capitalize)
+				.collect(Collectors.joining(","));
 		numSkills = hero.getSkillAvailableCount();
 		weapons = hero.getWeapon();
 		armor = hero.getArmor();
-		if (hero.getSpellAbility()!=null) {
+		if (hero.getSpellAbility() != null) {
 			spellAbility = StringUtils.capitalize(hero.getSpellAbility().name().toLowerCase());
 		}
  
@@ -91,6 +83,7 @@ public class ClassVO {
 					.stream().map(SlotVO::new)
 					.collect(Collectors.toList());
 		}
+		slotsReset = "" + hero.getSlotsReset().name().charAt(0);
 		for (int level = 1; level<=20; level++) {
 			features.add(getLevelFeature(level, hero));
 		}
