@@ -9,7 +9,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -23,9 +23,21 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header(@{/races})"></div>
-	<div class="container" style="margin-top: 60px" th:object="${race}">
+	<div class="container" style="margin-top: 25px" th:object="${race}">
 		<div class="card">
 			<h5 class="card-header" th:text="*{name}"></h5>
+			<div class="card-body">
+				<p th:if="*{not maleNames.empty}">
+					<strong>Мужские имена:</strong>
+					<th:block th:each="name , iterStat: *{maleNames}"
+						th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
+				</p>
+				<p th:if="*{not femaleNames.empty}">
+					<strong>Женские имена:</strong>
+					<th:block th:each="name , iterStat: *{femaleNames}"
+						th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
+				</p>
+			</div>
 			<h5 class="card-header">Особенности</h5>
 			<div class="card-body">
 				<ul class="list-group list-group-flush">
@@ -49,9 +61,8 @@
 						<div th:id="'collapse' + ${subClass.id}" class="collapse"
 							th:attr="aria-labelledby=${subClass.id}"
 							data-parent="#subClasses">
-							<div class="card-body" th:utext="${subClass.description}">
-							</div>
 							<div class="card-body">
+								<th:block th:utext="${subClass.description}"></th:block>
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item"
 										th:each="featureSubClass : ${subClass.features}"><b><th:block
@@ -59,6 +70,7 @@
 											th:utext="${featureSubClass.description}" /></li>
 								</ul>
 							</div>
+
 						</div>
 					</div>
 				</div>

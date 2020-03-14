@@ -10,17 +10,26 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<style>
+img {
+	float: center;
+}
 
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
+</style>
 </head>
 <body>
 	<div th:insert="fragments/header :: header(@{/hero/spells})"></div>
-    <div class="container" style="margin-top: 25px">
-        <div class="card" th:object="${spell}">
+	<div class="container" style="margin-top: 25px">
+		<div class="card" th:object="${spell}">
 			<h5 class="card-header">
 				<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
 			</h5>
@@ -42,15 +51,15 @@
 					<li class="list-group-item"><strong>Дистанция:</strong> <th:block
 							th:text="*{distance}" /></li>
 					<li class="list-group-item"><strong>Компоненты:</strong> <img
-						th:if="${spell.verbalComponent}"
+						class="invert" th:if="${spell.verbalComponent}"
 						title="Вербальный - Большинство заклинаний требуют произношения таинственных слов. Сами по себе слова не являются источником силы заклинания; просто комбинация звуков с особой тональностью вызывает резонанс в прядях магии, приводя их в движение. Таким образом, персонаж с кляпом во рту или в области заклинания тишина, не может активировать заклинания с вербальным компонентом."
-						th:src="@{/resources/open-iconic/svg/musical-note.svg}"
-						height="25" /> <img th:if="${spell.somaticComponent}"
+						th:src="@{/resources/icons/Icon.1_74.png}" height="25" /> <img
+						class="invert" th:if="${spell.somaticComponent}"
 						title="Cоматический- Заклинание может требовать энергичной жестикуляции или замысловатой последовательности телодвижений. Если у заклинания есть соматический компонент, у заклинателя должна быть свободной хотя бы одна рука для исполнения этих жестов."
-						th:src="@{/resources/open-iconic/svg/move.svg}" height="25" /> <img
-						th:if="${spell.materialComponent}"
+						th:src="@{/resources/icons/Icon.4_52.png}" height="25" /> <img
+						class="invert" th:if="${spell.materialComponent}"
 						title="Mатериальный - У заклинателя должна быть одна свободная рука для доступа к материальным компонентам, но это может быть та же самая рука, что используется для выполнения соматического компонента. Персонаж может использовать мешочек с компонентами или заклинательную фокусировку вместо указанных компонентов. Однако, если для компонента указана цена, у персонажа для накладывания заклинания должен быть именно такой компонент."
-						th:src="@{/resources/open-iconic/svg/beaker.svg}" height="25" /></li>
+						th:src="@{/resources/icons/Icon.6_37.png}" height="25" /></li>
 					<li th:if="${spell.additionalMaterialComponent != null}"
 						class="list-group-item"><strong>Материальные
 							компоненты:</strong> <th:block

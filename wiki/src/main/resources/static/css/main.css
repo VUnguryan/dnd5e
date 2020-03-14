@@ -53,9 +53,10 @@ tbody .hiddenRow {
 }
 
 .blockquote-foote {
-    background-color: #FFFAF0;
+	background-color: #FFFAF0;
 }
 
 .list-group-item {
-	background-color: #FFE4C4;
+	background-color: #FFE4C4; img { width : 40%;
+	float: left;
 }

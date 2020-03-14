@@ -10,9 +10,11 @@
 
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 <meta name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-        th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+	
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -21,22 +23,29 @@
 <body>
 	<th:block th:fragment="schoolIcon(spell)">
 		<th:block th:switch="${spell.school.name()}">
-			<img th:case="'CONJURATION'"
-				th:src="@{/resources/open-iconic/svg/flash.svg}" height="25"
-				th:title="${spell.school.name}" /> <img th:case="'EVOCATION'"
-				th:src="@{/resources/open-iconic/svg/rain.svg}" height="25"
-				th:title="${spell.school.name}" /> <img th:case="'ILLUSION'"
-				th:src="@{/resources/open-iconic/svg/eye.svg}" height="25"
-				th:title="${spell.school.name}" /> <img th:case="'NECROMANCY'"
-				th:src="@{/resources/open-iconic/svg/droplet.svg}" height="25"
-				th:title="${spell.school.name}" /> <img th:case="'ABJURATION'"
-				th:src="@{/resources/open-iconic/svg/shield.svg}" height="25"
-				th:title="${spell.school.name}" /> <img th:case="'ENCHANTMENT'"
-				th:src="@{/resources/open-iconic/svg/heart.svg}" height="25"
-				th:title="${spell.school.name}" /> <img th:case="'TRANSMUTATION'"
-				th:src="@{/resources/open-iconic/svg/transfer.svg}" height="25"
-				th:title="${spell.school.name}" /> <img th:case="'DIVINATION'"
-				th:src="@{/resources/open-iconic/svg/bullhorn.svg}" height="25"
+			<img class = "invert" th:case="'CONJURATION'"
+				th:src="@{/resources/icons/Icon.2_99.png}" height="27"
+				th:title="${spell.school.name}" />
+			<img class = "invert" th:case="'EVOCATION'"
+				th:src="@{/resources/icons/Icon.4_26.png}" height="25"
+				th:title="${spell.school.name}" />
+			<img class = "invert" th:case="'ILLUSION'"
+				th:src="@{/resources/icons/Icon.1_39.png}" height="25"
+				th:title="${spell.school.name}" />
+			<img class = "invert" th:case="'NECROMANCY'"
+				th:src="@{/resources/icons/Icon.3_36.png}" height="25"
+				th:title="${spell.school.name}" />
+			<img class = "invert" th:case="'ABJURATION'"
+				th:src="@{/resources/icons/Icon.2_38.png}" height="25"
+				th:title="${spell.school.name}" />
+			<img class = "invert" th:case="'ENCHANTMENT'"
+				th:src="@{/resources/icons/Icon.2_21.png}" height="25"
+				th:title="${spell.school.name}" />
+			<img class = "invert" th:case="'TRANSMUTATION'"
+				th:src="@{/resources/icons/Icon.7_38.png}" height="27"
+				th:title="${spell.school.name}" />
+			<img class = "invert" th:case="'DIVINATION'"
+				th:src="@{/resources/icons/Icon.6_22.png}" height="27"
 				th:title="${spell.school.name}" />
 		</th:block>
 	</th:block>

@@ -11,33 +11,45 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 
 <style>
-  @media (min-width:576px) {
-      .card-columns {
-        column-count: 2;
-      }
-  }
-    @media (min-width:768px) {
-      .card-columns {
-        column-count: 3;
-      }
-  }
-  @media (min-width:992px) {
-      .card-columns {
-        column-count: 4;
-      }
-  }
-  @media (min-width:1200px) {
-      .card-columns {
-        column-count: 6;
-      }
-  }
+@media ( min-width :576px) {
+	.card-columns {
+		column-count: 2;
+	}
+}
+
+@media ( min-width :768px) {
+	.card-columns {
+		column-count: 3;
+	}
+}
+
+@media ( min-width :992px) {
+	.card-columns {
+		column-count: 4;
+	}
+}
+
+@media ( min-width :1200px) {
+	.card-columns {
+		column-count: 6;
+	}
+}
+
+img {
+	float: center;
+}
+
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
 </style>
 </head>
 <body>
@@ -46,17 +58,32 @@
 		<div class="card-columns">
 			<div th:each="race : ${races}" class="card mb-3 text-center">
 				<div class="card-header">
-					<h4 th:text="${race.name}"
+					<h4 th:text="${race.capName}"
 						class="my-1 font-weight-normal flex-grow-1"></h4>
+
 				</div>
 				<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img
 					class="img-fluid rounded"
 					th:src="@{'/resources/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
-				<footer class="blockquote-footer">
-					<small class="text-muted"
-						th:text="'Источник: ' + ${race.book.name}"></small>
-				</footer>
+				<div class="card-body">
+					<h6 class="card-subtitle mb-2 text-muted"
+						th:text="${race.abilityBonuses}"></h6>
+					<img th:if="${race.darkVision}" class="invert"
+						th:src="@{/resources/icons/Icon.6_30.png}" height="25"
+						title="темное зрение" /><img th:if="${race.natureArmor}"
+						class="invert" th:src="@{/resources/icons/Icon.7_67.png}"
+						height="25" title="природный доспех" /><img
+						th:if="${race.athletics}" class="invert"
+						th:src="@{/resources/icons/Icon.4_64.png}" height="25"
+						title="атлетичный" /><img th:if="${race.stealth}" class="invert"
+						th:src="@{/resources/icons/Icon.6_10.png}" height="25"
+						title="скрытный" />
+				</div>
+							<footer class="blockquote-footer">
+				<small class="text-muted" th:text="'Источник: ' + ${race.book.name}"></small>
+			</footer>
 			</div>
+
 		</div>
 	</div>
 </body>

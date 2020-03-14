@@ -7,16 +7,22 @@
 <meta charset="utf-8">
 
 <link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <link rel="stylesheet"
 	th:href="@{/resources/css/bootstrap-multiselect.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-
 <style>
+img {
+	float: center;
+}
+
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
 .table>tbody .hiddenRow {
 	padding: 0 8px;
 }
@@ -151,15 +157,15 @@
 			</thead>
 			<tr th:each="spell : ${spells}" style="cursor: pointer"
 				th:onclick="'javascript:spellClicked(\'' + ${spell.id} + '\');'">
-				<td align="center"><th:block th:text="${spell.level}" /> <img
+				<td align="center"><th:block th:text="${spell.level}" /> <img class = "invert"
 					th:if="${spell.ritual}"
-					th:src="@{/resources/open-iconic/svg/clock.svg}" th:title="ритуал"
-					height="15"></td>
+					th:src="@{/resources/icons/Icon.7_53.png}" th:title="ритуал"
+					height="25"></td>
 				<td th:title="${spell.englishName}"><th:block
-						th:text="${spell.name}"></th:block>&nbsp;<img
+						th:text="${spell.name}"></th:block>&nbsp;<img class = "invert"
 					th:if="${spell.concentration}"
-					th:src="@{/resources/open-iconic/svg/link-intact.svg}"
-					th:title="${spell.duration}" height="15"></td>
+					th:src="@{/resources/icons/Icon.5_05.png}"
+					th:title="${spell.duration}" height="25" title="требуется концентраци"></td>
 				<td class="text-center">
 					<div th:insert="fragments/schoolIcon :: schoolIcon(${spell})"></div>
 				</td>
