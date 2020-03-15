@@ -8,17 +8,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" th:href="@{/resources/icon.png}">
 <link
-	href="https://fonts.googleapis.com/css?family=Libre+Baskerville:700"
+	href="https://fonts.googleapis.com/css?family=Libre+Baskerville:300"
 	rel="stylesheet" type="text/css">
 <link
-	href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic"
+	href="https://fonts.googleapis.com/css?family=Noto+Sans:400,300,400italic,700italic"
 	rel="stylesheet" type="text/css">
 <link rel="stylesheet" th:href="@{/resources/css/classic.css}">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<div class="stat-block" style="margin-top: 60px"
+	<div class="stat-block" style="margin-top: 5px"
 		th:object="${creature}">
 		<hr class="orange-border" />
 		<div class="section-left">
@@ -37,7 +37,7 @@
 			</div>
 			<!-- creature heading -->
 			<svg class="tapered-rule">
-	    		<polyline points="0,0 600,2.5 0,5"></polyline>
+	    		<polyline points="0,0 400,2.5 0,5"></polyline>
 	  		</svg>
 			<div class="top-stats">
 				<div class="property-line first">
@@ -61,18 +61,18 @@
 				<!-- property line -->
 				<div class="property-line last">
 					<h4>Скорость</h4>
-					<span th:text="*{speed}"></span> фт. <span
-						th:if="${creature.flySpeed != null}">, летая <span
-						th:text="*{flySpeed}"></span> фт.
-					</span> <span th:if="${creature.climbingSpeed != null}">, лазая <span
-						th:text="*{climbingSpeed}"></span> фт.
-					</span> <span th:if="${creature.swimmingSpped != null}">, плавая <span
-						th:text="*{swimmingSpped}"></span> фт.
+					<th:block th:text="*{speed}"></th:block> фт. <th:block
+						th:if="${creature.flySpeed != null}">, летая <th:block
+						th:text="*{flySpeed}"></th:block> фт.
+					</th:block> <th:block th:if="${creature.climbingSpeed != null}">, лазая <th:block
+						th:text="*{climbingSpeed}"></th:block> фт.
+					</th:block> <span th:if="${creature.swimmingSpped != null}">, плавая <th:block
+						th:text="*{swimmingSpped}"></th:block> фт.
 					</span>
 				</div>
 				<!-- property line -->
 				<svg height="5" width="100%" class="tapered-rule">
-	    			<polyline points="0,0 600,2.5 0,5"></polyline>
+	    			<polyline points="0,0 400,2.5 0,5"></polyline>
 	 			</svg>
 				<div class="abilities">
 					<div class="ability-strength">
@@ -108,7 +108,7 @@
 				</div>
 				<!-- abilities -->
 				<svg height="5" width="100%" class="tapered-rule">
-	    			<polyline points="0,0 600,2.5 0,5"></polyline>
+	    			<polyline points="0,0 400,2.5 0,5"></polyline>
 	 			</svg>
 				<div class="property-line first" th:if="*{!savingThrows.empty}">
 					<h4>Спасброски</h4>
@@ -160,7 +160,7 @@
 			</div>
 			<!-- top stats -->
 			<svg height="5" width="100%" class="tapered-rule">
-	    		<polyline points="0,0 600,2.5 0,5"></polyline>
+	    		<polyline points="0,0 400,2.5 0,5"></polyline>
 	  		</svg>
 			<div class="property-block" th:each="feat : *{feats}">
 				<h4 th:text="${feat.name}"></h4>

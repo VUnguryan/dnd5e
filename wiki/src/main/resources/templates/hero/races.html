@@ -38,7 +38,7 @@
 
 @media ( min-width :1200px) {
 	.card-columns {
-		column-count: 6;
+		column-count: 5;
 	}
 }
 
@@ -54,16 +54,15 @@ img {
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .races})"></div>
-	<div class="container-fluid" style="margin-top: 40px">
+	<div class="container-fluid" style="margin-top: 25px">
 		<div class="card-columns">
-			<div th:each="race : ${races}" class="card mb-3 text-center">
+			<div th:each="race : ${races}" class="card text-center">
 				<div class="card-header">
 					<h4 th:text="${race.capName}"
 						class="my-1 font-weight-normal flex-grow-1"></h4>
-
 				</div>
 				<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img
-					class="img-fluid rounded"
+					class="img-fluid"
 					th:src="@{'/resources/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
 				<div class="card-body">
 					<h6 class="card-subtitle mb-2 text-muted"
@@ -77,11 +76,17 @@ img {
 						th:src="@{/resources/icons/Icon.4_64.png}" height="25"
 						title="атлетичный" /><img th:if="${race.stealth}" class="invert"
 						th:src="@{/resources/icons/Icon.6_10.png}" height="25"
-						title="скрытный" />
+						title="скрытный" /> <img th:if="${race.resistenceFire}"
+						class="invert" th:src="@{/resources/icons/Icon.6_68.png}"
+						height="25" title="сопротивление к урону огнем" /><img
+						th:if="${race.resistencePoison}" class="invert"
+						th:src="@{/resources/icons/Icon.1_69.png}" height="25"
+						title="сопротивление или иммунитет к урону ядом" />
 				</div>
-							<footer class="blockquote-footer">
-				<small class="text-muted" th:text="'Источник: ' + ${race.book.name}"></small>
-			</footer>
+				<footer class="blockquote-footer">
+					<small class="text-muted"
+						th:text="'Источник: ' + ${race.book.name}"></small>
+				</footer>
 			</div>
 
 		</div>

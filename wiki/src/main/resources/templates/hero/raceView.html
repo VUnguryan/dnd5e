@@ -27,14 +27,9 @@
 		<div class="card">
 			<h5 class="card-header" th:text="*{name}"></h5>
 			<div class="card-body">
-				<p th:if="*{not maleNames.empty}">
-					<strong>Мужские имена:</strong>
-					<th:block th:each="name , iterStat: *{maleNames}"
-						th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
-				</p>
-				<p th:if="*{not femaleNames.empty}">
-					<strong>Женские имена:</strong>
-					<th:block th:each="name , iterStat: *{femaleNames}"
+				<p th:each="nameElement , iterStat: *{names}">
+					<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong> 
+					<th:block th:each="name , iterStat: ${nameElement.value}"
 						th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
 				</p>
 			</div>

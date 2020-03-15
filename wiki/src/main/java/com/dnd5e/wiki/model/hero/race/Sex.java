@@ -6,9 +6,10 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Sex {
-	MALE("Мужчина"),
-	FEMALE("Женщина"),
+	MALE("Мужские"),
+	FEMALE("Женские"),
 	CHILD("Детские"),
 	UNISEX("Унисекс");
+	
 	private String cyrilicName;
 }

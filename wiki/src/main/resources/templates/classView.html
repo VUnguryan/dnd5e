@@ -16,6 +16,24 @@
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<style>
+img {
+	float: center;
+}
+
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
+
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+</style>
 </head>
 <body>
 	<div th:insert="fragments/header :: header(@{/classes})"></div>
@@ -40,134 +58,135 @@
 			<div class="card">
 				<h5 class="card-header">Уровни</h5>
 				<div class="card-body">
-					<table class="table table-striped">
-						<thead>
-							<tr align="center">
-								<th rowspan="2" style="width: 10%">Уровень</th>
-								<th align="center" rowspan="2" style="width: 10%">Бонус
-									мастерста</th>
-								<th align="center" rowspan="2">Умения</th>
-								<th:block th:if="${heroClass.id <= 8} ">
-									<th rowspan="2" style="width: 10%">Известные заговоры</th>
-									<th
-										th:if="${heroClass.id == 1 || heroClass.id == 5 || heroClass.id == 7 || heroClass.id == 8}"
-										align="center" rowspan="2" style="width: 10%">Известные
-										заклинания</th>
-									<th align="center" colspan="9">Ячейки заклинаний на
-										уровень заклинаний</th>
-								</th:block>
-								<th:block th:if="${heroClass.id eq 9} ">
-									<th style="width: 10%">Урон ярости</th>
-									<th style="width: 10%">Ярость</th>
-								</th:block>
-								<th:block th:if="${heroClass.id eq 12} ">
-									<th style="width: 10%">Скорость без доспехов</th>
-									<th style="width: 10%">Очки ци</th>
-								</th:block>
-								<th:block th:if="${heroClass.id eq 13} ">
-									<th style="width: 10%">Скрытая атака (d6)</th>
-								</th:block>
-							</tr>
-							<th:block th:if="${heroClass.id <= 8} ">
+					<div class="table-responsive">
+						<table class="table table-sm table-striped">
+							<thead>
 								<tr align="center">
-									<th>1</th>
-									<th>2</th>
-									<th>3</th>
-									<th>4</th>
-									<th>5</th>
-									<th>6</th>
-									<th>7</th>
-									<th>8</th>
-									<th>9</th>
+									<th rowspan="2" style="width: 10%">Уровень</th>
+									<th align="center" rowspan="2" style="width: 10%">Бонус
+										мастерста</th>
+									<th align="center" rowspan="2">Умения</th>
+									<th:block th:if="${heroClass.id <= 8} ">
+										<th rowspan="2" style="width: 10%">Известные заговоры</th>
+										<th
+											th:if="${heroClass.id == 1 || heroClass.id == 5 || heroClass.id == 7 || heroClass.id == 8}"
+											align="center" rowspan="2" style="width: 10%">Известные
+											заклинания</th>
+										<th align="center" colspan="9">Ячейки заклинаний на
+											уровень заклинаний</th>
+									</th:block>
+									<th:block th:if="${heroClass.id eq 9} ">
+										<th style="width: 10%">Урон ярости</th>
+										<th style="width: 10%">Ярость</th>
+									</th:block>
+									<th:block th:if="${heroClass.id eq 12} ">
+										<th style="width: 10%">Скорость без доспехов</th>
+										<th style="width: 10%">Очки ци</th>
+									</th:block>
+									<th:block th:if="${heroClass.id eq 13} ">
+										<th style="width: 10%">Скрытая атака (d6)</th>
+									</th:block>
 								</tr>
-							</th:block>
-						</thead>
-						<tbody>
-							<tr th:each="levelDefinition : *{levelDefenitions}"
-								align="center">
-								<td align="center" th:text="${levelDefinition.level}" />
-								<td align="center"
-									th:text="'+' +${levelDefinition.masteryBonus}" />
-								<td><th:block th:each="trait : *{traits}">
-										<th:block th:if="${levelDefinition.level == trait.level}">
-											<th:block th:if=${trait.architype}>
-												<div class="dropdown">
-													<a class="dropdown-toggle" href="#" role="button"
-														id="archetypeMenu" data-toggle="dropdown"
-														aria-haspopup="true" aria-expanded="false"
-														th:text="${trait.name.toLowerCase() + ' ' }"></a>
-													<div class="dropdown-menu" aria-labelledby="archetypeMenu">
-														<a
-															th:each="architypeTrait : ${heroClass.getArhitypeTraitNames(levelDefinition.level)}"
-															th:text="${#strings.toLowerCase(architypeTrait.name) + ' (' + #strings.capitalize(#strings.toLowerCase(architypeTrait.archetype.name))+')'}"
-															class="dropdown-item"
-															th:href="${'#f'+architypeTrait.name}"></a>
-													</div>
-												</div>
-											</th:block>
-											<a th:if=${!trait.architype} th:href="${'#t' + trait.name}"
-												th:utext="${trait.name.toLowerCase() + '<br>' }"></a>
-										</th:block>
-									</th:block></td>
-
-								<td th:if="${levelDefinition.slot0 != -1}"
-									th:text="${levelDefinition.slot0}" />
-								<td th:if="${levelDefinition.spells != -1}"
-									th:text="${levelDefinition.spells}" />
 								<th:block th:if="${heroClass.id <= 8} ">
-									<td th:text="${levelDefinition.slot1}" />
-									<td th:text="${levelDefinition.slot2}" />
-									<td th:text="${levelDefinition.slot3}" />
-									<td th:text="${levelDefinition.slot4}" />
-									<td th:text="${levelDefinition.slot5}" />
-									<td th:text="${levelDefinition.slot6}" />
-									<td th:text="${levelDefinition.slot7}" />
-									<td th:text="${levelDefinition.slot8}" />
-									<td th:text="${levelDefinition.slot9}" />
+									<tr align="center">
+										<th>1</th>
+										<th>2</th>
+										<th>3</th>
+										<th>4</th>
+										<th>5</th>
+										<th>6</th>
+										<th>7</th>
+										<th>8</th>
+										<th>9</th>
+									</tr>
 								</th:block>
-							</tr>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<tr th:each="levelDefinition : *{levelDefenitions}"
+									align="center">
+									<td align="center" th:text="${levelDefinition.level}" />
+									<td align="center"
+										th:text="'+' +${levelDefinition.masteryBonus}" />
+									<td><th:block th:each="trait : *{traits}">
+											<th:block th:if="${levelDefinition.level == trait.level}">
+												<th:block th:if=${trait.architype}>
+													<div class="dropdown">
+														<a class="dropdown-toggle" href="#" role="button"
+															id="archetypeMenu" data-toggle="dropdown"
+															aria-haspopup="true" aria-expanded="false"
+															th:text="${trait.name.toLowerCase() + ' ' }"></a>
+														<div class="dropdown-menu" aria-labelledby="archetypeMenu">
+															<a
+																th:each="architypeTrait : ${heroClass.getArhitypeTraitNames(levelDefinition.level)}"
+																th:text="${#strings.toLowerCase(architypeTrait.name) + ' (' + #strings.capitalize(#strings.toLowerCase(architypeTrait.archetype.name))+')'}"
+																class="dropdown-item"
+																th:href="${'#f'+architypeTrait.name}"></a>
+														</div>
+													</div>
+												</th:block>
+												<a th:if=${!trait.architype} th:href="${'#t' + trait.name}"
+													th:utext="${trait.name.toLowerCase() + '<br>' }"></a>
+											</th:block>
+										</th:block></td>
+
+									<td th:if="${levelDefinition.slot0 != -1}"
+										th:text="${levelDefinition.slot0}" />
+									<td th:if="${levelDefinition.spells != -1}"
+										th:text="${levelDefinition.spells}" />
+									<th:block th:if="${heroClass.id <= 8} ">
+										<td th:text="${levelDefinition.slot1}" />
+										<td th:text="${levelDefinition.slot2}" />
+										<td th:text="${levelDefinition.slot3}" />
+										<td th:text="${levelDefinition.slot4}" />
+										<td th:text="${levelDefinition.slot5}" />
+										<td th:text="${levelDefinition.slot6}" />
+										<td th:text="${levelDefinition.slot7}" />
+										<td th:text="${levelDefinition.slot8}" />
+										<td th:text="${levelDefinition.slot9}" />
+									</th:block>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
-			<h5 class="card-header">Умения</h5>
-			<ul class="list-group list-group-flush">
-				<li th:each="trait: *{traits}" class="list-group-item"
-					th:if="${trait.description}"><b th:id="${'t'+trait.name}"><th:block
-							th:text="${trait.name}">:</b> <th:block
-						th:utext="${trait.description}" /></li>
-			</ul>
-			<h5 class="card-header" th:text="*{archetypeName}"></h5>
-			<div class="card-body">
-				<div class="accordion" id="subClasses">
-					<div class="card" th:each="archetype : *{archetypes}">
-						<div class="card-header" th:id="${archetype.id}">
-							<h5 class="mb-0">
-								<button class="btn btn-link" th:text="${archetype.name}"
-									type="button" data-toggle="collapse"
-									th:attr="data-target='#collapse'+ ${archetype.id}, aria-controls=${'collapse'+ archetype.id}"
-									aria-expanded="false"></button>
-							</h5>
-						</div>
-						<div th:id="'collapse' + ${archetype.id}" class="collapse"
-							th:attr="aria-labelledby=${archetype.id}"
-							data-parent="#subClasses">
-							<div class="card-body">
-								<p th:utext="${archetype.description}"></p>
-								<ul class="list-group list-group-flush">
-									<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5
-											th:id="${'f'+feat.name}" class="card-title"
-											th:text="${feat.name}" /></h5> <th:block
-											th:utext="${feat.description}"></th:block>
-								</ul>
+				<h5 class="card-header">Умения</h5>
+				<ul class="list-group list-group-flush">
+					<li th:each="trait: *{traits}" class="list-group-item"
+						th:if="${trait.description}"><b th:id="${'t'+trait.name}"><th:block
+								th:text="${trait.name}">:</b> <th:block
+							th:utext="${trait.description}" /></li>
+				</ul>
+				<h5 class="card-header" th:text="*{archetypeName}"></h5>
+				<div class="card-body">
+					<div class="accordion" id="subClasses">
+						<div class="card" th:each="archetype : *{archetypes}">
+							<div class="card-header" th:id="${archetype.id}">
+								<h5 class="mb-0">
+									<button class="btn btn-link" th:text="${archetype.name}"
+										type="button" data-toggle="collapse"
+										th:attr="data-target='#collapse'+ ${archetype.id}, aria-controls=${'collapse'+ archetype.id}"
+										aria-expanded="false"></button>
+								</h5>
 							</div>
-							<footer class="blockquote-footer" th:if="${archetype.book}"
-								th:text="'Источник: ' + ${archetype.book.name}"></footer>
+							<div th:id="'collapse' + ${archetype.id}" class="collapse"
+								th:attr="aria-labelledby=${archetype.id}"
+								data-parent="#subClasses">
+								<div class="card-body">
+									<p th:utext="${archetype.description}"></p>
+									<ul class="list-group list-group-flush">
+										<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5
+												th:id="${'f'+feat.name}" class="card-title"
+												th:text="${feat.name}" /></h5> <th:block
+												th:utext="${feat.description}"></th:block>
+									</ul>
+								</div>
+								<footer class="blockquote-footer" th:if="${archetype.book}"
+									th:text="'Источник: ' + ${archetype.book.name}"></footer>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<h5 th:if="${!heroClass.spells.empty}" class="card-header">Доступные
 				заклинания</h5>
 			<div th:if="${!heroClass.spells.empty}" class="card-body">
@@ -177,27 +196,65 @@
 							<th scope="col" style="width: 3%">Уровень<img
 								th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"></th>
 							<th scope="col" style="width: 50%">Наименование</th>
-							<th scope="col" style="width: 20%" class="text-center">Школа
-								/ School</th>
+							<th scope="col" style="width: 20%" class="text-center">Школа</th>
 						</tr>
 					</thead>
-					<tr th:each="spell : ${heroClass.spells}" style="cursor: pointer"
-						th:onclick="'javascript:rowClicked(\'' + ${spell.id} + '\');'">
-						<td class="text-center" th:text="${spell.level}" />
-						<td th:text="${spell.name}" />
-						<td class="text-center">
-							<div th:insert="fragments/schoolIcon :: schoolIcon(${spell})"></div>
-						</td>
-					</tr>
+					<th:block th:each="spell : ${heroClass.spells}">
+						<tr data-toggle="collapse" th:attr="data-target='#d'+ ${spell.id}">
+							<td class="text-center" th:text="${spell.level}" />
+							<td th:text="${spell.name}" />
+							<td class="text-center">
+								<div th:insert="fragments/schoolIcon :: schoolIcon(${spell})"></div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6" class="hiddenRow">
+								<div th:id="'d' + ${spell.id}" class="collapse">
+									<div class="card">
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item"><strong>Время
+													накладывания:</strong> <th:block th:text="${spell.timeCast}" /></li>
+											<li class="list-group-item"><strong>Дистанция:</strong>
+												<th:block th:text="${spell.distance}" /></li>
+											<li class="list-group-item"><strong>Компоненты:</strong>
+												<img class="invert" th:if="${spell.verbalComponent}"
+												title="Вербальный - Большинство заклинаний требуют произношения таинственных слов. Сами по себе слова не являются источником силы заклинания; просто комбинация звуков с особой тональностью вызывает резонанс в прядях магии, приводя их в движение. Таким образом, персонаж с кляпом во рту или в области заклинания тишина, не может активировать заклинания с вербальным компонентом."
+												th:src="@{/resources/icons/Icon.1_74.png}" height="25" /> <img
+												class="invert" th:if="${spell.somaticComponent}"
+												title="Cоматический- Заклинание может требовать энергичной жестикуляции или замысловатой последовательности телодвижений. Если у заклинания есть соматический компонент, у заклинателя должна быть свободной хотя бы одна рука для исполнения этих жестов."
+												th:src="@{/resources/icons/Icon.4_52.png}" height="25" /> <img
+												class="invert" th:if="${spell.materialComponent}"
+												title="Mатериальный - У заклинателя должна быть одна свободная рука для доступа к материальным компонентам, но это может быть та же самая рука, что используется для выполнения соматического компонента. Персонаж может использовать мешочек с компонентами или заклинательную фокусировку вместо указанных компонентов. Однако, если для компонента указана цена, у персонажа для накладывания заклинания должен быть именно такой компонент."
+												th:src="@{/resources/icons/Icon.6_37.png}" height="25" /></li>
+											<li th:if="${spell.additionalMaterialComponent != null}"
+												class="list-group-item"><strong>Материальные
+													компоненты:</strong> <th:block
+													th:text="${spell.additionalMaterialComponent}" /></li>
+											<li class="list-group-item"><strong>Длительность:</strong>
+												<th:block th:text="${spell.duration}" /></li>
+										</ul>
+										<div class="card-body">
+											<p th:utext="${spell.description}"></p>
+										</div>
+										<div class="card border-warning"
+											th:if="${spell.upperLevel != null}">
+											<div class="card-body">
+												<h5 class="card-title">На более высоких уровнях</h5>
+												<p th:text="${spell.upperLevel}"></p>
+											</div>
+										</div>
+									</div>
+									<footer class="blockquote-footer">
+										<small class="text-muted" th:if="${spell.book}"
+											th:text="'Источник: ' + ${spell.book.name}"></small>
+									</footer>
+								</div>
+							</td>
+						</tr>
+					</th:block>
 				</table>
 			</div>
 		</div>
 	</div>
 </body>
-<script>
-	function rowClicked(value) {
-		var baseUrl = '[[@{/hero/spells/spell/}]]';
-		location.href = baseUrl + value;
-	}
-</script>
 </html>

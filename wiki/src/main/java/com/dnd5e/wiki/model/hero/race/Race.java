@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.model.hero.race;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -97,12 +98,30 @@ public class Race {
 		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
 				.anyMatch(f -> f.contains("скрытность") && f.contains("владеете"));
 	}
-
+	
+	public boolean isResistenceFire() {
+		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
+				.anyMatch(f -> f.contains("сопротивление") && (f.contains("огнём") || f.contains("огню")));
+	}
+	
+	public boolean isResistencePoison() {
+		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
+				.anyMatch(f -> (f.contains("урону ядом")));
+	}
+	
 	public List<String> getMaleNames() {
 		return names.stream().filter(n -> Sex.MALE == n.getSex()).map(RaceName::getName).collect(Collectors.toList());
 	}
 
 	public List<String> getFemaleNames() {
 		return names.stream().filter(n -> Sex.FEMALE == n.getSex()).map(RaceName::getName).collect(Collectors.toList());
+	}
+
+	public Map<Sex, List<String>> getNames(){
+		return names.stream()
+				.collect(
+						Collectors.groupingBy(RaceName::getSex, Collectors.mapping(RaceName::getName, Collectors.toList())
+				)
+		);
 	}
 }

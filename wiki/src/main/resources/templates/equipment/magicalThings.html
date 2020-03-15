@@ -16,7 +16,18 @@
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<style>
+img {
+	float: center;
+}
+
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
+</style>
 </head>
+
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .artifactes})"></div>
 	<div class="container" style="margin-top: 25px">
@@ -67,8 +78,7 @@
 						th:if="${param.sort != null AND param.sort[0] == 'name,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
-					<th onclick="sortTable(1)" scope="col" class="text-center">Базовая
-						цена<img
+					<th onclick="sortTable(1)" scope="col" class="text-center">Редкость<img
 						th:if="${param.sort != null AND param.sort[0] == 'rarity,asc'}"
 						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
 						th:if="${param.sort != null AND param.sort[0] == 'rarity,desc'}"
@@ -79,31 +89,70 @@
 			<th:block th:each="artifact : ${artifacts}">
 				<tr data-toggle="collapse"
 					th:attr="data-target='#d'+ ${artifact.id}">
-					<td><th:block th:text="${#strings.toUpperCase(artifact.name)}"></th:block> <img
-						th:if="${artifact.rarity.ordinal() > 0}"
-						th:each="i: ${#numbers.sequence(1, artifact.rarity.ordinal())}"
-						th:src="@{/resources/open-iconic/svg/star.svg}"
-						th:title="${artifact.rarity.cyrilicName}" height="25" width="25">
-						<img th:if="${artifact.customization}"
-						th:src="@{/resources/open-iconic/svg/wrench.svg}"
+					<td><img class="invert"
+						th:if="${artifact.type.name() eq 'POTION'}"
+						th:src="@{/resources/icons/Icon.4_92.png}" height="25" width="25"
+						title="волшебное зелье"> <img class="invert"
+						th:if="${artifact.type.name() eq 'MELE_WEAPON'}"
+						th:src="@{/resources/icons/Icon.6_98.png}" height="25" width="25"
+						title="рукопашное оружие"> <img class="invert"
+						th:if="${artifact.type.name() eq 'WAND'}"
+						th:src="@{/resources/icons/Icon.3_03.png}" height="25" width="25"
+						title="волшебная палочка"> <img class="invert"
+						th:if="${artifact.type.name() eq 'RANGED_WEAPON'}"
+						th:src="@{/resources/icons/Icon.4_60.png}" height="25" width="25"
+						title="дальнобойное оружие"> <img class="invert"
+						th:if="${artifact.type.name() eq 'AMMUNITION'}"
+						th:src="@{/resources/icons/Icon.4_73.png}" height="25" width="25"
+						title="аммуниция"> <img class="invert"
+						th:if="${artifact.type.name() eq 'ARMOR'}"
+						th:src="@{/resources/icons/Icon.6_94.png}" height="25" width="25"
+						title="доспех"> <img class="invert"
+						th:if="${artifact.type.name() eq 'SHIELD'}"
+						th:src="@{/resources/icons/Icon.1_88.png}" height="25" width="25"
+						title="щит"> <img class="invert"
+						th:if="${artifact.type.name() eq 'SCROLL'}"
+						th:src="@{/resources/icons/Icon.5_85.png}" height="25" width="25">
+						<img class="invert" th:if="${artifact.type.name() eq 'ROD'}"
+						th:src="@{/resources/icons/Icon.7_93.png}" height="25" width="25"
+						title="жезл"> <img class="invert"
+						th:if="${artifact.type.name() eq 'STAFF'}"
+						th:src="@{/resources/icons/Icon.7_33.png}" height="25" width="25"
+						title="посох"> <img class="invert"
+						th:if="${artifact.type.name() eq 'RING'}"
+						th:src="@{/resources/icons/Icons8_71.png}" height="25" width="25"
+						title="кольцо"> <th:block
+							th:text="${#strings.toUpperCase(artifact.name)}"></th:block> <img
+						class="invert" th:if="${artifact.customization}"
+						th:src="@{/resources/icons/Icon.3_89.png}"
 						title="Требуется настройка" height="25" width="25"> <a
 						th:each="hero : ${artifact.custClasses}"
 						th:href="@{'/hero/classes/class/' + ${hero.id}}"> <img
 							th:src="@{'/resources/classes/' + ${hero.id}+ '.png'}"
 							th:title="${hero.name}" height="30" width="30" />
 					</a></td>
-					<td class="text-center"><span th:text="${artifact.cost}"></span><img
-						th:alt="зм" th:src="@{'/resources/currency/GM.png'}" height="25"
-						th:title="зм" /></td>
+					<td class="text-center"><img class="invert"
+						th:if="${artifact.rarity.ordinal() > 0}"
+						th:each="i: ${#numbers.sequence(1, artifact.rarity.ordinal())}"
+						th:src="@{/resources/icons/Icon.7_39.png}"
+						th:title="${artifact.rarity.cyrilicName}" height="25" width="25"></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="hiddenRow">
 						<div th:id="'d' + ${artifact.id}" class="collapse">
 							<div class="card">
-								<h4 align="center" class="card-title"
-									th:text="${artifact.rarity.cyrilicName} + ' магический предмет'"></h4>
 								<div class="card-body">
+									<h4 align="center" class="card-title"
+										th:text="${artifact.rarity.cyrilicName} + ' магический предмет'"></h4>
+									<h6 align="center" class="card-title"
+										th:if="${artifact.customization}">Требуется настройка на
+										предмет</h6>
 									<p th:utext="${artifact.description}"></p>
+									<p class="text-center">
+										Базовая цена: <span th:text="${artifact.cost}"></span><img
+											th:alt="зм" th:src="@{'/resources/currency/GM.png'}"
+											height="25" th:title="зм" />
+									</p>
 								</div>
 								<footer class="blockquote-footer" th:if="${artifact.book}"
 									th:text="'Источник: ' + ${artifact.book.name}"> </footer>
@@ -115,66 +164,66 @@
 		</table>
 		<div th:insert="fragments/pages :: pages(${artifacts}, artifacts)"></div>
 	</div>
-<script>
-    function rowClicked(value) {
-        var baseUrl = '[[@{/stock/artifacts/artifact/}]]';
-        location.href = baseUrl + value;
-    }
-    function sortTable(n) {
-        var baseUrl = '[[@{/stock/artifacts?}]]';
-        var sort = getParameterByName('sort');
-        var page = getParameterByName('page');
-        var parameters = "";
-        if (n == 0) {
-            if (sort == 'name,desc') {
-                parameters = "sort=name,asc";
-            } else {
-                parameters = "sort=name,desc";
-            }
-        }
-        if (n == 1) {
-            if (sort == 'rarity,desc') {
-                parameters = "sort=rarity,asc";
-            } else {
-                parameters = "sort=rarity,desc";
-            }
-        }
-        var type = getParameterByName('type');
-        if (type != null) {
-            parameters += "&type=" + type;
-        }
-        var rarity = getParameterByName('rarity');
-        if (rarity != null) {
-            parameters += "&rarity=" + rarity;
-        }
-        location.href = baseUrl + parameters;
-    }
+	<script>
+		function rowClicked(value) {
+			var baseUrl = '[[@{/stock/artifacts/artifact/}]]';
+			location.href = baseUrl + value;
+		}
+		function sortTable(n) {
+			var baseUrl = '[[@{/stock/artifacts?}]]';
+			var sort = getParameterByName('sort');
+			var page = getParameterByName('page');
+			var parameters = "";
+			if (n == 0) {
+				if (sort == 'name,desc') {
+					parameters = "sort=name,asc";
+				} else {
+					parameters = "sort=name,desc";
+				}
+			}
+			if (n == 1) {
+				if (sort == 'rarity,desc') {
+					parameters = "sort=rarity,asc";
+				} else {
+					parameters = "sort=rarity,desc";
+				}
+			}
+			var type = getParameterByName('type');
+			if (type != null) {
+				parameters += "&type=" + type;
+			}
+			var rarity = getParameterByName('rarity');
+			if (rarity != null) {
+				parameters += "&rarity=" + rarity;
+			}
+			location.href = baseUrl + parameters;
+		}
 
-    function getParameterByName(name, url) {
-        if (!url)
-            url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
-                .exec(url);
-        if (!results)
-            return null;
-        if (!results[2])
-            return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+		function getParameterByName(name, url) {
+			if (!url)
+				url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
 
-    function filter(select) {
-        var baseUrl = '[[@{/stock/artifacts?}]]';
-        var type = $("#artifactType").val();
-        var rarity = $("#rarityType").val();
-        var sort = getParameterByName('sort');
-        var page = getParameterByName('page');
-        var parameters = "type=" + type + "&rarity=" + rarity;
-        if (sort != null) {
-            parameters += "&sort=" + sort;
-        }
-        window.location = baseUrl + parameters;
-    }
-</script>
+		function filter(select) {
+			var baseUrl = '[[@{/stock/artifacts?}]]';
+			var type = $("#artifactType").val();
+			var rarity = $("#rarityType").val();
+			var sort = getParameterByName('sort');
+			var page = getParameterByName('page');
+			var parameters = "type=" + type + "&rarity=" + rarity;
+			if (sort != null) {
+				parameters += "&sort=" + sort;
+			}
+			window.location = baseUrl + parameters;
+		}
+	</script>
 </body>
 </html>
