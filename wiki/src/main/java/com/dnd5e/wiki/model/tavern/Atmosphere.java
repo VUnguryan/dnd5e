@@ -1,26 +1,23 @@
-package com.dnd5e.wiki.model;
+package com.dnd5e.wiki.model.tavern;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
+@Entity
+@Table(name = "taverna_atmosphera")
 @Getter
 @Setter
-
-@Entity
-@Table(name = "books")
-public class Book {
+public class Atmosphere {
 	@Id
-	@Column(unique = true, nullable = false)
-	@Size(max = 32)
-	private String source;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;

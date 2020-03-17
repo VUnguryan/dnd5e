@@ -20,16 +20,10 @@
 img {
 	float: center;
 }
-
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-
 .table>tbody .hiddenRow {
 	padding: 0 8px;
 }
@@ -190,7 +184,7 @@ img {
 			<h5 th:if="${!heroClass.spells.empty}" class="card-header">Доступные
 				заклинания</h5>
 			<div th:if="${!heroClass.spells.empty}" class="card-body">
-				<table class="table table-striped">
+				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th scope="col" style="width: 3%">Уровень<img

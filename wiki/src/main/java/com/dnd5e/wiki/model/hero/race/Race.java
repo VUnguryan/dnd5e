@@ -2,7 +2,10 @@ package com.dnd5e.wiki.model.hero.race;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -69,6 +72,14 @@ public class Race {
 	@JoinColumn(name = "source")
 	private Book book;
 
+	public String getFullName() {
+		if (parent != null) {
+			String parentName = parent.getName();
+			return name.contains(parentName) ? name : name + " " + parentName;
+		}
+		return name;
+	}
+
 	public String getAbilityBonuses() {
 		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
 				.map(b -> b.getAbility().getShortName() + " " + String.format("%+d", b.getBonus()))
@@ -98,30 +109,24 @@ public class Race {
 		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
 				.anyMatch(f -> f.contains("скрытность") && f.contains("владеете"));
 	}
-	
+
 	public boolean isResistenceFire() {
 		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
 				.anyMatch(f -> f.contains("сопротивление") && (f.contains("огнём") || f.contains("огню")));
 	}
-	
+
 	public boolean isResistencePoison() {
 		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
 				.anyMatch(f -> (f.contains("урону ядом")));
 	}
+
+	public Map<Sex, Set<String>> getNames() {
+		return names.stream().collect(Collectors.groupingBy(RaceName::getSex,
+				Collectors.mapping(RaceName::getName, Collectors.toCollection(TreeSet::new))));
+	}
 	
-	public List<String> getMaleNames() {
-		return names.stream().filter(n -> Sex.MALE == n.getSex()).map(RaceName::getName).collect(Collectors.toList());
-	}
-
-	public List<String> getFemaleNames() {
-		return names.stream().filter(n -> Sex.FEMALE == n.getSex()).map(RaceName::getName).collect(Collectors.toList());
-	}
-
-	public Map<Sex, List<String>> getNames(){
-		return names.stream()
-				.collect(
-						Collectors.groupingBy(RaceName::getSex, Collectors.mapping(RaceName::getName, Collectors.toList())
-				)
-		);
+	public Map<Sex, Set<String>> getAllNames() {
+		return Stream.concat(names.stream(), parent == null ? Stream.empty() : parent.names.stream()).collect(Collectors.groupingBy(RaceName::getSex,
+				Collectors.mapping(RaceName::getName, Collectors.toCollection(TreeSet::new))));
 	}
 }

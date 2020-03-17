@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -38,13 +39,15 @@ public class RaceNameController {
 
 	@PostMapping()
 	public String parseNames(String raceId, String text, String sex) {
-
+		
 		System.out.println(raceId + " " + sex + " " + text);
 		if (raceId != null) {
 			Race race = repo.findById(Integer.valueOf(raceId)).orElseGet(Race::new);
+			Set<RaceName> names = nameRepo.findByRace(race);
 			Arrays.stream(text.split(","))
 				.map(String::trim)
 				.map(n -> new RaceName(null, n, Sex.valueOf(sex), race))
+				.filter(rn -> !names.contains(rn))
 				.forEach(r -> nameRepo.save(r));
 				
 		}

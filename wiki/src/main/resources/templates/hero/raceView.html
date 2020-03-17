@@ -28,7 +28,7 @@
 			<h5 class="card-header" th:text="*{name}"></h5>
 			<div class="card-body">
 				<p th:each="nameElement , iterStat: *{names}">
-					<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong> 
+					<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong>
 					<th:block th:each="name , iterStat: ${nameElement.value}"
 						th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
 				</p>
@@ -56,6 +56,13 @@
 						<div th:id="'collapse' + ${subClass.id}" class="collapse"
 							th:attr="aria-labelledby=${subClass.id}"
 							data-parent="#subClasses">
+							<div class="card-body">
+								<p th:each="nameElement , iterStat: ${subClass.names}">
+									<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong>
+									<th:block th:each="name , iterStat: ${nameElement.value}"
+										th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
+								</p>
+							</div>
 							<div class="card-body">
 								<th:block th:utext="${subClass.description}"></th:block>
 								<ul class="list-group list-group-flush">
