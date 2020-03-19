@@ -27,20 +27,65 @@
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
 	<div class="container" style="margin-top: 25px">
-		<div class="card"></div>
-		<h5 class="card-header" th:text="${name}"></h5>
-		<div class="card-body">
-			<h5 class="card-title">За стойкой</h5>
-			<p th:text="${owner}"></p>
-			<h5 class="card-title">Категория</h5>
-			<p th:text="${category}"></p>
-			<h5 class="card-title">Посетители</h5>
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item" th:each="visitor : ${visitors}" th:text="${visitor}"></li>
-			</ul>
-			<h5 class="card-title">Атмосфера: [[${atmosphere.description}]]</h5>
-			<p th:utext="${atmosphere.name}"></p>
+		<div class="card">
+			<div class="card-body">
+				<a th:href="@{/calc/taverna/}" class="btn btn-outline-secondary"
+					type="button" id="calc">Случайно</a> <a
+					th:href="@{'/calc/taverna/?tavernaType=' + ${type}}"
+					class="btn btn-outline-secondary" type="button" id="calc"
+					th:each="type : ${types}" th:text="${type.names}">Генерация</a>
+			</div>
+			<h5 class="card-header" th:text="${name}"></h5>
+			<div class="card-body">
+				<h5 class="card-title">За стойкой</h5>
+				<p th:text="${owner}"></p>
+				<h5 class="card-title">Категория</h5>
+				<div class="input-group mb-4">
+					<select id="cateType" class="custom-select" onchange="filter(this)">
+						<option th:each="cate : ${categories}" th:value="${cate}"
+							th:text="${cate.name + ' заведение'}"
+							th:selected="${tavernCategoty eq cate}" />
+					</select>
+				</div>
+				<h5 class="card-title">Атмосфера: [[${atmosphere.description}]]</h5>
+				<p th:utext="${atmosphere.name}"></p>
+				<h5 th:if="${topic}" class="card-title">Обсуждаемые темы</h5>
+				<p th:if="${topic}" th:utext="${topic.name}"></p>
+				<h5 th:if="${event}" class="card-title">События</h5>
+				<p th:if="${event}" th:utext="${event.description}"></p>
+				<h5 class="card-title">Посетители</h5>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item" th:each="visitor : ${visitors}"
+						th:text="${visitor}"></li>
+					<li class="list-group-item" th:if="${visitors.empty}">Нет</li>
+				</ul>
+			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		function getParameterByName(name, url) {
+			if (!url)
+				url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+		function filter(select) {
+			var baseUrl = '[[@{/calc/taverna?}]]';
+			var category = $("#cateType").val();
+			var tavernaType = getParameterByName('tavernaType');
+			var parameters = "tavernaCategory=" + category;
+			if (tavernaType != null) {
+				parameters += "&tavernaType=" + tavernaType;
+			}
+			window.location = baseUrl + parameters;
+		}
+	</script>
 </body>
 </html>

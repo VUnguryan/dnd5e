@@ -11,15 +11,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "taverna_atmosphera")
-
+@Table(name = "taverna_events")
 @Getter
 @Setter
-public class Atmosphere {
+public class RandomEvent {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private int visitors;
