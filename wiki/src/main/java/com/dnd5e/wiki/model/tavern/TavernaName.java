@@ -24,4 +24,10 @@ public class TavernaName {
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
+	@Enumerated(EnumType.STRING)
+	private ObjectType objectType;
+	public static enum ObjectType{
+		ANIMATED,
+		OBJECT
+	}
 }

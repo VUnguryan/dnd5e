@@ -51,7 +51,9 @@ tbody .hiddenRow {
 .card-body {
 	background-color: #FFE4C4;
 }
-
+.card-deck {
+	background-color: #FFE4C4;
+}
 .blockquote-foote {
 	background-color: #FFFAF0;
 }

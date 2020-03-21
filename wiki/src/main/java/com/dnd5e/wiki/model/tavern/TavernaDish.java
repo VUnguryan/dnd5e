@@ -8,27 +8,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.dnd5e.wiki.model.hero.race.Sex;
-import com.dnd5e.wiki.model.tavern.TavernaName.ObjectType;
+import com.dnd5e.wiki.model.creature.HabitatType;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "taverna_prefixes")
+@Table(name = "taverna_dishes")
 @Getter
 @Setter
-public class TavernaPrefixName {
+public class TavernaDish {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private String male;
-	private String female;
 	@Enumerated(EnumType.STRING)
-	private ObjectType objectType;
-
-	public String getName(Sex sex) {
-		return Sex.MALE == sex ? name + male : name + female;
-	}
+	private HabitatType habitat;
+	@Enumerated(EnumType.STRING)
+	private TavernaCategory category;
 }

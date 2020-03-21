@@ -18,11 +18,9 @@
 
 <link rel="stylesheet"
 	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<link rel="stylesheet"
+	th:href="@{/resources/css/bootstrap-multiselect.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
@@ -31,37 +29,71 @@
 			<div class="card-body">
 				<a th:href="@{/calc/taverna/}" class="btn btn-outline-secondary"
 					type="button" id="calc">Случайно</a> <a
-					th:href="@{'/calc/taverna/?tavernaType=' + ${type}}"
+					th:href="@{/calc/taverna/(tavernaType=${type}, habitatType=${habitatType}, tavernaCategory=${tavernCategoty})}"
 					class="btn btn-outline-secondary" type="button" id="calc"
 					th:each="type : ${types}" th:text="${type.names}">Генерация</a>
-			</div>
-			<h5 class="card-header" th:text="${name}"></h5>
-			<div class="card-body">
-				<h5 class="card-title">За стойкой</h5>
-				<p th:text="${owner}"></p>
-				<h5 class="card-title">Категория</h5>
-				<div class="input-group mb-4">
-					<select id="cateType" class="custom-select" onchange="filter(this)">
-						<option th:each="cate : ${categories}" th:value="${cate}"
-							th:text="${cate.name + ' заведение'}"
-							th:selected="${tavernCategoty eq cate}" />
-					</select>
+				<h5 class="card-header" th:text="${name}"></h5>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Категория:</span>
+						<div class="dropdown">
+							<a class="btn btn-secondary dropdown-toggle" href="#"
+								role="button" id="dropdownMenuLink" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"
+								th:text="${tavernCategoty.name + ' заведение'}"></a>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" th:each="cate : ${categories}"
+									th:text="${cate.name + ' заведение'}"
+									th:href="@{/calc/taverna(tavernaCategory=${cate}, habitatType=${habitatType})}">>Action</a>
+							</div>
+						</div>
+
+					</div>
 				</div>
-				<h5 class="card-title">Атмосфера: [[${atmosphere.description}]]</h5>
-				<p th:utext="${atmosphere.name}"></p>
-				<h5 th:if="${topic}" class="card-title">Обсуждаемые темы</h5>
-				<p th:if="${topic}" th:utext="${topic.name}"></p>
-				<h5 th:if="${event}" class="card-title">События</h5>
-				<p th:if="${event}" th:utext="${event.description}"></p>
-				<h5 class="card-title">Посетители</h5>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item" th:each="visitor : ${visitors}"
-						th:text="${visitor}"></li>
-					<li class="list-group-item" th:if="${visitors.empty}">Нет</li>
-				</ul>
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Местность:</span>
+						<div class="dropdown">
+							<a class="btn btn-secondary dropdown-toggle" href="#"
+								role="button" id="dropdownMenuLink" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"
+								th:text="${habitatType.name}"></a>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" th:each="habitat : ${habitates}"
+									th:text="${habitat.name}"
+									th:href="@{/calc/taverna(tavernaCategory=${tavernCategoty}, habitatType=${habitat})}"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<h5 class="card-title">За стойкой</h5>
+					<p class="card-text" th:text="${owner}"></p>
+					<h5 class="card-title">Атмосфера:
+						[[${atmosphere.description}]]</h5>
+					<p th:utext="${atmosphere.name}"></p>
+					<h5 class="card-title">Можно заказать</h5>
+					<p class="card-text" th:if="${dish}" th:utext="${dish.name}"></p>
+					<p class="card-text" th:if="${drink}" th:utext="${drink.name}"></p>
+					<h5 th:if="${topic}" class="card-title">Обсуждаемые темы</h5>
+					<p class="card-text" th:if="${topic}" th:utext="${topic.name}"></p>
+					<h5 th:if="${event}" class="card-title">События</h5>
+					<p class="card-text" th:if="${event}"
+						th:utext="${event.description}"></p>
+					<h5 class="card-title">Посетители</h5>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item" th:each="visitor : ${visitors}"
+							th:text="${visitor}"></li>
+						<li class="list-group-item" th:if="${visitors.empty}">Нет</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
+	<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
 	<script type="text/javascript">
 		function getParameterByName(name, url) {
 			if (!url)
