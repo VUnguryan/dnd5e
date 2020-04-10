@@ -70,16 +70,30 @@
 					<h5 class="card-title">За стойкой</h5>
 					<p class="card-text" th:text="${owner}"></p>
 					<h5 class="card-title">Атмосфера:
-						[[${atmosphere.description}]]</h5>
-					<p th:utext="${atmosphere.name}"></p>
+						[[${atmosphere.name}]]</h5>
+					<p th:utext="${atmosphere.description}"></p>
 					<h5 class="card-title">Можно заказать</h5>
 					<p class="card-text" th:if="${dish}" th:utext="${dish.name}"></p>
+					<p class="card-text" th:if="${specialDrink}">
+					<p class="card-text" th:if="${specialDrink}">
+						<i>Таинственная фигура, закутанная в зеленый плащ, сидит за
+							соседним столиком. Незнакомец достает бутылку с како-то жидкостью
+							и рассказывает, что удача сама найдет того, кто выпьет стакан
+							этого напитка. Как только стаканы пустеют, а жидкость
+							проглатывается, таинственная фигура исчезает и ее больше не
+							видно.</i>
+					</p>
+					<p class="card-text" th:if="${specialDrink}">
+						<strong>Специальный напиток: </strong>
+						<th:block th:utext="${specialDrink}"></th:block>
+					</p>
 					<p class="card-text" th:if="${drink}" th:utext="${drink.name}"></p>
 					<h5 th:if="${topic}" class="card-title">Обсуждаемые темы</h5>
 					<p class="card-text" th:if="${topic}" th:utext="${topic.name}"></p>
 					<h5 th:if="${event}" class="card-title">События</h5>
 					<p class="card-text" th:if="${event}"
 						th:utext="${event.description}"></p>
+
 					<h5 class="card-title">Посетители</h5>
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item" th:each="visitor : ${visitors}"

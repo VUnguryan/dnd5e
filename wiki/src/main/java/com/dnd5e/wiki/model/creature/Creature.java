@@ -126,6 +126,10 @@ public class Creature {
 	
 	@Column(columnDefinition = "TEXT")
 	private String legendary;
+
+	@ElementCollection
+	@Enumerated(EnumType.STRING)
+	private List<HabitatType> habitates;
 	
 	@ManyToOne
 	@JoinColumn(name = "source")

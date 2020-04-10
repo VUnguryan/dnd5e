@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +46,7 @@ import com.dnd5e.wiki.model.treasure.Artifact;
 import com.dnd5e.wiki.model.treasure.ArtifactType;
 import com.dnd5e.wiki.model.treasure.Rarity;
 import com.dnd5e.wiki.repository.ArmorRepository;
+import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.EquipmentRepository;
@@ -67,6 +69,8 @@ public class AdminController {
 	private CreatureRaceRepository creatureRaceRepository;
 	@Autowired
 	private CreatureRepository creatureRepository;
+	@Autowired
+	private ArtifactRepository magicThingsRepository;
 	@Autowired
 	private EquipmentRepository equipmentRepository;
 	@Autowired
@@ -241,7 +245,6 @@ public class AdminController {
 	}
 
 	@GetMapping("equipment/add")
-
 	public String getAddEquipmentForm(Model model) {
 		model.addAttribute("equipment", new Equipment());
 		model.addAttribute("currencies", Currency.values());
@@ -273,6 +276,32 @@ public class AdminController {
 		model.addAttribute("rarityTypes", Rarity.values());
 		model.addAttribute("artifactTypes", ArtifactType.values());
 		return "admin/addArtifact";
+	}
+	
+	@PostMapping("/magicThings/parse")
+	public String getArtifact(@ModelAttribute Artifact artifact) {
+
+		if (!magicThingsRepository.findByNameContaining(PageRequest.of(1, 1), artifact.getName()).getContent().isEmpty()) {
+			return "redirect:/stock/artifacts/add";
+		}
+		StringReader reader = new StringReader(artifact.getDescription());
+		LineNumberReader lr = new LineNumberReader(reader);
+		String line = null;
+		StringBuilder builder = new StringBuilder();
+		try {
+			while ((line = lr.readLine()) != null) {
+				builder.append(removeHyphenation(line));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		artifact.setDescription(builder.toString());
+		magicThingsRepository.save(artifact);
+		return "redirect:/admin/artifacts/add";
+	}
+
+	private String removeHyphenation(String string) {
+		return string + " ";
 	}
 
 	@GetMapping("/creature/add")

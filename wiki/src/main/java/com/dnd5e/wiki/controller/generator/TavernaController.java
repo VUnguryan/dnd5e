@@ -1,12 +1,18 @@
 package com.dnd5e.wiki.controller.generator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,8 +25,10 @@ import org.thymeleaf.util.StringUtils;
 import com.dnd5e.wiki.model.creature.HabitatType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.hero.race.Race;
+import com.dnd5e.wiki.model.hero.race.RaceNickname;
 import com.dnd5e.wiki.model.hero.race.Sex;
 import com.dnd5e.wiki.model.tavern.Atmosphere;
+import com.dnd5e.wiki.model.tavern.DrinkEffect;
 import com.dnd5e.wiki.model.tavern.RandomEvent;
 import com.dnd5e.wiki.model.tavern.TavernaCategory;
 import com.dnd5e.wiki.model.tavern.TavernaDish;
@@ -30,10 +38,10 @@ import com.dnd5e.wiki.model.tavern.TavernaPrefixName;
 import com.dnd5e.wiki.model.tavern.TavernaType;
 import com.dnd5e.wiki.model.tavern.TopicDiscussed;
 import com.dnd5e.wiki.model.tavern.Visitor;
-import com.dnd5e.wiki.model.tavern.TavernaName.ObjectType;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.repository.taverna.AtmosphereRepoditory;
+import com.dnd5e.wiki.repository.taverna.DrinkEffectsRepository;
 import com.dnd5e.wiki.repository.taverna.RandomEventRepository;
 import com.dnd5e.wiki.repository.taverna.TavernaDishRepository;
 import com.dnd5e.wiki.repository.taverna.TavernaDrinkRepository;
@@ -71,13 +79,47 @@ public class TavernaController {
 	private TavernaDishRepository dishRepo;
 	@Autowired
 	private TavernaDrinkRepository drinkRepo;
+	@Autowired
+	private DrinkEffectsRepository drinkEffectRepo;
 
 	private Set<String> generatedNames = new HashSet<>();
 
-	private int[] ordinaryRaceId = { 1, 2, 3, 4, 6, 7, 8, 9, 26, 27, 28, 29, 31, 32, 33, 34 };
+	private Map<HabitatType, List<Integer>> habitatRaces = new EnumMap<>(HabitatType.class);
+
+	@PostConstruct
+	public void initClassses() {
+		List<Integer> races = Arrays.asList(1, 3, 4, 7, 8, 13, 31);
+		habitatRaces.put(HabitatType.ARCTIC, races);
+
+		races = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 32, 57);
+		habitatRaces.put(HabitatType.COAST, races);
+		races = Arrays.asList(3, 4, 5, 6, 7, 8, 9, 10, 16, 21);
+		habitatRaces.put(HabitatType.DESERT, races);
+		races = Arrays.asList(2, 4, 7, 12, 16, 23, 28, 29, 33, 40, 42);
+		habitatRaces.put(HabitatType.FOREST, races);
+		races = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 27);
+		habitatRaces.put(HabitatType.GRASSLAND, races);
+		races = Arrays.asList(1, 4, 5, 6, 8, 13, 21, 26, 31, 34, 43);
+		habitatRaces.put(HabitatType.MOUNTAIN, races);
+		races = Arrays.asList(4, 5, 6, 8, 12, 15, 17, 22, 49);
+		habitatRaces.put(HabitatType.SWAMP, races);
+		races = Arrays.asList(2, 3, 4, 5, 7, 8, 9, 10, 16, 31);
+		habitatRaces.put(HabitatType.TROPICS, races);
+		races = Arrays.asList(1, 3, 4, 6, 14, 19, 21, 25, 26, 30, 34, 37, 38, 39, 44);
+		habitatRaces.put(HabitatType.UNDERGROUND, races);
+		races = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 27, 28, 29, 31, 32, 33, 34, 65);
+		habitatRaces.put(HabitatType.WATERS, races);
+	}
 
 	@GetMapping
 	public String getForm(Model model, String tavernaType, String tavernaCategory, String habitatType) {
+		HabitatType habitat;
+		if (habitatType == null || habitatType.isEmpty()) {
+			habitat = habitates.get(rnd.nextInt(habitates.size()));
+		} else {
+			habitat = HabitatType.valueOf(habitatType);
+		}
+		model.addAttribute("habitatType", habitat);
 		List<TavernaName> tavernaNames = nameRepo.findAll();
 		List<TavernaPrefixName> prefixes = prefixRepo.findAll();
 		TavernaType type;
@@ -86,20 +128,30 @@ public class TavernaController {
 		} else {
 			type = TavernaType.valueOf(tavernaType);
 		}
-
-		int raceId = ordinaryRaceId[rnd.nextInt(ordinaryRaceId.length)];
+		List<Integer> ordinaryRaceId = habitatRaces.getOrDefault(habitat, Collections.singletonList(4));
+		int raceId = ordinaryRaceId.get(rnd.nextInt(ordinaryRaceId.size()));
 		Race race = raceRepo.findById(raceId).get();
 		String age = getAge();
 
 		boolean men = rnd.nextBoolean();
 		String sex = men ? " мужского пола" : " женского пола";
-		String ownerDescription = age + race.getFullName().toLowerCase() + sex;
+		String ownerDescription = age + race.getFullName().toLowerCase();
 		String ownerName = "";
 		if (race.getAllNames().get(men ? Sex.MALE : Sex.FEMALE) != null) {
 			List<String> names = new ArrayList<>(race.getAllNames().get(men ? Sex.MALE : Sex.FEMALE));
+			if (names.isEmpty()) {
+				names = new ArrayList<>(race.getAllNames().get(Sex.UNISEX));
+				sex = "";
+			}
+			ownerDescription += sex;
 			int indexName = rnd.nextInt(names.size());
-			ownerDescription += " по имени " + names.get(indexName);
+			ownerDescription += " " + names.get(indexName);
 			ownerName = rnd.nextInt(10) == 0 ? names.get(indexName) : ownerName;
+			List<RaceNickname> nicknames = race.getAllNicknames();
+			if (!nicknames.isEmpty()) {
+				RaceNickname nickname = nicknames.get(rnd.nextInt(nicknames.size()));
+				ownerDescription += " " + nickname.getType().getName() + " " + nickname.getName();
+			}
 		}
 		model.addAttribute("owner", StringUtils.capitalize(ownerDescription));
 		String tavernName = null;
@@ -151,7 +203,7 @@ public class TavernaController {
 					.filter(c -> c.getChance() > rnd.nextInt(100)).map(c -> c.getVisitor()).distinct()
 					.collect(Collectors.toList());
 			if (!visit.isEmpty()) {
-				visitorss.add(getVisitor(visit.get(rnd.nextInt(visit.size())).getName()));
+				visitorss.add(getVisitor(visit.get(rnd.nextInt(visit.size())).getName(), habitat));
 			}
 		}
 		model.addAttribute("visitors", visitorss);
@@ -169,13 +221,7 @@ public class TavernaController {
 		model.addAttribute("types", TavernaType.values());
 		model.addAttribute("categories", TavernaCategory.values());
 		model.addAttribute("habitates", habitates);
-		HabitatType habitat;
-		if (habitatType == null || habitatType.isEmpty()) {
-			habitat = habitates.get(rnd.nextInt(habitates.size()));
-		} else {
-			habitat = HabitatType.valueOf(habitatType);
-		}
-		model.addAttribute("habitatType", habitat);
+
 		List<TavernaDrink> drinks = drinkRepo.findByHabitat(habitat);
 		List<TavernaDish> dishes = dishRepo.findByHabitat(HabitatType.ARCTIC);
 		if (category == TavernaCategory.CHEAP) {
@@ -185,11 +231,16 @@ public class TavernaController {
 		switch (type) {
 		case BEER:
 			model.addAttribute("drink", drinks.get(rnd.nextInt(drinks.size())));
-
+			if (rnd.nextInt(50) == 3) {
+				model.addAttribute("specialDrink", getSpecialDrink());
+			}
 			break;
 		case INN:
 			model.addAttribute("drink", drinks.get(rnd.nextInt(drinks.size())));
 			model.addAttribute("dish", dishes.get(rnd.nextInt(dishes.size())));
+			if (rnd.nextInt(100) == 3) {
+				model.addAttribute("specialDrink", getSpecialDrink());
+			}
 			break;
 		case HOTEL:
 			model.addAttribute("dish", dishes.get(rnd.nextInt(dishes.size())));
@@ -230,14 +281,15 @@ public class TavernaController {
 		return "";
 	}
 
-	private String getVisitor(String profession) {
+	private String getVisitor(String profession, HabitatType habitat) {
 		if ("Искатель приключений".equals(profession)) {
 			List<HeroClass> classes = classRepo.findAll();
 			HeroClass classHero = classes.get(rnd.nextInt(classes.size()));
 			profession += " (" + classHero.getName().toLowerCase() + ")";
 		}
 		String visitor = profession;
-		int raceId = ordinaryRaceId[rnd.nextInt(ordinaryRaceId.length)];
+		List<Integer> ordinaryRaceId = habitatRaces.getOrDefault(habitat, Collections.singletonList(4));
+		int raceId = ordinaryRaceId.get(rnd.nextInt(ordinaryRaceId.size()));
 		Race race = raceRepo.findById(raceId).get();
 		boolean men = rnd.nextBoolean();
 		String sex = men ? " мужского пола" : " женского пола";
@@ -249,8 +301,105 @@ public class TavernaController {
 				sex = "";
 			}
 			int indexName = rnd.nextInt(names.size());
-			visitorName += " по имени " + names.get(indexName);
+			visitorName += names.get(indexName);
+			List<RaceNickname> nicknames = race.getAllNicknames();
+			if (!nicknames.isEmpty()) {
+				RaceNickname nickname = nicknames.get(rnd.nextInt(nicknames.size()));
+				visitorName += " " + nickname.getType().getName() + " " + nickname.getName();
+			}
 		}
-		return visitor + " " + race.getFullName().toLowerCase() + " " + sex + " " + visitorName;
+		return visitor + ", " + race.getFullName().toLowerCase() + " " + sex + " " + visitorName;
+	}
+
+	private String getSpecialDrink() {
+		String drink = "";
+		switch (rnd.nextInt(10)) {
+		case 0:
+			drink = getEpithet(Sex.MALE) + getTaste() + "ый " + "Эль";
+			break;
+		case 1:
+			drink = getEpithet(Sex.MALE) + getTaste() + "ый " + "Сидр";
+			break;
+		case 2:
+			drink = getEpithet(Sex.MALE) + getTaste() + "ый " + "Ром";
+			break;
+		case 3:
+			drink = getEpithet(Sex.UNISEX) + getTaste() + "ое " + "Брэнди";
+			break;
+		case 4:
+			drink = getEpithet(Sex.MALE) + getTaste() + "ый " + "Джин";
+			break;
+		case 5:
+			drink = getEpithet(Sex.UNISEX) + getTaste() + "ое " + "Виски";
+			break;
+		case 6:
+			drink = getEpithet(Sex.MALE) + getTaste() + "ый " + "Коктейль";
+			break;
+		case 7:
+			drink = getEpithet(Sex.UNISEX) + getTaste() + "ое " + "Пиво";
+			break;
+		case 8:
+			drink = getEpithet(Sex.UNISEX) + getTaste() + "ое " + "Красное вино";
+			break;
+		case 9:
+			drink = getEpithet(Sex.UNISEX) + getTaste() + "ое " + "Белое вино";
+			break;
+		}
+		return drink + ". Эффект (длительность в днях " + (1 + rnd.nextInt(4)) + "): " + getDrinkEffect();
+	}
+
+	private String getTaste() {
+		switch (rnd.nextInt(10)) {
+		case 0:
+			return "Мятн";
+		case 1:
+			return "Яблочн";
+		case 2:
+			return "Шоколадн";
+		case 3:
+			return "Орехов";
+		case 4:
+			return "Арбузн";
+		case 5:
+			return "Лимонн";
+		case 6:
+			return "Грушев";
+		case 7:
+			return "Сливочн";
+		case 8:
+			return "Карамельн";
+		case 9:
+			return "Сливов";
+		default:
+			return "";
+		}
+	}
+
+	private String getEpithet(Sex sex) {
+		switch (rnd.nextInt(9)) {
+		case 0:
+			return "Обжигающ" + (sex == Sex.MALE ? "ий" : "ее") + " ";
+		case 1:
+			return "Утоляющ" + (sex == Sex.MALE ? "ий" : "ее") + " ";
+		case 2:
+			return "Укрепляющ" + (sex == Sex.MALE ? "ий" : "ее") + " ";
+		case 3:
+			return "Бодрящ" + (sex == Sex.MALE ? "ий" : "ее") + " ";
+		case 4:
+			return "Пламенн" + (sex == Sex.MALE ? "ый" : "ое") + " ";
+		case 5:
+			return "Удивительн" + (sex == Sex.MALE ? "ый" : "ое") + " ";
+		case 6:
+			return "Невероятн" + (sex == Sex.MALE ? "ый" : "ое") + " ";
+		case 7:
+			return "Восхитительн" + (sex == Sex.MALE ? "ый" : "ое") + " ";
+		default:
+			return "";
+		}
+	}
+
+	private String getDrinkEffect() {
+		List<DrinkEffect> effects = drinkEffectRepo.findAll();
+		return effects.get(rnd.nextInt(effects.size())).getDescription();
 	}
 }

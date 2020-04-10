@@ -49,13 +49,14 @@ public class SpellController {
 	private Optional<TimeCast> timeCastSelected = Optional.empty();
 	private Set<Component> components;
 	private Set<String> distances;
-	private Set<String> sources;
 
 	private SpellRepository spellRepository;
 	private ClassRepository classRepository;
 	private BookRepository bookRepository;
 
 	private List<String> distanceTypes;
+
+	private Set<String> sources;
 	private int sourceSize;
 
 	@Autowired

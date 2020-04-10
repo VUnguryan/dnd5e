@@ -62,4 +62,15 @@ public class Weapon {
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	
+	@Column(columnDefinition = "TEXT")
+	private String special;
+	
+	public String getDamage() {
+		if (numberDice == null) {
+			return String.format("%d", damageDice);
+			
+		}
+		return String.format("%d%d", numberDice, damageDice);
+	}
 }

@@ -62,7 +62,9 @@
 					<span class="input-group-text">Стоимость</span>
 				</div>
 				<input id="thingPrice" type="text" class="form-control" disabled
-					value="10 зм.">
+					value="10 зм."/>
+				<input id="thingRollPrice" type="text"
+					class="form-control" disabled value=""/>
 			</div>
 		</div>
 	</div>
@@ -118,30 +120,36 @@
 		var dc = dcs[index] - bonus;
 		document.getElementById("bayDC").value = dc.toString();
 		var price = 0;
+		var rollPrice;
 		switch (index) {
 		case '0':
 			price = (Math.floor(Math.random() * 6 + 1) + 1) * 10;
+			rollPrice = '(1к6+1) * 10 зм.';
 			break;
 		case '1':
 			price = (Math.floor(Math.random() * 6 + 1) + 1) * 100;
+			rollPrice = '(1к6+1) * 100 зм.';
 			break;
 		case '2':
 			price = (Math.floor(Math.random() * 10 + 1) + Math.floor(Math
 					.random() * 10 + 1)) * 1000;
+			rollPrice = '2d10 * 1000 зм.';
 			break;
 		case '3':
 			price = (Math.floor(Math.random() * 4 + 1) + 1) * 10000;
+			rollPrice = '(1d4+1) * 10000 зм.';
 			break;
 		case '4':
 			price = (Math.floor(Math.random() * 6 + 1) + Math.floor(Math
 					.random() * 6 + 1)) * 25000;
+			rollPrice = '2d6 * 25000 зм';
 			break;
 		default:
 			price = 0;
 		}
 		document.getElementById("thingPrice").value = price.toString() + ' зм.';
+		document.getElementById("thingRollPrice").value = rollPrice;
 	}
-
 	/*]]>*/
 </script>
 </html>

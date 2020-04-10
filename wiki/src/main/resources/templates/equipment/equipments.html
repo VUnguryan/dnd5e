@@ -16,6 +16,15 @@
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<style>
+img {
+	float: center;
+}
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
+</style>
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .equipments})"></div>
@@ -40,9 +49,9 @@
 			<th:block th:each="equipment : ${equipments}">
 				<tr data-toggle="collapse"
 					th:attr="data-target='#d'+ ${equipment.id}">
-					<td><th:block th:text="${equipment.name}" /> <img
+					<td><th:block th:text="${equipment.name}" /> <img class="invert"
 						th:if="${equipment.description != null}"
-						th:src="@{/resources/open-iconic/svg/info.svg}" height="25"
+						th:src="@{/resources/icons/Icon.2_16.png}" height="25"
 						align="right" title="Подробнее" /></td>
 					<td><span th:if="${equipment.cost > 10}"
 						th:text="${equipment.cost + ' ' +equipment.currency.name}">
