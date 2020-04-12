@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ArtifactType
+public enum MagicThingType
 {
   MELE_WEAPON("рукопашное оружие"), //0
   ARMOR("доспех"), // 1

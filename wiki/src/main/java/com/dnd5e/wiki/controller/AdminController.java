@@ -42,8 +42,8 @@ import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.ArmorType;
 import com.dnd5e.wiki.model.stock.Currency;
 import com.dnd5e.wiki.model.stock.Equipment;
-import com.dnd5e.wiki.model.treasure.Artifact;
-import com.dnd5e.wiki.model.treasure.ArtifactType;
+import com.dnd5e.wiki.model.treasure.MagicThing;
+import com.dnd5e.wiki.model.treasure.MagicThingType;
 import com.dnd5e.wiki.model.treasure.Rarity;
 import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.ArtifactRepository;
@@ -272,14 +272,14 @@ public class AdminController {
 
 	@GetMapping("/artifact/add")
 	public String getAddArtifactForm(Model model) {
-		model.addAttribute("artifact", new Artifact());
+		model.addAttribute("artifact", new MagicThing());
 		model.addAttribute("rarityTypes", Rarity.values());
-		model.addAttribute("artifactTypes", ArtifactType.values());
+		model.addAttribute("artifactTypes", MagicThingType.values());
 		return "admin/addArtifact";
 	}
 	
 	@PostMapping("/magicThings/parse")
-	public String getArtifact(@ModelAttribute Artifact artifact) {
+	public String getArtifact(@ModelAttribute MagicThing artifact) {
 
 		if (!magicThingsRepository.findByNameContaining(PageRequest.of(1, 1), artifact.getName()).getContent().isEmpty()) {
 			return "redirect:/stock/artifacts/add";

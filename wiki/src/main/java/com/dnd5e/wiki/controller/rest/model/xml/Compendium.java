@@ -17,7 +17,7 @@ import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.Equipment;
 import com.dnd5e.wiki.model.stock.Weapon;
-import com.dnd5e.wiki.model.treasure.Artifact;
+import com.dnd5e.wiki.model.treasure.MagicThing;
 
 import lombok.Getter;
 
@@ -66,7 +66,7 @@ public class Compendium implements Serializable {
 		this.spells = spells.stream().map(SpellVO::new).collect(Collectors.toList());
 	}
 	
-	public void setMagicItems(List<Artifact> artifacts) {
+	public void setMagicItems(List<MagicThing> artifacts) {
 		this.magivItems = artifacts.stream().map(MagicItemVO::new).collect(Collectors.toList());
 	}
 

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.treasure.Artifact;
+import com.dnd5e.wiki.model.treasure.MagicThing;
 
 public class MagicItemVO {
 	@XmlElement
@@ -34,7 +34,7 @@ public class MagicItemVO {
 		
 	}
 
-	public MagicItemVO(Artifact art) {
+	public MagicItemVO(MagicThing art) {
 		this.name = StringUtils.capitalize(art.getName().toLowerCase()).trim();
 		this.magic = "1";
 		this.rarity = StringUtils.capitalize(art.getRarity().name().toLowerCase().replace("_", " "));

@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dnd5e.wiki.model.Book;
-import com.dnd5e.wiki.model.treasure.Artifact;
-import com.dnd5e.wiki.model.treasure.ArtifactType;
+import com.dnd5e.wiki.model.treasure.MagicThing;
+import com.dnd5e.wiki.model.treasure.MagicThingType;
 import com.dnd5e.wiki.model.treasure.Rarity;
 import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.BookRepository;
@@ -35,7 +35,7 @@ import com.dnd5e.wiki.repository.BookRepository;
 public class MagicalThingsController {
 	private Optional<String> search = Optional.empty();
 	private Optional<Rarity> rarityFilter = Optional.empty();
-	private Optional<ArtifactType> typeFilter = Optional.empty();
+	private Optional<MagicThingType> typeFilter = Optional.empty();
 
 	private ArtifactRepository repository;
 
@@ -66,7 +66,7 @@ public class MagicalThingsController {
 
 	@GetMapping
 	public String getArtifactes(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
-		Specification<Artifact> specification = null;
+		Specification<MagicThing> specification = null;
 		if (search.isPresent()) {
 			specification = byName(search.get());
 		}
@@ -100,7 +100,7 @@ public class MagicalThingsController {
 		model.addAttribute("typeSelected", typeFilter);
 		model.addAttribute("raritySelected", rarityFilter);
 		model.addAttribute("rarityTypes", Rarity.values());
-		model.addAttribute("artifactTypes", ArtifactType.values());
+		model.addAttribute("artifactTypes", MagicThingType.values());
 		model.addAttribute("order", Integer.valueOf(1));
 		model.addAttribute("searchText", search.orElse(""));
 		model.addAttribute("filtered", rarityFilter.isPresent() || typeFilter.isPresent() || sources.size() != sourceSize);
@@ -125,7 +125,7 @@ public class MagicalThingsController {
 		if ("ALL".equals(type)) {
 			this.typeFilter = Optional.empty();
 		} else {
-			ArtifactType typeSelected = ArtifactType.valueOf(type);
+			MagicThingType typeSelected = MagicThingType.valueOf(type);
 			this.typeFilter = Optional.of(typeSelected);
 		}
 		if ("ALL".equals(rarity)) {
@@ -156,21 +156,21 @@ public class MagicalThingsController {
 		return "redirect:/stock/artifacts?sort=" + sort;
 	}
 
-	private Specification<Artifact> byName(String search) {
+	private Specification<MagicThing> byName(String search) {
 		return (root, query, cb) -> cb.and(cb.like(root.get("name"), "%" + search + "%"));
 	}
 
-	private Specification<Artifact> byRarity() {
+	private Specification<MagicThing> byRarity() {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("rarity"), rarityFilter.get()));
 	}
 
-	private Specification<Artifact> byType() {
+	private Specification<MagicThing> byType() {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("type"), typeFilter.get()));
 	}
 	
-	private Specification<Artifact> bySource() {
+	private Specification<MagicThing> bySource() {
 		return (root, query, cb) -> {
-			Join<Book, Artifact> hero = root.join("book", JoinType.LEFT);
+			Join<Book, MagicThing> hero = root.join("book", JoinType.LEFT);
 			return cb.and(hero.get("source").in(sources));
 		};	
 	}

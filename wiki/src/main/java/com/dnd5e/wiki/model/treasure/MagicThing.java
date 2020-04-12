@@ -24,7 +24,7 @@ import lombok.Data;
 @Entity
 @Table(name = "artifactes")
 @Data
-public class Artifact {
+public class MagicThing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -33,7 +33,7 @@ public class Artifact {
 	private Rarity rarity;
 
 	@Enumerated(EnumType.ORDINAL)
-	private ArtifactType type;
+	private MagicThingType type;
 	private Boolean customization;
 	@Column(columnDefinition = "TEXT")
 	private String description;

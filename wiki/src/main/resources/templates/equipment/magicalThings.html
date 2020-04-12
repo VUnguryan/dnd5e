@@ -93,6 +93,7 @@ img {
 						th:if="${param.sort != null AND param.sort[0] == 'rarity,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
+					<th style="width: 1%"></th>
 				</tr>
 			</thead>
 			<th:block th:each="artifact : ${artifacts}">
@@ -145,6 +146,9 @@ img {
 						th:each="i: ${#numbers.sequence(1, artifact.rarity.ordinal())}"
 						th:src="@{/resources/icons/Icon.7_39.png}"
 						th:title="${artifact.rarity.cyrilicName}" height="25" width="25"></td>
+					<td><img th:if="${artifact.book.type.name() eq 'OFFICAL'}"
+						th:src="@{/resources/official.png}" height="20" width="20"
+						title="офицальное"></td>
 				</tr>
 				<tr>
 					<td colspan="6" class="hiddenRow">
@@ -180,33 +184,33 @@ img {
 	<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
 
 	<script type="text/javascript">
-    var changed = false;
-	$(document).ready(function() {
-		$('#sourceBook').multiselect({
-			buttonWidth : '300px',
-			includeSelectAllOption : true,
-	        nSelectedText : ' - выбрано',
-	        allSelectedText : "Все источники",
-			selectAllText : 'Все источники',
-			nonSelectedText : 'Выберите источник',
-	        onSelectAll: function() {
-                changed = true;
-	        },
-            onChange: function(option, checked, select) {
-            	changed = true;
-            },
-			onDropdownHide : function(event) {
-				if (changed)
-				    filterSource(this);
-				changed = false;
-			}
+		var changed = false;
+		$(document).ready(function() {
+			$('#sourceBook').multiselect({
+				buttonWidth : '300px',
+				includeSelectAllOption : true,
+				nSelectedText : ' - выбрано',
+				allSelectedText : "Все источники",
+				selectAllText : 'Все источники',
+				nonSelectedText : 'Выберите источник',
+				onSelectAll : function() {
+					changed = true;
+				},
+				onChange : function(option, checked, select) {
+					changed = true;
+				},
+				onDropdownHide : function(event) {
+					if (changed)
+						filterSource(this);
+					changed = false;
+				}
+			});
 		});
-	});
-	function rowClicked(value) {
-		var baseUrl = '[[@{/stock/artifacts/artifact/}]]';
-		location.href = baseUrl + value;
-	}
-	function sortTable(n) {
+		function rowClicked(value) {
+			var baseUrl = '[[@{/stock/artifacts/artifact/}]]';
+			location.href = baseUrl + value;
+		}
+		function sortTable(n) {
 			var baseUrl = '[[@{/stock/artifacts?}]]';
 			var sort = getParameterByName('sort');
 			var page = getParameterByName('page');
@@ -264,7 +268,7 @@ img {
 			var baseUrl = '[[@{/stock/artifacts?}]]';
 			var source = $("#sourceBook").val();
 			var parameters = "source=" + source;
-		    var sort = getParameterByName('sort');
+			var sort = getParameterByName('sort');
 			if (sort != null) {
 				parameters += "&sort=" + sort;
 			}
