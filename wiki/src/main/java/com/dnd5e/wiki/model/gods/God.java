@@ -11,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.creature.Alignment;
@@ -46,4 +48,8 @@ public class God {
     @CollectionTable(name="god_domains")
 	@Enumerated(EnumType.STRING)
 	private List<Domain> domains;
+	
+	@ManyToOne
+	@JoinColumn(name = "pantheon_id")
+	private Pantheon pantheon;
 }

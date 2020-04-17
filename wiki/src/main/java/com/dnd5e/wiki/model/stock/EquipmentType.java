@@ -6,7 +6,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum EquipmentType {
-	TOOL("Инструмент"),
-	SET("Набор");
+	EAT_DRINK("Еда и напитки"),
+	TOOL("Инструменты"),
+	SET("Наборы"),
+	CONTAINER("Контейнеры"),
+	FOCUSING("Фокусировки"),
+	POISON("Яды и противоядия");
 	private String cyrilicName;
 }

@@ -53,7 +53,7 @@ public class MagicalThingsController {
 	public void setBookRepository(BookRepository bookRepository) {
 		this.bookRepository = bookRepository;
 	}
-
+	
 	@PostConstruct
 	public void initClassses() {
 		this.sources = bookRepository.finadAllByLeftJoinMagicThings()

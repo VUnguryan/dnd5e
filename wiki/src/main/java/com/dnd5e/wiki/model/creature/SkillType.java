@@ -26,24 +26,24 @@ import lombok.Getter;
  */
 
 public enum SkillType {
-	ATHLETICS(STRENGTH, "Атлетика"),
-	ACROBATICS(DEXTERITY, "Акробатика"),
-	SLEIGHT_OF_HAND(DEXTERITY, "Лoвкость рук", "Ловкость Рук"),
-	STEALTH(DEXTERITY, "Скрытность"),
-	ARCANA(INTELLIGENCE, "Магия"),
-	HISTORY(INTELLIGENCE, "История"),
-	INVESTIGATION(INTELLIGENCE, "Анализ"),
-	NATURE(INTELLIGENCE, "Природа"),
-	RELIGION(INTELLIGENCE, "Религия"),
-	ANIMAL_HANDLING(WISDOM, "Уход за животными", "Обращение с животными"),
-	INSIGHT(WISDOM,"Проницательность"),
-	MEDICINE(WISDOM, "Медицина"),
-	PERCEPTION(WISDOM, "Внимательность", "Восприятие"),
-	SURVIVAL(WISDOM, "Выживание"),
-	DECEPTION(CHARISMA, "Обман"),
-	INTIMIDATION(CHARISMA,  "Запугивание"),
-	PERFORMANCE(CHARISMA, "Выступление"),
-	PERSUASION(CHARISMA, "Убеждение");
+	ATHLETICS (STRENGTH, "Атлетика"),
+	ACROBATICS (DEXTERITY, "Акробатика"),
+	SLEIGHT_OF_HAND (DEXTERITY, "Лoвкость рук", "Ловкость Рук"),
+	STEALTH (DEXTERITY, "Скрытность"),
+	ARCANA (INTELLIGENCE, "Магия"),
+	HISTORY (INTELLIGENCE, "История"),
+	INVESTIGATION (INTELLIGENCE, "Анализ", "Расследование"),
+	NATURE (INTELLIGENCE, "Природа"),
+	RELIGION (INTELLIGENCE, "Религия"),
+	ANIMAL_HANDLING (WISDOM, "Уход за животными", "Обращение с животными"),
+	INSIGHT (WISDOM,"Проницательность"),
+	MEDICINE (WISDOM, "Медицина"),
+	PERCEPTION (WISDOM, "Внимательность", "Восприятие"),
+	SURVIVAL (WISDOM, "Выживание"),
+	DECEPTION (CHARISMA, "Обман"),
+	INTIMIDATION (CHARISMA, "Запугивание"),
+	PERFORMANCE (CHARISMA, "Выступление"),
+	PERSUASION (CHARISMA, "Убеждение");
 	
 	@Getter() private AbilityType ability;
 	@Getter() private String cyrilicName;

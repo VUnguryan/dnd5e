@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum HabitatType {
 	ARCTIC("полярная тундра"),
 	COAST("побережье"),
-	WATERS("на воде"),
+	WATERS("под водой"),
 	GRASSLAND("равнина"),
 	UNDERGROUND("подземье"),
 	CITY("город"),

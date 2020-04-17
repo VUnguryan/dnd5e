@@ -3,7 +3,12 @@ package com.dnd5e.wiki.model.tavern;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,43 +17,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.creature.HabitatType;
+import com.dnd5e.wiki.model.creature.SkillType;
+
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Table(name = "taverna_visitors")
 @Getter
 @Setter
+@EqualsAndHashCode(of = "name")
+@Entity
+@Table(name = "taverna_visitors")
 public class Visitor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+
 	@OneToMany (targetEntity = VisitorChance.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "visitor_id")
 	private List<VisitorChance> chance;
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Visitor other = (Visitor) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
 	
+	@ElementCollection(targetClass = SkillType.class)
+	@CollectionTable(name = "taverna_visitor_habitates")
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	List<HabitatType> habitatTypes;
 }

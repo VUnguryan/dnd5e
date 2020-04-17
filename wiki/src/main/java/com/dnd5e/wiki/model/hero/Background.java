@@ -37,6 +37,8 @@ public class Background {
 	private Integer id;
 
 	private String name;
+
+	@Column(columnDefinition = "TEXT")
 	private String toolOwnership;
 
 	@ElementCollection(targetClass = SkillType.class)
@@ -46,6 +48,7 @@ public class Background {
 	private List<SkillType> skills;
 
 	private String skillName;
+
 	@Column(columnDefinition = "TEXT")
 	private String skillDescription;
 

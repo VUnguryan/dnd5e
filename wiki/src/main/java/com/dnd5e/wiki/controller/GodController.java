@@ -22,8 +22,8 @@ import com.dnd5e.wiki.model.gods.GodSex;
 import com.dnd5e.wiki.repository.GodRepository;
 
 @Controller
-@RequestMapping("/gods")
 @Scope("session")
+@RequestMapping("/gods")
 public class GodController {
 	private Alignment aligmentSelected;
 	private Domain domainSlected;
