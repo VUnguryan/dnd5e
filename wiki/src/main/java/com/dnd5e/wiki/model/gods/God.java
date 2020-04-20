@@ -32,6 +32,7 @@ public class God {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String englishName;
 	private String commitment;
 	
 	@Enumerated(EnumType.STRING)
@@ -43,6 +44,8 @@ public class God {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private String symbol;
+	private String nicknames;
+	
 
 	@ElementCollection(targetClass=Domain.class)
     @CollectionTable(name="god_domains")

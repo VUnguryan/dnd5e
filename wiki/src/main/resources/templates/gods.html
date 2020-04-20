@@ -7,10 +7,13 @@
 <meta charset="utf-8">
 
 <link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/webjars/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css}" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 
 <style>
@@ -46,8 +49,21 @@
 						<select id="domainType" class="custom-select"
 							onchange="filter(this)">
 							<option value="ALL">все</option>
-							<option th:each="domain : ${domains}" th:value="${domain}" th:text="${domain.cyrilicName}"
-							     th:selected="${domainSelected != null && domainSelected eq domain}"/>
+							<option th:each="domain : ${domains}" th:value="${domain}"
+								th:text="${domain.cyrilicName}"
+								th:selected="${domainSelected != null && domainSelected eq domain}" />
+						</select>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="domainType">Пантеон</label>
+						</div>
+						<select id="panteonType" class="custom-select"
+							onchange="filter(this)">
+							<option value="ALL">все</option>
+							<option th:each="panteon : ${pantheons}" th:value="${panteon.id}"
+								th:text="${panteon.name}"
+								th:selected="${panteonSelectedId != null && panteonSelectedId eq panteon.id}" />
 						</select>
 					</div>
 					<div class="input-group mb-3">
@@ -62,9 +78,9 @@
 						</select>
 					</div>
 					<div class="input-group mb-3">
-						<a th:if="${filtered}" th:href="@{/gods?clear}"
-							role="button" class="btn btn-danger"><img
-							th:src="@{/resources/open-iconic/svg/x.svg}"></img> &nbsp;
+						<a th:if="${filtered}" th:href="@{/gods?clear}" role="button"
+							class="btn btn-danger"><img
+							th:src="@{/resources/open-iconic/svg/x.svg}"></img>&nbsp;
 							Сбросить фильтры</a>
 					</div>
 				</div>
@@ -112,64 +128,67 @@
 
 	</div>
 
-<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js}"></script>
-<script>
-    function sortTable(n) {
-        var baseUrl = '[[@{/gods?}]]';
-        var sort = getParameterByName('sort');
-        var page = getParameterByName('page');
-        var parameters = "";
-        if (n == 0) {
-            if (sort == 'name,desc') {
-                parameters = "sort=name,asc";
-            } else {
-                parameters = "sort=name,desc";
-            }
-        }
-        if (n == 1) {
-            if (sort == 'aligment,desc') {
-                parameters = "sort=aligment,asc";
-            } else {
-                parameters = "sort=aligment,desc";
-            }
-        }
-        if (n == 2) {
-            if (sort == 'domains,desc') {
-                parameters = "sort=domains,asc";
-            } else {
-                parameters = "sort=domains,desc";
-            }
-        }
-        location.href = baseUrl + parameters;
-    }
-    function getParameterByName(name, url) {
-        if (!url)
-            url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
-                .exec(url);
-        if (!results)
-            return null;
-        if (!results[2])
-            return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-    function filter(select) {
-        var baseUrl = '[[@{/gods?}]]';
-        var alignmentType = $("#alignmentType").val();
-        var domainType = $("#domainType").val();
-        var sexType = $("#sexType").val();
-        var sort = getParameterByName('sort');
-        var page = getParameterByName('page');
-        var parameters = "alignment=" + alignmentType + "&domain=" + domainType + "&sex=" + sexType;
-        if (sort != null) {
-            parameters += "&sort=" + sort;
-        }
-        window.location = baseUrl + parameters;
-    }
-</script>
+	<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script
+		th:src="@{/webjars/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js}"></script>
+	<script>
+		function sortTable(n) {
+			var baseUrl = '[[@{/gods?}]]';
+			var sort = getParameterByName('sort');
+			var page = getParameterByName('page');
+			var parameters = "";
+			if (n == 0) {
+				if (sort == 'name,desc') {
+					parameters = "sort=name,asc";
+				} else {
+					parameters = "sort=name,desc";
+				}
+			}
+			if (n == 1) {
+				if (sort == 'aligment,desc') {
+					parameters = "sort=aligment,asc";
+				} else {
+					parameters = "sort=aligment,desc";
+				}
+			}
+			if (n == 2) {
+				if (sort == 'domains,desc') {
+					parameters = "sort=domains,asc";
+				} else {
+					parameters = "sort=domains,desc";
+				}
+			}
+			location.href = baseUrl + parameters;
+		}
+		function getParameterByName(name, url) {
+			if (!url)
+				url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+		function filter(select) {
+			var baseUrl = '[[@{/gods?}]]';
+			var alignmentType = $("#alignmentType").val();
+			var domainType = $("#domainType").val();
+			var sexType = $("#sexType").val();
+			var panteonType = $("#panteonType").val();
+			var sort = getParameterByName('sort');
+			var page = getParameterByName('page');
+			var parameters = "alignment=" + alignmentType + "&domain="
+					+ domainType + "&sex=" + sexType + "&panteonType= " + panteonType;
+			if (sort != null) {
+				parameters += "&sort=" + sort;
+			}
+			window.location = baseUrl + parameters;
+		}
+	</script>
 </body>
 </html>

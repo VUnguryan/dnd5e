@@ -19,7 +19,9 @@ import com.dnd5e.wiki.model.creature.Alignment;
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
 import com.dnd5e.wiki.model.gods.GodSex;
+import com.dnd5e.wiki.model.gods.Pantheon;
 import com.dnd5e.wiki.repository.GodRepository;
+import com.dnd5e.wiki.repository.PantheonRepository;
 
 @Controller
 @Scope("session")
@@ -28,9 +30,13 @@ public class GodController {
 	private Alignment aligmentSelected;
 	private Domain domainSlected;
 	private GodSex sexSelected;
+	private Integer selectedPanteonId;
 	
 	@Autowired
 	private GodRepository repository;
+	@Autowired
+	private PantheonRepository pantheonRepo;
+	
 	private String search = "";
 
 	@GetMapping
@@ -60,6 +66,14 @@ public class GodController {
 				specification = Specification.where(specification).and(bySex());
 			}
 		}
+		if (selectedPanteonId != null) {
+			if (specification == null) {
+				specification = byPatheon();
+			} else {
+				specification = Specification.where(specification).and(byPatheon());
+			}
+
+		}
 		if (specification == null) {
 			model.addAttribute("gods", repository.findAll(page));
 		} else {
@@ -72,7 +86,9 @@ public class GodController {
 		model.addAttribute("alignments", Alignment.values());
 		model.addAttribute("domains", Domain.values());
 		model.addAttribute("sexs", GodSex.values());
-		model.addAttribute("filtered", sexSelected != null || aligmentSelected != null || domainSlected !=null);
+		model.addAttribute("pantheons", pantheonRepo.findAll());
+		model.addAttribute("panteonSelectedId", selectedPanteonId);
+		model.addAttribute("filtered", sexSelected != null || aligmentSelected != null || domainSlected !=null || selectedPanteonId!=null);
 		return "gods";
 	}
 
@@ -82,11 +98,12 @@ public class GodController {
 		return "redirect:/gods?sort=name,asc";
 	}
 
-	@GetMapping(params = { "sort", "alignment", "domain", "sex" })
-	public String filterByLevels(Model model, String sort, String alignment, String domain, String sex, Pageable page) {
-		this.aligmentSelected = "ALL".equals(alignment) ? null : Alignment.valueOf(alignment);
-		this.domainSlected = "ALL".equals(domain) ? null : Domain.valueOf(domain);
-		this.sexSelected = "ALL".equals(sex) ? null : GodSex.valueOf(sex);
+	@GetMapping(params = { "sort", "alignment", "domain", "sex", "panteonType" })
+	public String filterByLevels(Model model, String sort, String alignment, String domain, String sex, String panteonType, Pageable page) {
+		aligmentSelected = "ALL".equals(alignment) ? null : Alignment.valueOf(alignment);
+		domainSlected = "ALL".equals(domain) ? null : Domain.valueOf(domain);
+		sexSelected = "ALL".equals(sex) ? null : GodSex.valueOf(sex);
+		selectedPanteonId = "ALL".equals(panteonType) ? null : Integer.valueOf(panteonType.trim());
 		return "redirect:/gods?sort=" + sort;
 	}
 	
@@ -96,6 +113,7 @@ public class GodController {
 		aligmentSelected = null;
 		domainSlected = null;
 		sexSelected = null;
+		selectedPanteonId = null;
 		return "redirect:/gods?sort=name,asc";
 	}
 
@@ -115,6 +133,12 @@ public class GodController {
 		return (root, query, cb) -> {
 			Join<God, Domain> domain = root.join("domains", JoinType.LEFT);
 			return domain.in(Collections.singleton(domainSlected));
+		};	
+	}
+	private Specification<God> byPatheon() {
+		return (root, query, cb) -> {
+			Join<Pantheon, God> pantheon = root.join("pantheon", JoinType.LEFT);
+			return cb.equal(pantheon.get("id"), (selectedPanteonId));
 		};	
 	}
 }
