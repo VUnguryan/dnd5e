@@ -129,12 +129,14 @@ public class GodController {
 	private Specification<God> bySex() {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("sex"), sexSelected));
 	}
+	
 	private Specification<God> byDomain() {
 		return (root, query, cb) -> {
 			Join<God, Domain> domain = root.join("domains", JoinType.LEFT);
 			return domain.in(Collections.singleton(domainSlected));
 		};	
 	}
+	
 	private Specification<God> byPatheon() {
 		return (root, query, cb) -> {
 			Join<Pantheon, God> pantheon = root.join("pantheon", JoinType.LEFT);

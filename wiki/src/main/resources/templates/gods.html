@@ -86,7 +86,7 @@
 				</div>
 			</div>
 		</div>
-		<table class="table table-striped">
+		<table class="table table-hover">
 			<thead>
 				<tr style="cursor: pointer">
 					<th onclick="sortTable(0)" scope="col" style="width: 30%"
@@ -112,17 +112,30 @@
 					</th>
 				</tr>
 			</thead>
-			<tr th:each="god : ${gods}"
-				th:onclick="'javascript:spellClicked(\'' + ${god.id} + '\');'">
-				<td align="center"><th:block
-						th:text="${god.name + ', '+ god.sex.cyrilicName + ' ' + god.commitment}" /></td>
-				<td th:text="${god.aligment.shortName}" class="text-center"
-					th:title="${god.aligment.cyrilicName}" />
-				<td class="text-center"><th:block
-						th:each="domain, iterStat : ${god.domains}"
-						th:text="${iterStat.last} ? ${domain.cyrilicName} : ${domain.cyrilicName + ', '}" /></td>
-				<!-- 				<td th:text="${god.symbol}"></td> -->
-			</tr>
+			<th:block th:each="god : ${gods}">
+				<tr data-toggle="collapse" th:attr="data-target='#d'+ ${god.id}">
+					<td align="center"><th:block
+							th:text="${god.name + ', '+ god.sex.cyrilicName + ' ' + god.commitment}" /></td>
+					<td th:text="${god.aligment.shortName}" class="text-center"
+						th:title="${god.aligment.cyrilicName}" />
+					<td class="text-center"><th:block
+							th:each="domain, iterStat : ${god.domains}"
+							th:text="${iterStat.last} ? ${domain.cyrilicName} : ${domain.cyrilicName + ', '}" /></td>
+				</tr>
+				<tr th:if="${god.description}">
+					<td colspan="6" class="hiddenRow">
+						<div th:id="'d' + ${god.id}" class="collapse">
+							<div class="card">
+								<ul th:if="${god.nicknames}" class="list-group list-group-flush">
+									<li class="list-group-item"><strong>Титулы:</strong> <th:block
+											th:text="${god.nicknames}" /></li>
+								</ul>
+								<div class="card-body" th:utext="${god.description}"></div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</th:block>
 		</table>
 		<div th:insert="fragments/pages :: pages(${gods}, gods)"></div>
 
@@ -183,7 +196,8 @@
 			var sort = getParameterByName('sort');
 			var page = getParameterByName('page');
 			var parameters = "alignment=" + alignmentType + "&domain="
-					+ domainType + "&sex=" + sexType + "&panteonType= " + panteonType;
+					+ domainType + "&sex=" + sexType + "&panteonType= "
+					+ panteonType;
 			if (sort != null) {
 				parameters += "&sort=" + sort;
 			}

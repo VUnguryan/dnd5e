@@ -15,6 +15,7 @@ public enum Domain {
 	NATURE("Природа"),
 	LIGHT("Свет"),
 	ARCANA("Магия"),
+	FORGE("Кузня"),
 	UNDEFINE("Нет жрецов");
 
 	private String cyrilicName;

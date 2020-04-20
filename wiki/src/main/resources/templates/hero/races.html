@@ -71,6 +71,9 @@ img {
 				<div class="card-body">
 					<h6 class="card-subtitle mb-2 text-muted"
 						th:text="${race.abilityBonuses}"></h6>
+					<h6 th:if="${not race.chiledAbilityBonuses.empty}"
+						class="card-subtitle mb-2 text-muted"
+						th:text="${'Подрасы: ' + race.chiledAbilityBonuses}"></h6>
 					<img th:if="${race.darkVision}" class="invert"
 						th:src="@{/resources/icons/Icon.6_30.png}" height="25"
 						title="темное зрение" /><img th:if="${race.natureArmor}"
@@ -86,6 +89,7 @@ img {
 						th:if="${race.resistencePoison}" class="invert"
 						th:src="@{/resources/icons/Icon.1_69.png}" height="25"
 						title="сопротивление или иммунитет к урону ядом" />
+						<img src="a.gif" style="display: none;" />
 				</div>
 				<footer class="blockquote-footer">
 					<small class="text-muted"

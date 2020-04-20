@@ -86,6 +86,12 @@ public class Race {
 				.map(b -> b.getAbility().getShortName() + " " + String.format("%+d", b.getBonus()))
 				.collect(Collectors.joining(", "));
 	}
+	
+	public String getChiledAbilityBonuses() {
+		return subRaces.stream().flatMap(r-> r.features.stream()).flatMap(f -> f.getAbilityBonuses().stream())
+				.map(b -> b.getAbility().getShortName() + " " + String.format("%+d", b.getBonus())).distinct()
+				.collect(Collectors.joining(", "));
+	}
 
 	public String getCapName() {
 		return StringUtils.capitalize(name.toLowerCase());
