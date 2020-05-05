@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<head>
+<title>DnD 5E Безумие</title>
+<meta charset="utf-8">
+
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/resources/css/bootstrap-multiselect.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
+	<div class="container" style="margin-top: 25px">
+		<div class="card">
+			<div class="card-body">
+				<div class="input-group mb-2">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Тип:</span>
+						<div class="dropdown">
+							<a class="btn btn-secondary dropdown-toggle" href="#"
+								role="button" id="dropdownMenuLink" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"
+								th:text="${selectedType}"></a>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" th:each="typeMadness : ${types}"
+									th:text="${typeMadness.cyrilicName}"
+									th:href="@{/calc/madness(typeMadness=${typeMadness})}">typeMadness</a>
+							</div>
+						</div>
+						<span class="input-group-text">Длительность: <th:block th:text="${madness.madnessType.duration}"></th:block></span>
+					</div>
+				</div>
+				<p class="card-text" th:if="${madness}"
+					th:utext="${madness.description}"></p>
+			</div>
+			<a class="btn btn-secondary" th:href="@{/calc/madness}"
+				id="dropdownMenuLink">Еще безумия</a>
+		</div>
+	</div>
+	<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
+</body>
+</html>

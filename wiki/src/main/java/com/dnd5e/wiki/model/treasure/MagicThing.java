@@ -29,11 +29,13 @@ public class MagicThing {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private Rarity rarity;
 
 	@Enumerated(EnumType.ORDINAL)
 	private MagicThingType type;
+	
 	private Boolean customization;
 	@Column(columnDefinition = "TEXT")
 	private String description;

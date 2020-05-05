@@ -16,6 +16,7 @@ import org.thymeleaf.util.StringUtils;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.model.creature.HabitatType;
 
 @XmlRootElement(name = "monster")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -80,6 +81,8 @@ public class CreatureVO {
 	private String spells;
 	@XmlElement(required = false)
 	private String slots;
+	@XmlElement(required = false)
+	private String environment;
 	
 	@XmlElement(name = "text", required = false)
 	private String source;
@@ -168,6 +171,7 @@ public class CreatureVO {
 			}
 		}
 		source = "Источник: " + creature.getBook().getName();
+		environment = creature.getHabitates().stream().filter(HabitatType::isXml).map(HabitatType::getXmlName).collect(Collectors.joining(", "));
 	}
 
 	private void parseSpell(String descr) {

@@ -8,9 +8,6 @@ import lombok.Getter;
 public enum GodSex {
 	MALE("бог"),
 	FEMALE("богиня"),
-	MAIN("главное божество"),
-	JUNIOR("младщий бог"),
-	HALF("полу-бог"),
 	PHILOSOPHY("философия"),
 	UNDEFINE("божество");
 	

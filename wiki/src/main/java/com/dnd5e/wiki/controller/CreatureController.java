@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +33,7 @@ import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureRace;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.CreatureType;
+import com.dnd5e.wiki.model.creature.HabitatType;
 import com.dnd5e.wiki.repository.BookRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
@@ -52,6 +54,7 @@ public class CreatureController {
 	private Optional<String> crMax = Optional.empty();
 	private Optional<CreatureType> typeSelected = Optional.empty();
 	private Optional<CreatureSize> sizeSelected = Optional.empty();
+	private Set<HabitatType> habitatsSelected = EnumSet.allOf(HabitatType.class);
 
 	private Set<String> sources;
 	private int sourceSize;
@@ -91,20 +94,30 @@ public class CreatureController {
 				specification = Specification.where(specification).and(bySource());
 			}
 		}
+		if (habitatsSelected.size() != HabitatType.values().length) {
+			if (specification == null) {
+				specification = byHabitatType();
+			} else {
+				specification = Specification.where(specification).and(byHabitatType());
+			}
+		}
+
 		model.addAttribute("creatures", repository.findAll(specification, page));
 		model.addAttribute("filtered",
 				crMin.isPresent() 
 				|| crMax.isPresent() 
 				|| typeSelected.isPresent() 
 				|| sizeSelected.isPresent()
-				|| sources.size() != sourceSize);
+				|| sources.size() != sourceSize || habitatsSelected.size() != HabitatType.values().length);
 		model.addAttribute("searchText", search);
 		model.addAttribute("crMin", crMin);
 		model.addAttribute("crMax", crMax);
 		model.addAttribute("types", CreatureType.values());
 		model.addAttribute("sizes", CreatureSize.values());
+		model.addAttribute("habitats", HabitatType.values());
 		model.addAttribute("typeSelected", typeSelected);
 		model.addAttribute("sizeSelected", sizeSelected);
+		model.addAttribute("habitatsSelected", habitatsSelected);
 
 		model.addAttribute("books", bookRepository.finadAllByLeftJoinCreature());
 		model.addAttribute("selectedBooks", sources);
@@ -154,9 +167,9 @@ public class CreatureController {
 	}
 
 	@GetMapping(params = "search")
-	public String searchCreature(Model model, String search) {
+	public String searchCreature(Model model, String sort, String search) {
 		this.search = search.trim();
-		return "redirect:/creatures";
+		return "redirect:/creatures?sort=exp,asc";
 	}
 
 	@GetMapping(params = { "sort", "type", "crMin", "crMax", "cSize" })
@@ -180,9 +193,16 @@ public class CreatureController {
 				.filter(Objects::nonNull)
 				.map(Book::getSource)
 				.collect(Collectors.toSet());
+		habitatsSelected = EnumSet.allOf(HabitatType.class);
 		return "redirect:/creatures?sort=exp,asc";
 	}
 
+	@GetMapping(params = "habitatType")
+	public String filterByHabitatType(Model model, String sort, @RequestParam String[] habitatType, Pageable page) {
+		habitatsSelected = Arrays.stream(habitatType).map(HabitatType::valueOf).collect(Collectors.toSet()); 
+		return "redirect:/creatures?sort=" + sort;
+	}
+	
 	@GetMapping(params = "source")
 	public String filterBySourceBook(Model model, String sort, @RequestParam String[] source, Pageable page) {
 		sources = new HashSet<>(Arrays.asList(source));
@@ -208,6 +228,13 @@ public class CreatureController {
 
 	private Specification<Creature> bySize() {
 		return (root, query, cb) -> cb.and(cb.equal(root.get("size"), sizeSelected.get()));
+	}
+	
+	private Specification<Creature> byHabitatType() {
+		return (root, query, cb) -> {
+			Join<HabitatType, Creature> hero = root.join("habitates", JoinType.LEFT);
+			return hero.in(habitatsSelected);
+		};	
 	}
 
 	private Specification<Creature> bySource() {

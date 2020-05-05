@@ -237,6 +237,13 @@ img {
 					<p th:utext="*{description}"></p>
 				</div>
 			</div>
+			<div th:if="${!creature.habitates.empty}" class="xard">
+				<div class="card-header">Места обитания</div>
+				<div class="card-body">
+					<th:block th:each="habitate, iterStat : *{habitates}" th:text="${iterStat.last} ? ${habitate.name} : ${habitate.name} + ', '">
+					</th:block>
+				</div>
+			</div>
 			<div class="card-footer text-muted" th:if="${creature.book}"
 				th:text="'Источник: ' + ${creature.book.name}"></div>
 			<img class="card-img-bottom"

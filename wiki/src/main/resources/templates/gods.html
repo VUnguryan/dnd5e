@@ -115,7 +115,7 @@
 			<th:block th:each="god : ${gods}">
 				<tr data-toggle="collapse" th:attr="data-target='#d'+ ${god.id}">
 					<td align="center"><th:block
-							th:text="${god.name + ', '+ god.sex.cyrilicName + ' ' + god.commitment}" /></td>
+							th:text="${god.name + ', '+ god.prefixName + ' ' + god.commitment}" /></td>
 					<td th:text="${god.aligment.shortName}" class="text-center"
 						th:title="${god.aligment.cyrilicName}" />
 					<td class="text-center"><th:block
@@ -196,7 +196,7 @@
 			var sort = getParameterByName('sort');
 			var page = getParameterByName('page');
 			var parameters = "alignment=" + alignmentType + "&domain="
-					+ domainType + "&sex=" + sexType + "&panteonType= "
+					+ domainType + "&sex=" + sexType + "&panteonType="
 					+ panteonType;
 			if (sort != null) {
 				parameters += "&sort=" + sort;

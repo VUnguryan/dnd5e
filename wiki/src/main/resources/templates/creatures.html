@@ -84,6 +84,17 @@
 					</div>
 					<div class="input-group mb-4">
 						<div class="input-group-prepend">
+							<label class="input-group-text" for="ctreatureSize">Обитание</label>
+						</div>
+						<select id="habitatType" class="custom-select" 
+							multiple="multiple">
+							<option th:each="habitat : ${habitats}" th:value="${habitat}"
+								th:text="${habitat.name}"
+								th:selected="${habitatsSelected.contains(habitat)}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
 							<label class="input-group-text" for="source">Источник</label>
 						</div>
 						<select id="sourceBook" class="custom-select" multiple="multiple">
@@ -114,8 +125,8 @@
 						th:if="${param.sort != null AND param.sort[0] == 'name,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
-					<th onclick="sortTable(2)" scope="col" style="width: 20%">Вид <img
-						th:if="${param.sort != null AND param.sort[0] == 'type,asc'}"
+					<th onclick="sortTable(2)" scope="col" style="width: 20%">Вид
+						<img th:if="${param.sort != null AND param.sort[0] == 'type,asc'}"
 						th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"> <img
 						th:if="${param.sort != null AND param.sort[0] == 'type,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
@@ -161,6 +172,25 @@
 			onDropdownHide : function(event) {
 				if (changed)
 					filterSource(this);
+				changed = false;
+			}
+		});
+		$('#habitatType').multiselect({
+			buttonWidth : '300px',
+			includeSelectAllOption : true,
+			nSelectedText : ' - выбрано',
+			allSelectedText : "Все места",
+			selectAllText : 'Все места',
+			nonSelectedText : 'Выберите место обитания',
+			onSelectAll : function() {
+				changed = true;
+			},
+			onChange : function(option, checked, select) {
+				changed = true;
+			},
+			onDropdownHide : function(event) {
+				if (changed)
+					filterHabitat(this);
 				changed = false;
 			}
 		});
@@ -230,6 +260,17 @@
 		window.location = baseUrl + parameters;
 	}
 
+	function filterHabitat(select) {
+		var baseUrl = '[[@{/creatures?}]]';
+		var habitatType = $("#habitatType").val();
+		var parameters = "habitatType=" + habitatType;
+		var sort = getParameterByName('sort');
+		if (sort != null) {
+			parameters += "&sort=" + sort;
+		}
+		window.location = baseUrl + parameters;
+	}
+	
 	function filterSource(select) {
 		var baseUrl = '[[@{/creatures?}]]';
 		var source = $("#sourceBook").val();

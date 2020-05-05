@@ -39,6 +39,9 @@ public class God {
 	private GodSex sex;
 	
 	@Enumerated(EnumType.STRING)
+	private Rank rank;
+	
+	@Enumerated(EnumType.STRING)
 	Alignment aligment;
 	
 	@Column(columnDefinition = "TEXT")
@@ -55,4 +58,8 @@ public class God {
 	@ManyToOne
 	@JoinColumn(name = "pantheon_id")
 	private Pantheon pantheon;
+	
+	public String getPrefixName() {
+		return rank == null ? sex.getCyrilicName() : rank.getName(sex) + " " + sex.getCyrilicName();   
+	}
 }

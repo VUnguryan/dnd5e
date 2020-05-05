@@ -1,5 +1,10 @@
 package com.dnd5e.wiki.model.treasure;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum Rarity {
 	COMMON("обычный", 100),
 	UNCOMMON("необычный", 400),
@@ -11,17 +16,4 @@ public enum Rarity {
 	private String cyrilicName;
 	// базовая цена в золотых монетах
 	private int baseCost;
-
-	private Rarity(String cyrilicName, int baseCost) {
-		this.cyrilicName = cyrilicName;
-		this.baseCost = baseCost;
-	}
-
-	public String getCyrilicName() {
-		return this.cyrilicName;
-	}
-
-	public int getBaseCost() {
-		return baseCost;
-	}
 }
