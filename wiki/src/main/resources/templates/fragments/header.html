@@ -90,6 +90,11 @@
 							th:href="@{/admin/creature/parse}">Импорт монстра</a>
 					</div></li>
 			</ul>
+			<div class="custom-control custom-switch">
+				<input type="checkbox" class="custom-control-input"
+					id="official"> <label class="custom-control-label text-white"
+					for="official">Не официальный контент </label>
+			</div>
 			<th:block sec:authorize="isAnonymous()">
 				<form class="form-inline my-2 my-lg-0" th:action="@{/login}">
 					<div class="input-group">

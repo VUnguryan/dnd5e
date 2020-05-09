@@ -54,7 +54,7 @@ public class TraitController {
 	}
 
 	@GetMapping
-	public String getTraits(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
+	public String getTraits(Model model, @PageableDefault(size = 15, sort = "name") Pageable page) {
 		Specification<Trait> specification = null;
 		if (!search.isEmpty()) {
 			specification = byName();
@@ -141,6 +141,7 @@ public class TraitController {
 	private Specification<Trait> byAbility() {
 		return (root, query, cb) -> {
 			Join<Trait, AbilityType> abilities = root.join("abilities", JoinType.LEFT);
+			query.distinct(true);
 			return abilities.in(selectedAbilities);
 		};
 	}
@@ -148,6 +149,7 @@ public class TraitController {
 	private Specification<Trait> bySkill() {
 		return (root, query, cb) -> {
 			Join<Trait, AbilityType> abilities = root.join("skills", JoinType.LEFT);
+			query.distinct(true);
 			return abilities.in(selectedSkills);
 		};
 	}

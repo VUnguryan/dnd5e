@@ -32,8 +32,11 @@ import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureRace;
 import com.dnd5e.wiki.model.creature.CreatureSize;
+import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.CreatureType;
+import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.HabitatType;
+import com.dnd5e.wiki.model.creature.State;
 import com.dnd5e.wiki.repository.BookRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
@@ -58,6 +61,14 @@ public class CreatureController {
 
 	private Set<String> sources;
 	private int sourceSize;
+	
+	private DamageType vulnerabilitySelected;
+	private DamageType resistanceSelected;
+	private DamageType immunitySelected;
+	private State stateImmunitySelected;
+	private ActionType actionTypeSelected;
+	
+	private String casterSelected;
 
 	@PostConstruct
 	public void initClassses() {
@@ -101,14 +112,57 @@ public class CreatureController {
 				specification = Specification.where(specification).and(byHabitatType());
 			}
 		}
-
+		if (vulnerabilitySelected != null) {
+			if (specification == null) {
+				specification = byVulnerability();
+			} else {
+				specification = Specification.where(specification).and(byVulnerability());
+			}
+		}
+		if (resistanceSelected != null) {
+			if (specification == null) {
+				specification = byResistance();
+			} else {
+				specification = Specification.where(specification).and(byResistance());
+			}
+		}
+		if (immunitySelected != null) {
+			if (specification == null) {
+				specification = byImmunity();
+			} else {
+				specification = Specification.where(specification).and(byImmunity());
+			}
+		}
+		if (stateImmunitySelected != null) {
+			if (specification == null) {
+				specification = byStateImmunity();
+			} else {
+				specification = Specification.where(specification).and(byStateImmunity());
+			}
+		}
+		if (actionTypeSelected != null) {
+			if (specification == null) {
+				specification = byAction();
+			} else {
+				specification = Specification.where(specification).and(byAction());
+			}
+		}
+		if (casterSelected != null) {
+			if (specification == null) {
+				specification = byCaster();
+			} else {
+				specification = Specification.where(specification).and(byCaster());
+			}
+		}
 		model.addAttribute("creatures", repository.findAll(specification, page));
 		model.addAttribute("filtered",
 				crMin.isPresent() 
 				|| crMax.isPresent() 
 				|| typeSelected.isPresent() 
 				|| sizeSelected.isPresent()
-				|| sources.size() != sourceSize || habitatsSelected.size() != HabitatType.values().length);
+				|| sources.size() != sourceSize || habitatsSelected.size() != HabitatType.values().length
+				|| vulnerabilitySelected != null || resistanceSelected != null || immunitySelected != null || stateImmunitySelected != null
+				|| actionTypeSelected != null || casterSelected != null);
 		model.addAttribute("searchText", search);
 		model.addAttribute("crMin", crMin);
 		model.addAttribute("crMax", crMax);
@@ -118,10 +172,25 @@ public class CreatureController {
 		model.addAttribute("typeSelected", typeSelected);
 		model.addAttribute("sizeSelected", sizeSelected);
 		model.addAttribute("habitatsSelected", habitatsSelected);
+		
+		model.addAttribute("vulnerabilitySelected", vulnerabilitySelected);
+		model.addAttribute("vulnerabilities", DamageType.getVulnerability());
+		model.addAttribute("resistanceSelected", resistanceSelected);
+		model.addAttribute("resistance", DamageType.getResistance());
+		model.addAttribute("immunitySelected", immunitySelected);
+		model.addAttribute("immunities", DamageType.getImmunity());
+		model.addAttribute("stateImmunitySelected", stateImmunitySelected);
+		model.addAttribute("stateImmunities", State.getImmunity());
 
+		
+		model.addAttribute("actionTypeSelected", actionTypeSelected);
+		model.addAttribute("actionTypes", ActionType.values());
+		
+		model.addAttribute("casterSelected", casterSelected);
+		
 		model.addAttribute("books", bookRepository.finadAllByLeftJoinCreature());
 		model.addAttribute("selectedBooks", sources);
-
+		
 		return "creatures";
 	}
 
@@ -181,6 +250,54 @@ public class CreatureController {
 		return "redirect:/creatures?sort=" + sort;
 	}
 	
+	@GetMapping(params = "vulnerability")
+	public String filterVulnerability(Model model, String sort, String vulnerability) {
+		this.vulnerabilitySelected = "ALL".equals(vulnerability) ? null : DamageType.valueOf(vulnerability);
+		return "redirect:/creatures?sort=" + sort;
+	}
+
+	@GetMapping(params = "resistance")
+	public String filterResistance(Model model, String sort, String resistance) {
+		this.resistanceSelected = "ALL".equals(resistance) ? null : DamageType.valueOf(resistance) ;
+		return "redirect:/creatures?sort=" + sort;
+	}
+	
+	@GetMapping(params = "immunity")
+	public String filterImmunity(Model model, String sort, String immunity) {
+		this.immunitySelected = "ALL".equals(immunity) ? null : DamageType.valueOf(immunity) ;
+		return "redirect:/creatures?sort=" + sort;
+	}
+	
+	@GetMapping(params = "stateImmunity")
+	public String filterStateImmunity(Model model, String sort, String stateImmunity) {
+		this.stateImmunitySelected = "ALL".equals(stateImmunity) ? null : State.valueOf(stateImmunity);
+		return "redirect:/creatures?sort=" + sort;
+	}
+
+	@GetMapping(params = "action")
+	public String filterLegendary(Model model, String sort, String action) {
+		this.actionTypeSelected = "ALL".equals(action) ? null : ActionType.valueOf(action);
+		return "redirect:/creatures?sort=" + sort;
+	}
+	
+	@GetMapping(params = "caster")
+	public String filterCaster(Model model, String sort, String caster) {
+		switch (caster) {
+		case "innateWitchcraft":
+			this.casterSelected = "Врожденное Колдовство";
+			break;
+		case "useOfSpells":
+			this.casterSelected = "Использование заклинаний";
+			break;
+		case "witchcraft":
+			this.casterSelected = "Колдовство";
+			break;
+		default:
+			this.casterSelected = null;
+		}
+		return "redirect:/creatures?sort=" + sort;
+	}
+	
 	@GetMapping(params = { "clear" })
 	public String cleaarFilters() {
 		this.search = "";
@@ -194,6 +311,13 @@ public class CreatureController {
 				.map(Book::getSource)
 				.collect(Collectors.toSet());
 		habitatsSelected = EnumSet.allOf(HabitatType.class);
+		vulnerabilitySelected = null;
+		resistanceSelected = null;
+		immunitySelected = null;
+		stateImmunitySelected = null;
+		
+		actionTypeSelected = null;
+		casterSelected = null;
 		return "redirect:/creatures?sort=exp,asc";
 	}
 
@@ -236,11 +360,53 @@ public class CreatureController {
 			return hero.in(habitatsSelected);
 		};	
 	}
+	
+	private Specification<Creature> byVulnerability(){
+		return (root, query, cb) -> {
+			Join<DamageType, Creature> join = root.join("vulnerabilityDamages");
+			return join.in(vulnerabilitySelected);
+		};
+	}
+	
+	private Specification<Creature> byResistance(){
+		return (root, query, cb) -> {
+			Join<DamageType, Creature> join = root.join("resistanceDamages");
+			return join.in(resistanceSelected);
+		};
+	}
 
+	private Specification<Creature> byImmunity(){
+		return (root, query, cb) -> {
+			Join<DamageType, Creature> join = root.join("immunityDamages");
+			return join.in(immunitySelected);
+		};
+	}
+
+	private Specification<Creature> byStateImmunity(){
+		return (root, query, cb) -> {
+			Join<State, Creature> join = root.join("immunityStates");
+			return join.in(stateImmunitySelected);
+		};
+	}
+	
+	private Specification<Creature> byAction(){
+		return (root, query, cb) -> {
+			Join<Action, Creature> join = root.join("actions");
+			query.distinct(true);
+			return cb.equal(join.get("actionType"), actionTypeSelected);
+		};
+	}	
+	private Specification<Creature> byCaster(){
+		return (root, query, cb) -> {
+			Join<CreatureTrait, Creature> join = root.join("feats");
+			query.distinct(true);
+			return cb.like(join.get("name"), "%"+casterSelected+"%");
+		};
+	}
 	private Specification<Creature> bySource() {
 		return (root, query, cb) -> {
-			Join<Book, Creature> hero = root.join("book", JoinType.LEFT);
-			return cb.and(hero.get("source").in(sources));
+			Join<Book, Creature> book = root.join("book", JoinType.LEFT);
+			return cb.and(book.get("source").in(sources));
 		};	
 	}
 

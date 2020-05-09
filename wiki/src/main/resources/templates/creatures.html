@@ -46,7 +46,6 @@
 						</div>
 						<select id="crMax" class="custom-select" onchange="filter()">
 							<option value="-1">---</option>
-
 							<option value="1/8"
 								th:selected="${crMax.present && #strings.equals('1/8', crMax.get())}">1/8</option>
 							<option value="1/4"
@@ -84,10 +83,80 @@
 					</div>
 					<div class="input-group mb-4">
 						<div class="input-group-prepend">
+							<label class="input-group-text" for="ctreatureSize">Уязвимость
+								к урону</label>
+						</div>
+						<select id="vulnerability" class="custom-select"
+							onchange="filter(this.value, 'vulnerability')">
+							<option value="ALL">---</option>
+							<option th:each="vulnerability : ${vulnerabilities}"
+								th:value="${vulnerability}"
+								th:text="${vulnerability.cyrilicName}"
+								th:selected="${vulnerability eq vulnerabilitySelected}" />
+						</select>
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="ctreatureSize">Сопротивление
+								к урону</label>
+						</div>
+						<select id="resistance" class="custom-select"
+							onchange="filter(this.value, 'resistance')">
+							<option value="ALL">---</option>
+							<option th:each="resist : ${resistance}" th:value="${resist}"
+								th:text="${resist.cyrilicName}"
+								th:selected="${resist eq resistanceSelected}" />
+						</select>
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="ctreatureSize">Иммунитет
+								к урону</label>
+						</div>
+						<select id="immunity" class="custom-select"
+							onchange="filter(this.value, 'immunity')">
+							<option value="ALL">---</option>
+							<option th:each="immunity : ${immunities}" th:value="${immunity}"
+								th:text="${immunity.cyrilicName}"
+								th:selected="${immunity eq immunitySelected}" />
+						</select>
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="ctreatureSize">Иммунитет
+								к состоянию</label>
+						</div>
+						<select id="stateImmunity" class="custom-select"
+							onchange="filter(this.value, 'stateImmunity')">
+							<option value="ALL">---</option>
+							<option th:each="stateImmunity : ${stateImmunities}"
+								th:value="${stateImmunity}"
+								th:text="${stateImmunity.cyrilicName}"
+								th:selected="${stateImmunity eq stateImmunitySelected}" />
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="actions">Действия</label>
+						</div>
+						<select id="actions" class="custom-select"
+							onchange="filter(this.value, 'action')">
+							<option value="ALL">---</option>
+							<option th:each="actionType : ${actionTypes}"
+								th:value="${actionType}"
+								th:text="${actionType.name}"
+								th:selected="${actionType eq actionTypeSelected}" />
+						</select>
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="сaster">Заклинатель</label>
+						</div>
+						<select id="сaster" class="custom-select"
+							onchange="filter(this.value, 'caster')">
+							<option value="ALL">---</option>
+							<option value="innateWitchcraft" th:selected="${casterSelected} eq 'Врожденное Колдовство'">Врожденное Колдовство</option>
+							<option value="useOfSpells" th:selected="${casterSelected} eq 'Использование заклинаний'">Использование заклинаний</option>
+							<option value="witchcraft" th:selected="${casterSelected} eq 'Колдовство'">Колдовство</option>
+						</select>
+					</div>
+					<div class="input-group mb-4">
+						<div class="input-group-prepend">
 							<label class="input-group-text" for="ctreatureSize">Обитание</label>
 						</div>
-						<select id="habitatType" class="custom-select" 
-							multiple="multiple">
+						<select id="habitatType" class="custom-select" multiple="multiple">
 							<option th:each="habitat : ${habitats}" th:value="${habitat}"
 								th:text="${habitat.name}"
 								th:selected="${habitatsSelected.contains(habitat)}" />
@@ -270,11 +339,22 @@
 		}
 		window.location = baseUrl + parameters;
 	}
-	
+
 	function filterSource(select) {
 		var baseUrl = '[[@{/creatures?}]]';
 		var source = $("#sourceBook").val();
 		var parameters = "source=" + source;
+		var sort = getParameterByName('sort');
+		if (sort != null) {
+			parameters += "&sort=" + sort;
+		}
+		window.location = baseUrl + parameters;
+	}
+
+	function filter(select, param) {
+		var baseUrl = '[[@{/creatures?}]]';
+		var value = select;
+		var parameters = param + "=" + value;
 		var sort = getParameterByName('sort');
 		if (sort != null) {
 			parameters += "&sort=" + sort;
