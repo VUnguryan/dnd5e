@@ -40,7 +40,7 @@ public class Trait {
 	@JoinTable(name = "trait_abilities", joinColumns = @JoinColumn(name = "trait_id"))
 	@Column(name = "ability", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private List<SkillType> abilities;
+	private List<AbilityType> abilities;
 	
 	@ElementCollection(targetClass = SkillType.class)
 	@JoinTable(name = "trait_skills", joinColumns = @JoinColumn(name = "trait_id"))

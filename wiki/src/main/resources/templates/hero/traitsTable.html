@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<head>
+<style>
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+</style>
+<title>DnD 5E Черты персонажа</title>
+<meta charset="utf-8">
+
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/resources/css/bootstrap-multiselect.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/datatables.min.css}" />
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
+	<div class="container" style="margin-top: 25px">
+		<div class="row">
+			<div class="col-lg-10 mt-5 mb-5">
+				<table id="example" class="table table-responsive"
+					style="width: 100%">
+					<thead>
+						<tr>
+							<th>Название</th>
+							<th>Требования</th>
+							<th>Улучшения хар-ик</th>
+							<th>Навыки</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
+	<script th:src="@{/resources/js/settings.js}"></script>
+	<script th:src="@{/resources/js/datatables.min.js}"></script>
+	<script>
+		$('#example').DataTable({
+			"processing" : true,
+			"serverSide" : true,
+			"ajax" : {
+				"url" : "/traits",
+				"type" : "POST",
+				"dataType" : "json",
+				"contentType" : "application/json",
+				"data" : function(d) {
+					return JSON.stringify(d);
+				}
+			},
+			"columns" : [ {
+				"data" : "name",
+				"width" : "20%"
+			}, {
+				"data" : "requirement",
+				"width" : "20%"
+			}, {
+				"data" : "abilities",
+				"width" : "20%"
+			}, 
+			 {
+				"data" : "skills",
+				"width" : "20%"
+			}, 
+			],
+			"language" : {
+				"search" : "Поиск",
+				"lengthMenu" : "Показывать _MENU_ записей на странице",
+				"zeroRecords" : "Ничего не найдено",
+				"info" : "Показано _PAGE_ из _PAGES_",
+				"infoEmpty" : "No records available",
+				"infoFiltered" : "(filtered from _MAX_ total records)",
+				paginate : {
+					first : "В начало",
+					previous : "Предыдущая",
+					next : "Следущая",
+					last : "В конец"
+				},
+			},
+			"ordering": true,
+			"stateSave" : true
+		});
+	</script>
+</body>
+</html>

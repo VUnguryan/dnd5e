@@ -65,7 +65,7 @@ img {
 						</div>
 						<select id="sourceBook" class="custom-select" multiple="multiple">
 							<option th:each="book : ${books}" th:value="${book.source}"
-								th:text="${book.name}"
+								th:text="${book.name  + ' (' + book.type.name +')'}"
 								th:selected="${selectedBooks.contains(book.source)}" />
 						</select>
 					</div>
@@ -182,6 +182,7 @@ img {
 	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 	<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
+	<script th:src="@{/resources/js/settings.js}"></script>
 
 	<script type="text/javascript">
 		var changed = false;

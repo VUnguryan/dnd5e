@@ -1,6 +1,8 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -26,7 +29,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dnd5e.wiki.controller.rest.SettingRestController;
+import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.Action;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
@@ -46,12 +52,17 @@ import com.dnd5e.wiki.repository.CreatureRepository;
 @Scope("session")
 public class CreatureController {
 	@Autowired
-	private CreatureRepository repository;
+	private CreatureRepository creatureRepo;
+	
 	@Autowired
-	private CreatureRaceRepository creatureRaceRepository;
+	private CreatureRaceRepository creatureRaceRepo;
+	
 	@Autowired
-	private BookRepository bookRepository;
-
+	private BookRepository bookRepo;
+	
+	@Autowired
+	private HttpSession session;
+	
 	private String search = "";
 	private Optional<String> crMin = Optional.empty();
 	private Optional<String> crMax = Optional.empty();
@@ -59,7 +70,8 @@ public class CreatureController {
 	private Optional<CreatureSize> sizeSelected = Optional.empty();
 	private Set<HabitatType> habitatsSelected = EnumSet.allOf(HabitatType.class);
 
-	private Set<String> sources;
+	private List<Book> books;
+	private Set<String> selectedSources;
 	private int sourceSize;
 	
 	private DamageType vulnerabilitySelected;
@@ -72,12 +84,16 @@ public class CreatureController {
 
 	@PostConstruct
 	public void initClassses() {
-		this.sources = bookRepository.finadAllByLeftJoinCreature()
+		this.selectedSources = bookRepo.finadAllByLeftJoinCreature()
 				.stream()
 				.filter(Objects::nonNull)
 				.map(Book::getSource)
 				.collect(Collectors.toSet());
-		this.sourceSize = sources.size(); 
+		books = bookRepo.finadAllByLeftJoinCreature().stream()
+				.filter(Objects::nonNull)
+				.sorted(Comparator.comparing(Book::getType))
+				.collect(Collectors.toList());
+		this.sourceSize = selectedSources.size(); 
 	}
 
 	@GetMapping
@@ -85,6 +101,15 @@ public class CreatureController {
 		Specification<Creature> specification = null;
 		if (!search.isEmpty()) {
 			specification = byName();
+		}
+		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		if (setting == null || !setting.isHomeRule())
+		{
+			if (specification == null) {
+				specification = byOfficial();
+			} else {
+				specification = Specification.where(specification).and(byOfficial());
+			}
 		}
 		if (typeSelected.isPresent()) {
 			specification = (specification == null) ? byType() : Specification.where(specification).and(byType());
@@ -98,7 +123,7 @@ public class CreatureController {
 		if (sizeSelected.isPresent()) {
 			specification = (specification == null) ? bySize() : Specification.where(specification).and(bySize());
 		}
-		if (!sources.isEmpty()) {
+		if (!selectedSources.isEmpty()) {
 			if (specification == null) {
 				specification = bySource();
 			} else {
@@ -154,13 +179,13 @@ public class CreatureController {
 				specification = Specification.where(specification).and(byCaster());
 			}
 		}
-		model.addAttribute("creatures", repository.findAll(specification, page));
+		model.addAttribute("creatures", creatureRepo.findAll(specification, page));
 		model.addAttribute("filtered",
 				crMin.isPresent() 
 				|| crMax.isPresent() 
 				|| typeSelected.isPresent() 
 				|| sizeSelected.isPresent()
-				|| sources.size() != sourceSize || habitatsSelected.size() != HabitatType.values().length
+				|| selectedSources.size() != sourceSize || habitatsSelected.size() != HabitatType.values().length
 				|| vulnerabilitySelected != null || resistanceSelected != null || immunitySelected != null || stateImmunitySelected != null
 				|| actionTypeSelected != null || casterSelected != null);
 		model.addAttribute("searchText", search);
@@ -188,15 +213,15 @@ public class CreatureController {
 		
 		model.addAttribute("casterSelected", casterSelected);
 		
-		model.addAttribute("books", bookRepository.finadAllByLeftJoinCreature());
-		model.addAttribute("selectedBooks", sources);
+		model.addAttribute("books", books);
+		model.addAttribute("selectedBooks", selectedSources);
 		
 		return "creatures";
 	}
 
 	@GetMapping("/creature/{id}")
 	public String getCreaturView(Model model, @PathVariable Integer id) {
-		Creature creature = repository.findById(id).get();
+		Creature creature = creatureRepo.findById(id).get();
 		model.addAttribute("creature", creature);
 		List<Action> actions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION)
 				.collect(Collectors.toList());
@@ -212,7 +237,7 @@ public class CreatureController {
 
 	@GetMapping("/creature/classic/{id}")
 	public String getClassicCreature(Model model, @PathVariable Integer id) {
-		Creature creature = repository.findById(id).get();
+		Creature creature = creatureRepo.findById(id).get();
 		model.addAttribute("creature", creature);
 		List<Action> actions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION)
 				.collect(Collectors.toList());
@@ -228,10 +253,10 @@ public class CreatureController {
 
 	@GetMapping("/race/{id}")
 	public String getCreatureRace(Model model, @PathVariable Integer id) {
-		CreatureRace race = creatureRaceRepository.getOne(id);
-		model.addAttribute("creatureRaces", creatureRaceRepository.findAll(Sort.by("name")));
+		CreatureRace race = creatureRaceRepo.getOne(id);
+		model.addAttribute("creatureRaces", creatureRaceRepo.findAll(Sort.by("name")));
 		model.addAttribute("race", race);
-		model.addAttribute("creatures", repository.findAllByRaceIdOrderByExpAsc(id));
+		model.addAttribute("creatures", creatureRepo.findAllByRaceIdOrderByExpAsc(id));
 		return "classesCreature";
 	}
 
@@ -305,7 +330,7 @@ public class CreatureController {
 		this.crMax = Optional.empty();
 		this.sizeSelected = Optional.empty();
 		this.typeSelected = Optional.empty();
-		this.sources = bookRepository.finadAllByLeftJoinCreature()
+		this.selectedSources = bookRepo.finadAllByLeftJoinCreature()
 				.stream()
 				.filter(Objects::nonNull)
 				.map(Book::getSource)
@@ -329,7 +354,7 @@ public class CreatureController {
 	
 	@GetMapping(params = "source")
 	public String filterBySourceBook(Model model, String sort, @RequestParam String[] source, Pageable page) {
-		sources = new HashSet<>(Arrays.asList(source));
+		selectedSources = new HashSet<>(Arrays.asList(source));
 		return "redirect:/creatures?sort=" + sort;
 	}
 	
@@ -395,7 +420,8 @@ public class CreatureController {
 			query.distinct(true);
 			return cb.equal(join.get("actionType"), actionTypeSelected);
 		};
-	}	
+	}
+	
 	private Specification<Creature> byCaster(){
 		return (root, query, cb) -> {
 			Join<CreatureTrait, Creature> join = root.join("feats");
@@ -403,10 +429,18 @@ public class CreatureController {
 			return cb.like(join.get("name"), "%"+casterSelected+"%");
 		};
 	}
+
+	private Specification<Creature> byOfficial() {
+		return (root, query, cb) -> {
+			Join<Book, Creature> hero = root.join("book", JoinType.LEFT);
+			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
+		};	
+	}
+
 	private Specification<Creature> bySource() {
 		return (root, query, cb) -> {
 			Join<Book, Creature> book = root.join("book", JoinType.LEFT);
-			return cb.and(book.get("source").in(sources));
+			return cb.and(book.get("source").in(selectedSources));
 		};	
 	}
 

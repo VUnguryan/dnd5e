@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -22,10 +23,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dnd5e.wiki.controller.rest.SettingRestController;
+import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Trait;
+import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.BookRepository;
 import com.dnd5e.wiki.repository.TraitRepository;
 
@@ -35,9 +40,13 @@ import com.dnd5e.wiki.repository.TraitRepository;
 public class TraitController {
 	@Autowired
 	private TraitRepository repo;
+	
 	@Autowired
 	private BookRepository bookRepo;
-
+	
+	@Autowired
+	private HttpSession session;
+	
 	private Set<AbilityType> selectedAbilities = EnumSet.noneOf(AbilityType.class);
 	private Set<SkillType> selectedSkills = EnumSet.noneOf(SkillType.class);
 
@@ -52,12 +61,27 @@ public class TraitController {
 				.collect(Collectors.toSet());
 		this.sourceSize = sources.size();
 	}
-
+	
+	@GetMapping("/table")
+	public String getTableTrait()
+	{
+		return "hero/traitsTable";
+	}
+	
 	@GetMapping
 	public String getTraits(Model model, @PageableDefault(size = 15, sort = "name") Pageable page) {
 		Specification<Trait> specification = null;
 		if (!search.isEmpty()) {
 			specification = byName();
+		}
+		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		if (setting == null || !setting.isHomeRule())
+		{
+			if (specification == null) {
+				specification = byOfficial();
+			} else {
+				specification = Specification.where(specification).and(byOfficial());
+			}
 		}
 		if (!sources.isEmpty()) {
 			if (specification == null) {
@@ -154,6 +178,13 @@ public class TraitController {
 		};
 	}
 	
+	private Specification<Trait> byOfficial() {
+		return (root, query, cb) -> {
+			Join<Book, Trait> hero = root.join("book", JoinType.LEFT);
+			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
+		};	
+	}
+
 	private Specification<Trait> bySource() {
 		return (root, query, cb) -> {
 			Join<Book, Trait> traits = root.join("book", JoinType.LEFT);

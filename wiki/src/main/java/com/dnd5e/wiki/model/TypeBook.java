@@ -6,8 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum TypeBook {
-	OFFICAL("официальное издание"),
-	CUSTOM("НЕ официальное издание"),
-	MODULE("модуль приключения");
+	OFFICAL("официальное"),
+	MODULE("приключение"),
+	CUSTOM("хомрул");
 	private String name;
 }

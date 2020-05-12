@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layouts/default">
+<head>
+<head>
+<style>
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+</style>
+<title>DnD 5E Заклинания</title>
+<meta charset="utf-8">
+
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	th:href="@{/resources/css/bootstrap-multiselect.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/datatables.min.css}" />
+<style>
+img {
+	float: center;
+}
+
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
+
+td.details-control {
+	background: url('/resources/open-iconic/svg/caret-bottom.svg') no-repeat
+		center center;
+	cursor: pointer;
+}
+
+tr.shown td.details-control {
+	background: url('/resources/open-iconic/svg/caret-top.svg') no-repeat
+		center center;
+}
+</style>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 mt-5 mb-5">
+				<table id="example" class="table table-hover" style="width: 100%">
+					<thead>
+						<tr>
+							<th></th>
+							<th title="Уровень заклинания">Ур.</th>
+							<th>Название</th>
+							<th title="риуал">Р</th>
+							<th title="концентрация">К</th>
+							<th title="вербальный">В</th>
+							<th title="соматический">С</th>
+							<th title="материальный">М</th>
+							<th>Школа</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
+	<script th:src="@{/resources/js/settings.js}"></script>
+	<script th:src="@{/resources/js/datatables.min.js}"></script>
+	<script>
+	$(document).ready(function() {
+		var table = $('#example').DataTable(
+				{
+					"processing" : true,
+					"serverSide" : true,
+					"ajax" : {
+						"url" : "/spells",
+						"type" : "POST",
+						"dataType" : "json",
+						"contentType" : "application/json",
+						"data" : function(d) {
+							return JSON.stringify(d);
+						}
+					},
+					"columns" : [
+							{
+								className : 'details-control',
+								orderable : false,
+								data : null,
+								defaultContent : '',
+								width : "1%"
+							},
+							{
+								data : "level",
+								width : "1%",
+							    className: "dt-body-center"
+							},
+							{
+								data : "name",
+								width : "20%"
+							},
+							{
+								data : "ritual",
+								render : function(data, type) {
+									if (type === 'display') {
+										var icon = '';
+										switch (data) {
+										case 'true':
+											icon = '<img class="invert" src="/resources/icons/Icon.7_53.png" title="ритуал" height="25">';
+											break;
+										}
+										return icon;
+									}
+									return data;
+								},
+								width : "3%",
+								className: "dt-body-center"
+							},
+							{
+								data : "concentration",
+								render : function(data, type) {
+									if (type === 'display') {
+										var icon = '';
+										switch (data) {
+										case 'true':
+											icon = '<img class="invert" src="/resources/icons/Icon.5_05.png" title="концентрация" height="25">';
+											break;
+										}
+										return icon;
+									}
+									return data;
+								},
+								width : "3%",
+							    className: "dt-body-center"
+							},
+							{
+								data : "verbalComponent",
+								width : "1%",
+							    className: "dt-body-center"
+							},
+							{
+								data : "somaticComponent",
+								width : "1%",
+							    className: "dt-body-center"
+							},
+							{
+								data : "materialComponent",
+								width : "1%",
+							    className: "dt-body-center"
+							},
+							{
+								"data" : "school",
+								render : function(data, type) {
+									if (type === 'display') {
+										var icon = '';
+										switch (data) {
+										case 'CONJURATION':
+											icon = '<img class="invert" src="/resources/icons/Icon.2_99.png" title="воплощение" height="25">';
+											break;
+										case 'EVOCATION':
+											icon = '<img class="invert" src="/resources/icons/Icon.4_26.png" title="вызов" height="25">';
+											break;
+										case 'ILLUSION':
+											icon = '<img class="invert" src="/resources/icons/Icon.1_39.png" title="иллюзия" height="25">';
+											break;
+										case 'NECROMANCY':
+											icon = '<img class="invert" src="/resources/icons/Icon.3_36.png" title="некромантия" height="25">';
+											break;
+										case 'ABJURATION':
+											icon = '<img class="invert" src="/resources/icons/Icon.2_38.png" title="ограждение" height="25">';
+											break;
+										case 'ENCHANTMENT':
+											icon = '<img class="invert" src="/resources/icons/Icon.2_21.png" title="очарование" height="25">';
+											break;
+										case 'TRANSMUTATION':
+											icon = '<img class="invert" src="/resources/icons/Icon.7_38.png" title="преобразование" height="25">';
+											break;
+										case 'DIVINATION':
+											icon = '<img class="invert" src="/resources/icons/Icon.6_22.png" title="прорицание" height="25">';
+											break;
+										}
+										return icon;
+									}
+									return data;
+								},
+								width : "3%",
+							    className: "dt-body-center"
+							}, ],
+					order : [(${order})],
+					"language" : {
+						processing : "Загрузка...",
+						search : "Поиск",
+						lengthMenu : "Показывать _MENU_ записей на странице",
+						zeroRecords : "Ничего не найдено",
+						info : "Показано _PAGE_  из _PAGES_",
+						infoEmpty : "Нет доступных записей",
+						infoFiltered : "(filtered from _MAX_ всего)",
+						paginate : {
+							first : "В начало",
+							previous : "Предыдущая",
+							next : "Следущая",
+							last : "В конец"
+						},
+					},
+					ordering : true,
+					stateSave : true,
+
+				});
+	$('#example tbody').on('click', 'tr', function () {
+    	var tr = $(this).closest('tr');
+    	var row = table.row( tr );
+	
+	    if ( row.child.isShown() ) {
+        	row.child.hide();
+        	tr.removeClass('shown');
+    	}
+    	else {
+	        row.child( format(row.data()) ).show();
+        	tr.addClass('shown');
+    	}
+		});
+	});
+		function format ( d ) {
+		    return '<p><strong>Время накладывания:</strong> '+ d.timeCast + '</p>'+
+	                '<p><strong>Дистанция:</strong> ' + d.distance + '</p>'+
+	            	'<p><strong>Длительность:</strong> '+ d.duration + '</p>'+ 
+	            	 (d.components != null ? '<p><strong>Материалы:</strong> '+ d.components + '</p>' : '') +
+					 d.description +
+					 '<p><small>Источник: '+ d.source + '</small></p>'
+					 ;
+		}
+	</script>
+</body>
+</html>

@@ -26,16 +26,20 @@ import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.HeroClassTrait;
 import com.dnd5e.wiki.model.spell.Spell;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 
 @Entity
 @Table(name = "classes")
-@Data
 public class HeroClass {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String englishName;
 
 	@OneToMany()
 	@JoinColumn(name = "hero_class_id")

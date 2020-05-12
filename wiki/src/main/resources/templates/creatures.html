@@ -168,7 +168,7 @@
 						</div>
 						<select id="sourceBook" class="custom-select" multiple="multiple">
 							<option th:each="book : ${books}" th:value="${book.source}"
-								th:text="${book.name}"
+								th:text="${book.name  + ' (' + book.type.name +')'}"
 								th:selected="${selectedBooks.contains(book.source)}" />
 						</select>
 					</div>
@@ -200,7 +200,7 @@
 						th:if="${param.sort != null AND param.sort[0] == 'type,desc'}"
 						th:src="@{/resources/open-iconic/svg/caret-top.svg}">
 					</th>
-					<th style="width: 1%"></th>
+					<th style="width: 1%"th:if="${session.settings != null and session.settings.homeRule}"></th>
 				</tr>
 			</thead>
 			<tr th:each="creature : ${creatures}" style="cursor: pointer"
@@ -208,7 +208,7 @@
 				<td th:text="${creature.challengeRating}" />
 				<td th:text="${creature.name}" />
 				<td th:text="${creature.type.cyrilicName}" />
-				<td><img th:if="${creature.book.type.name() eq 'OFFICAL'}"
+				<td><img th:if="${session.settings != null and session.settings.homeRule and creature.book.type.name() eq 'OFFICAL'}"
 					th:src="@{/resources/official.png}" height="20" width="20"
 					title="офицальное"></td>
 			</tr>
@@ -221,6 +221,7 @@
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
+<script th:src="@{/resources/js/settings.js}"></script>
 
 <script type="text/javascript">
 	var changed = false;

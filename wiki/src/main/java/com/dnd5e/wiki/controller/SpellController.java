@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +28,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dnd5e.wiki.controller.rest.SettingRestController;
+import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.Component;
 import com.dnd5e.wiki.model.spell.MagicSchool;
@@ -56,7 +60,8 @@ public class SpellController {
 
 	private List<String> distanceTypes;
 
-	private Set<String> sources;
+	private List<Book> books;
+	private Set<String> selectedSources;
 	private int sourceSize;
 
 	@Autowired
@@ -73,7 +78,10 @@ public class SpellController {
 	public void setBookRepository(BookRepository bookRepository) {
 		this.bookRepository = bookRepository;
 	}
-
+	
+	@Autowired
+	private HttpSession session;
+	
 	public SpellController() {
 	}
 
@@ -88,19 +96,39 @@ public class SpellController {
 		this.distanceTypes = spellRepository.findAllDistanceName().stream()
 				.sorted(comparator).collect(Collectors.toList());
 		this.distances = new HashSet<>();
-		this.sources = bookRepository.finadAllByLeftJoinSpell()
+		List<Book> allBooks = bookRepository.finadAllByLeftJoinSpell();
+		this.selectedSources = allBooks
 				.stream()
 				.filter(Objects::nonNull)
 				.map(Book::getSource)
 				.collect(Collectors.toSet());
-		this.sourceSize = sources.size(); 
+		books = allBooks.stream()
+				.filter(Objects::nonNull)
+				.sorted(Comparator.comparing(Book::getType))
+				.collect(Collectors.toList());
+		this.sourceSize = selectedSources.size(); 
 	}
-
+	
+	@GetMapping("/table")
+	public String getSpellTable(Model model) {
+		model.addAttribute("order", "[[ 1, 'desc' ]]");
+		return "spellTable";
+	}
+	
 	@GetMapping
 	public String getSpells(Model model, @PageableDefault(size = 12, sort = "name") Pageable page) {
 		Specification<Spell> specification = null;
 		if (!search.isEmpty()) {
 			specification = byName(search);
+		}
+		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		if (setting == null || !setting.isHomeRule())
+		{
+			if (specification == null) {
+				specification = byOfficial();
+			} else {
+				specification = Specification.where(specification).and(byOfficial());
+			}
 		}
 		if (!clases.isEmpty() && clases.size() < classRepository.count()) {
 			if (specification == null) {
@@ -151,7 +179,7 @@ public class SpellController {
 				specification = Specification.where(specification).and(byComponents());
 			}
 		}
-		if (!sources.isEmpty()) {
+		if (!selectedSources.isEmpty()) {
 			if (specification == null) {
 				specification = bySource();
 			} else {
@@ -177,14 +205,14 @@ public class SpellController {
 		model.addAttribute("componentNames", Component.values());
 		model.addAttribute("distanceTypes", distanceTypes);
 		model.addAttribute("distances", distances);
-		model.addAttribute("books", bookRepository.finadAllByLeftJoinSpell());
-		model.addAttribute("selectedBooks", sources);
+		model.addAttribute("books", books);
+		model.addAttribute("selectedBooks", selectedSources);
 		model.addAttribute("searchText", search);
 		model.addAttribute("filtered",
 				 minLevel.isPresent() || maxLevel.isPresent()
 						|| clases.size() < classRepository.count() || (schools.size() != MagicSchool.values().length)
 						|| timeCastSelected.isPresent() || !components.isEmpty() || !distances.isEmpty() 
-						|| sources.size() != sourceSize);
+						|| selectedSources.size() != sourceSize);
 		return "spells";
 	}
 
@@ -207,7 +235,7 @@ public class SpellController {
 		this.timeCastSelected = Optional.empty();
 		this.components = EnumSet.noneOf(Component.class);
 		this.distances = Collections.emptySet();
-		this.sources = bookRepository.finadAllByLeftJoinSpell()
+		this.selectedSources = bookRepository.finadAllByLeftJoinSpell()
 				.stream()
 				.filter(Objects::nonNull)
 				.map(Book::getSource)
@@ -230,7 +258,7 @@ public class SpellController {
 
 	@GetMapping(params = "source")
 	public String filterBySourceBook(Model model, String sort, @RequestParam String[] source, Pageable page) {
-		sources = new HashSet<>(Arrays.asList(source));
+		selectedSources = new HashSet<>(Arrays.asList(source));
 		return "redirect:/hero/spells?sort=" + sort;
 	}
 	
@@ -286,10 +314,17 @@ public class SpellController {
 	private Specification<Spell> bySource() {
 		return (root, query, cb) -> {
 			Join<Book, Spell> hero = root.join("book", JoinType.LEFT);
-			return cb.and(hero.get("source").in(sources));
+			return cb.and(hero.get("source").in(selectedSources));
 		};	
 	}
-
+	
+	private Specification<Spell> byOfficial() {
+		return (root, query, cb) -> {
+			Join<Book, Spell> hero = root.join("book", JoinType.LEFT);
+			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
+		};	
+	}
+	
 	private Specification<Spell> byComponents() {
 		boolean verbal = components.contains(Component.VERBAL);
 		boolean somatic = components.contains(Component.SOMATIC);
