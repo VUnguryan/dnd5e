@@ -43,7 +43,7 @@ public class ClassController {
 	public String getClass(Model model, @PathVariable Integer id) {
 		HeroClass heroClass = repository.findById(id).get();
 		Setting settings = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
-		if (settings != null && !settings.isHomeRule()) {
+		if (settings == null || !settings.isHomeRule()) {
 			List<Archetype> archetypes = heroClass.getArchetypes().stream().filter(a -> a.getBook().getType() == TypeBook.OFFICAL).collect(Collectors.toList());
 			heroClass.setArchetypes(archetypes);
 		}

@@ -111,7 +111,7 @@ public class SpellController {
 	
 	@GetMapping("/table")
 	public String getSpellTable(Model model) {
-		model.addAttribute("order", "[[ 1, 'desc' ]]");
+		model.addAttribute("order", "[[ 1, 'asc' ]]");
 		return "spellTable";
 	}
 	

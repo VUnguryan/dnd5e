@@ -266,11 +266,26 @@ public class CreatureController {
 		return "redirect:/creatures?sort=exp,asc";
 	}
 
-	@GetMapping(params = { "sort", "type", "crMin", "crMax", "cSize" })
-	public String filter(Model model, String sort, String type, String crMin, String crMax, String cSize) {
-		this.typeSelected = "ALL".equals(type) ? Optional.empty() : Optional.of(CreatureType.valueOf(type));
+	@GetMapping(params = "crMin")
+	public String filterCrMin(Model model, String sort, String crMin) {
 		this.crMin = "-1".equals(crMin) ? Optional.empty() : Optional.of(crMin);
+		return "redirect:/creatures?sort=" + sort;
+	}
+
+	@GetMapping(params = "crMax")
+	public String filterCrMax(Model model, String sort,  String crMax) {
 		this.crMax = "-1".equals(crMax) ? Optional.empty() : Optional.of(crMax);
+		return "redirect:/creatures?sort=" + sort;
+	}
+
+	@GetMapping(params = "type")
+	public String filterType(Model model, String sort,  String type) {
+		this.typeSelected = "ALL".equals(type) ? Optional.empty() : Optional.of(CreatureType.valueOf(type));
+		return "redirect:/creatures?sort=" + sort;
+	}
+	
+	@GetMapping(params = "cSize")
+	public String filterSize(Model model, String sort,  String cSize) {
 		this.sizeSelected = "ALL".equals(cSize) ? Optional.empty() : Optional.of(CreatureSize.valueOf(cSize));
 		return "redirect:/creatures?sort=" + sort;
 	}

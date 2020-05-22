@@ -29,7 +29,7 @@
 							<label class="input-group-text" for="minLevel">Опасность:
 							</label>
 						</div>
-						<select id="crMin" class="custom-select" onchange="filter()">
+						<select id="crMin" class="custom-select" onchange="filter(this.value, 'crMin')">
 							<option value="-1">---</option>
 							<option value="1/8"
 								th:selected="${crMin.present && #strings.equals('1/8', crMin.get())}">1/8</option>
@@ -44,7 +44,7 @@
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="maxLevel">до</label>
 						</div>
-						<select id="crMax" class="custom-select" onchange="filter()">
+						<select id="crMax" class="custom-select" onchange="filter(this.value, 'crMax')">
 							<option value="-1">---</option>
 							<option value="1/8"
 								th:selected="${crMax.present && #strings.equals('1/8', crMax.get())}">1/8</option>
@@ -62,7 +62,7 @@
 							<label class="input-group-text" for="schoolType">Тип</label>
 						</div>
 						<select id="creatureType" class="custom-select"
-							onchange="filter()">
+							onchange="filter(this.value, 'type')">
 							<option value="ALL">все</option>
 							<option th:each="type : ${types}" th:value="${type}"
 								th:text="${type.cyrilicName}"
@@ -74,7 +74,7 @@
 							<label class="input-group-text" for="ctreatureSize">Размер</label>
 						</div>
 						<select id="creatureSize" class="custom-select"
-							onchange="filter()">
+							onchange="filter(this.value, 'cSize')">
 							<option value="ALL">все</option>
 							<option th:each="size : ${sizes}" th:value="${size}"
 								th:text="${size.cyrilicName}"
@@ -217,7 +217,7 @@
 	</div>
 </body>
 
-<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
@@ -312,22 +312,6 @@
 	function rowClicked(value) {
 		var baseUrl = '[[@{/creatures/creature/}]]';
 		location.href = baseUrl + value;
-	}
-
-	function filter() {
-		var baseUrl = '[[@{/creatures?}]]';
-		var sort = getParameterByName('sort');
-		var type = $("#creatureType").val();
-		var sort = getParameterByName('sort');
-		var crMin = $("#crMin").val();
-		var crMax = $("#crMax").val();
-		var size = $("#creatureSize").val();
-		var parameters = "&type=" + type + "&crMin=" + crMin + "&crMax="
-				+ crMax + "&cSize=" + size;
-		if (sort != null) {
-			parameters += "&sort=" + sort;
-		}
-		window.location = baseUrl + parameters;
 	}
 
 	function filterHabitat(select) {

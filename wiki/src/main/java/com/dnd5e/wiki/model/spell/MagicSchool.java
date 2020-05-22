@@ -22,7 +22,7 @@ public enum MagicSchool {
 
 	public static MagicSchool getMagicSchool(String name) {
 		for (MagicSchool school : values()) {
-			if (name.equalsIgnoreCase(name)) {
+			if (school.name.equalsIgnoreCase(name)) {
 				return school;
 			}
 		}

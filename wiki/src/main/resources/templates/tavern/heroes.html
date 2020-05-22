@@ -12,9 +12,6 @@
 	
 <link rel="stylesheet"
 	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 
 </head>
@@ -39,6 +36,9 @@
 		</table>
 	</div>
 </body>
+<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script>
 	function rowClicked(value) {
 		var baseUrl = '[[@{/tavern/hero/}]]';

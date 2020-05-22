@@ -1,5 +1,9 @@
 package com.dnd5e.wiki.dto.user;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Getter;
@@ -23,7 +27,11 @@ public class SpellDto {
 	private String distance;
 	private String duration;
 	private String description;
-	private String source;
+	private String upperLevel;
+	private String book;
+	private String damageType;
+	private List<HeroClassDto> heroClass;
+	private String englishName;
 	
 	public SpellDto(Spell spell) {
 		level = spell.getLevel() == 0 ? "вызов" : String.valueOf(spell.getLevel());
@@ -34,11 +42,15 @@ public class SpellDto {
 		timeCast = spell.getTimeCast();
 		distance = spell.getDistance();
 		duration = spell.getDuration();
-		verbalComponent = spell.getVerbalComponent() !=null && spell.getVerbalComponent() ? "+" : "";
-		somaticComponent = spell.getSomaticComponent() != null  && spell.getSomaticComponent() ? "+": "";
-		materialComponent = spell.getMaterialComponent() != null && spell.getMaterialComponent() ? "+": "";
+		verbalComponent = spell.getVerbalComponent() !=null && spell.getVerbalComponent() ? "★" : "";
+		somaticComponent = spell.getSomaticComponent() != null  && spell.getSomaticComponent() ? "★": "";
+		materialComponent = spell.getMaterialComponent() != null && spell.getMaterialComponent() ? "★": "";
 		components = spell.getAdditionalMaterialComponent();
 		description = spell.getDescription();
-		source = spell.getBook().getName();
+		upperLevel = spell.getUpperLevel();
+		book = spell.getBook().getName();
+		damageType = spell.getDamageType().isEmpty() ? "" : spell.getDamageType().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
+		heroClass = spell.getHeroClass().stream().map(HeroClassDto::new).collect(Collectors.toList());
+		englishName = spell.getEnglishName();
 	}
 }

@@ -6,15 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd5e.wiki.controller.rest.paging.PageResult;
-import com.dnd5e.wiki.controller.rest.paging.PagingRequest;
+import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.user.TraitDto;
 import com.dnd5e.wiki.model.hero.Trait;
+import com.dnd5e.wiki.repository.TraitDataTablesRepository;
 import com.dnd5e.wiki.repository.TraitRepository;
 
 @RestController
@@ -22,16 +24,23 @@ public class TraitRestController {
 	@Autowired
 	private TraitRepository repo;
 	
-	@PostMapping("/traits")
-	public PageResult<TraitDto> getTraits(@RequestBody PagingRequest pagingRequest){
-		int pageNumber =  pagingRequest.getStart() / pagingRequest.getLength();
+	@Autowired
+	private TraitDataTablesRepository traitRepo;
 
-		Pageable pageRequest = PageRequest.of(pageNumber, pagingRequest.getLength());
+	@PostMapping("/traits")
+	public DataTablesOutput<Trait> getData(@RequestBody DataTablesInput input) {
+		return traitRepo.findAll(input);
+	}
+
+	public SearchPanesOutput<TraitDto> getTraits(@RequestBody DataTablesInput input){
+		int pageNumber =  input.getStart() / input.getLength();
+
+		Pageable pageRequest = PageRequest.of(pageNumber, input.getLength());
 		Specification<Trait> specification = null;
 
-		if (pagingRequest.getSearch().getValue() != null && !pagingRequest.getSearch().getValue().isEmpty())
+		if (input.getSearch().getValue() != null && !input.getSearch().getValue().isEmpty())
 		{
-			specification = byName(pagingRequest.getSearch().getValue());
+			specification = byName(input.getSearch().getValue());
 		}
 		Page<Trait> traits;
 		if (specification!= null) {
@@ -42,10 +51,10 @@ public class TraitRestController {
 			traits = repo.findAll(pageRequest);
 		}
 		
-		PageResult<TraitDto> page = new PageResult<>(traits.getContent().stream().map(TraitDto::new).collect(Collectors.toList()));
-		page.setRecordsTotal(traits.getTotalPages() * pagingRequest.getLength());
-		page.setRecordsFiltered(traits.getTotalPages() * pagingRequest.getLength());
-		page.setDraw(pagingRequest.getDraw());
+		SearchPanesOutput<TraitDto> page = new SearchPanesOutput<>(traits.getContent().stream().map(TraitDto::new).collect(Collectors.toList()));
+		page.setRecordsTotal(traits.getTotalPages() * input.getLength());
+		page.setRecordsFiltered(traits.getTotalPages() * input.getLength());
+		page.setDraw(input.getDraw());
 		return page;
 	}
 	
