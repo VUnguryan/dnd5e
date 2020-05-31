@@ -21,34 +21,28 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dnd5e.wiki.controller.rest.paging.Item;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
-import com.dnd5e.wiki.dto.TraitDto;
+import com.dnd5e.wiki.dto.BackgroundDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.SkillType;
-import com.dnd5e.wiki.model.hero.Trait;
-import com.dnd5e.wiki.repository.datatable.TraitRepository;
+import com.dnd5e.wiki.model.hero.Background;
+import com.dnd5e.wiki.repository.BackgroundRepository;
 
 @RestController
-public class TraitRestController {
+public class BackgroundRestController {
 	@Autowired
 	private HttpSession session;
 
 	@Autowired
-	private TraitRepository repo;
+	private BackgroundRepository repo;
 
-	@GetMapping("/traits")
-	public SearchPanesOutput<TraitDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
+	@GetMapping("/backgrounds")
+	public SearchPanesOutput<BackgroundDto> getData(@Valid DataTablesInput input,
+			@RequestParam Map<String, String> searchPanes) {
 		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
 
-		List<AbilityType> filterAbylities = new ArrayList<>();
-		for (int j = 0; j <= AbilityType.values().length; j++) {
-			String abylity = searchPanes.get("searchPanes.abilities." + j);
-			if (abylity != null) {
-				filterAbylities.add(AbilityType.parse(abylity));
-			}
-		}
 		List<SkillType> filterSkills = new ArrayList<>();
 		for (int j = 0; j <= SkillType.values().length; j++) {
 			String abylity = searchPanes.get("searchPanes.skills." + j);
@@ -65,56 +59,45 @@ public class TraitRestController {
 				filterBooks.add(book);
 			}
 		}
-		Specification<Trait> specification = null;
+		Specification<Background> specification = null;
 		if (setting == null || !setting.isHomeRule()) {
 			specification = byOfficial();
 		}
-		if (!filterAbylities.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> {
-				Join<AbilityType, Trait> abilityType = root.join("abilities", JoinType.LEFT);
-				return cb.and(abilityType.in(filterAbylities));
-			});
-		}
 		if (!filterSkills.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
-				Join<AbilityType, Trait> abilityType = root.join("skills", JoinType.LEFT);
+				Join<AbilityType, Background> abilityType = root.join("skills", JoinType.LEFT);
 				return cb.and(abilityType.in(filterSkills));
 			});
 		}
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
-		DataTablesOutput<TraitDto> output = repo.findAll(input, specification, specification,
-				i -> new TraitDto(i));
+
+		DataTablesOutput<BackgroundDto> output = repo.findAll(input, specification, specification, i -> new BackgroundDto(i));
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
 
-		repo.countTotalTraitAbilyty().stream().map(
-				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
-				.forEach(v -> addItem("abilities", options, v));
-
-		repo.countTotalTraitSkill().stream().map(
-				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
-				.forEach(v -> addItem("skills", options, v));
-		
-		repo.countTotalTraitBook().stream().map(
-				c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
-				.forEach(v -> addItem("book", options, v));
+		repo.countTotalSkill().stream()
+			.map(c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			.forEach(v -> addItem("skills", options, v));
+		repo.countTotalBook().stream().
+			map(c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			.forEach(v -> addItem("book", options, v));
 
 		sPanes.setOptions(options);
-		SearchPanesOutput<TraitDto> spOutput = new SearchPanesOutput<>(output);
+		SearchPanesOutput<BackgroundDto> spOutput = new SearchPanesOutput<>(output);
 		spOutput.setSearchPanes(sPanes);
 		return spOutput;
 	}
 
-	private Specification<Trait> byOfficial() {
+	private Specification<Background> byOfficial() {
 		return (root, query, cb) -> {
-			Join<Book, Trait> hero = root.join("book", JoinType.LEFT);
+			Join<Book, Background> hero = root.join("book", JoinType.LEFT);
 			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
 		};
 	}
-
-	private Specification<Trait> addSpecification(Specification<Trait> specification , Specification<Trait> addSpecification){
+	
+	private Specification<Background> addSpecification(Specification<Background> specification , Specification<Background> addSpecification){
 		if (specification == null) {
 			return Specification.where(addSpecification);
 		}

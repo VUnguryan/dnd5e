@@ -35,8 +35,8 @@ import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
-import com.dnd5e.wiki.repository.TraitRepository;
 import com.dnd5e.wiki.repository.WeaponRepository;
+import com.dnd5e.wiki.repository.datatable.TraitRepository;
 
 @RestController
 @RequestMapping("/admin/export")

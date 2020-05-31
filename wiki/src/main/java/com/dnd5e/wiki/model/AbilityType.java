@@ -5,6 +5,9 @@ import org.thymeleaf.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Характеристики 
+ */
 @Getter
 @AllArgsConstructor
 public enum AbilityType {

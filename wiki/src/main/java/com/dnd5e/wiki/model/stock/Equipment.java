@@ -29,6 +29,7 @@ public class Equipment {
 	private float weight;
 	@Column(columnDefinition = "TEXT")
 	private String description;
+	
 	@Enumerated(EnumType.STRING)
 	private EquipmentType type;
 	

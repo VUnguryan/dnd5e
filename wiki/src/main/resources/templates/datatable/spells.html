@@ -13,26 +13,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/datatables.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/searchPanes/searchPanes.dataTables.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.bootstrap4.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/searchPanes/searchPanes.bootstrap4.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.dataTables.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.bootstrap4.min.css}" />
 <style>
 img {
 	float: center;
 }
-
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-
 td.details-control {
 	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
 		center;
 	cursor: pointer;
 }
-
 tr.shown td.details-control {
 	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
 		center;
@@ -44,11 +41,6 @@ tr.shown td.details-control {
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-10 mt-5 mb-5">
-				<!-- 				<a class="toggle-vis" href="#" data-column="0" data-toggle="button" aria-pressed="false">Школа</a> <a class="toggle-vis" href="#" data-column="3">Время</a> <a class="toggle-vis" href="#"
-					data-column="4"
-				>Длительность</a> <a class="toggle-vis" href="#" data-column="5">Дистанция</a> <a class="toggle-vis" href="#" data-column="6">Ритуал</a> <a class="toggle-vis" href="#" data-column="7">Концентрация</a>
-				<a class="toggle-vis" href="#" data-column="8">Вербальный</a> <a class="toggle-vis" href="#" data-column="9">Соматический</a> <a class="toggle-vis" href="#" data-column="10">Материальный</a>
-				<a class="toggle-vis" href="#" data-column="11">Тип урона</a> -->
 				<table id="example" class="table table-hover" style="width: 100%">
 					<thead>
 						<tr>
@@ -78,14 +70,20 @@ tr.shown td.details-control {
 	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 	<script th:src="@{/resources/js/settings.js}"></script>
+	
 	<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/resources/js/datatables/dataTables.bootstrap4.min.js}"></script>
+	
 	<script th:src="@{/resources/js/searchPanes/dataTables.searchPanes.js}"></script>
+	<script th:src="@{/resources/js/searchPanes/searchPanes.bootstrap4.min.js}"></script>
+	
 	<script th:src="@{/resources/js/select/dataTables.select.min.js}"></script>
+	
 	<script th:src="@{/resources/js/buttons/dataTables.buttons.min.js}"></script>
+	<script th:src="@{/resources/js/buttons/buttons.bootstrap4.min.js}"></script>
 	<script th:src="@{/resources/js/buttons/buttons.colVis.min.js}"></script>
 	<script src="/resources/js/jquery.spring-friendly.js"></script>
 	<script>
-
 	$(document).ready(function() {
 		$('a.toggle-vis').on( 'click', function (e) {
 	        e.preventDefault();
@@ -106,28 +104,28 @@ tr.shown td.details-control {
 								if (type === 'display') {
 									var icon = '';
 									switch (data) {
-									case 'CONJURATION':
+									case 'воплощение':
 										icon = '<img class="invert" src="/resources/icons/Icon.2_99.png" title="воплощение" height="25">';
 										break;
-									case 'EVOCATION':
+									case 'вызов':
 										icon = '<img class="invert" src="/resources/icons/Icon.4_26.png" title="вызов" height="25">';
 										break;
-									case 'ILLUSION':
+									case 'иллюзия':
 										icon = '<img class="invert" src="/resources/icons/Icon.1_39.png" title="иллюзия" height="25">';
 										break;
-									case 'NECROMANCY':
+									case 'некромантия':
 										icon = '<img class="invert" src="/resources/icons/Icon.3_36.png" title="некромантия" height="25">';
 										break;
-									case 'ABJURATION':
+									case 'ограждение':
 										icon = '<img class="invert" src="/resources/icons/Icon.2_38.png" title="ограждение" height="25">';
 										break;
-									case 'ENCHANTMENT':
+									case 'очарование':
 										icon = '<img class="invert" src="/resources/icons/Icon.2_21.png" title="очарование" height="25">';
 										break;
-									case 'TRANSMUTATION':
+									case 'преобразование':
 										icon = '<img class="invert" src="/resources/icons/Icon.7_38.png" title="преобразование" height="25">';
 										break;
-									case 'DIVINATION':
+									case 'прорицание':
 										icon = '<img class="invert" src="/resources/icons/Icon.6_22.png" title="прорицание" height="25">';
 										break;
 									}
@@ -136,13 +134,12 @@ tr.shown td.details-control {
 								return data;
 							},
 							width : "1%",
-						    className: "dt-body-center"
+						    className: "text-center"
 						}, 
 						{
 								data : "level",
 								width : "1%",
-							    className: "dt-head-center",
-							    className: "dt-body-center"
+							    className: "text-center"
 						}
 						,
 						{
@@ -152,8 +149,7 @@ tr.shown td.details-control {
 			                    sp:'[].name'
 			                },
 							width : "1%",
-							className: "dt-head-center",
-						    className: "dt-body-center"
+						    className: "text-center"
 						},
 						{
 								data : "name",
@@ -161,35 +157,9 @@ tr.shown td.details-control {
 								render : function(data, type, row) {
 									if (type === 'display') {
 										var school = '';
-										switch (row.school) {
-										case 'CONJURATION':
-											school = 'Воплощение';
-											break;
-										case 'EVOCATION':
-											school = 'Вызов';
-											break;
-										case 'ILLUSION':
-											school = 'Иллюзия';
-											break;
-										case 'NECROMANCY':
-											school = 'Некромантия';
-											break;
-										case 'ABJURATION':
-											school = 'Ограждение';
-											break;
-										case 'ENCHANTMENT':
-											school = 'Очарование';
-											break;
-										case 'TRANSMUTATION':
-											school = 'Преобразование';
-											break;
-										case 'DIVINATION':
-											school = 'Прорицание';
-											break;
-										}
 										var result = '<h6>' + data + ' <small>(' + row.englishName + ')</small>' + '<h6>' + '<small>';
 										result += '<h6>';
-										result += school;
+										result += row.school;
 										if (row.verbalComponent === '★') {
 											result+=' <span class="badge badge-secondary">В</span>';
 										}
@@ -224,13 +194,12 @@ tr.shown td.details-control {
 						{
 								data : "duration",
 								width : "5%",
-							    className: "dt-body-center"
+							    className: "text-center"
 						},
 						{
 							data : "distance",
 							width : "5%",
-							className: "dt-head-center",
-						    className: "dt-body-center"
+						    className: "text-center"
 						},
 						{
 								data : "ritual",
@@ -266,41 +235,37 @@ tr.shown td.details-control {
 									return data;
 								},
 								width : "2%",
-								className: "dt-head-center",
-							    className: "dt-body-center",
+							    className: "text-center",
 							    searchable: false
 							},
 							{
 								data : "verbalComponent",
 								width : "1%",
-								className: "dt-head-center",
-							    className: "dt-body-center",
+							    className: "text-center",
 							    searchable: false
 							},
 							{
 								data : "somaticComponent",
 								width : "1%",
-								className: "dt-head-center",
-							    className: "dt-body-center",
+							    className: "text-center",
 							    searchable: false
 							},
 							{
 								data : "materialComponent",
 								width : "1%",
-								className: "dt-head-center",
-							    className: "dt-body-center",
+							    className: "text-center",
 							    searchable: false		
 							},
 							{
 								data : "damageType",
 								width : "10%",
-							    className: "dt-body-center",
+							    className: "text-center",
 							    searchable: false		
 							},
 							{
 								data : "book",
 								width : "5%",
-							    className: "dt-body-center",
+							    className: "text-center",
 							    searchable: false		
 							},
 							{
@@ -373,7 +338,7 @@ tr.shown td.details-control {
 					        buttons: [
 					        	'searchPanes',
 					            {
-					            	extend: 'collection',
+					        		extend: 'colvis',
 					                text: 'Столбцы',
 					                buttons: [
 					                    {
@@ -479,7 +444,16 @@ tr.shown td.details-control {
 	});
 	
 	function format ( d ) {
-			var info = '<p><strong>Время накладывания:</strong> '+ d.timeCast + '</p>'+
+			var info = '<p><em>' + d.level; 
+			if (d.level != 'Заговор') {
+				info += ' уровень'
+			}
+			if (d.ritual === 'true') {
+				info += ' (ритуал)'				
+			}
+			info += ', ' + d.school;
+			info += '</em></p>';
+			info += '<p><strong>Время накладывания:</strong> '+ d.timeCast + '</p>'+
             '<p><strong>Дистанция:</strong> ' + d.distance + '</p>'+
         	'<p><strong>Длительность:</strong> '+ d.duration + '</p>'+ 
         	 (d.components != null ? '<p><strong>Материалы:</strong> '+ d.components + '</p>' : '') +

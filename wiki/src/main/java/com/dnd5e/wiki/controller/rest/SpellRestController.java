@@ -21,27 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dnd5e.wiki.controller.rest.paging.Item;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
+import com.dnd5e.wiki.dto.SpellDto;
 import com.dnd5e.wiki.dto.user.Setting;
-import com.dnd5e.wiki.dto.user.SpellDto;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
-import com.dnd5e.wiki.repository.SpellDataTablesRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
+import com.dnd5e.wiki.repository.datatable.SpellDataTableRepository;
 
 @RestController
 public class SpellRestController {
 	@Autowired
-	private SpellRepository repo;
-	
-	@Autowired
 	private HttpSession session;
 	
 	@Autowired
-	private SpellDataTablesRepository spellRepo;
+	private SpellDataTableRepository repo;
 	
 	@GetMapping("/spells")
 	public DataTablesOutput<SpellDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
@@ -84,41 +81,38 @@ public class SpellRestController {
 			}
 		}
 		DataTablesOutput<SpellDto> output;
+		Specification<Spell> specification = null;
 		if (setting == null || !setting.isHomeRule())
 		{
-			Specification<Spell> specification = byOfficial();
-			if (!filterLevels.isEmpty()) {
-				specification = specification.and((root, query, cb) -> root.get("level").in(filterLevels));
-			}
-			if (!filterSchool.isEmpty()) {
-				specification = specification.and((root, query, cb) -> root.get("school").in(filterSchool));
-			}
-			if (!filterClasses.isEmpty())
-			{
-				specification = specification.and((root, query, cb) -> {
-					Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.LEFT);
-					return cb.and(hero.get("name").in(filterClasses));
-				});
-			}
-			if (!filterDamageTypes.isEmpty()) {
-				specification = specification.and((root, query, cb) -> {
-					Join<DamageType, Spell> damageType = root.join("damageType", JoinType.LEFT);
-					return cb.and(damageType.in(filterDamageTypes));
-				});
-			}
-			if (!filterBooks.isEmpty()) {
-				specification = specification.and((root, query, cb) -> root.get("book").in(filterBooks));
-			}
-			output = spellRepo.findAll(input, byOfficial(), specification, i -> new SpellDto(i));
+			specification = byOfficial();
 		}
-		else
+		if (!filterLevels.isEmpty()) {
+			specification = addSpecification(specification,  (root, query, cb) -> root.get("level").in(filterLevels));
+		}
+		if (!filterSchool.isEmpty()) {
+			specification = addSpecification(specification,(root, query, cb) -> root.get("school").in(filterSchool));
+		}
+		if (!filterClasses.isEmpty())
 		{
-			output = spellRepo.findAll(input, i-> new SpellDto(i));
+			specification = addSpecification(specification, (root, query, cb) -> {
+				Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.LEFT);
+				return cb.and(hero.get("name").in(filterClasses));
+			});
 		}
+		if (!filterDamageTypes.isEmpty()) {
+			specification = addSpecification(specification, (root, query, cb) -> {
+				Join<DamageType, Spell> damageType = root.join("damageType", JoinType.LEFT);
+				return damageType.in(filterDamageTypes);
+			});
+		}
+		if (!filterBooks.isEmpty()) {
+			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
+		}
+		output = repo.findAll(input, null, specification, i -> new SpellDto(i));
 		
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
-		
+
 		repo.countTotalSpellByLevel().stream()
 			.map(c -> new Item(String.valueOf(c.getField()), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("level", options, v));
@@ -140,17 +134,20 @@ public class SpellRestController {
 			.forEach(v -> addItem("damageType", options, v));
 		
 		sPanes.setOptions(options); 
-		SearchPanesOutput<SpellDto> spOutput = new SearchPanesOutput<SpellDto>(output);
+		SearchPanesOutput<SpellDto> spOutput = new SearchPanesOutput<>(output);
 		spOutput.setSearchPanes(sPanes);
 		return spOutput;
 	}
-
-	private void addItem(String key, Map<String, List<Item>> options, Item v) {
-		options.computeIfAbsent(key, s -> new ArrayList<>()).add(v);
+	
+	private Specification<Spell> addSpecification(Specification<Spell> specification , Specification<Spell> addSpecification){
+		if (specification == null) {
+			return Specification.where(addSpecification);
+		}
+		return specification.and(addSpecification);
 	}
 	
-	private Specification<Spell> byNameEnglish(String search) {
-		return (root, query, cb) -> cb.or(cb.like(root.get("englishName"), "%" + search + "%"));
+	private void addItem(String key, Map<String, List<Item>> options, Item v) {
+		options.computeIfAbsent(key, s -> new ArrayList<>()).add(v);
 	}
 	
 	private Specification<Spell> byOfficial() {

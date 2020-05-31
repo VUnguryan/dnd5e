@@ -30,12 +30,10 @@ public class Trait {
 	private Integer id;
 	private String name;
 	private String requirement;
+	
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	@ManyToOne
-	@JoinColumn(name = "source")
-	private Book book;
-	
+
 	@ElementCollection(targetClass = AbilityType.class)
 	@JoinTable(name = "trait_abilities", joinColumns = @JoinColumn(name = "trait_id"))
 	@Column(name = "ability", nullable = false)
@@ -47,4 +45,8 @@ public class Trait {
 	@Column(name = "skill", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private List<SkillType> skills;
+	
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
 }

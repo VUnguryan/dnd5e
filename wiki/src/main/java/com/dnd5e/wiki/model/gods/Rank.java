@@ -1,16 +1,20 @@
 package com.dnd5e.wiki.model.gods;
 
-import lombok.AllArgsConstructor;
+import java.util.Arrays;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
 @AllArgsConstructor
 public enum Rank {
-	ABSOLUTE() {
+	ABSOLUTE("абсолютное божество") {
 		@Override
 		public String getName(GodSex sex) {
 			return "абсолютное";
 		}
 	},
-	GREAT() {
+	GREAT("великое божество") {
 		@Override
 		public String getName(GodSex sex) {
 			switch (sex) {
@@ -23,7 +27,7 @@ public enum Rank {
 			}
 		}
 	},
-	MIDDLE {
+	MIDDLE ("среднее божество"){
 		@Override
 		public String getName(GodSex sex) {
 			switch (sex) {
@@ -36,7 +40,7 @@ public enum Rank {
 			}
 		}
 	},
-	LESS {
+	LESS ("младшее божество"){
 		@Override
 		public String getName(GodSex sex) {
 			switch (sex) {
@@ -49,13 +53,13 @@ public enum Rank {
 			}
 		}
 	},
-	HALF {
+	HALF("полу-бог") {
 		@Override
 		public String getName(GodSex sex) {
 			return "полу - ";
 		}
 	},
-	DEAD {
+	DEAD("мертвое божество") {
 		@Override
 		public String getName(GodSex sex) {
 			switch (sex) {
@@ -68,5 +72,12 @@ public enum Rank {
 			}
 		}
 	};
+	
+	private String name;
+	
 	public abstract String getName(GodSex sex);
+	
+	public static Rank parse(String value) {
+		return Arrays.stream(values()).filter(r -> r.getName().equals(value)).findFirst().orElseThrow(IllegalArgumentException::new);
+	}
 }

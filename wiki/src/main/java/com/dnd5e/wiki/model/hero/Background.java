@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
@@ -58,9 +59,17 @@ public class Background {
 	@ManyToMany
 	private List<Equipment> equipments;
 
+	private String language;
+	
 	@ManyToMany
 	private List<Language> languages;
-
+	
+	private int startMoney;
+	
+	@OneToMany
+	@JoinColumn(name = "background_id")
+	private List<Personalization> personalizations;
+	
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;

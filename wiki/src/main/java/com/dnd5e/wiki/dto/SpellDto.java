@@ -1,8 +1,9 @@
-package com.dnd5e.wiki.dto.user;
+package com.dnd5e.wiki.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.dnd5e.wiki.dto.user.HeroClassDto;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.spell.Spell;
 
@@ -34,11 +35,11 @@ public class SpellDto {
 	private String englishName;
 	
 	public SpellDto(Spell spell) {
-		level = spell.getLevel() == 0 ? "вызов" : String.valueOf(spell.getLevel());
+		level = spell.getLevel() == 0 ? "Заговор" : String.valueOf(spell.getLevel());
 		name = spell.getName();
 		ritual = String.valueOf(spell.getRitual());
 		concentration = String.valueOf(spell.getConcentration());
-		school = spell.getSchool().name();
+		school = spell.getSchool().getName();
 		timeCast = spell.getTimeCast();
 		distance = spell.getDistance();
 		duration = spell.getDuration();
