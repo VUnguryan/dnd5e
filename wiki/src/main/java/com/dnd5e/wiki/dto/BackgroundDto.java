@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BackgroundDto {
+	private Integer id;
 	private String name;
 	private String description;
 	private String skillDescription;
@@ -27,6 +28,7 @@ public class BackgroundDto {
 	private String book;
 	
 	public BackgroundDto(Background background) {
+		id = background.getId();
 		name = background.getName();
 		skillName = background.getSkillName();
 		skills = background.getSkills().stream().map(SkillType::getCyrilicName).collect(Collectors.joining(", "));

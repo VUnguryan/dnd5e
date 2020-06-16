@@ -94,7 +94,7 @@ tr.shown td.details-control {
 							width : "30%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data + '</h6>';
+									return '<h6>' + data + '</h6>' + '<h6 class="text-secondary"><small>' + row.book +'</small></h6>';
 								}
 								return data;
 							}, 
@@ -216,7 +216,8 @@ tr.shown td.details-control {
 		}
 		info += '<p><strong>Языки: </strong>' + d.languages + ' </p>';
 		info += '<p><strong>Снаряжение: </strong>' + d.equipments + ' </p>';
-		info += '<p><small>Источник: '+ d.book + '</small></p>';
+   	 	info += '<a class="btn btn-outline-dark btn-sm" href="/hero/backgrounds/personalizare/' + d.id + '">Персонализация</a>';
+		info += '<p class="text-right"><small>Источник: '+ d.book + '</small></p>';
 		return info;
 	}
 	</script>

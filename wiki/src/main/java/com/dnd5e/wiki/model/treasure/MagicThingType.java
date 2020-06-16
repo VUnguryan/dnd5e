@@ -1,5 +1,7 @@
 package com.dnd5e.wiki.model.treasure;
 
+import java.util.Arrays;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -21,4 +23,7 @@ public enum MagicThingType
   AMMUNITION("аммуниция"); //11
 
   private String cyrilicName;
+  public static MagicThingType parse(String value) {
+	  return Arrays.stream(values()).filter(t -> t.getCyrilicName().equals(value)).findFirst().orElseThrow(IllegalArgumentException::new);
+  }
 }

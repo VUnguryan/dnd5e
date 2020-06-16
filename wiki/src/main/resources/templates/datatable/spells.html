@@ -157,8 +157,8 @@ tr.shown td.details-control {
 								render : function(data, type, row) {
 									if (type === 'display') {
 										var school = '';
-										var result = '<h6>' + data + ' <small>(' + row.englishName + ')</small>' + '<h6>' + '<small>';
-										result += '<h6>';
+										var result = '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')</small>' + '</h6><small>';
+										result += '<h6 class="text-secondary">';
 										result += row.school;
 										if (row.verbalComponent === '★') {
 											result+=' <span class="badge badge-secondary">В</span>';
@@ -461,14 +461,16 @@ tr.shown td.details-control {
 			 if (d.upperLevel) {
 				 info += '<p><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</p>';
 			 }
-        	 info += '<p>Классы: ';
+        	 info += '<p><strong>Классы:</strong> ';
+        	 info+= '<div class="btn-group" role="group">'
         	 for (var hclass in d.heroClass){
-        		 info += '<a href="/hero/classes/class/' + d.heroClass[hclass].id + '">'; 
-        		 info += '<img src="/resources/classes/' + d.heroClass[hclass].id + '.png" title="' + d.heroClass[hclass].name + '" height="25" width="25" /></a>';
+        		 info += '<a class="btn btn-outline-secondary btn-sm"  href="/hero/classes/class/' + d.heroClass[hclass].id + '">'; 
+        		 info += '<img src="/resources/classes/' + d.heroClass[hclass].id + '.png" title="' + d.heroClass[hclass].name + '" height="25" width="25" /> </a>';
         	 }
+        	 info+= '</div>';
         	 info += '</p>';
-			 info += '<p><small>Источник: '+ d.book + '</small></p>'
-			 ; 
+        	 info += '<a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a>';
+			 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
 		    return info; 
 	}
 	</script>

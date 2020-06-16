@@ -28,21 +28,24 @@
 						<a class="dropdown-item" th:href="@{/hero/traits}">Черты</a> <a
 							class="dropdown-item" th:href="@{/hero/conditions}">Состояния</a>
 					</div></li>
+								<li class="nav-item"><a class="nav-link"
+					th:href="@{/hero/spells}">Заклинания</a></li>
+				
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown"> Магия </a>
+					data-toggle="dropdown"> Сокровища </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/hero/spells}">Заклинания</a>
+						<a class="dropdown-item" th:href="@{/stock/treasures}">Драгоценности</a>
 						<a class="dropdown-item"
-							th:href="@{/stock/artifacts?sort=name,asc}">Магические предметы</a>
+							th:href="@{/stock/artifacts}">Магические предметы</a>
 					</div></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown">Снаряжение</a>
+					data-toggle="dropdown">Инвентарь</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/stock/armors}">Доспехи</a> <a
 							class="dropdown-item" th:href="@{/stock/weapons}">Оружие</a> <a
-							class="dropdown-item" th:href="@{/stock/equipments}">Инвентарь</a>
+							class="dropdown-item" th:href="@{/stock/equipments}">Снаряжение</a>
 					</div></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbardrop"
@@ -55,7 +58,6 @@
 						<a class="dropdown-item" th:href="@{/calc/taverna}">Таверна на
 							скорую руку</a> <a class="dropdown-item" th:href="@{/calc/wildMagic}">Дикая
 							магия</a> <a class="dropdown-item" th:href="@{/calc/madness}">Безумие</a>
-
 					</div></li>
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/entities/gods}">Боги</a></li>

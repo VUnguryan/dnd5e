@@ -38,6 +38,7 @@ public class Background {
 	private Integer id;
 
 	private String name;
+	private String englishName;
 
 	@Column(columnDefinition = "TEXT")
 	private String toolOwnership;
@@ -69,6 +70,9 @@ public class Background {
 	@OneToMany
 	@JoinColumn(name = "background_id")
 	private List<Personalization> personalizations;
+	
+	@Column(columnDefinition = "TEXT")
+	private String personalization;
 	
 	@ManyToOne
 	@JoinColumn(name = "source")

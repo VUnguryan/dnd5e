@@ -24,9 +24,12 @@ public class Equipment {
 	private Integer id;
 	private String name;
 	private int cost;
+	
 	@Enumerated(EnumType.ORDINAL)
 	private Currency currency;
+	
 	private float weight;
+	
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	

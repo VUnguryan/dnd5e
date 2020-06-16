@@ -1,5 +1,7 @@
 package com.dnd5e.wiki.model.treasure;
 
+import java.util.Arrays;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,6 +16,11 @@ public enum Rarity {
 	ARTIFACT("артефакт", 1_500_000);
 
 	private String cyrilicName;
+
 	// базовая цена в золотых монетах
 	private int baseCost;
+	
+	public static Rarity parse(String value) {
+		return Arrays.stream(values()).filter(f -> f.cyrilicName.equals(value)).findFirst().orElseThrow(IllegalArgumentException::new);
+	}
 }

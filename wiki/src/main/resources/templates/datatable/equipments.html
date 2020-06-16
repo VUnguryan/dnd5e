@@ -7,7 +7,7 @@
 	padding: 0 8px;
 }
 </style>
-<title>DnD 5E Боги</title>
+<title>DnD 5E Снаряжение</title>
 <meta charset="utf-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,10 +20,6 @@
 <style>
 img {
 	float: center;
-}
-.invert {
-	filter: invert(100%);
-	-webkit-filter: invert(100%) sepia(100%);
 }
 td.details-control {
 	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
@@ -44,14 +40,11 @@ tr.shown td.details-control {
 				<table id="example" class="table table-hover" style="width: 100%">
 					<thead>
 						<tr>
-							<th>Божество</th>
-							<th title="Мировоззрение">М</th>
-							<th>English</th>
-							<th>Домены</th>
-							<th>Тип</th>
-							<th>Титулы</th>
-							<th>Ранг</th>
-							<th>Пантеон</th>
+							<th>Снаряжение</th>
+							<th>Стоимость</th>
+ 							<th title="Вес в фунтах">Вес</th> 
+ 							<th>Категория</th> 
+							<th>Источник</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -90,52 +83,38 @@ tr.shown td.details-control {
 	        dom: 'Bfrtip',
 			processing : true,
 	        serverSide : true,
-			ajax : '/gods',
+			ajax : '/equipments',
 			columns : [
 						{
 							data : "name",
-							width : "30%", 
+							width : "33%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data + (row.englishName ? '<small> (' + row.englishName + ')</small>' : '') + '</h6> ' + '<p class="text-secondary">' + row.sex + ' ' + row.commitment + '</p>';
+									return '<h6>' + data + '</h6>';
 								}
 								return data;
 							}, 
 						},
 						{
-							data : "aligment",
-							width : "5%",
-						    className: "text-center",
-						},
-						{
-							data : "englishName",
-							width : "10%",
-						}, 
-						{
-							data : "domains",
-							width : "10%",
-						    searchable: false,
-						    className: "text-center",
-						}, 
-						{
-							data : "sex",
-							width : "3%",
-						    searchable: false,
-						    className: "text-center",
-						},
-						{
-							data : "nicknames",
-							width : "10%",
-						},
-						{
-							data : "rank",
-						    searchable: false,
+							data : "cost",
 							width : "15%",
+						    className: "text-center",
 						},
 						{
-							data : "pantheon",
+							data : "weight",
+							width : "10%",
 						    searchable: false,
-							width : "15%",
+						    className: "text-center",
+						},
+						{
+							data : "type",
+							width : "10%",
+						    searchable: false,
+						},
+						{
+							data : "book",
+							width : "10%",
+						    searchable: false,
 						},
 						{
 							className : 'details-control',
@@ -147,29 +126,14 @@ tr.shown td.details-control {
 					],
 					columnDefs : [
 			            {
-			                targets : [ 2 ],
+			                targets : [3],
 			                visible : false
 			            },
 			            {
-			                "targets": [ 3 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 4 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 5 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 6 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 7 ],
-			                "visible": false
-				        },
+			                targets : [4],
+			                visible : false
+			            },
+
 				    ],
 				    buttons: [
 			        	'searchPanes',
@@ -178,15 +142,15 @@ tr.shown td.details-control {
 			                text: 'Столбцы',
 			                buttons: [
 			                    {
-			                        text: 'Домены',
+			                        text: 'Категория',
 			                        action: function ( e, dt, node, config ) {
-			                            dt.column(3).visible(!dt.column(3).visible() );
+			                            dt.column( 3 ).visible( ! dt.column( 3 ).visible() );
 			                        }
 			                    },
 			                    {
-			                        text: 'Пантеон',
+			                        text: 'Источник',
 			                        action: function ( e, dt, node, config ) {
-			                            dt.column(7).visible(!dt.column(7).visible() );
+			                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
 			                        }
 			                    },
 			                ]
@@ -232,15 +196,7 @@ tr.shown td.details-control {
 		});
 	});
 	function format ( d ) {
-		var info = '';
-		info += '<p><strong>Ранг: </strong>' + d.rank + ' ' + d.sex + '</p>';
-		if (d.nicknames) {
-			info += '<p><strong>Титулы: </strong>' + d.nicknames + '</p>'; 
-		}
-		if (d.symbol) {
-			info += '<p><strong>Символ: </strong>' + d.symbol + '</p>';
-		}
-		return info + d.description; 
+		return d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
 	}
 	</script>
 </body>

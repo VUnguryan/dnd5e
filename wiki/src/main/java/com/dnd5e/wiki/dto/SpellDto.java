@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SpellDto {
+	private int id;	
 	private String level;
 	private String name;
 	private String ritual;
@@ -35,6 +36,7 @@ public class SpellDto {
 	private String englishName;
 	
 	public SpellDto(Spell spell) {
+		id = spell.getId();
 		level = spell.getLevel() == 0 ? "Заговор" : String.valueOf(spell.getLevel());
 		name = spell.getName();
 		ritual = String.valueOf(spell.getRitual());

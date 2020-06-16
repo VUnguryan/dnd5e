@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "background_personalizations")
 public class Personalization {
@@ -20,6 +25,4 @@ public class Personalization {
 
 	@Enumerated(EnumType.STRING)
 	private PersonalizationType type;
-	
-	
 }

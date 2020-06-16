@@ -29,6 +29,7 @@ public class MagicThing {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String englishName;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Rarity rarity;
@@ -37,12 +38,21 @@ public class MagicThing {
 	private MagicThingType type;
 	
 	private Boolean customization;
+
+	@Column(nullable = true)
+	private String custSpecial;
+	
+	@Column(nullable = true)
+	private String special;
+
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private boolean consumed;
+	
 	@Column(nullable = true)
 	private Integer cost;
-
+	private Byte bonus;
+	
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
@@ -52,8 +62,13 @@ public class MagicThing {
 	
 	@OneToMany
 	private List<Weapon> weapons;
+	
 	@OneToMany
 	private List<Armor> armors;
+	
+	@OneToMany
+	@JoinColumn(name = "thing_id")
+	private List<MagicThingTable> table; 
 	
 	public int getCost() {
 		if (cost != null) {
