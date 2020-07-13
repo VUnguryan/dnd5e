@@ -53,10 +53,6 @@ public class MagicThing {
 	private Integer cost;
 	private Byte bonus;
 	
-	@ManyToOne
-	@JoinColumn(name = "source")
-	private Book book;
-
 	@OneToMany
 	private List<HeroClass> custClasses;
 	
@@ -67,8 +63,12 @@ public class MagicThing {
 	private List<Armor> armors;
 	
 	@OneToMany
-	@JoinColumn(name = "thing_id")
-	private List<MagicThingTable> table; 
+	@JoinColumn(name = "magic_thing_id")
+	private List<MagicThingTable> tables; 
+
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
 	
 	public int getCost() {
 		if (cost != null) {

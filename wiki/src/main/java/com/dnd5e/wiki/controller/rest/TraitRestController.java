@@ -28,7 +28,7 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Trait;
-import com.dnd5e.wiki.repository.datatable.TraitRepository;
+import com.dnd5e.wiki.repository.datatable.TraitDatatableRepository;
 
 @RestController
 public class TraitRestController {
@@ -36,7 +36,7 @@ public class TraitRestController {
 	private HttpSession session;
 
 	@Autowired
-	private TraitRepository repo;
+	private TraitDatatableRepository repo;
 
 	@GetMapping("/traits")
 	public SearchPanesOutput<TraitDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {

@@ -2,6 +2,8 @@ package com.dnd5e.wiki.dto;
 
 import java.util.stream.Collectors;
 
+import org.thymeleaf.util.StringUtils;
+
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.Weapon;
@@ -31,7 +33,9 @@ public class MagicThingDto {
 	private String book;
 
 	public MagicThingDto(MagicThing magicThing) {
-		name = magicThing.getName();
+		name = StringUtils.capitalizeWords(magicThing.getName().toLowerCase())
+				.replace(" И ", " и ").replace(" Или ", " или ").replace(" За ", " за ").replace(" С ", " с ").replace(" На ", " на ").replace(" От ", " от ").replace(" По ", " по ")
+				.replace(" Над ", " над ").replace(" В ", " в ").replace(" Из ", " из ");
 		englishName = magicThing.getEnglishName();
 		type = magicThing.getType().getCyrilicName();
 		if (!magicThing.getWeapons().isEmpty()) {

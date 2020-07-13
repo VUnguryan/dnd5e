@@ -36,7 +36,7 @@ public class RaceController {
 	public String getRaces(Model model) {
 		List<Race> races = repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name"));
 		Setting settings = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
-		if (settings != null && !settings.isHomeRule()) {
+		if (settings == null || !settings.isHomeRule()) {
 			races = races.stream()
 					.filter(r -> r.getBook().getType() == TypeBook.OFFICAL)
 					.collect(Collectors.toList());

@@ -17,7 +17,6 @@ import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.DamageType;
-import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 import lombok.AllArgsConstructor;

@@ -1,6 +1,5 @@
-package com.dnd5e.wiki.repository;
+package com.dnd5e.wiki.repository.datatable;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
@@ -14,7 +13,7 @@ import com.dnd5e.wiki.model.gods.Pantheon;
 import com.dnd5e.wiki.model.gods.Rank;
 import com.dnd5e.wiki.model.spell.GroupByCount;
 
-public interface GodRepository extends DataTablesRepository<God, Integer> {
+public interface GodDatatableRepository extends DataTablesRepository<God, Integer> {
 
 	@Query("SELECT g.aligment AS field, COUNT(g.aligment) AS total FROM God g GROUP BY g.aligment")
 	List<GroupByCount<Alignment>> countTotalGodAlignment();

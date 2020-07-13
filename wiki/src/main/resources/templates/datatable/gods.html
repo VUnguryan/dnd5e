@@ -97,7 +97,7 @@ tr.shown td.details-control {
 							width : "30%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data + (row.englishName ? '<small> (' + row.englishName + ')</small>' : '') + '</h6> ' + '<p class="text-secondary">' + row.sex + ' ' + row.commitment + '</p>';
+									return '<h6>' + data + (row.englishName ? '<small> (' + row.englishName + ')</small>' : '') + '</h6> ' + '<div class="text-secondary">' + row.sex + ' ' + row.commitment + '</div>';
 								}
 								return data;
 							}, 
@@ -240,6 +240,7 @@ tr.shown td.details-control {
 		if (d.symbol) {
 			info += '<p><strong>Символ: </strong>' + d.symbol + '</p>';
 		}
+		info += '<p><strong>Домены: </strong>' + d.domains + '</p>';
 		return info + d.description; 
 	}
 	</script>

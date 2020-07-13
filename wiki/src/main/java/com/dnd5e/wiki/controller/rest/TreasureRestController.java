@@ -21,12 +21,12 @@ import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.TreasureDto;
 import com.dnd5e.wiki.model.treasure.Treasure;
 import com.dnd5e.wiki.model.treasure.TreasureType;
-import com.dnd5e.wiki.repository.datatable.TreasuresRepository;
+import com.dnd5e.wiki.repository.datatable.TreasuresDatatableRepository;
 
 @RestController
 public class TreasureRestController {
 	@Autowired
-	private TreasuresRepository repo;
+	private TreasuresDatatableRepository repo;
 
 	@GetMapping("/treasures")
 	public SearchPanesOutput<TreasureDto> getData(@Valid DataTablesInput input,

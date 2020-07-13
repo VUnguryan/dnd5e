@@ -17,7 +17,7 @@ import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 
 @Repository
-public interface SpellDataTableRepository extends DataTablesRepository<Spell, Integer> {
+public interface SpellDatatableRepository extends DataTablesRepository<Spell, Integer> {
 	List<Spell> findByName(String paramString);
 
 	@Query("SELECT s.distance FROM Spell s GROUP BY s.distance ORDER BY s.distance")

@@ -83,6 +83,7 @@ tr.shown td.details-control {
 	    });
 	
 		var table = $('#example').DataTable( {
+			stateSave: true,
 			iDisplayLength : 25,
 	        dom: 'Bfrtip',
 			processing : true,
@@ -94,7 +95,7 @@ tr.shown td.details-control {
 							width : "30%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data + '</h6>' + '<h6 class="text-secondary"><small>' + row.book +'</small></h6>';
+									return '<h6>' + data + '</h6>' + '<div class="text-secondary"><small>' + row.book +'</small></div>';
 								}
 								return data;
 							}, 

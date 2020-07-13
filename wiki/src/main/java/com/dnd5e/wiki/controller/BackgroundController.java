@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dnd5e.wiki.model.hero.Background;
 import com.dnd5e.wiki.model.hero.Personalization;
+import com.dnd5e.wiki.model.hero.PersonalizationFeature;
 import com.dnd5e.wiki.model.hero.PersonalizationType;
 import com.dnd5e.wiki.repository.BackgroundRepository;
+import com.dnd5e.wiki.repository.PersonalizationFeatureRepository;
 
 @Controller
 @RequestMapping("/hero/backgrounds")
@@ -26,6 +28,9 @@ public class BackgroundController {
 	
 	@Autowired
 	private BackgroundRepository repo;
+	
+	@Autowired
+	private PersonalizationFeatureRepository repoFeature;
 	
 	@GetMapping
 	public String getBackgrounds() {
@@ -45,6 +50,9 @@ public class BackgroundController {
 			personalizations.add(list.get(rnd.nextInt(list.size())));
 		}
 		model.addAttribute("personalizations", personalizations);
+		List<PersonalizationFeature> features = repoFeature.findAll();
+		String feature = features.get(rnd.nextInt(features.size())).getText();
+		model.addAttribute("feature", feature);
 		return "hero/personalizare";
 	}
 }

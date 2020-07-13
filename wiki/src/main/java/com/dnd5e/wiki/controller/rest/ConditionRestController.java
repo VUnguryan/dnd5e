@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dnd5e.wiki.model.hero.Condition;
-import com.dnd5e.wiki.repository.datatable.ConditionRepository;
+import com.dnd5e.wiki.repository.datatable.ConditionDatatableRepository;
 
 @RestController
 public class ConditionRestController {
 	@Autowired
-	private ConditionRepository conditionRepo;
+	private ConditionDatatableRepository conditionRepo;
 	
 	@GetMapping("/conditions")
 	public DataTablesOutput<Condition> getData(@Valid DataTablesInput input) {

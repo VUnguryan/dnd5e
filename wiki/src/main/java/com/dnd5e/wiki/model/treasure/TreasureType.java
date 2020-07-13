@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum TreasureType {
+	COINS("Монеты"),
 	GEM("Драгоценные камни"),
 	WORKS_OF_ART("Произведения искусства"),
 	BAUBLE("Безделушка");

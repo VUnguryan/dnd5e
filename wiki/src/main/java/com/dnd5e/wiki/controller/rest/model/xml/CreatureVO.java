@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.thymeleaf.util.StringUtils;
 
 import com.dnd5e.wiki.model.creature.ActionType;
+import com.dnd5e.wiki.model.creature.ArmorType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.HabitatType;
@@ -95,7 +96,7 @@ public class CreatureVO {
 		this.type = creature.getType().getCyrilicName();
 		this.alignment = creature.getAlignment().getCyrilicName();
 		this.ac = String.valueOf(creature.getAC())
-				+ (creature.getArmorType() != null ? "(" + creature.getArmorType().getCyrillicName() + ")" : "");
+				+ (!creature.getArmorTypes().isEmpty() ? "(" + creature.getArmorTypes().stream().map(ArmorType::getCyrillicName).collect(Collectors.joining(", ")) + ")" : "");
 		this.hp = creature.getHp();
 		this.speed = String.valueOf(creature.getSpeed()) + " фт.";
 		if (creature.getFlySpeed() != null) {

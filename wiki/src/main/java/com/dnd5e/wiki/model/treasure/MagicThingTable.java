@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -13,8 +14,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+
 @Entity
-@Table(name = "artifactes_random_tables")
+@Table(name = "magic_things_random")
 public class MagicThingTable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,7 @@ public class MagicThingTable {
 	
 	private int start;
 	private int end;
-	private String table;
+	private String nameTable;
+	@ManyToOne
+	private MagicThing magicThing;
 }

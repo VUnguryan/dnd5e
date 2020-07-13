@@ -19,7 +19,7 @@
 		<div class="card">
 			<div class="card-body">
 				<th:block th:each="creatureRace : ${creatureRaces}">
-					<a th:href="@{'/creatures/race/' + ${creatureRace.id}}" th:text="${creatureRace.name}"></a>
+					<a class="badge badge-secondary" th:href="@{'/entities/race/' + ${creatureRace.id}}" th:text="${creatureRace.name}"></a>
 				</th:block>
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 
 <script>
 	function rowClicked(value) {
-		var baseUrl = '[[@{/creatures/creature/}]]';
+		var baseUrl = '[[@{/entities/creature/}]]';
 		location.href = baseUrl + value;
 	}
 </script>

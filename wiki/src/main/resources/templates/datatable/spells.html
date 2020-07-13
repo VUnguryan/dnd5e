@@ -92,6 +92,7 @@ tr.shown td.details-control {
 	    });
 	
 		var table = $('#example').DataTable( {
+			stateSave: true,
 			iDisplayLength : 25,
 			dom: 'Bfrtip',
 	        processing : true,
@@ -158,18 +159,18 @@ tr.shown td.details-control {
 									if (type === 'display') {
 										var school = '';
 										var result = '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')</small>' + '</h6><small>';
-										result += '<h6 class="text-secondary">';
+										result += '<div class="text-secondary">';
 										result += row.school;
 										if (row.verbalComponent === '★') {
-											result+=' <span class="badge badge-secondary">В</span>';
+											result+=' <span title="вербальный" class="badge badge-secondary">В</span>';
 										}
 										if (row.somaticComponent === '★') {
-											result+=' <span class="badge badge-secondary">С</span>';
+											result+=' <span title="соматический" class="badge badge-secondary">С</span>';
 										}
 										if (row.materialComponent === '★') {
-											result+=' <span class="badge badge-secondary">М</span>';
+											result+=' <span title="материальный" class="badge badge-secondary">М</span>';
 										}
-										result += '</small></h6>';
+										result += '</small></div>';
 										return result;
 									}
 									return data;

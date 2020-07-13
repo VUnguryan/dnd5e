@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import com.dnd5e.wiki.model.hero.Condition;
 
 @Repository
-public interface ConditionRepository extends DataTablesRepository<Condition, Integer>, JpaSpecificationExecutor<Condition> {
+public interface ConditionDatatableRepository extends DataTablesRepository<Condition, Integer>, JpaSpecificationExecutor<Condition> {
 }

@@ -11,7 +11,7 @@ import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.model.spell.GroupByCount;
 
-public interface TraitRepository extends DataTablesRepository<Trait, Integer> {
+public interface TraitDatatableRepository extends DataTablesRepository<Trait, Integer> {
 
 	List<Trait> findAll();
 	

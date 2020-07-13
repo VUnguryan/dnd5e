@@ -26,27 +26,28 @@ import lombok.Getter;
  */
 
 public enum SkillType {
-	ATHLETICS (STRENGTH, "Атлетика"),
-	ACROBATICS (DEXTERITY, "Акробатика"),
-	SLEIGHT_OF_HAND (DEXTERITY, "Лoвкость рук", "Ловкость Рук"),
-	STEALTH (DEXTERITY, "Скрытность"),
-	ARCANA (INTELLIGENCE, "Магия"),
-	HISTORY (INTELLIGENCE, "История"),
-	INVESTIGATION (INTELLIGENCE, "Анализ", "Расследование"),
-	NATURE (INTELLIGENCE, "Природа"),
-	RELIGION (INTELLIGENCE, "Религия"),
-	ANIMAL_HANDLING (WISDOM, "Уход за животными", "Обращение с животными"),
-	INSIGHT (WISDOM,"Проницательность"),
-	MEDICINE (WISDOM, "Медицина"),
-	PERCEPTION (WISDOM, "Внимательность", "Восприятие"),
-	SURVIVAL (WISDOM, "Выживание"),
-	DECEPTION (CHARISMA, "Обман"),
-	INTIMIDATION (CHARISMA, "Запугивание"),
-	PERFORMANCE (CHARISMA, "Выступление"),
-	PERSUASION (CHARISMA, "Убеждение");
+	ATHLETICS (STRENGTH, "Атлетика"), // 0
+	ACROBATICS (DEXTERITY, "Акробатика"), // 1
+	SLEIGHT_OF_HAND (DEXTERITY, "Лoвкость рук", "Ловкость Рук"), // 2
+	STEALTH (DEXTERITY, "Скрытность"), // 3
+	ARCANA (INTELLIGENCE, "Магия"), // 4
+	HISTORY (INTELLIGENCE, "История"), // 5
+	INVESTIGATION (INTELLIGENCE, "Анализ", "Расследование"), //6 
+	NATURE (INTELLIGENCE, "Природа"), //7 
+	RELIGION (INTELLIGENCE, "Религия"), //8 
+	ANIMAL_HANDLING (WISDOM, "Уход за животными", "Обращение с животными"), // 9
+	INSIGHT (WISDOM,"Проницательность"), //10
+	MEDICINE (WISDOM, "Медицина"), //11
+	PERCEPTION (WISDOM, "Внимательность", "Восприятие"), //12
+	SURVIVAL (WISDOM, "Выживание"), //13
+	DECEPTION (CHARISMA, "Обман"), //14
+	INTIMIDATION (CHARISMA, "Запугивание", "Устрашение"), //15
+	PERFORMANCE (CHARISMA, "Выступление"), //16
+	PERSUASION (CHARISMA, "Убеждение"); //17
 	
 	@Getter() private AbilityType ability;
 	@Getter() private String cyrilicName;
+	
 	private Set<String> cyrilicNames;
 
 	

@@ -34,7 +34,7 @@ import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.stock.Equipment;
 import com.dnd5e.wiki.model.stock.EquipmentType;
 import com.dnd5e.wiki.repository.EquipmentRepository;
-import com.dnd5e.wiki.repository.datatable.TraitRepository;
+import com.dnd5e.wiki.repository.datatable.TraitDatatableRepository;
 
 @RestController
 public class EquipmentsRestController {

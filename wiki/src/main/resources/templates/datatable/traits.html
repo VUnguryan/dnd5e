@@ -94,7 +94,8 @@ tr.shown td.details-control {
 							width : "30%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data + '</h6>';
+									return '<h6>' + data +(row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
+									+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
 								}
 								return data;
 							}, 

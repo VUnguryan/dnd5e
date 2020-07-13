@@ -11,7 +11,7 @@ public enum CreatureSize {
 	MEDIUM("Средний"), 
 	LARGE("Большой"),
 	HUGE("Огромный"),
-	GARGANTUM("Громадный");
+	GARGANTUAN("Громадный"); 
 
 	private String cyrilicName;
 

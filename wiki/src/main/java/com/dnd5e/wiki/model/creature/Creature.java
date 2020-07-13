@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.model.creature;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,14 +21,16 @@ import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Описание существа
  */
 @Entity
 @Table(name = "creatures")
-@Data
+@Getter
+@Setter
 public class Creature {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,8 +52,9 @@ public class Creature {
 
 	private byte AC;
 
-	@Enumerated(EnumType.ORDINAL)
-	private ArmorType armorType;
+	@ElementCollection
+	@Enumerated(EnumType.STRING)
+	private List<ArmorType> armorTypes;
 
 	private short averageHp;
 	private short countDiceHp;
@@ -95,7 +99,12 @@ public class Creature {
 	@Enumerated(EnumType.ORDINAL)
 	private List<DamageType> vulnerabilityDamages;
 
-	private String senses;
+	private Integer darkvision;
+	private Integer	trysight;
+	private Integer	vibration;
+	private Integer	blindsight;
+	private Integer	blindsightRadius;
+	
 	private byte passivePerception;
 
 	// опыт
@@ -126,6 +135,9 @@ public class Creature {
 	
 	@Column(columnDefinition = "TEXT")
 	private String legendary;
+	
+	@ManyToMany
+	private List<CreatureRace> races;
 
 	@ElementCollection
 	@Enumerated(EnumType.STRING)
@@ -160,9 +172,13 @@ public class Creature {
 	}
 
 	private String getFormatAbility(byte ability) {
-		return String.format("%d (%+d)", ability, ability - 10 < 10 ? (ability - 11) / 2 : (ability - 10) / 2);
+		return String.format("%d (%+d)", ability, (ability - 10) < 0 ? (ability - 11) / 2 : (ability - 10) / 2);
 	}
-
+	
+	public String getArmorTypeString() {
+		return armorTypes.stream().map(ArmorType::getCyrillicName).collect(Collectors.joining(", "));
+	}
+	
 	public String getHp() {
 		if (bonusHP == null && diceHp == null) {
 			return String.format("%d", averageHp);
@@ -170,6 +186,14 @@ public class Creature {
 		if (bonusHP == null) {
 			return String.format("%d (%d%s)" , averageHp, countDiceHp, diceHp.name());
 		}
-		return String.format("%d (%d%s+%d)" , averageHp, countDiceHp, diceHp.name(), bonusHP);
+		return String.format("%d (%d%s + %d)" , averageHp, countDiceHp, diceHp.name(), bonusHP);
+	}
+
+	public String getAllEnglishSpeed() {
+		return String.format("%d ft.", speed)
+				+ (flySpeed == null ? "": String.format(", fly %d ft.", flySpeed))
+				+ (swimmingSpped == null ? "": String.format(", swim %d ft.", swimmingSpped))
+				+ (diggingSpeed == null ? "": String.format(", burrow %d ft.", diggingSpeed))
+				+ (climbingSpeed == null ? "": String.format(", climb %d ft.", climbingSpeed));
 	}
 }

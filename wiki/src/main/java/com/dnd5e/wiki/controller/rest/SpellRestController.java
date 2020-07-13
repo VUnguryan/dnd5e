@@ -29,8 +29,7 @@ import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
-import com.dnd5e.wiki.repository.SpellRepository;
-import com.dnd5e.wiki.repository.datatable.SpellDataTableRepository;
+import com.dnd5e.wiki.repository.datatable.SpellDatatableRepository;
 
 @RestController
 public class SpellRestController {
@@ -38,7 +37,7 @@ public class SpellRestController {
 	private HttpSession session;
 	
 	@Autowired
-	private SpellDataTableRepository repo;
+	private SpellDatatableRepository repo;
 	
 	@GetMapping("/spells")
 	public DataTablesOutput<SpellDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {

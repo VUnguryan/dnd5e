@@ -99,7 +99,7 @@ tr.shown td.details-control {
 									return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
 									+ (row.customization ? ' <span title = "Требуется настройка" class="badge badge-secondary">Н</span>' : '')
 									+ '</h6> ' 
-									+ '<p class="text-secondary"><small>' + row.rarity + '</small></p>';
+									+ '<div class="text-secondary"><small>' + row.rarity + '</small></div>';
 								}
 								return data;
 							}, 
@@ -114,40 +114,40 @@ tr.shown td.details-control {
 									var typeText = '';
 									switch (data){
 									case 'зелье':
-										typeText = '<img class="invert" src="/resources/icons/Icon.4_92.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.4_92.png" title="' + data +'" height="30">';
 										break;
 									case 'рукопашное оружие':
-										typeText = '<img class="invert" src="/resources/icons/Icon.6_98.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.6_98.png" title="' + data +'" height="30">';
 										break;
 									case 'доспех':
-										typeText = '<img class="invert" src="/resources/icons/Icon.6_94.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.6_94.png" title="' + data +'" height="30">';
 										break;
 									case 'волшебная палочка':
-										typeText = '<img class="invert" src="/resources/icons/Icon.3_03.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.3_03.png" title="' + data +'" height="30">';
 										break;
 									case 'жезл':
-										typeText = '<img class="invert" src="/resources/icons/Icon.7_93.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.7_93.png" title="' + data +'" height="30">';
 										break;
 									case 'посох':
-										typeText = '<img class="invert" src="/resources/icons/Icon.7_33.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.7_33.png" title="' + data +'" height="30">';
 										break;
 									case 'кольцо':
-										typeText = '<img class="invert" src="/resources/icons/Icons8_71.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icons8_71.png" title="' + data +'" height="30">';
 										break;
 									case 'свиток':
-										typeText = '<img class="invert" src="/resources/icons/Icon.5_85.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.5_85.png" title="' + data +'" height="30">';
 										break;
 									case 'чудесный предмет':
-										typeText = '<img class="invert" src="/resources/icons/Icon.2_45.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.2_45.png" title="' + data +'" height="30">';
 										break;
 									case 'дальнобойное оружие':
-										typeText = '<img class="invert" src="/resources/icons/Icon.4_60.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.4_60.png" title="' + data +'" height="30">';
 										break;
 									case 'щит':
-										typeText = '<img class="invert" src="/resources/icons/Icon.1_88.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.1_88.png" title="' + data +'" height="30">';
 										break;
 									case 'аммуниция':
-										typeText = '<img class="invert" src="/resources/icons/Icon.4_73.png" title="' + data +'" height="40">';
+										typeText = '<img class="invert" src="/resources/icons/Icon.4_73.png" title="' + data +'" height="30">';
 										break;
 									}
 									return typeText;

@@ -45,7 +45,7 @@ public enum State {
 		return Arrays.stream(values())
 				.filter(s -> s.getNames().stream().anyMatch(stateString::equalsIgnoreCase))
 				.findFirst()
-				.orElseThrow(IllegalArgumentException::new);
+				.orElseThrow(() -> new IllegalArgumentException(stateString));
 	}
 	public static Set<State> getImmunity() {
 		return EnumSet.of(BLINDED, CHARMED, DEAFENED,EXHAUSTING,FRIGHTENED, GRAPPLED, PARALYZED, PETRIFIED, POISONED, PRONE, RESTRAINED, STUNNED, UNCONSCIOUS);

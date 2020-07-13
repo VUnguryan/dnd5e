@@ -6,26 +6,18 @@
 <title th:text="${'Dnd 5E '+ heroClass.name}"></title>
 <meta charset="utf-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 <style>
 img {
 	float: center;
 }
-
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-
 .table>tbody .hiddenRow {
 	padding: 0 8px;
 }
@@ -40,14 +32,10 @@ img {
 				<small th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
 			</h5>
 			<ul class="list-group list-group-flush">
-				<li class="list-group-item"><b>Кость Хитов:</b> <th:block
-						th:text="*{boneHits}" /></li>
-				<li class="list-group-item"><b>Доспехи:</b> <th:block
-						th:text="*{armor}" /></li>
-				<li class="list-group-item"><b>Оружие:</b> <th:block
-						th:text="*{weapon}" /></li>
-				<li class="list-group-item"><b>Спаброски:</b> <th:block
-						th:text="*{savingThrows}" /></li>
+				<li class="list-group-item"><b>Кость Хитов:</b> <th:block th:text="*{boneHits}" /></li>
+				<li class="list-group-item"><b>Доспехи:</b> <th:bloc th:text="*{armor}" /></li>
+				<li class="list-group-item"><b>Оружие:</b> <th:block th:text="*{weapon}" /></li>
+				<li class="list-group-item"><b>Спаброски:</b> <th:block	th:text="*{savingThrows}" /></li>
 				<li class="list-group-item"><b>Навыки:</b> Выберите
 					[[*{skillAvailableCount}]] навыка из следующих: <th:block
 						th:if="*{skillAvailableCount == 18}">Выберите [[*{skillAvailableCount}]] любых навыка.</th:block>
@@ -181,21 +169,18 @@ img {
 												th:utext="${feat.description}"></th:block>
 									</ul>
 								</div>
-								<footer class="blockquote-footer" th:if="${archetype.book}"
-									th:text="'Источник: ' + ${archetype.book.name}"></footer>
+								<footer class="blockquote-footer" th:if="${archetype.book}"	th:text="'Источник: ' + ${archetype.book.name}"></footer>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<h5 th:if="${!heroClass.spells.empty}" class="card-header">Доступные
-				заклинания</h5>
+			<h5 th:if="${!heroClass.spells.empty}" class="card-header">Доступные заклинания</h5>
 			<div th:if="${!heroClass.spells.empty}" class="card-body">
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th scope="col" style="width: 3%">Уровень<img
-								th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"></th>
+							<th scope="col" style="width: 3%">Уровень<img th:src="@{/resources/open-iconic/svg/caret-bottom.svg}"></th>
 							<th scope="col" style="width: 50%">Наименование</th>
 							<th scope="col" style="width: 20%" class="text-center">Школа</th>
 						</tr>
@@ -213,8 +198,7 @@ img {
 								<div th:id="'d' + ${spell.id}" class="collapse">
 									<div class="card">
 										<ul class="list-group list-group-flush">
-											<li class="list-group-item"><strong>Время
-													накладывания:</strong> <th:block th:text="${spell.timeCast}" /></li>
+											<li class="list-group-item"><strong>Время накладывания:</strong> <th:block th:text="${spell.timeCast}" /></li>
 											<li class="list-group-item"><strong>Дистанция:</strong>
 												<th:block th:text="${spell.distance}" /></li>
 											<li class="list-group-item"><strong>Компоненты:</strong>
@@ -246,8 +230,7 @@ img {
 										</div>
 									</div>
 									<footer class="blockquote-footer">
-										<small class="text-muted" th:if="${spell.book}"
-											th:text="'Источник: ' + ${spell.book.name}"></small>
+										<small class="text-muted" th:if="${spell.book}"	th:text="'Источник: ' + ${spell.book.name}"></small>
 									</footer>
 								</div>
 							</td>
@@ -258,5 +241,8 @@ img {
 		</div>
 	</div>
 </body>
+<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/resources/js/settings.js}"></script>
 </html>

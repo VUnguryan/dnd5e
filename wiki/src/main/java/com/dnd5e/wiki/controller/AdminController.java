@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +37,7 @@ import com.dnd5e.wiki.model.creature.State;
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
 import com.dnd5e.wiki.model.gods.GodSex;
+import com.dnd5e.wiki.model.places.Place;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.stock.Armor;
@@ -50,9 +52,10 @@ import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.EquipmentRepository;
-import com.dnd5e.wiki.repository.GodRepository;
 import com.dnd5e.wiki.repository.LanguagesRepository;
+import com.dnd5e.wiki.repository.PlaceRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
+import com.dnd5e.wiki.repository.datatable.GodDatatableRepository;
 
 @Controller
 @RequestMapping("/admin/")
@@ -75,9 +78,26 @@ public class AdminController {
 	private EquipmentRepository equipmentRepository;
 	@Autowired
 	private ArmorRepository armorRepository;
+	@Autowired
+	private PlaceRepository placeRepository;
 
 	@Autowired
-	private GodRepository godRepository;
+	private GodDatatableRepository godRepository;
+
+	@GetMapping("/place/{id}")
+	public String getPlace(Model model, Integer id)
+	{
+		Optional<Place> place = placeRepository.findById(id);
+		model.addAttribute("place", place.get());
+		return "addPlace";
+	}
+
+	@PostMapping("place/add")
+	public String addPlace(Place place)
+	{
+		placeRepository.save(place);
+		return "redirect:/places/";
+	}
 
 	@GetMapping("/gods/add")
 	public String getGods(Model model) {

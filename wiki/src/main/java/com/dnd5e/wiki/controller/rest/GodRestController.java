@@ -29,12 +29,12 @@ import com.dnd5e.wiki.model.gods.GodSex;
 import com.dnd5e.wiki.model.gods.Pantheon;
 import com.dnd5e.wiki.model.gods.Rank;
 import com.dnd5e.wiki.model.hero.Trait;
-import com.dnd5e.wiki.repository.GodRepository;
+import com.dnd5e.wiki.repository.datatable.GodDatatableRepository;
 
 @RestController
 public class GodRestController {
 	@Autowired
-	private GodRepository repo;
+	private GodDatatableRepository repo;
 
 	@GetMapping("/gods")
 	public SearchPanesOutput<GodDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {

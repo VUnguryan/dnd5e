@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/hero/traits")
 public class TraitController {
-	
 	@GetMapping
 	public String getTableTrait()
 	{

@@ -28,7 +28,7 @@ public class Skill {
 	private byte bonus;
 
 	public String getText() {
-		return type != null ? String.format("%s %+d", StringUtils.capitalize(type.name().toLowerCase()), bonus) : "";
+		return type != null ? String.format("%s %+d", StringUtils.capitalize(type.name().toLowerCase().replace('_', ' ')), bonus) : "";
 	}
 
 	public String getCyrilicText() {

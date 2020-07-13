@@ -26,4 +26,10 @@ public class Action
   
   @Enumerated(EnumType.ORDINAL)
   private ActionType actionType;
+  private Integer mwa;
+  private Integer rwa;
+  private Integer msa;
+  private Integer rsa;
+  @Enumerated(EnumType.STRING)
+  private DamageType damageType;
 }

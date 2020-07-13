@@ -43,6 +43,7 @@ public class LevelDefinition {
 	@JoinColumn(name = "level_def_id")
 
 	private List<Tracker> trackers;
+	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;
 }

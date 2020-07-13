@@ -20,6 +20,11 @@ import com.dnd5e.wiki.controller.rest.model.json.Reaction;
 import com.dnd5e.wiki.controller.rest.model.json.Safe;
 import com.dnd5e.wiki.controller.rest.model.json.Skill;
 import com.dnd5e.wiki.controller.rest.model.json.TraitJS;
+import com.dnd5e.wiki.controller.rest.model.json.etools.ETools;
+import com.dnd5e.wiki.controller.rest.model.json.etools.Monster;
+import com.dnd5e.wiki.controller.rest.model.json.shaped.HeroClass;
+import com.dnd5e.wiki.controller.rest.model.json.shaped.ShapedEntity;
+import com.dnd5e.wiki.controller.rest.model.json.shaped.Spell;
 import com.dnd5e.wiki.controller.rest.model.xml.Compendium;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
@@ -36,7 +41,7 @@ import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 import com.dnd5e.wiki.repository.WeaponRepository;
-import com.dnd5e.wiki.repository.datatable.TraitRepository;
+import com.dnd5e.wiki.repository.datatable.TraitDatatableRepository;
 
 @RestController
 @RequestMapping("/admin/export")
@@ -65,7 +70,7 @@ public class ExportController {
 	private RaceRepository raceRepo;
 	
 	@Autowired
-	private TraitRepository traitRepo;
+	private TraitDatatableRepository traitRepo;
 	
 	@Autowired
 	private ClassRepository classRepo;
@@ -199,6 +204,26 @@ public class ExportController {
 			creatures.add(jsonCreature);
 		}
 		return creatures;
+	}
+	
+	@GetMapping(value = "/5etools", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ETools get5EtoolsCreatures() {
+		ETools etools = new ETools();
+		etools.setMonster(creatureRepo.findAll().stream()
+				.map(Monster::new)
+				.collect(Collectors.toList()));
+		return etools;
+	}
+
+	@GetMapping(value = "/shaped", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ShapedEntity getShaped() {
+		ShapedEntity entity = new ShapedEntity();
+		entity.setMonsters(creatureRepo.findAll().stream()
+				.map(com.dnd5e.wiki.controller.rest.model.json.shaped.Monster::new)
+				.collect(Collectors.toList()));
+		entity.setClasses(classRepo.findAll().stream().map(HeroClass::new).collect(Collectors.toList()));
+		entity.setSpells(spellRepo.findAll().stream().map(Spell::new).collect(Collectors.toList()));;
+		return entity;
 	}
 	
 	@GetMapping(value = "/xml" , produces = MediaType.APPLICATION_XML_VALUE)

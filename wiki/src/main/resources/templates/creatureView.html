@@ -32,19 +32,17 @@ img {
 					th:text="*{size.cyrilicName}"></span> <span
 					th:text="*{type.cyrilicName}"></span> <a
 					th:if="*{raceName != null}"
-					th:href="@{'/creatures/race/' + *{raceId}}"><span
+					th:href="@{'/entities/race/' + *{raceId}}"><span
 						th:text="*{raceName}"></span></a>, <span
 					th:text="*{alignment.cyrilicName}"></span>
-				</small> <a class="card-link"
-					th:href="@{'/creatures/creature/classic/' + ${creature.id}}">Классический
-					вид</a>
+				</small> 
 			</h5>
 			<div class="card-body">
 				<div>
 					<b>Класс доспеха</b>
 					<th:block th:text="*{AC}" />
-					<th:block th:if="${creature.armorType}"
-						th:text="*{armorType.cyrillicName}" />
+					<th:block th:if="${not #lists.isEmpty(creature.armorTypes)}"
+						th:text="'(' + *{armorTypeString} + ')'" />
 				</div>
 				<div>
 					<b>Хиты</b> <span th:text="*{averageHp}"></span> (<span
@@ -62,7 +60,7 @@ img {
 								th:text="*{climbingSpeed}"> фт.
 					<th:block th:if="${creature.swimmingSpped}" />, плавая <th:block
 									th:text="*{swimmingSpped}" /> фт.
-					<th:block th:if="${creature.diggingSpeed}" />, плавая <th:block
+					<th:block th:if="${creature.diggingSpeed}" />, копая <th:block
 									th:text="*{diggingSpeed}" /> фт.
 				</div>
 			</div>

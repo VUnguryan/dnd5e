@@ -19,16 +19,27 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TavernaPrefixName {
+	private static final String HARD = "пбфвтдсзцшжкгхмнрл";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String male;
 	private String female;
+	private String neuter;
+
 	@Enumerated(EnumType.STRING)
 	private ObjectType objectType;
 
 	public String getName(Sex sex) {
-		return Sex.MALE == sex ? name + male : name + female;
+		switch (sex) {
+		case MALE:
+			return name + male;
+		case FEMALE:
+			return name + female;
+		default:
+			return name + neuter;
+		}
 	}
 }

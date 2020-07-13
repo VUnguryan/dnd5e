@@ -3,6 +3,8 @@ package com.dnd5e.wiki.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.thymeleaf.util.StringUtils;
+
 import com.dnd5e.wiki.dto.user.HeroClassDto;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.spell.Spell;
@@ -38,7 +40,9 @@ public class SpellDto {
 	public SpellDto(Spell spell) {
 		id = spell.getId();
 		level = spell.getLevel() == 0 ? "Заговор" : String.valueOf(spell.getLevel());
-		name = spell.getName();
+		name = StringUtils.capitalizeWords(spell.getName().toLowerCase())
+				.replace(" И ", " и ").replace(" Или ", " или ").replace(" За ", " за ").replace(" С ", " с ").replace(" На ", " на ").replace(" От ", " от ").replace(" По ", " по ")
+				.replace(" Над ", " над ").replace(" В ", " в ");
 		ritual = String.valueOf(spell.getRitual());
 		concentration = String.valueOf(spell.getConcentration());
 		school = spell.getSchool().getName();
