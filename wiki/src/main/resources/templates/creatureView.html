@@ -29,7 +29,7 @@ img {
 			<h5 class="card-header">
 				<span th:text="*{name}"></span><span th:if="*{englishName}"
 					th:text="' ('+ *{englishName} + ')'"></span> <small> <span
-					th:text="*{size.cyrilicName}"></span> <span
+					th:text="*{sizeName}"></span> <span
 					th:text="*{type.cyrilicName}"></span> <a
 					th:if="*{raceName != null}"
 					th:href="@{'/entities/race/' + *{raceId}}"><span
@@ -52,16 +52,7 @@ img {
 				</div>
 				<div>
 					<b>Скорость</b>
-					<th:block th:text="*{speed}" />
-					фт.
-					<th:block th:if="${creature.flySpeed}">, летая <th:block
-							th:text="*{flySpeed}" /> фт.
-					<th:block th:if="${creature.climbingSpeed}">, лазая <th:block
-								th:text="*{climbingSpeed}"> фт.
-					<th:block th:if="${creature.swimmingSpped}" />, плавая <th:block
-									th:text="*{swimmingSpped}" /> фт.
-					<th:block th:if="${creature.diggingSpeed}" />, копая <th:block
-									th:text="*{diggingSpeed}" /> фт.
+					<th:block th:text="*{allSpeed}" />
 				</div>
 			</div>
 			<div class="card">
@@ -120,7 +111,7 @@ img {
 							th:text="${iterStat.last} ? ${state.cyrilicName} : ${state.cyrilicName} + ', '"></span>
 					</div>
 					<div>
-						<b>Чувства</b> <span th:text="*{vision}"></span>
+						<b>Чувства</b> <span th:text="*{allSense}"></span>
 					</div>
 					<div>
 						<b>Языки</b> <span th:each="language, iterStat : *{languages}"

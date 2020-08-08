@@ -14,19 +14,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dnd5e.wiki.model.places.Place;
 import com.dnd5e.wiki.repository.PlaceRepository;
+import com.dnd5e.wiki.repository.ReferenceRepository;
 
 @Controller
 public class HomeController {
-	private PlaceRepository repo;
-
 	@Autowired
-	private void setRepository(PlaceRepository repo) {
-		this.repo = repo;
-	}
+	private PlaceRepository placeRepo;
+	@Autowired
+	private ReferenceRepository referenceRepo;
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public String getHome(Model model) {
-		List<Place> places = repo.findByParentIsNull();
+		List<Place> places = placeRepo.findByParentIsNull();
 		model.addAttribute("places", places);
 		return "home";
 	}
@@ -34,10 +33,16 @@ public class HomeController {
 	@GetMapping("/place/{id}")
 	@Transactional
 	public String getPlace(Model model, @PathVariable Integer id) {
-		Place place = repo.findById(id).get();
-		model.addAttribute("place", repo.findById(id).get());
+		Place place = placeRepo.findById(id).get();
+		model.addAttribute("place", placeRepo.findById(id).get());
 		model.addAttribute("children", place.getChildren());
 		return "place";
+	}
+
+	@GetMapping("/references")
+	public String getReferences(Model model) {
+		model.addAttribute("references", referenceRepo.findAll());
+		return "references";
 	}
 
 	@GetMapping("/403")

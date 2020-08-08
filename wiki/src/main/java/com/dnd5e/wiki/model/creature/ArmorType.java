@@ -16,8 +16,12 @@ public enum ArmorType {
 	RIVETED_LEATHER("проклёпаная кожа"), //7
 	CHAIN_MAIL("кольчуга"),
 	HALF_PLATE("полулаты"),
-	PLATE("латный доспех"), //6 
+	PLATE("латный доспех"),
+	
+	PLATE_HALF("пластинчатый доспех"),
+	CUIRASS("кираса"),
 	MAGE_ARMOR("с доспехами мага"),
+	
 	SHIELD("щит"); //9
 
 	private String cyrillicName;

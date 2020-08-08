@@ -21,10 +21,7 @@ import lombok.Getter;
 
 /**
  * Навыки 
- * @author VUnguryan
- *
  */
-
 public enum SkillType {
 	ATHLETICS (STRENGTH, "Атлетика"), // 0
 	ACROBATICS (DEXTERITY, "Акробатика"), // 1

@@ -127,20 +127,8 @@ public class CreatureVO {
 				.collect(Collectors.joining(","));
 		this.conditionImmune = creature.getImmunityStates().stream().map(v -> v.getCyrilicName())
 				.collect(Collectors.joining(", "));
-
-		if (creature.getPassivePerception() != 0) {
-			this.passive = creature.getPassivePerception();
-		} else if (creature.getVision() != null) {
-			int index = creature.getVision().indexOf("пассивная Внимательность");
-			if (index != -1) {
-				this.passive = Byte.valueOf(
-						creature.getVision().substring("пассивная Внимательность".length() + index + 1).trim());
-				this.senses = creature.getVision().substring(0, index);
-			} else {
-				this.senses = creature.getVision();
-			}
-
-		}
+		this.passive = creature.getPassivePerception();
+		this.senses = creature.getSense();
 		this.languages = creature.getLanguages().stream().map(l -> l.getName()).collect(Collectors.joining(", "));
 		this.cr = creature.getChallengeRating();
 		this.trait = creature.getFeats().stream()

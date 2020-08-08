@@ -1,6 +1,8 @@
 package com.dnd5e.wiki.model.creature;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -119,8 +121,6 @@ public class Creature {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Skill> skills;
 
-	private String vision;
-
 	@ManyToMany
 	private List<Language> languages;
 
@@ -146,6 +146,10 @@ public class Creature {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	
+	public String getSizeName() {
+		return size.getSizeName(type);
+	}
 	
 	public String strengthText() {
 		return getFormatAbility(strength);
@@ -189,11 +193,63 @@ public class Creature {
 		return String.format("%d (%d%s + %d)" , averageHp, countDiceHp, diceHp.name(), bonusHP);
 	}
 
-	public String getAllEnglishSpeed() {
+	public String getSense() {
+		List<String> sense = new ArrayList<String>(5);
+		if (blindsight != null) {
+			String blind = String.format("слепое зрение %d фт.", blindsight);
+			if (blindsightRadius != null) {
+				blind += " (слеп за пределами этого радиуса)";
+			}
+			sense.add(blind);
+		}
+		if (darkvision!=null) {
+			sense.add(String.format("тёмное зрение %d фт.", darkvision));
+		}
+		if (trysight != null) {
+			sense.add(String.format("истинное зрение %d фт.", trysight));
+		}
+		if (vibration != null) {
+			sense.add(String.format("чувство вибрации %d фт.", vibration));
+		}
+		return sense.stream().collect(Collectors.joining(", "));  
+	}
+
+	public String getAllSense() {
+		List<String> sense = new ArrayList<String>(5);
+		if (blindsight != null) {
+			String blind = String.format("слепое зрение %d фт.", blindsight);
+			if (blindsightRadius != null) {
+				blind += " (слеп за пределами этого радиуса)";
+			}
+			sense.add(blind);
+		}
+		if (darkvision!=null) {
+			sense.add(String.format("тёмное зрение %d фт.", darkvision));
+		}
+		if (trysight != null) {
+			sense.add(String.format("истинное зрение %d фт.", trysight));
+		}
+		if (vibration != null) {
+			sense.add(String.format("чувство вибрации %d фт.", vibration));
+		}
+		sense.add(String.format("пассивная Внимательность %d", passivePerception));
+		
+		return sense.stream().collect(Collectors.joining(", "));  
+	}
+	
+	public String getAllSpeedEnglish() {
 		return String.format("%d ft.", speed)
 				+ (flySpeed == null ? "": String.format(", fly %d ft.", flySpeed))
 				+ (swimmingSpped == null ? "": String.format(", swim %d ft.", swimmingSpped))
 				+ (diggingSpeed == null ? "": String.format(", burrow %d ft.", diggingSpeed))
 				+ (climbingSpeed == null ? "": String.format(", climb %d ft.", climbingSpeed));
+	}
+	
+	public String getAllSpeed() {
+		return String.format("%d фт.", speed)
+				+ (flySpeed == null ? "": String.format(", летая %d фт.", flySpeed))
+				+ (swimmingSpped == null ? "": String.format(", плавая %d фт.", swimmingSpped))
+				+ (diggingSpeed == null ? "": String.format(", копая %d фт.", diggingSpeed))
+				+ (climbingSpeed == null ? "": String.format(", лазая %d фт.", climbingSpeed));
 	}
 }

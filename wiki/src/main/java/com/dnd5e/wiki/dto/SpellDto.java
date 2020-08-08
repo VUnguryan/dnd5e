@@ -36,6 +36,7 @@ public class SpellDto {
 	private String damageType;
 	private List<HeroClassDto> heroClass;
 	private String englishName;
+	private Boolean consumable = false;
 	
 	public SpellDto(Spell spell) {
 		id = spell.getId();
@@ -53,6 +54,7 @@ public class SpellDto {
 		somaticComponent = spell.getSomaticComponent() != null  && spell.getSomaticComponent() ? "★": "";
 		materialComponent = spell.getMaterialComponent() != null && spell.getMaterialComponent() ? "★": "";
 		components = spell.getAdditionalMaterialComponent();
+		consumable = spell.getConsumable();
 		description = spell.getDescription();
 		upperLevel = spell.getUpperLevel();
 		book = spell.getBook().getName();

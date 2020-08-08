@@ -26,6 +26,11 @@ public class CalculatorController {
 	@Autowired
 	private MadnessRepository madnessRepo;
 	
+	@GetMapping("/master")
+	public String getMaster(Model model) {
+		return "master";
+	}
+	
 	@GetMapping("/idle")
 	public String getIdleForm(Model model) {
 		model.addAttribute("lifeStyles", LifeStyle.values());

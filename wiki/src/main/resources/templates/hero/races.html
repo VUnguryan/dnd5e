@@ -20,29 +20,24 @@
 		column-count: 2;
 	}
 }
-
 @media ( min-width :768px) {
 	.card-columns {
 		column-count: 3;
 	}
 }
-
 @media ( min-width :992px) {
 	.card-columns {
 		column-count: 4;
 	}
 }
-
 @media ( min-width :1200px) {
 	.card-columns {
 		column-count: 5;
 	}
 }
-
 img {
 	float: center;
 }
-
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
@@ -65,7 +60,7 @@ img {
 				<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img
 					class="img-fluid"
 					th:src="@{'/resources/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
-				<div class="card-body">
+				<div class="card-footer">
 					<h6 class="card-subtitle mb-2 text-muted"
 						th:text="${race.abilityBonuses}"></h6>
 					<h6 th:if="${not race.chiledAbilityBonuses.empty}"
@@ -88,17 +83,29 @@ img {
 						title="сопротивление или иммунитет к урону ядом" />
 						<img src="a.gif" style="display: none;" />
 				</div>
-				<footer class="blockquote-footer">
+				<footer class="card-footer">
 					<small class="text-muted"
 						th:text="'Источник: ' + ${race.book.name}"></small>
 				</footer>
 			</div>
-
 		</div>
 	</div>
+	<div th:replace="fragments/header :: footer"></div>
 </body>
 <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/resources/js/settings.js}"></script>
+<script type="text/javascript">(function(){
+	  var maxHeight = 0;
+	  $('.card').each(function(){
+	    if ($(this).height() > maxHeight) {
+	      maxHeight = $(this).height();
+	    }
+	  });
+	  $('.card').each(function(){
+	    $(this).css('min-height', maxHeight);
+	  });
+	})();
+</script>
 </html>

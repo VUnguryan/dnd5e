@@ -65,7 +65,7 @@ public class CreatureDto {
 		expa = creature.getExp();;
 		name = creature.getName();
 		englishName = creature.getEnglishName();
-		size = creature.getSize().getCyrilicName();
+		size = creature.getSize().getSizeName(creature.getType());
 		type = creature.getType().getCyrilicName();
 		race = creature.getRaceName();
 		alignment = creature.getAlignment().getCyrilicName();

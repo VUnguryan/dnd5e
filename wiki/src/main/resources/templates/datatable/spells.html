@@ -34,6 +34,12 @@ tr.shown td.details-control {
 	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
 		center;
 }
+.badge-info {
+  background-color: #F0D46C;
+}
+.badge-success {
+  background-color: #9FD8AF;
+}
 </style>
 </head>
 <body>
@@ -59,6 +65,7 @@ tr.shown td.details-control {
 							<th>Тип урона</th>
 							<th>Источник</th>
 							<th>English</th>
+							<th>Расходуемые материалы</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -70,15 +77,11 @@ tr.shown td.details-control {
 	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 	<script th:src="@{/resources/js/settings.js}"></script>
-	
 	<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/resources/js/datatables/dataTables.bootstrap4.min.js}"></script>
-	
 	<script th:src="@{/resources/js/searchPanes/dataTables.searchPanes.js}"></script>
 	<script th:src="@{/resources/js/searchPanes/searchPanes.bootstrap4.min.js}"></script>
-	
 	<script th:src="@{/resources/js/select/dataTables.select.min.js}"></script>
-	
 	<script th:src="@{/resources/js/buttons/dataTables.buttons.min.js}"></script>
 	<script th:src="@{/resources/js/buttons/buttons.bootstrap4.min.js}"></script>
 	<script th:src="@{/resources/js/buttons/buttons.colVis.min.js}"></script>
@@ -158,7 +161,14 @@ tr.shown td.details-control {
 								render : function(data, type, row) {
 									if (type === 'display') {
 										var school = '';
-										var result = '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')</small>' + '</h6><small>';
+										var result = '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')';
+										if (row.ritual === 'true') {
+											result+=' <span title="ритуал" class="badge badge-pill badge badge-success">Р</span>'; 
+										}
+										if (row.concentration === 'true') {
+											result+=' <span title="концентрация" class="badge badge-pill badge-info">К</span>';	
+										}
+										result+='</small></h6><small>';
 										result += '<div class="text-secondary">';
 										result += row.school;
 										if (row.verbalComponent === '★') {
@@ -168,7 +178,12 @@ tr.shown td.details-control {
 											result+=' <span title="соматический" class="badge badge-secondary">С</span>';
 										}
 										if (row.materialComponent === '★') {
-											result+=' <span title="материальный" class="badge badge-secondary">М</span>';
+											if (row.consumable){
+												result+=' <span title="материальный, расходуемый" class="badge badge-dark">М</span>';
+											}
+											else {
+												result+=' <span title="материальный" class="badge badge-secondary">М</span>';	
+											}
 										}
 										result += '</small></div>';
 										return result;
@@ -275,6 +290,12 @@ tr.shown td.details-control {
 							    orderable: false,
 							},
 							{
+								data : 'consumable',
+								width : "1%",
+							    orderable: false,
+							    searchable: false,
+							},
+							{
 								className : 'details-control',
 							    searchable: false,
 							    orderable: false,
@@ -334,6 +355,10 @@ tr.shown td.details-control {
 					            {
 					                "targets": [ 14 ],
 					                "visible": false
+					            },
+					            {
+					                targets: [ 15 ],
+					                visible: false
 					            }
 					        ],
 					        buttons: [

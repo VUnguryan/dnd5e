@@ -6,17 +6,20 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Alignment {
-	LAWFUL_GOOD("законно-добрый", "ЗД"),
-	LAWFUL_NEUTRAL("законно-нейтральный", "ЗН"),
-	LAWFUL_EVIL("законно-злой", "ЗЗ"),
-	TRUE_NEUTRAL("законно-нейтральный", "ЗН"),
-	NEUTRAL_GOOD("нейтрально-добрый", "НД"),
-	NEUTRAL_EVIL("нейтрально-злой", "НЗ"), 
-	CHAOTIC_GOOD("хаотично-добрый", "ХД"),
-	CHAOTIC_NEUTRAL("хаотично-нейтральный", "ХН"),
-	CHAOTIC_EVIL("хаотично-злой", "ХЗ"),
-	NEUTRAL("нейтральный", "Н"),
-	WITHOUT("без мировоззрения", "");
+	LAWFUL_GOOD("законно-добрый", "ЗД"), //0 
+	LAWFUL_NEUTRAL("законно-нейтральный", "ЗН"), // 1
+	LAWFUL_EVIL("законно-злой", "ЗЗ"), //2 
+	TRUE_NEUTRAL("законно-нейтральный", "ЗН"), //3
+	NEUTRAL_GOOD("нейтрально-добрый", "НД"), // 4
+	NEUTRAL_EVIL("нейтрально-злой", "НЗ"), //5 
+	CHAOTIC_GOOD("хаотично-добрый", "ХД"), //6
+	CHAOTIC_NEUTRAL("хаотично-нейтральный", "ХН"), //7
+	CHAOTIC_EVIL("хаотично-злой", "ХЗ"), // 8
+	NEUTRAL("нейтральный", "Н"), //9
+	WITHOUT("без мировоззрения", ""),
+	ALL_EVIL("любое злое мировоззрение", ""), // 11
+	ALL("любое мировоззрение", "") // 12
+	;
 
 	private String cyrilicName;
 	private String shortName;

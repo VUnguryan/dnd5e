@@ -38,7 +38,7 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .classes})"></div>
-	   <div class="container-fluid" style="margin-top: 25px">
+	   <main role="main" class="container-fluid" style="margin-top: 25px">
         <div class="card-columns">
             <div th:each="heroClass : ${classes}" class="card mb-3 text-center">
                 <div class="card-header">
@@ -50,7 +50,8 @@
                     th:src="@{'/resources/classes/art/'+ ${heroClass.id} +'.jpg'}" align="middle" /></a>
             </div>
         </div>
-    </div>
+    </main>
+    <div th:replace="fragments/header :: footer"></div>
 </body>
 <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>

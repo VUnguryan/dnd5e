@@ -484,10 +484,12 @@ public class AdminController {
 			token = reader.readLine();
 			if (!token.startsWith("Языки")) {
 				skillText += token;
-				creature.setVision(skillText);
+				// FIXME
+				//creature.setVision(skillText);
 				skillText = reader.readLine();
 			} else {
-				creature.setVision(skillText);
+				// FIXME
+				//creature.setVision(skillText);
 				skillText = token;
 			}
 

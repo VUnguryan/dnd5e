@@ -4,24 +4,49 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public enum CreatureSize {
-	TINY("Крошечный"),
-	SMALL("Маленький"),
-	MEDIUM("Средний"), 
-	LARGE("Большой"),
-	HUGE("Огромный"),
-	GARGANTUAN("Громадный"); 
+	TINY("Крошечный","Крошечная", "Крошечное"),
+	SMALL("Маленький", "Маленькая", "Маленькое"),
+	MEDIUM("Средний", "Средняя", "Среднее"), 
+	LARGE("Большой", "Большая", "Большое"),
+	HUGE("Огромный", "Огромная", "Огромное"),
+	GARGANTUAN("Громадный", "Громадная", "Громадное"); 
 
-	private String cyrilicName;
+	private String [] names;
+	CreatureSize(String... names){
+		this.names = names;
+	}
 
 	public static CreatureSize parse(String size) {
 		for (CreatureSize creatureSize : values()) {
-			String start = creatureSize.cyrilicName.substring(0, 3);
-			if (size.startsWith(start)) {
-				return creatureSize;
+			for (String sizeName : creatureSize.names) {
+				if (sizeName.equalsIgnoreCase(size)) {
+					return creatureSize;
+				}
 			}
 		}
 		return null;
+	}
+
+	public String getSizeName(CreatureType type) {
+		switch (type) {
+		case ABERRATION:
+		case FEY:
+		case OOZE:
+		case UNDEAD:
+		case SLIME:
+		case SMALL_BEAST:
+			return names[1];
+		case FIEND:
+		case MONSTROSITY:
+		case PLANT:
+			return names[2];
+		default:
+			return names[0];
+		}
+	}
+
+	public String getCyrilicName() {
+		return names[0];
 	}
 }

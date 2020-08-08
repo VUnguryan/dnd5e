@@ -68,7 +68,7 @@ public class Monster {
 			ac+= String.format(" (%s)", creature.getArmorTypes().stream().map(ArmorType::getCyrillicName).collect(Collectors.joining(", ")));
 		}
 		hp = creature.getHp();
-		speed = creature.getAllEnglishSpeed();
+		speed = creature.getAllSpeedEnglish();
 		strength = creature.getStrength();
 		dexterity = creature.getDexterity();
 		constitution = creature.getConstitution();

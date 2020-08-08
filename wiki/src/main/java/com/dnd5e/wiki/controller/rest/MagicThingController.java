@@ -46,7 +46,6 @@ public class MagicThingController {
 	public DataTablesOutput<MagicThingDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
 		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
 
-
 		DataTablesOutput<MagicThingDto> output;
 		Specification<MagicThing> specification = null;
 		if (setting == null || !setting.isHomeRule())
@@ -92,15 +91,15 @@ public class MagicThingController {
 
 		
 		repo.countTotalMagicThingsByRarity().stream()
-			.map(c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			.map(c -> new Item<String>(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("rarity", options, v));
 
 		repo.countTotalMagicThingsByType().stream()
-			.map(c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			.map(c -> new Item<String>(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("type", options, v));
 		
 		repo.countTotalMagicThingsByBook().stream()
-			.map(c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			.map(c -> new Item<String>(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("book", options, v));
 		
 		sPanes.setOptions(options); 

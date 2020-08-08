@@ -5,17 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum CreatureType {
-	  ABERRATION("аберрация"),  
-	  BEAST("зверь"),
-	  CELESTIAL("небожитель"),
-	  CONSTRUCT("конструкт"),
-	  DRAGON("дракон"),
-	  ELEMENTAL("элементаль"),
-	  FEY("фея", "фей"),
-	  FIEND("исчадие"),
-	  GIANT("великан", "гигант"),
-	  HUMANOID("гуманоид"),
-	  MONSTROSITY("чудовище", "монстр"),
+	  ABERRATION("аберрация"), // 0  
+	  BEAST("зверь"), // 1
+	  CELESTIAL("небожитель"), //2 
+	  CONSTRUCT("конструкт"), // 3
+	  DRAGON("дракон"), //4
+	  ELEMENTAL("элементаль"), //5
+	  FEY("фея", "фей"), //6 
+	  FIEND("исчадие"), //7
+	  GIANT("великан", "гигант"), //8
+	  HUMANOID("гуманоид"), //9
+	  MONSTROSITY("чудовище", "монстр"), 
 	  OOZE("тина"),
 	  OUTSIDER("потустаронний"),
 	  PLANT("растение"),

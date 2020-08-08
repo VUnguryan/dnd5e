@@ -57,6 +57,9 @@ public class Spell {
 	private Boolean somaticComponent;
 	private Boolean materialComponent;
 	
+	@Column(columnDefinition = "boolean default false")
+	private Boolean consumable;
+	
 	@Column(columnDefinition = "TEXT", nullable = true)
 	private String additionalMaterialComponent;
 	private String duration;

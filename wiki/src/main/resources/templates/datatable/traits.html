@@ -60,28 +60,22 @@ tr.shown td.details-control {
 	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 	<script th:src="@{/resources/js/settings.js}"></script>
-	
 	<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/resources/js/datatables/dataTables.bootstrap4.min.js}"></script>
-	
 	<script th:src="@{/resources/js/searchPanes/dataTables.searchPanes.js}"></script>
 	<script th:src="@{/resources/js/searchPanes/searchPanes.bootstrap4.min.js}"></script>
-	
 	<script th:src="@{/resources/js/select/dataTables.select.min.js}"></script>
-	
 	<script th:src="@{/resources/js/buttons/dataTables.buttons.min.js}"></script>
 	<script th:src="@{/resources/js/buttons/buttons.bootstrap4.min.js}"></script>
 	<script th:src="@{/resources/js/buttons/buttons.colVis.min.js}"></script>
 	<script src="/resources/js/jquery.spring-friendly.js"></script>
 	<script>
-
 	$(document).ready(function() {
 		$('a.toggle-vis').on( 'click', function (e) {
 	        e.preventDefault();
 	        var column = table.column( $(this).attr('data-column') );
 	        column.visible( ! column.visible() );
 	    });
-	
 		var table = $('#example').DataTable( {
 			iDisplayLength : 25,
 	        dom: 'Bfrtip',

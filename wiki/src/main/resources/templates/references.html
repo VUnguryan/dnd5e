@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<head>
+<title>DnD 5E Полезные ссылки</title>
+<meta charset="utf-8">
+<link rel="icon" th:href="@{/resources/icon.png}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+</body>
+</body>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
+	<div class="container" style="margin-top: 25px">
+		<div class="card-columns">
+			<div th:each="reference : ${references}" class="card">
+				<div class="card-body">
+					<th:block th:utext="${reference.description}"></th:block>
+					<a th:href="@{${reference.url}}" class="card-link" th:text="${reference.url}"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.js}"></script>
+<script th:src="@{/resources/js/settings.js}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#demo').multiselect();
+	});
+</script>
+</html>

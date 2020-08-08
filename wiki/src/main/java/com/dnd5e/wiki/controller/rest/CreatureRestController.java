@@ -28,6 +28,7 @@ import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.CreatureType;
+import com.dnd5e.wiki.model.spell.GroupByCount;
 import com.dnd5e.wiki.repository.datatable.CreatureDatatableRepository;
 
 @RestController
@@ -61,7 +62,15 @@ public class CreatureRestController {
 		for (int j = 0; j <= 34; j++) {
 			String cr = searchPanes.get("searchPanes.exp." + j);
 			if (cr != null) {
-				filterCr.add(cr);
+				if (cr.equals("0.5")) {
+					filterCr.add("1/2");
+				} else if (cr.equals("0.25")) {
+					filterCr.add("1/4");
+				} else if (cr.equals("0.125")) {
+					filterCr.add("1/8");
+				} else {
+					filterCr.add(cr);
+				}
 			}
 		}
 		if (!filterCr.isEmpty()) {
@@ -95,9 +104,8 @@ public class CreatureRestController {
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
 
-		repo.countTotalCreatureByCr().stream() .map(c -> new
-				  Item(String.valueOf(c.getField()), c.getTotal(),
-				  String.valueOf(c.getField()), c.getTotal())) .forEach(v -> addItem("exp", options, v));
+		repo.countTotalCreatureByCr().stream().map(this::convertCr).forEach(v -> addItem("exp", options, v));
+
 		repo.countTotalCreatureByType().stream() .map(c -> new
 				  Item(String.valueOf(c.getField().getCyrilicName()), c.getTotal(),
 				  String.valueOf(c.getField()), c.getTotal())) .forEach(v -> addItem("type", options, v));
@@ -112,6 +120,25 @@ public class CreatureRestController {
 		SearchPanesOutput<CreatureDto> spOutput = new SearchPanesOutput<>(output);
 		spOutput.setSearchPanes(sPanes);
 		return spOutput;
+	}
+	
+	private Item<Float> convertCr(GroupByCount<String> group) {
+		float  cr = 0f;
+		switch (group.getField()) {
+		case "1/8":
+			cr = 1/8f;
+			break;
+		case "1/4":
+			cr = 1/4f;
+			break;
+		case "1/2":
+			cr = 1/2f;
+			break;
+		default:
+			cr = Float.valueOf(group.getField());
+			break;
+		}
+		return new Item<Float>(cr, group.getTotal(), group.getField(), group.getTotal());
 	}
 	
 	private <T> Specification<T> addSpecification(Specification<T> specification , Specification<T> addSpecification){

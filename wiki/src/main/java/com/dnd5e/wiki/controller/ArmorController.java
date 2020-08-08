@@ -17,7 +17,6 @@ import com.dnd5e.wiki.repository.ArmorRepository;
 @Controller
 @RequestMapping("/stock/armors")
 public class ArmorController {
-	
 	@Autowired
 	private ArmorRepository repo;
 	

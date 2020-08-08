@@ -41,17 +41,21 @@ public class HeroClass {
 	private String name;
 	private String englishName;
 
+	@Column(columnDefinition = "TEXT")
+	private String description; 
+
 	@OneToMany()
 	@JoinColumn(name = "hero_class_id")
 	private List<LevelDefinition> levelDefenitions;
 
-	private String boneHits;
 	private byte diceHp;
 
 	private String armor;
 	private String weapon;
 	private String savingThrows;
 	private String archetypeName;
+	@Column(columnDefinition = "TEXT")
+	private String equipment;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@OrderBy("level")

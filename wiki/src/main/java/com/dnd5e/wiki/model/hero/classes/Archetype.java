@@ -1,6 +1,8 @@
 package com.dnd5e.wiki.model.hero.classes;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
+import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Data;
 
@@ -35,7 +38,16 @@ public class Archetype {
 	@JoinColumn(name = "archetype_id")
 	private List<ArchetypeTrait> feats;
 	
+	@OneToMany
+	@JoinColumn(name = "archetype_id")
+	private List<ArchetypeSpell> spells;
+	
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	
+	public Map<Integer, List<Spell>> getLevelSpells(){
+		return spells.stream()
+				.collect(Collectors.groupingBy(ArchetypeSpell::getLevel, Collectors.mapping(ArchetypeSpell::getSpell, Collectors.toList())));
+	}
 }

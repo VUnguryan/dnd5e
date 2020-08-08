@@ -165,6 +165,14 @@ tr.shown td.details-control {
 							width : "3%",
 						    searchable: false,
 						    className: "text-center",
+						    render : function(data, type, row) {
+								if (type === 'display') {
+									if (data) {
+										return 'Есть';
+									}
+								}
+								return 'Нет';
+							}, 
 						}, 
 						{
 							data : "cost",
@@ -205,12 +213,12 @@ tr.shown td.details-control {
 			                "visible": false
 				        },
 			            {
-			                "targets": [ 5 ],
-			                "visible": false
+			                targets: [ 5 ],
+			                visible: false
 				        },
 			            {
-			                "targets": [ 6 ],
-			                "visible": false
+			                targets: [ 6 ],
+			                visible: false
 				        },
 				    ],
 				    buttons: [
@@ -229,6 +237,18 @@ tr.shown td.details-control {
 			                        text: 'Редкость',
 			                        action: function ( e, dt, node, config ) {
 			                            dt.column(2).visible(!dt.column(2).visible());
+			                        }
+			                    },
+			                    {
+			                        text: 'Настройка',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column(3).visible(!dt.column(3).visible());
+			                        }
+			                    },
+			                    {
+			                        text: 'Стоимость',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column(4).visible(!dt.column(4).visible());
 			                        }
 			                    },
 			                    {

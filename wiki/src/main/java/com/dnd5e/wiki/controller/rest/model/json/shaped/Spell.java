@@ -56,5 +56,8 @@ public class Spell {
 				save = new Save(spell, description);
 			}
 		}
+		if (description.contains("восстанавливает количество хитов") || description.contains("восстанавливают хиты в количестве")) {
+			
+		}
 	}
 }

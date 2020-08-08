@@ -1,109 +1,72 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
-		th:fragment="header(search)">
-		<button type="button" class="navbar-toggler" data-toggle="collapse"
-			data-target="#navbar-main" aria-expanded="false"
-			aria-label="Toggle navigation">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="header(search)">
+		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbar-main">
 			<a class="navbar-brand" th:href="@{/}">D&amp;D 5E</a>
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown"> Персонаж </a>
+				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Персонаж </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/hero/classes}">Классы</a> <a
-							class="dropdown-item" th:href="@{/hero/races}">Расы</a> <a
-							class="dropdown-item" th:href="@{/hero/backgrounds}">Предыстории</a>
-						<a class="dropdown-item" th:href="@{/hero/traits}">Черты</a> <a
-							class="dropdown-item" th:href="@{/hero/conditions}">Состояния</a>
+						<a class="dropdown-item" th:href="@{/hero/classes}">Классы</a> <a class="dropdown-item" th:href="@{/hero/races}">Расы</a> <a class="dropdown-item" th:href="@{/hero/backgrounds}">Предыстории</a>
+						<a class="dropdown-item" th:href="@{/hero/traits}">Черты</a> <a class="dropdown-item" th:href="@{/hero/conditions}">Состояния</a>
 					</div></li>
-								<li class="nav-item"><a class="nav-link"
-					th:href="@{/hero/spells}">Заклинания</a></li>
-				
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown"> Сокровища </a>
+				<li class="nav-item"><a class="nav-link" th:href="@{/hero/spells}">Заклинания</a></li>
+				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Сокровища </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/stock/treasures}">Драгоценности</a>
-						<a class="dropdown-item"
-							th:href="@{/stock/artifacts}">Магические предметы</a>
+						<a class="dropdown-item" th:href="@{/stock/treasures}">Драгоценности</a> <a class="dropdown-item" th:href="@{/stock/artifacts}">Магические предметы</a>
 					</div></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown">Инвентарь</a>
+				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Инвентарь</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/stock/armors}">Доспехи</a> <a
-							class="dropdown-item" th:href="@{/stock/weapons}">Оружие</a> <a
-							class="dropdown-item" th:href="@{/stock/equipments}">Снаряжение</a>
+						<a class="dropdown-item" th:href="@{/stock/armors}">Доспехи</a> <a class="dropdown-item" th:href="@{/stock/weapons}">Оружие</a> <a class="dropdown-item" th:href="@{/stock/equipments}">Снаряжение</a>
 					</div></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown">Калькуляторы</a>
+				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Инструменты МП</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/calc/idle}">Время простоя</a>
-						<a class="dropdown-item" th:href="@{/calc/buyMagicThings}">Покупка
-							магических вещей</a>
+						<a class="dropdown-item" th:href="@{/calc/master}">Мастерский щит</a>
+						<a class="dropdown-item" th:href="@{/calc/idle}">Время простоя</a><a class="dropdown-item" th:href="@{/calc/buyMagicThings}">Покупка магических вещей</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" th:href="@{/calc/taverna}">Таверна на
-							скорую руку</a> <a class="dropdown-item" th:href="@{/calc/wildMagic}">Дикая
-							магия</a> <a class="dropdown-item" th:href="@{/calc/madness}">Безумие</a>
+						<a class="dropdown-item" th:href="@{/calc/taverna}">Таверна на скорую руку</a> <a class="dropdown-item" th:href="@{/calc/wildMagic}">Дикая магия</a> <a class="dropdown-item"
+							th:href="@{/calc/madness}"
+						>Безумие</a>
 					</div></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/entities/gods}">Боги</a></li>
-				<li class="nav-item"><a class="nav-link"
-					th:href="@{/entities/creatures}">Бестиарий</a></li>
-				<li sec:authorize="hasRole('ROLE_USER')" class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown">Мастерская</a>
+				<li class="nav-item"><a class="nav-link" th:href="@{/entities/gods}">Боги</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/entities/creatures}">Бестиарий</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/references}">Ссылки</a></li>
+				
+				<li sec:authorize="hasRole('ROLE_USER')" class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Мастерская</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/tavern/add}">Создать персонажа</a> <a class="dropdown-item"
-							th:href="@{/tavern?sort=name,asc}">Список персонажей</a> <a
-							class="dropdown-item" th:href="@{/magic/books}">Книги заклинаний</a>
+						<a class="dropdown-item" th:href="@{/tavern/add}">Создать персонажа</a> <a class="dropdown-item" th:href="@{/tavern?sort=name,asc}">Список персонажей</a> <a class="dropdown-item"
+							th:href="@{/magic/books}"
+						>Книги заклинаний</a>
 					</div></li>
-				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a
-					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown">Админка</a>
+				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Админка</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить
-							магическую вещь</a> <a class="dropdown-item"
-							th:href=@{/admin/spell/add}>Добавить заклинание</a> <a
-							class="dropdown-item" th:href="@{/admin/class/add}">Добавить
-							класс</a> <a class="dropdown-item" th:href="@{/admin/race/add}">Добавить
-							рассу</a> <a class="dropdown-item" th:href="@{/admin/background/add}">Добавить
-							предысторию</a> <a class="dropdown-item"
-							th:href="@{/admin/trait/add}">Добавить черту</a> <a
-							class="dropdown-item" th:href="@{/admin/creature/add}">Добавить
-							в бестиарий</a> <a class="dropdown-item"
-							th:href="@{/admin/creature/parse}">Импорт монстра</a>
+						<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить магическую вещь</a> <a class="dropdown-item" th:href=@{/admin/spell/add}>Добавить заклинание</a> <a class="dropdown-item"
+							th:href="@{/admin/class/add}"
+						>Добавить класс</a> <a class="dropdown-item" th:href="@{/admin/race/add}">Добавить рассу</a> <a class="dropdown-item" th:href="@{/admin/background/add}">Добавить предысторию</a> <a
+							class="dropdown-item" th:href="@{/admin/trait/add}"
+						>Добавить черту</a> <a class="dropdown-item" th:href="@{/admin/creature/add}">Добавить в бестиарий</a> <a class="dropdown-item" th:href="@{/admin/creature/parse}">Импорт монстра</a>
 					</div></li>
 			</ul>
 			<form class="form-inline">
 				<div class="nav-item custom-control custom-switch mr-sm-2">
-
-					<input type="checkbox" class="custom-control-input"
-						th:checked="${session.settings != null and session.settings.homeRule}"
-						id="official"> <label
-						class="custom-control-label text-white" for="official">Не
-						официальный контент </label>
+					<input type="checkbox" class="custom-control-input" th:checked="${session.settings != null and session.settings.homeRule}" id="official"> <label class="custom-control-label text-white"
+						for="official"
+					>Не официальный контент </label>
 				</div>
 			</form>
 			<th:block sec:authorize="isAnonymous()">
 				<form class="form-inline my-2 my-lg-0" th:action="@{/login}">
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button class="btn btn-outline-secondary my-2 my-sm-0"
-								type="submit">Вход</button>
+							<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Вход</button>
 						</div>
 					</div>
 				</form>
@@ -112,30 +75,39 @@
 				<form class="form-inline my-2 my-lg-0" th:action="@{/logout}">
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button class="btn btn-outline-secondary my-2 my-sm-0"
-								type="submit">Выход</button>
+							<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Выход</button>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 	</nav>
+
 	<div class="card" th:fragment="saf">
 		<div class="card-body">
 			<div class="input-group">
 				<form th:action="${search}" class='form-inline'>
 					<div class="input-group">
-						<input class="form-control" name="search" type="text" id="usr"
-							placeholder="Поиск" th:value="${searchText}">
+						<input class="form-control" name="search" type="text" id="usr" placeholder="Поиск" th:value="${searchText}">
 						<button class="btn btn-outline-secondary" type="submit">Поиск</button>
 					</div>
 				</form>
 				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" data-toggle="collapse"
-						data-target="#filter">Фильтр</button>
+					<button class="btn btn-outline-secondary" data-toggle="collapse" data-target="#filter">Фильтр</button>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<footer class="footer" th:fragment="footer">
+		<div class="container">
+			<p class="text-center">
+				<small class="text-secondary">Материалы на данном сайте приведены исключительно в справочных и ознакомительных целях и не заменяют необходимость покупки официальных материалов по игре.<br>
+					Весь графический материал и система Dungeons&amp;Dragons является собственностью корпорации Wizards of the Coast.<br> Перевод и русскоязычная терминология принадлежат студии фэнтези PHantom.
+					Права на выпуск материалов на русском языке принадлежат Hobby Games
+				</small>
+			</p>
+		</div>
+	</footer>
 </body>
 </html>

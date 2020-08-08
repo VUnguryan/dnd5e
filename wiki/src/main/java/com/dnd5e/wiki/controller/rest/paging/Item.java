@@ -11,8 +11,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Item {
-	String label;
+public class Item <T> {
+	T label;
     Long total;
     String value;
     Long count;
