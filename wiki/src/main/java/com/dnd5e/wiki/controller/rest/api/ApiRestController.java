@@ -13,10 +13,12 @@ import com.dnd5e.wiki.controller.rest.model.api.BackgroundDto;
 import com.dnd5e.wiki.controller.rest.model.api.ClassDto;
 import com.dnd5e.wiki.controller.rest.model.api.ClassInfo;
 import com.dnd5e.wiki.controller.rest.model.api.PersonalizationDto;
+import com.dnd5e.wiki.controller.rest.model.api.SpellDto;
 import com.dnd5e.wiki.model.hero.Background;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.repository.BackgroundRepository;
 import com.dnd5e.wiki.repository.ClassRepository;
+import com.dnd5e.wiki.repository.SpellRepository;
 
 @RestController()
 @RequestMapping("/api")
@@ -26,6 +28,14 @@ public class ApiRestController {
 	
 	@Autowired
 	private ClassRepository classRepository;
+	
+	@Autowired
+	private SpellRepository spellRepository;
+
+	@GetMapping("/spells")
+	public List<SpellDto> getSpells(){
+		return spellRepository.findAll().stream().map(SpellDto::new).collect(Collectors.toList());
+	}
 
 	@GetMapping("/classes")
 	public List<ClassDto> getClasses(){
@@ -44,6 +54,9 @@ public class ApiRestController {
 	
 	@GetMapping("/backgrounds/{id}/personalization")
 	public List<PersonalizationDto> getBackground(@PathVariable Integer id){
-		return backgroundRepository.findById(id).orElseGet(() -> new Background()).getPersonalizations().stream().map(PersonalizationDto::new).collect(Collectors.toList());
+		return backgroundRepository.findById(id).orElseGet(() -> new Background()).getPersonalizations()
+				.stream()
+				.map(PersonalizationDto::new)
+				.collect(Collectors.toList());
 	}
 }

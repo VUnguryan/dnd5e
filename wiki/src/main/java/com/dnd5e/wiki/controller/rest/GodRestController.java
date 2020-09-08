@@ -21,14 +21,12 @@ import com.dnd5e.wiki.controller.rest.paging.Item;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.GodDto;
-import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.creature.Alignment;
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
 import com.dnd5e.wiki.model.gods.GodSex;
 import com.dnd5e.wiki.model.gods.Pantheon;
 import com.dnd5e.wiki.model.gods.Rank;
-import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.repository.datatable.GodDatatableRepository;
 
 @RestController

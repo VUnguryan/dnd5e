@@ -43,9 +43,11 @@ public enum AbilityType {
 		}
 		return null;
 	}
+	
 	public String getCapitalizeName() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}
+	
 	public static AbilityType parse(String name) {
 		for (AbilityType abilityType : values()) {
 			if (abilityType.getCyrilicName().equalsIgnoreCase(name)) {

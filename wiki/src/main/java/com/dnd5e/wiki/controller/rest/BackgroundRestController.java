@@ -78,10 +78,10 @@ public class BackgroundRestController {
 		Map<String, List<Item>> options = new HashMap<>();
 
 		repo.countTotalSkill().stream()
-			.map(c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			.map(c -> new Item<String>(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("skills", options, v));
 		repo.countTotalBook().stream().
-			map(c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			map(c -> new Item<String>(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("book", options, v));
 
 		sPanes.setOptions(options);

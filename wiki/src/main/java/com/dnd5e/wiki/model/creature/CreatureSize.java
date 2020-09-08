@@ -1,6 +1,5 @@
 package com.dnd5e.wiki.model.creature;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

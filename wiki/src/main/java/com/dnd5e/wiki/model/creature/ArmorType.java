@@ -14,8 +14,8 @@ public enum ArmorType {
 	SCRAPPY("лоскутный доспех"), // 4
 	SCALED("чешуйчатый доспех"), //5 
 	RIVETED_LEATHER("проклёпаная кожа"), //7
-	CHAIN_MAIL("кольчуга"),
-	HALF_PLATE("полулаты"),
+	CHAIN_MAIL("кольчуга"), // 8
+	HALF_PLATE("полулаты"), 
 	PLATE("латный доспех"),
 	
 	PLATE_HALF("пластинчатый доспех"),

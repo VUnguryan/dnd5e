@@ -13,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 public enum State {
-	BLINDED("ослепление", "слепота"),
+	BLINDED("ослепление", "слепота"), // 0
 	CHARMED("очарование", "очарован"), // 1
 	DYING("смерть"), //2 
 	DODGING("уклонение"), //3
@@ -43,6 +43,7 @@ public enum State {
 				.findFirst()
 				.orElseThrow(() -> new IllegalArgumentException(stateString));
 	}
+	
 	public static Set<State> getImmunity() {
 		return EnumSet.of(BLINDED, CHARMED, DEAFENED,EXHAUSTING,FRIGHTENED, GRAPPLED, PARALYZED, PETRIFIED, POISONED, PRONE, RESTRAINED, STUNNED, UNCONSCIOUS);
 	}

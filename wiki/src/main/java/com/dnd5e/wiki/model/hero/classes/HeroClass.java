@@ -86,6 +86,10 @@ public class HeroClass {
 	@Enumerated(EnumType.STRING)
 	private Rest slotsReset;
 	
+	@OneToMany
+	@JoinColumn(name = "class_id")
+	private List<ClassPersonalization> personalizations;
+	
 	public List<ArchetypeTrait> getArhitypeTraitNames(int level){
 		return archetypes
 				.stream()

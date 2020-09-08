@@ -15,14 +15,14 @@ public enum CreatureType {
 	  FIEND("исчадие"), //7
 	  GIANT("великан", "гигант"), //8
 	  HUMANOID("гуманоид"), //9
-	  MONSTROSITY("чудовище", "монстр"), 
-	  OOZE("тина"),
-	  OUTSIDER("потустаронний"),
-	  PLANT("растение"),
-	  DEVIL("демон", "изверг"),
-	  UNDEAD("нежить"),
-	  VERMIN("паразит"), 
-	  SLIME("слизь"),
+	  MONSTROSITY("чудовище", "монстр"), //10
+	  OOZE("тина"), //11
+	  OUTSIDER("потустаронний"), //12
+	  PLANT("растение"), //13
+	  DEVIL("демон", "изверг"), //14
+	  UNDEAD("нежить"), //15
+	  VERMIN("паразит"),  //16
+	  SLIME("слизь"), //17
 	  SMALL_BEAST("стая крошечных зверей","крохотных зверей", "рой крошечных зверей");
 
 	private final String displayCyrilicName;

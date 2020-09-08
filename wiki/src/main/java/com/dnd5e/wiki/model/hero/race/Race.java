@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,6 +37,7 @@ public class Race {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String englishName;
 
 	@OneToMany
 	@JoinColumn(name = "race_id")
@@ -131,9 +131,11 @@ public class Race {
 		return names.stream().collect(Collectors.groupingBy(RaceName::getSex,
 				Collectors.mapping(RaceName::getName, Collectors.toCollection(TreeSet::new))));
 	}
+	
 	public List<RaceNickname> getAllNicknames() {
 		return Stream.concat(nicknames.stream(), parent == null ? Stream.empty() : parent.getNicknames().stream()).collect(Collectors.toList());
 	}
+	
 	public Map<Sex, Set<String>> getAllNames() {
 		return Stream.concat(names.stream(), parent == null ? Stream.empty() : parent.names.stream()).collect(Collectors.groupingBy(RaceName::getSex,
 				Collectors.mapping(RaceName::getName, Collectors.toCollection(TreeSet::new))));
