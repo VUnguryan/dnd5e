@@ -1,51 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="User account registration" />
-<meta name="author" content="Amir Boroumand" />
 <link rel="icon" href="favicon.ico" />
-
 <title>Вход</title>
-
-<link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 </head>
-
-<body class="gray-bg">
-	<div th:insert="fragments/header :: header(~{ :: .classes})"></div>
-	<div id="login">
+<body>
+	<div id="login" layout:fragment="content">
 		<h3 class="text-center text-white pt-5">Вход</h3>
 		<div class="container">
-			<div id="login-row"
-				class="row justify-content-center align-items-center">
+			<div id="login-row" class="row justify-content-center align-items-center">
 				<div id="login-column" class="col-md-6">
 					<div id="login-box" class="col-md-12">
-						<div th:if="${error}" class="alert alert-danger" role="alert"
-							th:text="${error}"></div>
-						<form id="login-form" class="form" th:action="@{/login}"
-				method="post">
+						<div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+						<form id="login-form" class="form" th:action="@{/login}" method="post">
 							<h3 class="text-center text-info">Login</h3>
 							<div class="form-group">
-								<label for="username" class="text-info">Имя пользователя:</label><br>
-								<input type="text" name="username" id="username"
-									class="form-control">
+								<label for="username" class="text-info">Имя пользователя:</label><br> <input type="text" name="username" id="username" class="form-control">
 							</div>
 							<div class="form-group">
-								<label for="password" class="text-info">Пароль:</label><br>
-								<input type="password" name="password" id="password"
-									class="form-control">
+								<label for="password" class="text-info">Пароль:</label><br> <input type="password" name="password" id="password" class="form-control">
 							</div>
 							<div class="form-group">
-								<label for="remember-me" class="text-info"><span>Запомнить
-										меня</span> <span><input id="remember-me" name="remember-me"
-										type="checkbox"></span></label><br> <input type="submit"
-									name="submit" class="btn btn-info btn-md" value="Вход">
+								<label for="remember-me" class="text-info"><span>Запомнить меня</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br> <input type="submit"
+									name="submit" class="btn btn-info btn-md" value="Вход"
+								>
 							</div>
 							<div id="register-link" class="text-right">
 								<a th:href="@{/registration}" class="text-info">Зарегистрироваться</a>
@@ -57,7 +38,4 @@
 		</div>
 	</div>
 </body>
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 </html>

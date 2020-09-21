@@ -8,10 +8,12 @@ import lombok.Getter;
 public class BackgroundDto {
 	private int id;
 	private String name;
+	private String englishName;
 	private String source;
 	public BackgroundDto(Background background) {
 		this.id = background.getId();
 		this.name = background.getName();
+		this.englishName = background.getEnglishName();
 		this.source = background.getBook().getSource();
 	}
 }

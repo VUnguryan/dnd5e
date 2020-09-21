@@ -1,27 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<head>
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
-<title>DnD 5E Персонализация</title>
-<meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
+<title>Персонализация</title>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
-	<div class="container" style="margin-top: 50px">
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<div class="card">
 			<h5 class="card-header" th:text="${name}"></h5>
 			<div th:utext="${description}" class="card-body"></div>
@@ -31,11 +13,8 @@
 			</th:block>
 			<h5 class="card-header">Индивидуальная особенность</h5>
 			<div th:utext="${feature}" class="card-body"></div>
+			<a class="btn btn-secondary" th:href="@{|/hero/backgrounds/personalizare/${id}|}" id="persone">Случайная  персонализация</a>
 		</div>
 	</div>
 </body>
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/resources/js/settings.js}"></script>
 </html>

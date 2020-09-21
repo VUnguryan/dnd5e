@@ -1,24 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-
-<link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 <meta charset="UTF-8">
 <title>Доступ запрещен</title>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .classes})"></div>
-	<div class="container" style="margin-top: 50px">
+	<div class="container" style="margin-top: 50px" layout:fragment="content">
 		<div class="full-width-image">
-			<img class="img-fluid" alt="Ты не пройдешь"
-				th:src="@{/resources/403.jpeg}">
+			<img class="img-fluid" alt="Ты не пройдешь" th:src="@{/resources/403.jpeg}">
 		</div>
 	</div>
 </body>

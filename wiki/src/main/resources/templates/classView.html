@@ -1,29 +1,17 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
-<title th:text="${'Dnd 5E '+ heroClass.name}"></title>
-<meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<title th:text="${heroClass.name}"></title>
 <style>
 img {
 	float: center;
 }
-
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
 </style>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(@{/classes})"></div>
-	<div class="container" style="margin-top: 25px">
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<div class="card" th:object="${heroClass}">
 			<h5 class="card-header">
 				<th:block th:text="*{name}" />
@@ -130,7 +118,7 @@ img {
 				</div>
 				<h5 class="card-header">Умения</h5>
 				<ul class="list-group list-group-flush">
-					<li th:each="trait: *{traits}" class="list-group-item" th:if="${trait.description}"><b th:id="${'t'+trait.name}"><th:block th:text="${trait.name}">:</b> <th:block
+					<li th:each="trait : *{traits}" class="list-group-item" th:if="${trait.description}"><b th:id="${'t'+trait.name}"><th:block th:text="${trait.name}">:</b> <th:block
 							th:utext="${trait.description}"
 						/></li>
 				</ul>
@@ -156,10 +144,12 @@ img {
 												<th>Заклинания</th>
 											</tr>
 										</thead>
-											<tr th:each = "element : ${archetype.levelSpells}">
-												<td class="text-center" th:text ="${element.key}"></td>
-												<td><a th:href="@{'/hero/spells/spell/' + ${spell.id}}" th:each = "spell, iterStat : ${element.value}" th:text= "${iterStat.last} ? ${#strings.toLowerCase(spell.name)} : ${#strings.toLowerCase(spell.name)} + ', '"></a></td>
-											</tr>
+										<tr th:each="element : ${archetype.levelSpells}">
+											<td class="text-center" th:text="${element.key}"></td>
+											<td><a th:href="@{'/hero/spells/spell/' + ${spell.id}}" th:each="spell, iterStat : ${element.value}"
+												th:text="${iterStat.last} ? ${#strings.toLowerCase(spell.name)} : ${#strings.toLowerCase(spell.name)} + ', '"
+											></a></td>
+										</tr>
 										<tbody>
 										</tbody>
 									</table>
@@ -233,8 +223,4 @@ img {
 		</div>
 	</div>
 </body>
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/resources/js/settings.js}"></script>
 </html>

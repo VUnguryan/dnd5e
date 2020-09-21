@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="~{layouts/layout}">
 <head>
-<title>DnD 5E Планы и места</title>
-<meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<title th:text="${place.name}"></title>
 </body>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
-	<div class="container" style="margin-top: 25px">
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<div class="card" th:object="${place}">
 			<div class="card-header" th:text="*{name}"></div>
 			<div class="card-body">
@@ -19,11 +13,8 @@
 			</div>
 		</div>
 		<div class="list-group">
-			<a th:href="@{'/place/'+${child.id}}" class="list-group-item list-group-item-action" th:each="child : ${children}" th:text="${child.name}"></a>
+			<a th:href="@{|/place/${child.id}|}" class="list-group-item list-group-item-action" th:each="child : ${children}" th:text="${child.name}"></a>
 		</div>
 	</div>
 </body>
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 </html>

@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<title>DnD 5E Таверна</title>
-<meta charset="utf-8">
-
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-<link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-
+<title>Таверна героев</title>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .heroes})"></div>
-	<div class="container" style="margin-top: 50px">
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -25,20 +11,13 @@
 					<th scope="col" class="text-center">Уровень</th>
 				</tr>
 			</thead>
-			<tr th:each="hero : ${heroes}" style="cursor: pointer"
-				th:onclick="'javascript:rowClicked(\'' + ${hero.id} + '\');'">
-				<td class="text-center"><img
-					th:src="@{'/resources/classes/' + ${hero.heroClass.id}+ '.png'}"
-					th:title="${hero.heroClass.name}" height="50" width="50" /> <th:block
-						th:text="${hero.name}" /></td>
+			<tr th:each="hero : ${heroes}" style="cursor: pointer" th:onclick="'javascript:rowClicked(\'' + ${hero.id} + '\');'">
+				<td class="text-center"><img th:src="@{'/resources/classes/' + ${hero.heroClass.id}+ '.png'}" th:title="${hero.heroClass.name}" height="50" width="50" /> <th:block th:text="${hero.name}" /></td>
 				<td class="text-center" th:text="*{hero.level}">
 			</tr>
 		</table>
 	</div>
 </body>
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script>
 	function rowClicked(value) {
 		var baseUrl = '[[@{/tavern/hero/}]]';

@@ -1,46 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/js-layout}">
 <head>
-<title>DnD 5E Состояния персонажа</title>
-<meta charset="utf-8">
-
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!-- Bootstrap CSS -->
-<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
-	rel="stylesheet" />
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-
+<title>Добавление существа в Бестиарий</title>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .conditions})"></div>
-	<div class="container" style="margin-top: 50px">
-		<form action="#" th:action="@{/creature/add}" th:object="${creature}"
-			method="post">
+	<div class="container" style="margin-top: 50px" layout:fragment="content">
+		<form action="#" th:action="@{/creature/add}" th:object="${creature}" method="post">
 			<div class="card">
 				<div class="card-body">
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="basic-addon1">Наименование</span>
 						</div>
-						<input type="text" class="form-control" placeholder="Имя"
-							aria-label="Имя" aria-describedby="basic-addon1"
-							th:field="*{name}">
+						<input type="text" class="form-control" placeholder="Имя" aria-label="Имя" aria-describedby="basic-addon1" th:field="*{name}">
 					</div>
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="inputGroupSelect01">Размер</label>
 						</div>
 						<select class="custom-select" id="inputGroupSelect01">
-							<option th:each="size : ${sizes}" th:value="${size}"
-								th:text="${size.cyrilicName}"
-								th:selected="${size.ordinal() == 2}"></option>
+							<option th:each="size : ${sizes}" th:value="${size}" th:text="${size.cyrilicName}" th:selected="${size.ordinal() == 2}"></option>
 						</select>
 					</div>
 					<div class="input-group mb-3">
@@ -48,19 +27,15 @@
 							<label class="input-group-text" for="inputGroupSelect01">Тип</label>
 						</div>
 						<select class="custom-select" id="inputGroupSelect01">
-							<option th:each="type : ${types}" th:value="${type}"
-								th:text="${type.cyrilicName}"></option>
+							<option th:each="type : ${types}" th:value="${type}" th:text="${type.cyrilicName}"></option>
 						</select>
 					</div>
-
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 							<label class="input-group-text" for="inputGroupSelect01">Мировозрение</label>
 						</div>
 						<select class="custom-select" id="inputGroupSelect01">
-							<option th:each="aligment : ${aligments}" th:value="${aligment}"
-								th:text="${aligment.cyrilicName}"
-								th:selected="${aligment.ordinal() == 9}"></option>
+							<option th:each="aligment : ${aligments}" th:value="${aligment}" th:text="${aligment.cyrilicName}" th:selected="${aligment.ordinal() == 9}"></option>
 						</select>
 					</div>
 				</div>
@@ -69,41 +44,29 @@
 				<div class="card-body">
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text" id="basic-addon1">Класс
-								доспеха</span>
+							<span class="input-group-text" id="basic-addon1">Класс доспеха</span>
 						</div>
-						<input type="number" class="form-control" placeholder="AC"
-							aria-label="AC" aria-describedby="basic-addon1" th:field="*{AC}">
+						<input type="number" class="form-control" placeholder="AC" aria-label="AC" aria-describedby="basic-addon1" th:field="*{AC}">
 					</div>
 					<div class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text">Количество кубов хила/ куб
-								хила/ бонус</span>
+							<span class="input-group-text">Количество кубов хила/ куб хила/ бонус</span>
 						</div>
-						<input type="number" aria-label="First name" class="form-control">
-						<select class="custom-select" id="inputGroupSelect01">
-							<option th:each="dice : ${dices}" th:value="${dice}"
-								th:text="${dice.name()}"></option>
+						<input type="number" aria-label="First name" class="form-control"> <select class="custom-select" id="inputGroupSelect01">
+							<option th:each="dice : ${dices}" th:value="${dice}" th:text="${dice.name()}"></option>
 						</select> <input type="number" aria-label="Last name" class="form-control">
 					</div>
 					<div class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text">Скорость в фт.</span> <span
-								class="input-group-text">Летая</span> <span
-								class="input-group-text">Плавая</span> <span
-								class="input-group-text">Лазая</span><span
-								class="input-group-text">Копая</span>
+							<span class="input-group-text">Скорость в фт.</span> <span class="input-group-text">Летая</span> <span class="input-group-text">Плавая</span> <span class="input-group-text">Лазая</span><span
+								class="input-group-text"
+							>Копая</span>
 						</div>
-						<input type="number" aria-label="speed" class="form-control"
-							th:field="*{speed}"> <input type="number"
-							aria-label="Last name" class="form-control"
-							th:field="*{flySpeed}"> <input type="number"
-							aria-label="Last name" class="form-control"
-							th:field="*{swimmingSpped}"> <input type="number"
-							aria-label="Last name" class="form-control"
-							th:field="*{climbingSpeed}"> <input type="number"
-							aria-label="Last name" class="form-control"
-							th:field="*{diggingSpeed}">
+						<input type="number" aria-label="speed" class="form-control" th:field="*{speed}"> <input type="number" aria-label="Last name" class="form-control" th:field="*{flySpeed}"> <input
+							type="number" aria-label="Last name" class="form-control" th:field="*{swimmingSpped}"
+						> <input type="number" aria-label="Last name" class="form-control" th:field="*{climbingSpeed}"> <input type="number" aria-label="Last name" class="form-control"
+							th:field="*{diggingSpeed}"
+						>
 					</div>
 				</div>
 			</div>
@@ -116,8 +79,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="labelability">СИЛ</span>
 								</div>
-								<input id="strId" type="number" class="form-control w-15"
-									aria-describedby="basic-addon1" th:field="*{strength}">
+								<input id="strId" type="number" class="form-control w-15" aria-describedby="basic-addon1" th:field="*{strength}">
 								<div class="input-group-prepend ">
 									<span class="input-group-text" id="str_bonus">0</span>
 								</div>
@@ -128,8 +90,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="labelability">ЛОВ</span>
 								</div>
-								<input id="dex" type="number" class="form-control w-15"
-									aria-describedby="basic-addon1" th:field="*{dexterity}">
+								<input id="dex" type="number" class="form-control w-15" aria-describedby="basic-addon1" th:field="*{dexterity}">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="dex_bonus">0</span>
 								</div>
@@ -140,8 +101,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="labelability">ТЕЛ</span>
 								</div>
-								<input id="con" type="number" class="form-control w-15"
-									aria-describedby="basic-addon1" th:field="*{constitution}">
+								<input id="con" type="number" class="form-control w-15" aria-describedby="basic-addon1" th:field="*{constitution}">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="con_bonus">0</span>
 								</div>
@@ -152,8 +112,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="labelability">ИНТ</span>
 								</div>
-								<input id="ints" type="number" class="form-control w-15"
-									aria-describedby="basic-addon1" th:field="*{intellect}">
+								<input id="ints" type="number" class="form-control w-15" aria-describedby="basic-addon1" th:field="*{intellect}">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="int_bonus">0</span>
 								</div>
@@ -164,8 +123,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="labelability">МДР</span>
 								</div>
-								<input id="wiz" type="number" class="form-control w-15"
-									aria-describedby="basic-addon1" th:field="*{wizdom}">
+								<input id="wiz" type="number" class="form-control w-15" aria-describedby="basic-addon1" th:field="*{wizdom}">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="wiz_bonus">0</span>
 								</div>
@@ -176,8 +134,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="labelability">ХАР</span>
 								</div>
-								<input id="cha" type="number" class="form-control w-15"
-									aria-describedby="basic-addon1" th:field="*{charisma}">
+								<input id="cha" type="number" class="form-control w-15" aria-describedby="basic-addon1" th:field="*{charisma}">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="cha_bonus">0</span>
 								</div>
@@ -193,15 +150,12 @@
 						<th:block th:each="savingThrow : ${savingThrows}">
 							<div class="col-auto">
 								<div class="form-check mb-2">
-									<input class="form-check-input" type="checkbox"
-										th:id="${savingThrow}" value="option1"> <label
-										class="form-check-label" th:for="${savingThrow}"
-										th:text="${savingThrow.shortName}"> </label>
+									<input class="form-check-input" type="checkbox" th:id="${savingThrow}" value="option1"> <label class="form-check-label" th:for="${savingThrow}" th:text="${savingThrow.shortName}">
+									</label>
 								</div>
 							</div>
 							<div class="form-group col-md-1">
-								<input type="number" class="form-control"
-									id="formGroupExampleInput">
+								<input type="number" class="form-control" id="formGroupExampleInput">
 							</div>
 						</th:block>
 					</div>
@@ -213,15 +167,12 @@
 					<th:block th:each="skillType : ${skillTypes}">
 						<div class="col-auto">
 							<div class="form-check mb-1">
-								<input class="form-check-input" type="checkbox"
-									th:id="${skillType}" value="option1"> <label
-									class="form-check-label" th:for="${skillType}"
-									th:text="${skillType.cyrilicName}"> </label>
+								<input class="form-check-input" type="checkbox" th:id="${skillType}" value="option1"> <label class="form-check-label" th:for="${skillType}" th:text="${skillType.cyrilicName}">
+								</label>
 							</div>
 						</div>
 						<div class="form-group col-md-1">
-							<input type="number" class="form-control"
-								id="formGroupExampleInput">
+							<input type="number" class="form-control" id="formGroupExampleInput">
 						</div>
 					</th:block>
 				</div>
@@ -232,10 +183,8 @@
 					<th:block th:each="damageType : ${vulnerabilityTypes}">
 						<div class="col-auto">
 							<div class="form-check mb-1">
-								<input class="form-check-input" type="checkbox"
-									th:id="${damageType}" value="option1"> <label
-									class="form-check-label" th:for="${skillType}"
-									th:text="${damageType.cyrilicName}"> </label>
+								<input class="form-check-input" type="checkbox" th:id="${damageType}" value="option1"> <label class="form-check-label" th:for="${skillType}" th:text="${damageType.cyrilicName}">
+								</label>
 							</div>
 						</div>
 					</th:block>
@@ -247,20 +196,16 @@
 					<th:block th:each="damageType : ${resistanceTypes}">
 						<div class="col-auto">
 							<div class="form-check mb-1">
-								<input class="form-check-input" type="checkbox"
-									th:id="${damageType}" value="option1"> <label
-									class="form-check-label" th:for="${skillType}"
-									th:text="${damageType.cyrilicName}"> </label>
+								<input class="form-check-input" type="checkbox" th:id="${damageType}" value="option1"> <label class="form-check-label" th:for="${skillType}" th:text="${damageType.cyrilicName}">
+								</label>
 							</div>
 						</div>
 					</th:block>
 					<th:block th:each="damageType : ${specialTypes}">
 						<div class="col-auto">
 							<div class="form-check mb-1">
-								<input class="form-check-input" type="checkbox"
-									th:id="${damageType}" value="option1"> <label
-									class="form-check-label" th:for="${skillType}"
-									th:text="${damageType.cyrilicName}"> </label>
+								<input class="form-check-input" type="checkbox" th:id="${damageType}" value="option1"> <label class="form-check-label" th:for="${skillType}" th:text="${damageType.cyrilicName}">
+								</label>
 							</div>
 						</div>
 					</th:block>
@@ -271,20 +216,16 @@
 						<th:block th:each="damageType : ${resistanceTypes}">
 							<div class="col-auto">
 								<div class="form-check mb-1">
-									<input class="form-check-input" type="checkbox"
-										th:id="${damageType}" value="option1"> <label
-										class="form-check-label" th:for="${skillType}"
-										th:text="${damageType.cyrilicName}"> </label>
+									<input class="form-check-input" type="checkbox" th:id="${damageType}" value="option1"> <label class="form-check-label" th:for="${skillType}" th:text="${damageType.cyrilicName}">
+									</label>
 								</div>
 							</div>
 						</th:block>
 						<th:block th:each="damageType : ${specialTypes}">
 							<div class="col-auto">
 								<div class="form-check mb-1">
-									<input class="form-check-input" type="checkbox"
-										th:id="${damageType}" value="option1"> <label
-										class="form-check-label" th:for="${skillType}"
-										th:text="${damageType.cyrilicName}"> </label>
+									<input class="form-check-input" type="checkbox" th:id="${damageType}" value="option1"> <label class="form-check-label" th:for="${skillType}" th:text="${damageType.cyrilicName}">
+									</label>
 								</div>
 							</div>
 						</th:block>
@@ -296,10 +237,7 @@
 						<th:block th:each="state : ${states}">
 							<div class="col-auto">
 								<div class="form-check mb-1">
-									<input class="form-check-input" type="checkbox"
-										th:id="${state}" value="option1"> <label
-										class="form-check-label" th:for="${state}"
-										th:text="${state.cyrilicName}"> </label>
+									<input class="form-check-input" type="checkbox" th:id="${state}" value="option1"> <label class="form-check-label" th:for="${state}" th:text="${state.cyrilicName}"> </label>
 								</div>
 							</div>
 						</th:block>
@@ -311,15 +249,11 @@
 						<th:block th:each="sense : ${senses}">
 							<div class="col-auto">
 								<div class="form-check mb-1">
-									<input class="form-check-input" type="checkbox"
-										th:id="${sense}" value="option1"> <label
-										class="form-check-label" th:for="${sense}"
-										th:text="${sense.cyrilicName}"> </label>
+									<input class="form-check-input" type="checkbox" th:id="${sense}" value="option1"> <label class="form-check-label" th:for="${sense}" th:text="${sense.cyrilicName}"> </label>
 								</div>
 							</div>
 							<div class="form-group col-md-1">
-								<input type="number" class="form-control"
-									id="formGroupExampleInput">
+								<input type="number" class="form-control" id="formGroupExampleInput">
 							</div>
 						</th:block>
 					</div>
@@ -333,8 +267,7 @@
 							<option value="1/8">1/8</option>
 							<option value="1/4">1/4</option>
 							<option value="1/2">1/2</option>
-							<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}"
-								th:value="${i}" />
+							<option th:each="i: ${#numbers.sequence(1,30)}" th:text="${i}" th:value="${i}" />
 						</select>
 						<div class="input-group-append">
 							<label id="expValue" class="input-group-text" for="expgr">опыта</label>
@@ -342,33 +275,28 @@
 					</div>
 				</div>
 			</div>
-
 			<div class="card">
 				<div class="card-body">
 					<div class="card-header">Особенности</div>
-					<button type="button" class="btn btn-primary" data-toggle="modal"
-						data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
 				</div>
 			</div>
 			<div class="card">
 				<div class="card-body">
 					<div class="card-header">Действия</div>
-					<button type="button" class="btn btn-primary" data-toggle="modal"
-						data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
 				</div>
 			</div>
 			<div class="card">
 				<div class="card-body">
 					<div class="card-header">Реакции</div>
-					<button type="button" class="btn btn-primary" data-toggle="modal"
-						data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
 				</div>
 			</div>
 			<div class="card">
 				<div class="card-body">
 					<div class="card-header">Легендарные действия</div>
-					<button type="button" class="btn btn-primary" data-toggle="modal"
-						data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Добавить</button>
 				</div>
 			</div>
 			<div class="form-group">
@@ -377,24 +305,19 @@
 			</div>
 		</form>
 	</div>
-
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Добавление
-						особености существа</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<h5 class="modal-title" id="exampleModalLabel">Добавление особености существа</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
 					<form>
 						<div class="form-group">
-							<label for="recipient-name" class="col-form-label">Название:</label>
-							<input type="text" class="form-control" id="recipient-name">
+							<label for="recipient-name" class="col-form-label">Название:</label> <input type="text" class="form-control" id="recipient-name">
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="col-form-label">Описание:</label>
@@ -403,15 +326,14 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Отмена</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
 					<button type="button" class="btn btn-primary">Сохранить</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
-<script>
+<script layout:fragment="script">
 	$('#strId').change(function() {
 		updateBonus('#strId', '#str_bonus');
 	})

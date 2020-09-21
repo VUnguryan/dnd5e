@@ -19,11 +19,14 @@ import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.Weapon;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 
 @Entity
 @Table(name = "artifactes")
-@Data
 public class MagicThing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,5 +78,9 @@ public class MagicThing {
 			return cost;
 		}
 		return consumed ? rarity.getBaseCost() / 2 : rarity.getBaseCost();
+	}
+	@Override
+	public String toString() {
+		return name.toLowerCase();
 	}
 }

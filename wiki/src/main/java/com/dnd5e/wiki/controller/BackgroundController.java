@@ -40,6 +40,7 @@ public class BackgroundController {
 	@GetMapping("/personalizare/{id}")
 	public String getPersonalizare(Model model, @PathVariable Integer id) {
 		Background background = repo.findById(id).orElseGet(Background::new);
+		model.addAttribute("id", background.getId());
 		model.addAttribute("name", background.getName());
 		model.addAttribute("description", background.getPersonalization());
 		List<Personalization> personalizations = new ArrayList<>();

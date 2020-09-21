@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
-	
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 <head>
 <meta charset="UTF-8">
@@ -19,49 +16,41 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="copperCoins">Медные</span>
 							</div>
-							<input type="number" class="form-control" aria-label="Медные"
-								aria-describedby="copperCoins" th:field="*{copper}" />
+							<input type="number" class="form-control" aria-label="Медные" aria-describedby="copperCoins" th:field="*{copper}" />
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="silverCoins">Серебрянные</span>
 							</div>
-							<input type="number" class="form-control"
-								aria-label="Серебрянные" aria-describedby="silverCoins"
-								th:field="*{silver}" />
+							<input type="number" class="form-control" aria-label="Серебрянные" aria-describedby="silverCoins" th:field="*{silver}" />
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="goldCoins">Золотые</span>
 							</div>
-							<input type="number" class="form-control"
-								aria-describedby="goldCoins" th:field="*{gold}" />
+							<input type="number" class="form-control" aria-describedby="goldCoins" th:field="*{gold}" />
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="electriumCoins">Электриум</span>
 							</div>
-							<input type="number" class="form-control"
-								aria-describedby="electriumCoins" th:field="*{electrium}" />
+							<input type="number" class="form-control" aria-describedby="electriumCoins" th:field="*{electrium}" />
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="platinumCoins">Платиновые</span>
 							</div>
-							<input type="number" class="form-control"
-								aria-describedby="platinumCoins" th:field="*{platinum}" />
+							<input type="number" class="form-control" aria-describedby="platinumCoins" th:field="*{platinum}" />
 						</div>
 					</div>
 				</div>
 			</div>
-			
 			<div class="card">
 				<div class="card-header">Рюкзак</div>
 				<div class="card-body">
 					<div class="col-xs-4">
-						<select id="equipList" class="selectpicker"
-							data-live-search="true">
-							<option th:each="equipment : ${equipments}" th:value="${equipment.id}" th:text=${equipment.name}/>
+						<select id="equipList" class="selectpicker" data-live-search="true">
+							<option th:each="equipment : ${equipments}" th:value="${equipment.id}" th:text=${equipment.name} />
 						</select>
 					</div>
 				</div>

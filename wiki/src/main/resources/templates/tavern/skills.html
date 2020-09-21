@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
 	<div th:fragment="skills()">
@@ -14,15 +11,11 @@
 					<div class="card-header" th:text="${skillType.key.cyrilicName}"></div>
 					<div class="card-body">
 						<th:block th:each="skill : ${skillType.value}">
-							<div class="btn-group-vertical btn-group-sm" role="group"
-								aria-label="Basic example">
+							<div class="btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
 								<div class="btn-group-toggle" data-toggle="buttons">
-									<label class="btn btn-outline-secondary btn-sm"> <input
-										type="checkbox" autocomplete="off"
-										th:text="${skill.cyrilicName}"
-										th:disabled="${!#lists.contains(hero.heroClass.availableSkills, skill)}">
-										<span class="badge badge-light"><th:block
-												th:switch="${skill.ability.name()}">
+									<label class="btn btn-outline-secondary btn-sm"> <input type="checkbox" autocomplete="off" th:text="${skill.cyrilicName}"
+										th:disabled="${not #lists.contains(hero.heroClass.availableSkills, skill)}"
+									> <span class="badge badge-light"><th:block th:switch="${skill.ability.name()}">
 												<th:block th:case="STRENGTH" th:text="${hero.strBonus}" />
 												<th:block th:case="DEXTERITY" th:text="${hero.dexBonus}" />
 												<th:block th:case="INTELLIGENCE" th:text="${hero.intBonus}" />

@@ -1,7 +1,6 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +25,6 @@ import com.dnd5e.wiki.dto.MagicThingDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
-import com.dnd5e.wiki.model.creature.DamageType;
-import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.treasure.MagicThing;
 import com.dnd5e.wiki.model.treasure.MagicThingType;

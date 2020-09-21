@@ -1,60 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<title>DnD 5E Классы</title>
-<meta charset="utf-8">
-
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-<link rel="stylesheet"
-	    th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-<style>
-  @media (min-width:576px) {
-      .card-columns {
-        column-count: 2;
-      }
-  }
-    @media (min-width:768px) {
-      .card-columns {
-        column-count: 3;
-      }
-  }
-  @media (min-width:992px) {
-      .card-columns {
-        column-count: 4;
-      }
-  }
-  @media (min-width:1200px) {
-      .card-columns {
-        column-count: 6;
-      }
-  }
-</style>
+<title>Классы</title>
+<link rel="stylesheet" th:href="@{/resources/css/card.columns.flex.css}" />
+<script th:src="@{/resources/js/fixCardColumn.js}"></script>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .classes})"></div>
-	   <main role="main" class="container-fluid" style="margin-top: 25px">
-        <div class="card-columns">
-            <div th:each="heroClass : ${classes}" class="card mb-3 text-center">
-                <div class="card-header">
-                    <h4 th:text="${heroClass.name}"
-                        class="my-1 font-weight-normal flex-grow-1"></h4>
-                </div>
-                <a th:href="@{'/hero/classes/class/'+ ${heroClass.id}}"> <img
-                    class="img-fluid"
-                    th:src="@{'/resources/classes/art/'+ ${heroClass.id} +'.jpg'}" align="middle" /></a>
-            </div>
-        </div>
-    </main>
-    <div th:replace="fragments/header :: footer"></div>
+	<main role="main" class="container-flex" style="margin-top: 25px" layout:fragment="content">
+		<div class="card-columns">
+			<div th:each="heroClass : ${classes}" class="card mb-3 text-center">
+				<div class="card-header">
+					<h4 th:text="${heroClass.name}" class="my-2 font-weight-normal flex-grow-2"></h4>
+				</div>
+				<a th:href="@{|/hero/classes/class/${heroClass.id}|}"> <img class="img-fluid" th:src="@{|https://storage.googleapis.com/dnd5/classes/art/${heroClass.id}.jpg|}" align="middle" /></a>
+			</div>
+		</div>
+	</main>
 </body>
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/resources/js/settings.js}"></script>
 </html>

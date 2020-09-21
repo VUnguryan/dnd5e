@@ -2,6 +2,8 @@ package com.dnd5e.wiki.dto;
 
 import java.util.stream.Collectors;
 
+import org.thymeleaf.util.StringUtils;
+
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Background;
@@ -17,6 +19,7 @@ import lombok.Setter;
 public class BackgroundDto {
 	private Integer id;
 	private String name;
+	private String englishName;
 	private String description;
 	private String skillDescription;
 	private String skillName;
@@ -29,7 +32,10 @@ public class BackgroundDto {
 	
 	public BackgroundDto(Background background) {
 		id = background.getId();
-		name = background.getName();
+		name = StringUtils.capitalizeWords(background.getName().toLowerCase())
+				.replace(" И ", " и ").replace(" Или ", " или ").replace(" За ", " за ").replace(" С ", " с ").replace(" На ", " на ").replace(" От ", " от ").replace(" По ", " по ")
+				.replace(" Над ", " над ").replace(" В ", " в ");
+		englishName = background.getEnglishName();
 		skillName = background.getSkillName();
 		skills = background.getSkills().stream().map(SkillType::getCyrilicName).collect(Collectors.joining(", "));
 		background.getEquipments();

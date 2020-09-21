@@ -26,7 +26,7 @@
 				th:href="@{${pageurl}(page=${pagable.number-1}, sort=${param.sort})}"
 				tabindex="-1">Предыдущая</a></li>
 			<li
-				th:each="i: ${#numbers.sequence(pagable.number < 4 ?
+				th:each="i : ${#numbers.sequence(pagable.number < 4 ?
 					1 : pagable.number - 2, pagable.number < 4 ?
 					 (pagable.totalPages<6 ? pagable.totalPages : 6) : (pagable.number + 3 > pagable.totalPages) ?
 					  pagable.number + pagable.totalPages - pagable.number  : pagable.number + 3)}"
@@ -42,6 +42,5 @@
 		<div th:if="${pagable.content.empty}" class="alert alert-danger"
 			role="alert">Ничего не найдено</div>
 	</nav>
-
 </body>
 </html>

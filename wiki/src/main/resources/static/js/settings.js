@@ -14,3 +14,6 @@ function processSettings() {
 	    }
 	});
 }
+$(function() {
+	$('[data-toggle="tooltip"]').tooltip()
+})

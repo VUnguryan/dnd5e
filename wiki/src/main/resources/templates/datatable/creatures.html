@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
 <head>
+<title>Бестиарий</title>
 <style>
 .table>tbody .hiddenRow {
 	padding: 0 8px;
 }
 </style>
 <title>DnD 5E Бестиарий</title>
-<meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/dataTables.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/searchPanes/searchPanes.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.bootstrap4.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/statblock.css}" />
 <style>
 img {
@@ -36,10 +27,9 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
-	<div class="container">
+	<div class="container" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-10 mt-5 mb-5">
+			<div class="col-lg-11 mt-3 mb-3">
 				<table id="example" class="table table-hover" style="width: 100%">
 					<thead>
 						<tr>
@@ -59,20 +49,7 @@ tr.shown td.details-control {
 			</div>
 		</div>
 	</div>
-	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-	<script th:src="@{/resources/js/settings.js}"></script>
-	<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
-	<script th:src="@{/resources/js/datatables/dataTables.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/searchPanes/dataTables.searchPanes.js}"></script>
-	<script th:src="@{/resources/js/searchPanes/searchPanes.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/select/dataTables.select.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/dataTables.buttons.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/buttons.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/buttons.colVis.min.js}"></script>
-	<script src="/resources/js/jquery.spring-friendly.js"></script>
-	<script>
+	<script layout:fragment="datatable">
 		$('.toast').toast('show');
 		$(document)
 				.ready(

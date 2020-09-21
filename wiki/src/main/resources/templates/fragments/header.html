@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <meta charset="UTF-8">
@@ -46,7 +45,8 @@
 							th:href="@{/magic/books}"
 						>Книги заклинаний</a>
 					</div></li>
-				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Админка</a>
+				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+					<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Админка</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить магическую вещь</a> <a class="dropdown-item" th:href=@{/admin/spell/add}>Добавить заклинание</a> <a class="dropdown-item"
 							th:href="@{/admin/class/add}"
@@ -82,32 +82,5 @@
 			</div>
 		</div>
 	</nav>
-
-	<div class="card" th:fragment="saf">
-		<div class="card-body">
-			<div class="input-group">
-				<form th:action="${search}" class='form-inline'>
-					<div class="input-group">
-						<input class="form-control" name="search" type="text" id="usr" placeholder="Поиск" th:value="${searchText}">
-						<button class="btn btn-outline-secondary" type="submit">Поиск</button>
-					</div>
-				</form>
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" data-toggle="collapse" data-target="#filter">Фильтр</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<footer class="footer" th:fragment="footer">
-		<div class="container">
-			<p class="text-center">
-				<small class="text-secondary">Материалы на данном сайте приведены исключительно в справочных и ознакомительных целях и не заменяют необходимость покупки официальных материалов по игре.<br>
-					Весь графический материал и система Dungeons&amp;Dragons является собственностью корпорации Wizards of the Coast.<br> Перевод и русскоязычная терминология принадлежат студии фэнтези PHantom.
-					Права на выпуск материалов на русском языке принадлежат Hobby Games
-				</small>
-			</p>
-		</div>
-	</footer>
 </body>
 </html>

@@ -1,22 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
-<head>
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
-<title>DnD 5E Заклинания</title>
-<meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/dataTables.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/searchPanes/searchPanes.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.bootstrap4.min.css}" />
+<title>Заклинания</title>
 <style>
 img {
 	float: center;
@@ -43,10 +28,9 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
-	<div class="container">
+	<div class="container" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-10 mt-5 mb-5">
+			<div class="col-lg-11 mt-3 mb-3">
 				<table id="example" class="table table-hover" style="width: 100%">
 					<thead>
 						<tr>
@@ -73,20 +57,7 @@ tr.shown td.details-control {
 			</div>
 		</div>
 	</div>
-	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-	<script th:src="@{/resources/js/settings.js}"></script>
-	<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
-	<script th:src="@{/resources/js/datatables/dataTables.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/searchPanes/dataTables.searchPanes.js}"></script>
-	<script th:src="@{/resources/js/searchPanes/searchPanes.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/select/dataTables.select.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/dataTables.buttons.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/buttons.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/buttons.colVis.min.js}"></script>
-	<script src="/resources/js/jquery.spring-friendly.js"></script>
-	<script>
+	<script layout:fragment="datatable">
 	$(document).ready(function() {
 		$('a.toggle-vis').on( 'click', function (e) {
 	        e.preventDefault();
@@ -163,23 +134,23 @@ tr.shown td.details-control {
 										var school = '';
 										var result = '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')';
 										if (row.ritual === 'true') {
-											result+=' <span title="ритуал" class="badge badge-pill badge badge-success">Р</span>'; 
+											result+=' <span data-toggle="tooltip" data-placement="top" title="ритуал" class="badge badge-pill badge badge-success">Р</span>'; 
 										}
 										if (row.concentration === 'true') {
-											result+=' <span title="концентрация" class="badge badge-pill badge-info">К</span>';	
+											result+=' <span data-toggle="tooltip" data-placement="top" title="концентрация" class="badge badge-pill badge-info">К</span>';	
 										}
 										result+='</small></h6><small>';
 										result += '<div class="text-secondary">';
 										result += row.school;
 										if (row.verbalComponent === '★') {
-											result+=' <span title="вербальный" class="badge badge-secondary">В</span>';
+											result+=' <span data-toggle="tooltip" data-placement="top" title="вербальный" class="badge badge-secondary">В</span>';
 										}
 										if (row.somaticComponent === '★') {
-											result+=' <span title="соматический" class="badge badge-secondary">С</span>';
+											result+=' <span data-toggle="tooltip" data-placement="top" title="соматический" class="badge badge-secondary">С</span>';
 										}
 										if (row.materialComponent === '★') {
 											if (row.consumable){
-												result+=' <span title="материальный, расходуемый" class="badge badge-dark">М</span>';
+												result+=' <span data-toggle="tooltip" data-placement="top" title="материальный, расходуемый" class="badge badge-dark">М</span>';
 											}
 											else {
 												result+=' <span title="материальный" class="badge badge-secondary">М</span>';	
@@ -227,7 +198,7 @@ tr.shown td.details-control {
 										var icon = '';
 										switch (data) {
 										case 'true':
-											icon = '<img class="invert" src="/resources/icons/Icon.7_53.png" title="ритуал" height="25">';
+											icon = '<img class="invert" data-toggle="tooltip" data-placement="top" src="/resources/icons/Icon.7_53.png" title="ритуал" height="25">';
 											break;
 										}
 										return icon;
@@ -243,7 +214,7 @@ tr.shown td.details-control {
 										var icon = '';
 										switch (data) {
 										case 'true':
-											icon = '<img class="invert" src="/resources/icons/Icon.5_05.png" title="концентрация" height="25">';
+											icon = '<img class="invert" data-toggle="tooltip" data-placement="top" src="/resources/icons/Icon.5_05.png" title="концентрация" height="25">';
 											break;
 										}
 										return icon;

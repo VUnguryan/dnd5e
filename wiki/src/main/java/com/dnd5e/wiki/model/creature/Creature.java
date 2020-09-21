@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
@@ -36,6 +37,7 @@ public class Creature {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@Column(nullable = false)
 	private String name;
 	private String englishName;
 	
@@ -51,6 +53,7 @@ public class Creature {
 	@Enumerated(EnumType.ORDINAL)
 	private Alignment alignment;
 
+	@Column(nullable = false)
 	private byte AC;
 
 	@ElementCollection
@@ -70,6 +73,8 @@ public class Creature {
 	@Column(nullable = true)
 	private Short flySpeed;
 	@Column(nullable = true)
+	private Short hover;
+	@Column(nullable = true)
 	private Short swimmingSpped;
 	@Column(nullable = true)
 	private Short climbingSpeed;
@@ -77,11 +82,17 @@ public class Creature {
 	private Short diggingSpeed;
 
 	// Абилки
+	@Column(nullable = false)
 	private byte strength = 10;
+	@Column(nullable = false)
 	private byte dexterity = 10;
+	@Column(nullable = false)
 	private byte constitution = 10;
+	@Column(nullable = false)
 	private byte intellect = 10;
+	@Column(nullable = false)
 	private byte wizdom = 10;
+	@Column(nullable = false)
 	private byte charisma = 10;
 
 	@ElementCollection
@@ -141,6 +152,10 @@ public class Creature {
 	@ElementCollection
 	@Enumerated(EnumType.STRING)
 	private List<HabitatType> habitates;
+
+	@OneToOne
+	@JoinColumn(name = "lair_id")
+	private Lair lair;
 	
 	@ManyToOne
 	@JoinColumn(name = "source")

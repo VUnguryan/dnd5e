@@ -16,6 +16,7 @@ public abstract interface CreatureRepository extends JpaRepository<Creature, Int
 	@Query("SELECT c FROM Creature c WHERE c.name LIKE %:searchTerm% OR c.englishName LIKE %:searchTerm%")
 	List<Creature> findByNameAndEnglishNameContaining(@Param("searchTerm") String search);
 
+	@Query("SELECT DISTINCT c FROM Creature c JOIN c.races r WHERE r.id = :id ORDER BY c.exp")
 	List<Creature> findAllByRaceIdOrderByExpAsc(Integer id);
 
 	Creature findByName(String name);

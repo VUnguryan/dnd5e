@@ -15,11 +15,14 @@ public enum ArmorType {
 	SCALED("чешуйчатый доспех"), //5 
 	RIVETED_LEATHER("проклёпаная кожа"), //7
 	CHAIN_MAIL("кольчуга"), // 8
+	BREASTPLATE("нагрудник"),
 	HALF_PLATE("полулаты"), 
 	PLATE("латный доспех"),
 	
 	PLATE_HALF("пластинчатый доспех"),
 	CUIRASS("кираса"),
+	
+	BONECRAFT("костяной доспех"),
 	MAGE_ARMOR("с доспехами мага"),
 	
 	SHIELD("щит"); //9

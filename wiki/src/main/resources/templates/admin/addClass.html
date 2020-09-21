@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Add spell</title>
+<title>Добапвление класса</title>
 </head>
 <body>
 	<form action="#" th:action="@{/classes/add}" method="post">
-		<textarea name = "classText" rows="30" cols="80" ></textarea>
+		<textarea name="classText" rows="30" cols="80"></textarea>
 		<input type="submit" value="Submit" />
 	</form>
 </body>

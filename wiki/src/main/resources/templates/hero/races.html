@@ -1,43 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<title>DnD 5E Расы</title>
-<meta charset="utf-8">
-
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-
+<title>Расы</title>
+<link rel="stylesheet" th:href="@{/resources/css/card.columns.flex.css}" />
+<script th:src="@{/resources/js/fixCardColumn.js}"></script>
 <style>
-@media ( min-width :576px) {
-	.card-columns {
-		column-count: 2;
-	}
-}
-@media ( min-width :768px) {
-	.card-columns {
-		column-count: 3;
-	}
-}
-@media ( min-width :992px) {
-	.card-columns {
-		column-count: 4;
-	}
-}
-@media ( min-width :1200px) {
-	.card-columns {
-		column-count: 5;
-	}
-}
-img {
-	float: center;
-}
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
@@ -45,67 +11,32 @@ img {
 </style>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .races})"></div>
-	<div class="container-fluid" style="margin-top: 25px">
+	<div class="container-flex" style="margin-top: 25px" layout:fragment="content">
 		<div class="card-columns">
 			<div th:each="race : ${races}" class="card text-center">
 				<div class="card-header">
 					<h4 class="my-1 font-weight-normal flex-grow-1">
 						<th:block th:text="${race.capName}"></th:block>
-						<img th:if="${race.book.type.name() eq 'OFFICAL'}"
-							th:src="@{/resources/official.png}" height="20" width="20"
-							title="офицальное">
+						<img th:if="${race.book.type.name() eq 'OFFICAL'}" th:src="@{/resources/official.png}" height="20" width="20" title="офицальное">
 					</h4>
 				</div>
-				<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img
-					class="img-fluid"
-					th:src="@{'/resources/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
+				<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img class="img-fluid" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
 				<div class="card-footer">
-					<h6 class="card-subtitle mb-2 text-muted"
-						th:text="${race.abilityBonuses}"></h6>
-					<h6 th:if="${not race.chiledAbilityBonuses.empty}"
-						class="card-subtitle mb-2 text-muted"
-						th:text="${'Подрасы: ' + race.chiledAbilityBonuses}"></h6>
-					<img th:if="${race.darkVision}" class="invert"
-						th:src="@{/resources/icons/Icon.6_30.png}" height="25"
-						title="темное зрение" /><img th:if="${race.natureArmor}"
-						class="invert" th:src="@{/resources/icons/Icon.7_67.png}"
-						height="25" title="природный доспех" /><img
-						th:if="${race.athletics}" class="invert"
-						th:src="@{/resources/icons/Icon.4_64.png}" height="25"
-						title="атлетичный" /><img th:if="${race.stealth}" class="invert"
-						th:src="@{/resources/icons/Icon.6_10.png}" height="25"
-						title="скрытный" /> <img th:if="${race.resistenceFire}"
-						class="invert" th:src="@{/resources/icons/Icon.6_68.png}"
-						height="25" title="сопротивление к урону огнем" /><img
-						th:if="${race.resistencePoison}" class="invert"
-						th:src="@{/resources/icons/Icon.1_69.png}" height="25"
-						title="сопротивление или иммунитет к урону ядом" />
-						<img src="a.gif" style="display: none;" />
+					<h6 class="card-subtitle mb-2 text-muted" th:text="${race.abilityBonuses}"></h6>
+					<h6 th:if="${not race.chiledAbilityBonuses.empty}" class="card-subtitle mb-2 text-muted" th:text="${'Подрасы: ' + race.chiledAbilityBonuses}"></h6>
+					<img th:if="${race.darkVision}" class="invert" th:src="@{/resources/icons/Icon.6_30.png}" height="25" title="темное зрение" /><img th:if="${race.natureArmor}" class="invert"
+						th:src="@{/resources/icons/Icon.7_67.png}" height="25" title="природный доспех"
+					/><img th:if="${race.athletics}" class="invert" th:src="@{/resources/icons/Icon.4_64.png}" height="25" title="атлетичный" /><img th:if="${race.stealth}" class="invert"
+						th:src="@{/resources/icons/Icon.6_10.png}" height="25" title="скрытный"
+					/> <img th:if="${race.resistenceFire}" class="invert" th:src="@{/resources/icons/Icon.6_68.png}" height="25" title="сопротивление к урону огнем" /><img th:if="${race.resistencePoison}"
+						class="invert" th:src="@{/resources/icons/Icon.1_69.png}" height="25" title="сопротивление или иммунитет к урону ядом"
+					/> <img src="a.gif" style="display: none;" />
 				</div>
 				<footer class="card-footer">
-					<small class="text-muted"
-						th:text="'Источник: ' + ${race.book.name}"></small>
+					<small class="text-muted" th:text="'Источник: ' + ${race.book.name}"></small>
 				</footer>
 			</div>
 		</div>
 	</div>
-	<div th:replace="fragments/header :: footer"></div>
 </body>
-<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-<script th:src="@{/resources/js/settings.js}"></script>
-<script type="text/javascript">(function(){
-	  var maxHeight = 0;
-	  $('.card').each(function(){
-	    if ($(this).height() > maxHeight) {
-	      maxHeight = $(this).height();
-	    }
-	  });
-	  $('.card').each(function(){
-	    $(this).css('min-height', maxHeight);
-	  });
-	})();
-</script>
 </html>

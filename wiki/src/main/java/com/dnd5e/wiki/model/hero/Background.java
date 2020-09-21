@@ -43,6 +43,9 @@ public class Background {
 	@Column(columnDefinition = "TEXT")
 	private String toolOwnership;
 
+	@Column(columnDefinition = "TEXT")
+	private String equipmentsText;
+
 	@ElementCollection(targetClass = SkillType.class)
 	@CollectionTable(name = "background_skill_type")
 	@Column(nullable = false)

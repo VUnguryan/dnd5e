@@ -1,0 +1,23 @@
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">DnD 5E</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" th:href="@{/resources/icon.png}">
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" media="screen" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/resources/js/settings.js}"></script>
+</head>
+<body>
+	<div th:insert="fragments/header :: header(~{ :: .spells})"></div>
+	<div layout:fragment="content">
+		<h1>Добавь контент сука</h1>
+	</div>
+	<footer th:insert="fragments/footer :: footer" class="footer navbar-fixed-bottom"></footer>
+	<script layout:fragment="script"></script>
+</body>
+</html>

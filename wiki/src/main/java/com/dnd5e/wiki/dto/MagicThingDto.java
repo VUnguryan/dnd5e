@@ -17,6 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MagicThingDto {
+	private Integer id;
 	private String name;
 	private String englishName;
 	private String type;
@@ -33,6 +34,7 @@ public class MagicThingDto {
 	private String book;
 
 	public MagicThingDto(MagicThing magicThing) {
+		id = magicThing.getId();
 		name = StringUtils.capitalizeWords(magicThing.getName().toLowerCase())
 				.replace(" И ", " и ").replace(" Или ", " или ").replace(" За ", " за ").replace(" С ", " с ").replace(" На ", " на ").replace(" От ", " от ").replace(" По ", " по ")
 				.replace(" Над ", " над ").replace(" В ", " в ").replace(" Из ", " из ");

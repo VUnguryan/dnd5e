@@ -1,22 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
-<head>
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
-<title>DnD 5E Черты</title>
-<meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/dataTables.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/searchPanes/searchPanes.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.bootstrap4.min.css}" />
+<title>Черты</title>
 <style>
 img {
 	float: center;
@@ -37,10 +22,9 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
-	<div class="container">
+	<div class="container" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-10 mt-5 mb-5">
+			<div class="col-lg-11 mt-3 mb-3">
 				<table id="example" class="table table-hover" style="width: 100%">
 					<thead>
 						<tr>
@@ -49,6 +33,7 @@ tr.shown td.details-control {
 							<th title="Увеличение характеристик">Хар-ки</th>
 							<th title="Получение навыков">Навыки</th>
 							<th>Источник</th>
+							<th>englishName</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -56,20 +41,7 @@ tr.shown td.details-control {
 			</div>
 		</div>
 	</div>
-	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-	<script th:src="@{/resources/js/settings.js}"></script>
-	<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
-	<script th:src="@{/resources/js/datatables/dataTables.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/searchPanes/dataTables.searchPanes.js}"></script>
-	<script th:src="@{/resources/js/searchPanes/searchPanes.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/select/dataTables.select.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/dataTables.buttons.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/buttons.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/buttons/buttons.colVis.min.js}"></script>
-	<script src="/resources/js/jquery.spring-friendly.js"></script>
-	<script>
+	<script layout:fragment="datatable">
 	$(document).ready(function() {
 		$('a.toggle-vis').on( 'click', function (e) {
 	        e.preventDefault();
@@ -88,7 +60,7 @@ tr.shown td.details-control {
 							width : "30%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data +(row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
+									return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
 									+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
 								}
 								return data;
@@ -97,7 +69,8 @@ tr.shown td.details-control {
 						{
 							data : "requirement",
 							width : "15%"
-						}, {
+						},
+						{
 							data : "abilities",
 							width : "10%",
 						    searchable: false,
@@ -112,6 +85,10 @@ tr.shown td.details-control {
 							data : "book",
 							width : "10%",
 						    searchable: false,
+						},
+						{
+							data : "englishName",
+							width : "1%"
 						},
 						{
 							className : 'details-control',
@@ -132,6 +109,10 @@ tr.shown td.details-control {
 				        },
 			            {
 			                "targets": [ 4 ],
+			                "visible": false
+				        },
+			            {
+			                "targets": [ 5 ],
 			                "visible": false
 				        },
 				    ],

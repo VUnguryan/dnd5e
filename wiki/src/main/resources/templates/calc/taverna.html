@@ -1,45 +1,25 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/js-layout}">
 <head>
-<head>
-<title>DnD 5E Генератор таверн</title>
-<meta charset="utf-8">
-
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet"
-	th:href="@{/resources/css/bootstrap-multiselect.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<title>Генератор таверн</title>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
-	<div class="container" style="margin-top: 25px">
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<div class="card">
 			<div class="card-body">
-				<a th:href="@{/calc/taverna/}" class="btn btn-outline-secondary"
-					type="button" id="calc">Случайно</a> <a
-					th:href="@{/calc/taverna/(tavernaType=${type}, habitatType=${habitatType}, tavernaCategory=${tavernCategoty})}"
-					class="btn btn-outline-secondary" type="button" id="calc"
-					th:each="type : ${types}" th:text="${type.names}">Генерация</a>
+				<a th:href="@{/calc/taverna/}" class="btn btn-outline-secondary" type="button" id="calc">Случайно</a> <a
+					th:href="@{/calc/taverna/(tavernaType=${type}, habitatType=${habitatType}, tavernaCategory=${tavernCategoty})}" class="btn btn-outline-secondary" type="button" id="calc" th:each="type : ${types}"
+					th:text="${type.names}"
+				>Генерация</a>
 				<h5 class="card-header" th:text="${name}"></h5>
 				<div class="input-group mb-2">
 					<div class="input-group-prepend">
 						<span class="input-group-text">Категория:</span>
 						<div class="dropdown">
-							<a class="btn btn-secondary dropdown-toggle" href="#"
-								role="button" id="dropdownMenuLink" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"
-								th:text="${tavernCategoty.name + ' заведение'}"></a>
+							<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+								th:text="${tavernCategoty.name + ' заведение'}"
+							></a>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" th:each="cate : ${categories}"
-									th:text="${cate.name + ' заведение'}"
-									th:href="@{/calc/taverna(tavernaCategory=${cate}, habitatType=${habitatType})}">>Action</a>
+								<a class="dropdown-item" th:each="cate : ${categories}" th:text="${cate.name + ' заведение'}" th:href="@{/calc/taverna(tavernaCategory=${cate}, habitatType=${habitatType})}">>Action</a>
 							</div>
 						</div>
 					</div>
@@ -48,14 +28,9 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text">Местность:</span>
 						<div class="dropdown">
-							<a class="btn btn-secondary dropdown-toggle" href="#"
-								role="button" id="dropdownMenuLink" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"
-								th:text="${habitatType.name}"></a>
+							<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${habitatType.name}"></a>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" th:each="habitat : ${habitates}"
-									th:text="${habitat.name}"
-									th:href="@{/calc/taverna(tavernaCategory=${tavernCategoty}, habitatType=${habitat})}"></a>
+								<a class="dropdown-item" th:each="habitat : ${habitates}" th:text="${habitat.name}" th:href="@{/calc/taverna(tavernaCategory=${tavernCategoty}, habitatType=${habitat})}"></a>
 							</div>
 						</div>
 					</div>
@@ -63,19 +38,14 @@
 				<div class="card-body">
 					<h5 class="card-title">За стойкой</h5>
 					<p class="card-text" th:text="${owner}"></p>
-					<h5 class="card-title">Атмосфера:
-						[[${atmosphere.name}]]</h5>
+					<h5 class="card-title">Атмосфера: [[${atmosphere.name}]]</h5>
 					<p th:utext="${atmosphere.description}"></p>
 					<h5 class="card-title">Можно заказать</h5>
 					<p class="card-text" th:if="${dish}" th:utext="${dish.name}"></p>
 					<p class="card-text" th:if="${specialDrink}">
 					<p class="card-text" th:if="${specialDrink}">
-						<i>Таинственная фигура, закутанная в зеленый плащ, сидит за
-							соседним столиком. Незнакомец достает бутылку с како-то жидкостью
-							и рассказывает, что удача сама найдет того, кто выпьет стакан
-							этого напитка. Как только стаканы пустеют, а жидкость
-							проглатывается, таинственная фигура исчезает и ее больше не
-							видно.</i>
+						<i>Таинственная фигура, закутанная в зеленый плащ, сидит за соседним столиком. Незнакомец достает бутылку с како-то жидкостью и рассказывает, что удача сама найдет того, кто выпьет стакан
+							этого напитка. Как только стаканы пустеют, а жидкость проглатывается, таинственная фигура исчезает и ее больше не видно.</i>
 					</p>
 					<p class="card-text" th:if="${specialDrink}">
 						<strong>Специальный напиток: </strong>
@@ -85,24 +55,17 @@
 					<h5 th:if="${topic}" class="card-title">Обсуждаемые темы</h5>
 					<p class="card-text" th:if="${topic}" th:utext="${topic.name}"></p>
 					<h5 th:if="${event}" class="card-title">События</h5>
-					<p class="card-text" th:if="${event}"
-						th:utext="${event.description}"></p>
-
+					<p class="card-text" th:if="${event}" th:utext="${event.description}"></p>
 					<h5 class="card-title">Посетители</h5>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item" th:each="visitor : ${visitors}"
-							th:text="${visitor}"></li>
+						<li class="list-group-item" th:each="visitor : ${visitors}" th:text="${visitor}"></li>
 						<li class="list-group-item" th:if="${visitors.empty}">Нет</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-	<script th:src="@{/resources/js/bootstrap-multiselect.js}"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" layout:fragment="script">
 		function getParameterByName(name, url) {
 			if (!url)
 				url = window.location.href;

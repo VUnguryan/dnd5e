@@ -1,34 +1,23 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
 <head>
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
-<title>DnD 5E Состояния</title>
-<meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/dataTables.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
-
+<title>Состояния</title>
 <style>
 img {
 	float: center;
 }
+
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
+
 td.details-control {
 	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
 		center;
 	cursor: pointer;
 }
+
 tr.shown td.details-control {
 	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
 		center;
@@ -36,10 +25,9 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div th:insert="fragments/header :: header(~{ :: .backgrounds})"></div>
-	<div class="container">
+	<div class="container" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-10 mt-5 mb-5">
+			<div class="col-lg-10 mt-3 mb-3">
 				<table id="example" class="table table-hover" style="width: 100%">
 					<thead>
 						<tr>
@@ -52,104 +40,100 @@ tr.shown td.details-control {
 			</div>
 		</div>
 	</div>
-	<script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
-	<script th:src="@{/resources/js/settings.js}"></script>
-	
-	<script th:src="@{/resources/js/datatables/jquery.dataTables.min.js}"></script>
-	<script th:src="@{/resources/js/datatables/dataTables.bootstrap4.min.js}"></script>
-	<script th:src="@{/resources/js/select/dataTables.select.min.js}"></script>
-	
-	<script src="/resources/js/jquery.spring-friendly.js"></script>
-	<script>
+	<script layout:fragment="datatable">
+		$(document)
+				.ready(
+						function() {
+							$('a.toggle-vis').on(
+									'click',
+									function(e) {
+										e.preventDefault();
+										var column = table.column($(this).attr(
+												'data-column'));
+										column.visible(!column.visible());
+									});
 
-	$(document).ready(function() {
-		$('a.toggle-vis').on( 'click', function (e) {
-	        e.preventDefault();
-	        var column = table.column( $(this).attr('data-column') );
-	        column.visible( ! column.visible() );
-	    });
-	
-		var table = $('#example').DataTable( {
-		    paging :   false,
-	        info:     false,
-	        processing : true,
-	        serverSide : true,
-			ajax : '/conditions',
-			columns : [
-						{
-							data : "name",
-							width : "20%", 
-							render : function(data, type, row) {
-								if (type === 'display') {
-									return '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')</small><h6>';
+							var table = $('#example')
+									.DataTable(
+											{
+												paging : false,
+												info : false,
+												processing : true,
+												serverSide : true,
+												ajax : '/conditions',
+												columns : [
+														{
+															data : "name",
+															width : "20%",
+															render : function(data, type, row) {
+																if (type === 'display') {
+																	return '<h6>'
+																			+ data
+																			+ ' <small class="text-secondary">('
+																			+ row.englishName
+																			+ ')</small><h6>';
+																}
+																return data;
+															},
+														},
+														{
+															data : 'englishName',
+															width : "1%",
+															orderable : false,
+														},
+														{
+															className : 'details-control',
+															searchable : false,
+															orderable : false,
+															defaultContent : '',
+															width : "1%"
+														}, ],
+												columnDefs : [ {
+													"targets" : [ 1 ],
+													"visible" : false
+												}, ],
+												language : {
+													processing : "Загрузка...",
+													search : "Поиск",
+													lengthMenu : "Показывать _MENU_ записей на странице",
+													zeroRecords : "Ничего не найдено",
+													info : "Показано с _START_ до _END_ из _TOTAL_",
+													infoEmpty : "Нет доступных записей",
+													infoFiltered : "(filtered from _MAX_ всего)",
+													paginate : {
+														first : "В начало",
+														previous : "Предыдущая",
+														next : "Следущая",
+														last : "В конец"
+													},
+													searchPanes : {
+														clearMessage : "Сбросить",
+														title : {
+															_ : 'Отфильтровано - %d',
+															0 : 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+															1 : 'Один фильтр выбран',
+														},
+														collapse : 'Фильтры (%d)'
+													}
+												},
+												ordering : true,
+											});
+							$('#example tbody').on('click', 'tr', function() {
+								var tr = $(this).closest('tr');
+								var row = table.row(tr);
+
+								if (row.child.isShown()) {
+									row.child.hide();
+									tr.removeClass('shown');
+								} else {
+									row.child(format(row.data())).show();
+									tr.addClass('shown');
 								}
-								return data;
-							}, 
-						},
-						{
-							data : 'englishName',
-							width : "1%",
-						    orderable: false,
-						},
-						{
-							className : 'details-control',
-						    searchable: false,
-						    orderable: false,
-							defaultContent : '',
-							width : "1%"
-						},
-					],
-					columnDefs : [
-					            {
-					                "targets": [ 1 ],
-					                "visible": false
-					            },
-					        ],
-					language : {
-						processing : "Загрузка...",
-						search : "Поиск",
-						lengthMenu : "Показывать _MENU_ записей на странице",
-						zeroRecords : "Ничего не найдено",
-						info : "Показано с _START_ до _END_ из _TOTAL_",
-						infoEmpty : "Нет доступных записей",
-						infoFiltered : "(filtered from _MAX_ всего)",
-						paginate : {
-							first : "В начало",
-							previous : "Предыдущая",
-							next : "Следущая",
-							last : "В конец"
-						},
-						searchPanes: {
-							clearMessage : "Сбросить",
-				            title : {
-				                    _: 'Отфильтровано - %d',
-				                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
-				                    1: 'Один фильтр выбран',
-				            },
-				            collapse: 'Фильтры (%d)'
-				        }
-					},
-					ordering : true,
-				});
-	$('#example tbody').on('click', 'tr', function () {
-    	var tr = $(this).closest('tr');
-    	var row = table.row( tr );
-	
-	    if ( row.child.isShown() ) {
-        	row.child.hide();
-        	tr.removeClass('shown');
-    	}
-    	else {
-	        row.child( format(row.data()) ).show();
-        	tr.addClass('shown');
-    	}
-		});
-	});
-	function format ( d ) {
-		return d.description; 
-	}
+							});
+						});
+		function format(d) {
+			return d.description;
+		}
 	</script>
 </body>
 </html>

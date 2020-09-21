@@ -1,17 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Добавление брони</title>
 </head>
 <body>
-	<form action="#" th:action="@{/armors/add}" th:object="${armor}"
-		method="post">
+	<form action="#" th:action="@{/armors/add}" th:object="${armor}" method="post">
 		<select th:field="*{{type}}">
-			<option th:each="type : ${types}" th:value="${type}"
-				th:text="${type.name}">
+			<option th:each="type : ${types}" th:value="${type}" th:text="${type.name}">
 		</select>
 		<p>
 			Название: <input type="text" th:field="*{name}" />
@@ -32,9 +28,9 @@
 			Вес: <input type="number" th:field="*{weight}" />
 		</p>
 		<p>
-			Описание: <textarea  th:field="*{description}" rows="30" cols="80"></textarea>
+			Описание:
+			<textarea th:field="*{description}" rows="30" cols="80"></textarea>
 		</p>
-
 		<p>
 			<input type="submit" value="Submit" />
 		</p>
