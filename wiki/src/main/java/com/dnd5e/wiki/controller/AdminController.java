@@ -33,7 +33,7 @@ import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.Skill;
 import com.dnd5e.wiki.model.creature.SkillType;
-import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.model.creature.Condition;
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
 import com.dnd5e.wiki.model.gods.GodSex;
@@ -335,7 +335,7 @@ public class AdminController {
 		model.addAttribute("vulnerabilityTypes", DamageType.getVulnerability());
 		model.addAttribute("resistanceTypes", DamageType.getResistance());
 		model.addAttribute("specialTypes", DamageType.getSpecil());
-		model.addAttribute("states", State.values());
+		model.addAttribute("states", Condition.values());
 		model.addAttribute("senses", Sense.values());
 		
 		model.addAttribute("dices", Dice.values());
@@ -679,9 +679,9 @@ public class AdminController {
 		case "Иммунитет к состояниям":
 			skillText = skillText.replace("Иммунитет к состояниям ", "");
 			String[] stateTypes = skillText.split(",");
-			List<State> immunityStateList = new ArrayList<>();
+			List<Condition> immunityStateList = new ArrayList<>();
 			for (String state : stateTypes) {
-				immunityStateList.add(State.parse(state.trim()));
+				immunityStateList.add(Condition.parse(state.trim()));
 			}
 			monster.setImmunityStates(immunityStateList);
 			break;

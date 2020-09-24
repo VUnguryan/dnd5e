@@ -12,7 +12,7 @@ import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.Skill;
-import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.model.creature.Condition;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -84,7 +84,7 @@ public class Monster {
 		damageVulnerabilities = creature.getVulnerabilityDamages().isEmpty() ? null : creature.getVulnerabilityDamages().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
 		damageResistances = creature.getResistanceDamages().isEmpty() ? null : creature.getResistanceDamages().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
 		damageImmunities = creature.getImmunityDamages().isEmpty() ? null : creature.getImmunityDamages().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
-		conditionImmunities = creature.getImmunityStates().isEmpty() ? null : creature.getImmunityStates().stream().map(State::getCyrilicName).collect(Collectors.joining(", "));
+		conditionImmunities = creature.getImmunityStates().isEmpty() ? null : creature.getImmunityStates().stream().map(Condition::getCyrilicName).collect(Collectors.joining(", "));
 		List<String> sensesList = new ArrayList<>();
 		if (creature.getDarkvision() != null) {
 			sensesList.add(String.format("darkvision  %d ft.", creature.getDarkvision())); 

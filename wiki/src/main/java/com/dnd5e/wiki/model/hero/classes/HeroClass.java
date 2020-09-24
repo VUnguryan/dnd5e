@@ -1,6 +1,9 @@
 package com.dnd5e.wiki.model.hero.classes;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.Column;
@@ -46,8 +49,12 @@ public class HeroClass {
 
 	@OneToMany()
 	@JoinColumn(name = "hero_class_id")
-	private List<LevelDefinition> levelDefenitions;
+	private List<SpellLevelDefinition> levelDefenitions;
 
+	@OneToMany()
+	@JoinColumn(name = "hero_class_id")
+	private List<FeatureLevelDefinition> featureLevelDefenitions;
+	
 	private byte diceHp;
 
 	private String armor;
@@ -89,6 +96,10 @@ public class HeroClass {
 	@OneToMany
 	@JoinColumn(name = "class_id")
 	private List<ClassPersonalization> personalizations;
+	
+	public List<HeroClassTrait> getTraits(int level) {
+		return traits.stream().filter(t -> t.getLevel() == level).collect(Collectors.toList());
+	}
 	
 	public List<ArchetypeTrait> getArhitypeTraitNames(int level){
 		return archetypes

@@ -5,10 +5,12 @@
 img {
 	float: center;
 }
+
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
+
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
 	background: moccasin;
 }
@@ -28,7 +30,7 @@ img {
 		<div class="card">
 			<h5 class="card-header">
 				<span th:text="*{name}"></span><span th:if="*{englishName}" th:text="' ('+ *{englishName} + ')'"></span> <small> <span th:text="*{sizeName}"></span> <span th:text="*{type.cyrilicName}"></span>
-					<a th:if="*{raceName != null}" th:href="@{'/entities/race/' + *{raceId}}"><span th:text="*{raceName}"></span></a>, <span th:text="*{alignment.cyrilicName}"></span>
+					<a class="text-danger" th:if="*{raceName != null}" th:href="@{'/entities/race/' + *{raceId}}"><span th:text="*{raceName}"></span></a>, <span th:text="*{alignment.cyrilicName}"></span>
 				</small>
 			</h5>
 			<div class="tab-content" id="myTabContent">
@@ -37,7 +39,7 @@ img {
 						<div>
 							<b>Класс доспеха</b>
 							<th:block th:text="*{AC}" />
-							<th:block th:if="${not #lists.isEmpty(creature.armorTypes)}" th:text="'(' + *{armorTypeString} + ')'" />
+							<th:block th:unless="${#lists.isEmpty(creature.armorTypes)}" th:text="'(' + *{armorTypeString} + ')'" />
 						</div>
 						<div>
 							<b>Хиты</b> <span th:text="*{averageHp}"></span> (<span th:text="*{countDiceHp}"></span><span th:text="*{diceHp}"></span><span th:if="${creature.bonusHP != null}"> + <span
@@ -46,7 +48,7 @@ img {
 						</div>
 						<div>
 							<b>Скорость</b>
-							<th:block th:text="*{allSpeed}" />
+							<th:block th:utext="*{allSpeed}" />
 						</div>
 					</div>
 					<div class="card">
@@ -54,12 +56,12 @@ img {
 							<table class="table table-sm text-center">
 								<thead>
 									<tr>
-										<th class="text-center" title="Сила">СИЛ</th>
-										<th class="text-center" title="Ловкость">ЛОВ</th>
-										<th class="text-center" title="Телосложение">ТЕЛ</th>
-										<th class="text-center" title="Интелект">ИНТ</th>
-										<th class="text-center" title="Мудрость">МДР</th>
-										<th class="text-center" title="Харизма">ХАР</th>
+										<th class="text-center" title="Сила" data-toggle="tooltip" data-placement="top">СИЛ</th>
+										<th class="text-center" title="Ловкость" data-toggle="tooltip" data-placement="top">ЛОВ</th>
+										<th class="text-center" title="Телосложение" data-toggle="tooltip" data-placement="top">ТЕЛ</th>
+										<th class="text-center" title="Интеллект" data-toggle="tooltip" data-placement="top">ИНТ</th>
+										<th class="text-center" title="Мудрость" data-toggle="tooltip" data-placement="top">МДР</th>
+										<th class="text-center" title="Харизма" data-toggle="tooltip" data-placement="top">ХАР</th>
 									</tr>
 								</thead>
 								<tr>
@@ -75,30 +77,30 @@ img {
 					</div>
 					<div class="card">
 						<div class="card-body">
-							<div th:if="*{!savingThrows.empty}">
+							<div th:unless="*{#lists.isEmpty(savingThrows)}">
 								<b>Спасброски </b><span th:each="savingThrow, iterStat : *{savingThrows}" th:text="!${iterStat.last} ? ${savingThrow.text} + ', ': ${savingThrow.text}"></span>
 							</div>
-							<div th:if="*{!skills.empty}">
+							<div th:unless="*{#lists.isEmpty(skills)}">
 								<b>Навыки </b><span th:each="skill, iterStat : *{skills}" th:text="${iterStat.last} ? ${skill.cyrilicText} : ${skill.cyrilicText} +', '"></span>
 							</div>
-							<div th:if="*{!vulnerabilityDamages.empty}">
+							<div th:unless="*{#lists.isEmpty(vulnerabilityDamages)}">
 								<b>Уязвимость к урону </b><span th:each="vulnerabilityDamage, iterStat : *{vulnerabilityDamages}"
 									th:text="${iterStat.last} ? ${vulnerabilityDamage.cyrilicName} : ${vulnerabilityDamage.cyrilicName} + ', '"
 								></span>
 							</div>
-							<div th:if="*{!resistanceDamages.empty}">
+							<div th:unless="*{#lists.isEmpty(resistanceDamages)}">
 								<b>Сопротивление к урону </b><span th:each="resistanceDamages, iterStat : *{resistanceDamages}"
 									th:text="${iterStat.last} ? ${resistanceDamages.cyrilicName} : ${resistanceDamages.cyrilicName} + ', '"
 								></span>
 							</div>
-							<div th:if="*{!immunityDamages.empty}">
+							<div th:unless="*{#lists.isEmpty(immunityDamages)}">
 								<b>Иммунитет к урону </b><span th:each="immunityDamage, iterStat : *{immunityDamages}" th:text="${iterStat.last} ? ${immunityDamage.cyrilicName} : ${immunityDamage.cyrilicName} + ', '"></span>
 							</div>
-							<div th:if="*{!immunityStates.empty}">
+							<div th:unless="*{#lists.isEmpty(immunityStates)}">
 								<b>Иммунитет к состоянию </b><span th:each="state, iterStat : *{immunityStates}" th:text="${iterStat.last} ? ${state.cyrilicName} : ${state.cyrilicName} + ', '"></span>
 							</div>
 							<div>
-								<b>Чувства</b> <span th:text="*{allSense}"></span>
+								<b>Чувства</b> <span th:utext="*{allSense}"></span>
 							</div>
 							<div>
 								<b>Языки</b> <span th:each="language, iterStat : *{languages}" th:text="${iterStat.last} ? ${language.name} : ${language.name} + ', '"> </span>
@@ -108,7 +110,7 @@ img {
 							</div>
 						</div>
 					</div>
-					<div th:if="*{!feats.empty}" class="card">
+					<div th:unless="*{#lists.isEmpty(feats.empty)}" class="card">
 						<div class="card-header">Особенности</div>
 						<div class="card-body">
 							<div th:each="feat : *{feats}">
@@ -117,7 +119,7 @@ img {
 							</div>
 						</div>
 					</div>
-					<div th:if="${!actions.empty}" class="card">
+					<div th:unless="${#lists.isEmpty(actions)}" class="card">
 						<div class="card-header">Действия</div>
 						<div class="card-body">
 							<div th:each="action : ${actions}">
@@ -145,7 +147,7 @@ img {
 							</div>
 						</div>
 					</div>
-					<div th:if="${!reactions.empty}" class="card">
+					<div th:unless="${#lists.isEmpty(reactions)}" class="card">
 						<div class="card-header">Реакции</div>
 						<div class="card-body">
 							<div th:each="action : ${reactions}">
@@ -154,7 +156,7 @@ img {
 							</div>
 						</div>
 					</div>
-					<div th:if="${!legendary.empty}" class="card">
+					<div th:unless="${#lists.isEmpty(legendary)}" class="card">
 						<div class="card-header text-white bg-danger">Легендарные действия</div>
 						<div class="card-body">
 							<div th:if="${creature.legendary}" th:utext="*{legendary}"></div>
@@ -164,7 +166,7 @@ img {
 							</div>
 						</div>
 					</div>
-					<div th:if="${!creature.habitates.empty}" class="card">
+					<div th:unless="*{#lists.isEmpty(habitates)}" class="card">
 						<div class="card-header">Места обитания</div>
 						<div class="card-body">
 							<th:block th:each="habitate, iterStat : *{habitates}" th:text="${iterStat.last} ? ${habitate.name} : ${habitate.name} + ', '">
@@ -177,23 +179,23 @@ img {
 						<p th:utext="${race.description}"></p>
 					</div>
 				</div>
-				<div th:if="${creature.description}" class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
+				<div th:if="*{description}" class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
 					<div class="card-body">
 						<p th:utext="*{description}"></p>
 					</div>
 				</div>
 				<div th:if="*{lair}" class="tab-pane fade" id="lair" role="tabpanel" aria-labelledby="lair-tab">
-					<div th:if= "*{lair.description}" class="card-body" th:utext="*{lair.description}"></div>
-					<div th:if= "*{lair.action}" class="card-header">Действи логова</div>
-					<div th:if= "*{lair.action}" class="card-body" th:utext="*{lair.action}"></div>
-					<div th:if= "*{lair.effect}" class="card-header">Местные эффекты</div>
-					<div th:if= "*{lair.effect}" class="card-body" th:utext="*{lair.effect}"></div>
+					<div th:if="*{lair.description}" class="card-body" th:utext="*{lair.description}"></div>
+					<div th:if="*{lair.action}" class="card-header">Действи логова</div>
+					<div th:if="*{lair.action}" class="card-body" th:utext="*{lair.action}"></div>
+					<div th:if="*{lair.effect}" class="card-header">Местные эффекты</div>
+					<div th:if="*{lair.effect}" class="card-body" th:utext="*{lair.effect}"></div>
 				</div>
 				<div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="image-tab">
 					<img class="card-img-bottom" th:src="@{|https://storage.googleapis.com/dnd5/creatures/${creature.id}.jpg|}" align="middle" />
 				</div>
 			</div>
-			<div class="card-footer text-muted" th:if="${creature.book}" th:text="'Источник: ' + ${creature.book.name}"></div>
+			<div class="card-footer text-muted" th:if="${creature.book}" th:text="|Источник: ${creature.book.name}|"></div>
 		</div>
 	</div>
 </body>

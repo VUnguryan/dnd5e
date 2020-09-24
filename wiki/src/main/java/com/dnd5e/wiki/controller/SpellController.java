@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class SpellController {
 				.map(String::trim)
 				.peek(s -> spell.setEnglishName(s))
 				.map(s -> repo.findOne(Example.of(spell)))
-				.map(s -> s.get())
+				.map(s -> s.orElse(null))
+				.filter(Objects::nonNull)
 				.map(s -> " <a href=\"/hero/spells/spell/"+s.getId()+"\">" + s.getName().toLowerCase() + " [" + s.getEnglishName().toLowerCase() + "]" + "</a>")
 				.collect(Collectors.joining(", "));
 	}

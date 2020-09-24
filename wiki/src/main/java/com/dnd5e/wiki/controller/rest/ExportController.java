@@ -31,7 +31,7 @@ import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureTrait;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.SavingThrow;
-import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.model.creature.Condition;
 import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.BackgroundRepository;
@@ -113,7 +113,7 @@ public class ExportController {
 			jsonCreature.withChallenge(creature.getChallengeRating());
 
 			jsonCreature.withConditionImmunities(
-					creature.getImmunityStates().stream().map(State::getCyrilicName).collect(Collectors.toList()));
+					creature.getImmunityStates().stream().map(Condition::getCyrilicName).collect(Collectors.toList()));
 			jsonCreature.withDamageImmunities(creature.getImmunityDamages().stream().map(DamageType::getCyrilicName)
 					.collect(Collectors.toList()));
 			jsonCreature.withDamageResistances(creature.getResistanceDamages().stream().map(DamageType::getCyrilicName)

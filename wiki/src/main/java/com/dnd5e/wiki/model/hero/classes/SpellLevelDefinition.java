@@ -20,15 +20,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "levelDefinitions")
-public class LevelDefinition {
+public class SpellLevelDefinition {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Byte level;
-	private Byte masteryBonus;
-	private Byte spells;
-	
-	private Byte slot0;
+
 	private Byte slot1;
 	private Byte slot2;
 	private Byte slot3;

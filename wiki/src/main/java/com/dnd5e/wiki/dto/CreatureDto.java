@@ -11,7 +11,7 @@ import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.HabitatType;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.Skill;
-import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.model.creature.Condition;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -96,7 +96,7 @@ public class CreatureDto {
 		vulnerabilityDamages = creature.getVulnerabilityDamages().isEmpty() ? null : creature.getVulnerabilityDamages().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
 		resistanceDamages =	creature.getResistanceDamages().isEmpty() ? null : creature.getResistanceDamages().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
 		immunityDamages = creature.getImmunityDamages().isEmpty() ? null : creature.getImmunityDamages().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
-		immunityStates = creature.getImmunityStates().isEmpty() ? null : creature.getImmunityStates().stream().map(State::getCyrilicName).collect(Collectors.joining(", "));
+		immunityStates = creature.getImmunityStates().isEmpty() ? null : creature.getImmunityStates().stream().map(Condition::getCyrilicName).collect(Collectors.joining(", "));
 		feelings = (creature.getBlindsight() == null ? "" : String.format("слепое зрение %d фт.", creature.getBlindsight()) + (creature.getBlindsightRadius() == null ? "" : "(слеп за пределами этого радиуса)") + ", ") 
 				+ (creature.getDarkvision() == null ? "" : String.format("тёмное зрение %d фт., ", creature.getDarkvision())) 
 				+ (creature.getTrysight() == null ? "" : String.format("истинное зрение %d фт., ", creature.getTrysight()))

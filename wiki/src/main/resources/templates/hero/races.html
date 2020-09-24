@@ -17,7 +17,7 @@
 				<div class="card-header">
 					<h4 class="my-1 font-weight-normal flex-grow-1">
 						<th:block th:text="${race.capName}"></th:block>
-						<img th:if="${race.book.type.name() eq 'OFFICAL'}" th:src="@{/resources/official.png}" height="20" width="20" title="офицальное">
+						<img th:if="${session.settings != null and session.settings.homeRule and race.book.type.name() eq 'OFFICAL'}" th:src="@{/resources/official.png}" height="20" width="20" title="офицальное">
 					</h4>
 				</div>
 				<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img class="img-fluid" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>

@@ -9,7 +9,7 @@ import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Language;
-import com.dnd5e.wiki.model.creature.State;
+import com.dnd5e.wiki.model.creature.Condition;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -237,7 +237,7 @@ public class Monster {
 			immune = creature.getImmunityDamages().stream().map(this::toStringDamage).collect(Collectors.toList());
 		}
 		if (!creature.getImmunityStates().isEmpty()) {
-			conditionImmune = creature.getImmunityStates().stream().map(State::getCyrilicName).collect(Collectors.toList());
+			conditionImmune = creature.getImmunityStates().stream().map(Condition::getCyrilicName).collect(Collectors.toList());
 		}
 		
 		if (!creature.getFeats().isEmpty()) {

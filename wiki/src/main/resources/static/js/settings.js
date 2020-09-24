@@ -15,5 +15,7 @@ function processSettings() {
 	});
 }
 $(function() {
-	$('[data-toggle="tooltip"]').tooltip()
+	$('[data-toggle="tooltip"]').tooltip({
+	     'delay': { show: 600, hide: 100 }
+	});
 })
