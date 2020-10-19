@@ -75,7 +75,8 @@ public class CreatureDto {
 		armorType = creature.getArmorTypes().isEmpty() ? null : creature.getArmorTypes().stream().map(ArmorType::getCyrillicName).collect(Collectors.joining(", "));
 		book = creature.getBook().getName();
 		hp = creature.getHp();
-		speed = "" + creature.getSpeed() + " фт." + (creature.getFlySpeed() == null ? "" : ", летая " + creature.getFlySpeed() + " фт.") 
+		speed = "" + creature.getSpeed() + " фт." + (creature.getFlySpeed() == null ? "" : ", летая " + creature.getFlySpeed() + " фт.")
+				+ (creature.getHover() == null ? "" : " (парит)")
 				+ (creature.getSwimmingSpped() == null ? "" : ", плавая " + creature.getSwimmingSpped() + " фт.")
 				+ (creature.getDiggingSpeed() == null ? "" : ", копая " + creature.getDiggingSpeed() + " фт.")
 				+ (creature.getClimbingSpeed() == null ? "" : ", лазая " + creature.getClimbingSpeed() + " фт.");

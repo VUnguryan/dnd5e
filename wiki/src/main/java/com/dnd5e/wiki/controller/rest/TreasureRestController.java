@@ -45,8 +45,7 @@ public class TreasureRestController {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("type").in(filterTypes));
 		}
 
-		DataTablesOutput<TreasureDto> output = repo.findAll(input, specification, specification,
-				i -> new TreasureDto(i));
+		DataTablesOutput<TreasureDto> output = repo.findAll(input, specification, specification, TreasureDto::new);
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
 

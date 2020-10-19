@@ -28,9 +28,10 @@ tr.shown td.details-control {
 	<div class="container" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-10 mt-3 mb-3">
-				<table id="example" class="table table-hover" style="width: 100%">
+				<table id="conditions" class="table table-hover table-sm" style="width: 100%">
 					<thead>
 						<tr>
+							<th>Тип</th>
 							<th>Состояния</th>
 							<th>English</th>
 							<th></th>
@@ -52,20 +53,32 @@ tr.shown td.details-control {
 												'data-column'));
 										column.visible(!column.visible());
 									});
-
-							var table = $('#example')
+							$('#conditions').one(
+									'preXhr.dt',
+									function(e, settings, data) {
+										data.searchPanes = {};
+										data.searchPanes["type.0"] =  'Состояние';
+									})
+							var table = $('#conditions')
 									.DataTable(
 											{
 												paging : false,
-												info : false,
+												searchPanes : true,
+												dom : 'Bfrtip',
 												processing : true,
 												serverSide : true,
 												ajax : '/conditions',
 												columns : [
 														{
+															data : 'type',
+															width : "1%",
+														},
+														{
 															data : "name",
 															width : "20%",
-															render : function(data, type, row) {
+															render : function(
+																	data, type,
+																	row) {
 																if (type === 'display') {
 																	return '<h6>'
 																			+ data
@@ -79,7 +92,7 @@ tr.shown td.details-control {
 														{
 															data : 'englishName',
 															width : "1%",
-															orderable : false,
+															orderable : true,
 														},
 														{
 															className : 'details-control',
@@ -88,10 +101,41 @@ tr.shown td.details-control {
 															defaultContent : '',
 															width : "1%"
 														}, ],
-												columnDefs : [ {
-													"targets" : [ 1 ],
-													"visible" : false
-												}, ],
+												columnDefs : [
+														{
+															searchPanes : {
+																preSelect : [ 'Состояние' ],
+															},
+															"targets" : [ 0 ],
+															"visible" : false,
+														}, {
+															"targets" : [ 2 ],
+															"visible" : false,
+														}, ],
+												buttons : [
+														'searchPanes',
+														{
+															extend : 'colvis',
+															text : 'Столбцы',
+															buttons : [
+																	{
+																		text : 'Тип',
+																		action : function(
+																				e,
+																				dt,
+																				node,
+																				config) {
+																			dt
+																					.column(
+																							0)
+																					.visible(
+																							!dt
+																									.column(
+																											0)
+																									.visible());
+																		}
+																	}, ],
+														} ],
 												language : {
 													processing : "Загрузка...",
 													search : "Поиск",
@@ -118,18 +162,19 @@ tr.shown td.details-control {
 												},
 												ordering : true,
 											});
-							$('#example tbody').on('click', 'tr', function() {
-								var tr = $(this).closest('tr');
-								var row = table.row(tr);
+							$('#conditions tbody').on('click','tr',	function() {
+										var tr = $(this).closest('tr');
+										var row = table.row(tr);
 
-								if (row.child.isShown()) {
-									row.child.hide();
-									tr.removeClass('shown');
-								} else {
-									row.child(format(row.data())).show();
-									tr.addClass('shown');
-								}
-							});
+										if (row.child.isShown()) {
+											row.child.hide();
+											tr.removeClass('shown');
+										} else {
+											row.child(format(row.data()))
+													.show();
+											tr.addClass('shown');
+										}
+									});
 						});
 		function format(d) {
 			return d.description;

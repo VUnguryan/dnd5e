@@ -107,7 +107,7 @@ public class SpellRestController {
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
-		output = repo.findAll(input, null, specification, i -> new SpellDto(i));
+		output = repo.findAll(input, null, specification, SpellDto::new);
 		
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();

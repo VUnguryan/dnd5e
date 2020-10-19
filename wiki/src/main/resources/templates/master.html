@@ -7,6 +7,7 @@
 		column-count: 2;
 	}
 }
+
 @media ( min-width :768px) {
 	.card-columns {
 		column-count: 3;
@@ -664,7 +665,7 @@
 										</tr>
 										<tr>
 											<td>Пешком</td>
-											<td>5 футов&nbsp;</td>
+											<td>5 футов</td>
 										</tr>
 										<tr>
 											<td>Лазание</td>
@@ -688,11 +689,11 @@
 										</tr>
 										<tr>
 											<td>Прыжок в высоту</td>
-											<td>5 футов&nbsp;</td>
+											<td>5 футов</td>
 										</tr>
 										<tr>
 											<td>Прыжок в длину</td>
-											<td>5 футов&nbsp;</td>
+											<td>5 футов</td>
 										</tr>
 										<tr>
 											<td>Труднопроходимая местность</td>
@@ -712,7 +713,79 @@
 						</div>
 						<div class="card">
 							<div class="card-header">
-								<h6>Действие</h6>
+								<h6>Действие (одно в ход)</h6>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-striped table-sm">
+										<tbody>
+											<tr>
+												<th>Тип</th>
+												<th>Описание</th>
+											</tr>
+											<tr>
+												<td>Атака</td>
+												<td>
+													<ul>
+														<li>Рукопашная или дальнобойная атака оружием</li>
+														<li><a href="#" data-toggle="modal" data-target="#nowepon">Безоружная атака </a></li>
+														<li><a href="#" data-toggle="modal" data-target="#grab">Захват</a></li>
+														<li><a href="#" data-toggle="modal" data-target="#push">Толкание</a></li>
+													</ul>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div>Наложение заклинания</div>
+												</td>
+												<td>
+													<div>Наложение в 1 действие</div>
+												</td>
+											</tr>
+											<tr>
+												<td><a href="#" data-toggle="modal" data-target="#dash">Рывок</a></td>
+												<td>
+													<div>Удвоение скорости</div>
+												</td>
+											</tr>
+											<tr>
+												<td><a href="#" data-toggle="modal" data-target="#retreat">Отход</a></td>
+												<td>Предотращает провокационные атаки</td>
+											</tr>
+											<tr>
+												<td><a href="#" data-toggle="modal" data-target="#dodge">Уклонение</a></td>
+												<td>
+													<div>Дает помеху на атаки по уклоняющемуся и преимущество на броски Ловкости против&nbsp;</div>
+												</td>
+											</tr>
+											<tr>
+												<td>Высвобождение</td>
+												<td>
+													<div>Высвобождение из захвата&nbsp;</div>
+												</td>
+											</tr>
+											<tr>
+												<td><a href="#" data-toggle="modal" data-target="#help">Помощь</a></td>
+												<td>
+													<div>Дает преимущество на одну атаку или защиту союзнику&nbsp;</div>
+												</td>
+											</tr>
+											<tr>
+												<td><a href="#" data-toggle="modal" data-target="#useitem">Использование предмета</a></td>
+												<td>Взаимодействие с предметом</td>
+											</tr>
+											<tr>
+												<td>Взять щит</td>
+												<td>Надеть или снять щит</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h6>Действие (одно в ход)</h6>
 							</div>
 							<div class="card-body">
 								<table class="table table-striped table-sm">
@@ -722,126 +795,98 @@
 											<th>Описание</th>
 										</tr>
 										<tr>
-											<td>Атака</td>
-											<td>
-												<ul>
-													<li>Рукопашная или дальнобойная атака оружием</li>
-													<li>Безоружная атака</li>
-													<li>Захват</li>
-													<li>Толчок</li>
-												</ul>
-											</td>
+											<td><a href="#" data-toggle="modal" data-target="#ambush">Засада</a></td>
+											<td>Попытка спрятаться от существа</td>
 										</tr>
 										<tr>
-											<td>
-												<div>Наложение заклинания&nbsp;</div>
-											</td>
-											<td>
-												<div>Наложение в 1 действие&nbsp;</div>
-											</td>
+											<td><a href="#" data-toggle="modal" data-target="#search">Поиск</a></td>
+											<td>Активный поиск чего-то</td>
 										</tr>
 										<tr>
-											<td>Рывок</td>
-											<td>
-												<div>Удвоение скорости&nbsp;&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>Отход</td>
-											<td>
-												<div>Предотращает провокационные атаки&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>Уклонение</td>
-											<td>
-												<div>Дает помеху на атаки по уклоняющемуся и преимущество на броски Ловкости против&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>Высвобождение</td>
-											<td>
-												<div>Высвобождение из захвата&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>Помощь</td>
-											<td>
-												<div>Дает преимущество на одну атаку или защиту союзнику&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div>Использование предмета</div>
-											</td>
-											<td>
-												<div>Взаимодействие с предметом&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div>
-													<div>Взять щит&nbsp;</div>
-												</div>
-											</td>
-											<td>
-												<div>Надеть или снять щит&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div>
-													<div>Засада</div>
-												</div>
-											</td>
-											<td>
-												<div>Попытка спрятаться от существа</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div>
-													<div>Поиск</div>
-												</div>
-											</td>
-											<td>
-												<div>Активный поиск чего-то&nbsp;</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div>Стабилизация</div>
-											</td>
+											<td><a href="#" data-toggle="modal" data-target="#stabilization">Стабилизация</a></td>
 											<td>
 												<div>Стабилизирует состояние умирающего&nbsp;</div>
 											</td>
 										</tr>
 										<tr>
+											<td><a href="#" data-toggle="modal" data-target="#preparation">Подготовка</a></td>
 											<td>
-												<div>Подготовка</div>
-											</td>
-											<td>
-												<div>Выбор условия (тригера сробатывания) для действия&nbsp;</div>
+												<div>Выбор условия (тригера сробатывания) для действия</div>
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<div>Классовая способность&nbsp;</div>
+												<div>Классовая способность</div>
 											</td>
 											<td>
-												<div>Действия доступные за счет расовых и классовых способностей.&nbsp;</div>
+												<div>Действия доступные за счет расовых и классовых способностей.</div>
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<div>Импровизация</div>
-											</td>
+											<td><a href="#" data-toggle="modal" data-target="#improvisation">Импровизация</a></td>
 											<td>
 												<div>Действие не из списка (на усмотрение Мастера)</div>
 											</td>
 										</tr>
 									</tbody>
 								</table>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h6>Бонусное действие</h6>
+							</div>
+							<div class="card-body">
+								<p>Бонусное действие можно совершать только если особое умение или заклинание напрямую разрешает делать что-то бонусным действием.</p>
+								<ul style="list-style-type: disc;">
+									<li>атака вторым оружием</li>
+									<li>использование заклинания</li>
+									<li>классовые умения</li>
+								</ul>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h6>Реакция (одна в ход)</h6>
+							</div>
+							<div class="card-body">
+								<p>Реакция — это мгновенный ответ на срабатывание некоего условия (тригера), который может происходить как в ваш, так и в чужой ход</p>
+								<ul style="list-style-type: disc;">
+									<li>спровоцированная атака</li>
+									<li>подготовленное действие</li>
+									<li>использование заклинания</li>
+									<li>класовые умения</li>
+								</ul>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header">
+								<h6>Взаимодействие с одним предметом (одно в ход)</h6>
+							</div>
+							<div class="card-body">
+								<ul style="list-style-type: disc;">
+									<li>вынимание или убирание в ножны меча</li>
+									<li>открывание или закрывание двери</li>
+									<li>доставание зелья из рюкзака</li>
+									<li>поднимание упавшего топора</li>
+									<li>взятие безделушки со стола</li>
+									<li>снятие кольца с пальца</li>
+									<li>помещение еды в рот</li>
+									<li>втыкание знамени в землю</li>
+									<li>вынимание нескольких монет из кошеля</li>
+									<li>выпивание пива из кувшина</li>
+									<li>нажатие на рычаг</li>
+									<li>вынимание факела из крепления на стене</li>
+									<li>доставание книги с полки, до которой вы дотягиваетесь</li>
+									<li>тушение небольшого пламени</li>
+									<li>надевание маски</li>
+									<li>накидывание капюшона на голову</li>
+									<li>прикладывание уха к двери</li>
+									<li>пинание небольшого камня</li>
+									<li>поворачивание ключа в замке</li>
+									<li>прощупывание пола 10-футовым шестом</li>
+									<li>передача предмета другому персонажу</li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -1183,6 +1228,19 @@
 				</div>
 			</div>
 		</small>
+		<div th:insert="fragments/actions :: nowepon"></div>
+		<div th:insert="fragments/actions :: dash"></div>
+		<div th:insert="fragments/actions :: grab"></div>
+		<div th:insert="fragments/actions :: push"></div>
+		<div th:insert="fragments/actions :: retreat"></div>
+		<div th:insert="fragments/actions :: dodge"></div>
+		<div th:insert="fragments/actions :: help"></div>
+		<div th:insert="fragments/actions :: useitem"></div>
+		<div th:insert="fragments/actions :: ambush"></div>
+		<div th:insert="fragments/actions :: search"></div>
+		<div th:insert="fragments/actions :: improvisation"></div>
+		<div th:insert="fragments/actions :: preparation"></div>
+		<div th:insert="fragments/actions :: stabilization"></div>
 	</div>
 </body>
 </html>

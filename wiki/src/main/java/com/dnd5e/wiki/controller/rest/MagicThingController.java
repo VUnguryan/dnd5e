@@ -81,11 +81,10 @@ public class MagicThingController {
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification,  (root, query, cb) -> root.get("book").in(filterBooks));
 		}
-		output = repo.findAll(input, null, specification, i -> new MagicThingDto(i));
+		output = repo.findAll(input, null, specification, MagicThingDto::new);
 		
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
-
 		
 		repo.countTotalMagicThingsByRarity().stream()
 			.map(c -> new Item<String>(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))

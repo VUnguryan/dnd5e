@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="header(search)">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="header">
 		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -15,7 +15,7 @@
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Персонаж </a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/hero/classes}">Классы</a> <a class="dropdown-item" th:href="@{/hero/races}">Расы</a> <a class="dropdown-item" th:href="@{/hero/backgrounds}">Предыстории</a>
-						<a class="dropdown-item" th:href="@{/hero/traits}">Черты</a> <a class="dropdown-item" th:href="@{/hero/conditions}">Состояния</a>
+						<a class="dropdown-item" th:href="@{/hero/traits}">Черты</a> <a class="dropdown-item" th:href="@{/hero/conditions}">Состояния и болезни</a>
 					</div></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/hero/spells}">Заклинания</a></li>
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Сокровища </a>
@@ -26,10 +26,10 @@
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/stock/armors}">Доспехи</a> <a class="dropdown-item" th:href="@{/stock/weapons}">Оружие</a> <a class="dropdown-item" th:href="@{/stock/equipments}">Снаряжение</a>
 					</div></li>
-				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Инструменты МП</a>
+				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Мастерская</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/calc/master}">Мастерский щит</a>
-						<a class="dropdown-item" th:href="@{/calc/idle}">Время простоя</a><a class="dropdown-item" th:href="@{/calc/buyMagicThings}">Покупка магических вещей</a>
+						<a class="dropdown-item" th:href="@{/calc/master}">Ширма</a> <a class="dropdown-item" th:href="@{/calc/idle}">Время простоя</a><a class="dropdown-item" th:href="@{/calc/buyMagicThings}">Покупка
+							магических вещей</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" th:href="@{/calc/taverna}">Таверна на скорую руку</a> <a class="dropdown-item" th:href="@{/calc/wildMagic}">Дикая магия</a> <a class="dropdown-item"
 							th:href="@{/calc/madness}"
@@ -38,15 +38,13 @@
 				<li class="nav-item"><a class="nav-link" th:href="@{/entities/gods}">Боги</a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/entities/creatures}">Бестиарий</a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/references}">Ссылки</a></li>
-				
 				<li sec:authorize="hasRole('ROLE_USER')" class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Мастерская</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href="@{/tavern/add}">Создать персонажа</a> <a class="dropdown-item" th:href="@{/tavern?sort=name,asc}">Список персонажей</a> <a class="dropdown-item"
 							th:href="@{/magic/books}"
 						>Книги заклинаний</a>
 					</div></li>
-				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
-					<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Админка</a>
+				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Админка</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить магическую вещь</a> <a class="dropdown-item" th:href=@{/admin/spell/add}>Добавить заклинание</a> <a class="dropdown-item"
 							th:href="@{/admin/class/add}"

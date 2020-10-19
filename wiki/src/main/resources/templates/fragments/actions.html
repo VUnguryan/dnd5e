@@ -1,0 +1,305 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<div th:fragment="dash" class="modal fade" id="dash" tabindex="-1" role="dialog" aria-labelledby="dash" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="dash">Рывок</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Если вы совершаете действие <em>Рывок</em>, вы получаете дополнительное перемещение в текущем ходу, равное вашей скорости после применения всех модификаторов.
+					</p>
+					<blockquote>
+						<p>Например, если у вас скорость 30 футов, то совершив рывок, вы можете переместиться на 60 футов.</p>
+					</blockquote>
+					<p>Все увеличения и уменьшения скорости изменяют точно так же и дополнительное перемещение.</p>
+					<blockquote>
+						<p>Например, если ваша скорость 30 футов уменьшена до 15 футов, то совершив рывок, вы можете переместиться только на 30 футов.</p>
+					</blockquote>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="nowepon" class="modal fade" id="nowepon" tabindex="-1" role="dialog" aria-labelledby="nowepon" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="unwepon">Безоружная атака</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						При совершении <em>рукопашной атаки оружием</em> вы можете использовать безоружный удар: пнуть, ударить кулаком, головой или другой аналогичный удар (ничто из этого не считается оружием).
+					<p>
+						При попадании безоружный удар причиняет дробящий урон 1 + ваш модификатор <em>Силы</em>
+					</p>
+					<p>Вы считаетесь владеющим безоружными атаками.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="grab" class="modal fade" id="grab" tabindex="-1" role="dialog" aria-labelledby="grab" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="grab">Захват</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Если вы хотите схватить существо или побороться с ним, вы можете использовать действие <em>Атака</em> для совершения особой рукопашной атаки, захвата. Если вы можете совершать многочисленные
+						атаки действием Атака, эта атака заменяет одну из них.
+					</p>
+					<p>
+						Цель вашего захвата должна быть не более чем на одну категорию больше вас, и она должна<br />находиться в пределах вашей досягаемости. Используя как минимум одну свободную руку, вы пытаетесь
+						схватить цель, совершая проверку захвата: проверку <em>Силы (Атлетика)</em>, противопоставленную проверке <em>Силы (Атлетика)</em> или <em>Ловкости (Акробатика)</em> цели (цель сама выбирает,
+						какую характеристику использовать). Если вы преуспеете, цель становится захваченной (смотрите приложение А). В описании состояния сказано, что его оканчивает,<br />и вы в любой момент можете
+						отпустить цель (действие не требуется).
+					</p>
+					<p>
+						<strong>Высвобождение из захвата.</strong> Захваченное существо может пытаться высвободиться. Для этого оно действием совершает проверку <em>Силы (Атлетика)</em> или <em>Ловкость
+							(Акробатика)</em>, противопоставленную вашей проверке <em>Силы (Атлетика)</em>.
+					</p>
+					<p>
+						<strong>Перемещение захваченного существа.</strong> Если вы перемещаетесь, вы можете тащить или нести захваченное существо вместе с собой, но ваша скорость уменьшается вдвое, если только
+						существо не меньше вас как минимум на две категории.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="push" class="modal fade" id="push" tabindex="-1" role="dialog" aria-labelledby="push" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="push">Толкание</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Вы можете при помощи действия <em>Атака</em> совершить особую рукопашную атаку, чтобы или сбить цель с ног, или оттолкнуть от себя. Если вы можете совершать многочисленные атаки действием <em>Атака</em>,
+						эта атака заменяет одну из них.
+					</p>
+					<p>
+						Цель вашего толкания должна быть не более чем на одну категорию больше вас, и она должна находиться в пределах вашей досягаемости. Вы совершаете проверку <em>Силы (Атлетика)</em>,
+						противопоставленную проверке <em>Силы (Атлетика)</em> или <em>Ловкости (Акробатика)</em> цели (цель сама выбирает, какую характеристику использовать). Если вы преуспеете, вы либо сбиваете цель с
+						ног, либо толкаете её на 5 футов от себя.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="retreat" class="modal fade" id="retreat" tabindex="-1" role="dialog" aria-labelledby="retreat" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="retreat">Отход</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Если вы совершаете действие <em>Отход</em>, то до конца текущего хода ваше перемещение не провоцирует атаки.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="dodge" class="modal fade" id="dodge" tabindex="-1" role="dialog" aria-labelledby="dodge" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="dodge">Уклонение</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+					<p>
+						Если вы совершаете действие <em>Уклонение</em>, вы сосредотачиваетесь на уклонении от атак. До начала вашего следующего хода все броски атаки по вам совершаются с <span
+							class="badge badge-pill badge-danger"
+						>помехой</span>, и спасброски <em>Ловкости</em> вы совершаете с <span class="badge badge-pill badge-success">преимуществом</span>, если вы видите атакующего.
+					</p>
+					<p>Вы теряете это преимущество, если становитесь недееспособным или если ваша скорость падает до 0.</p>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="help" class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="help" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="help">Помощь</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Вы можете оказать помощь другому существу. Если вы совершаете действие <em>Помощь</em>, существо, которому вы помогаете, совершит свою следующую проверку характеристики для выполнения задачи с
+						преимуществом, если она будет совершена до начала вашего следующего хода.
+					</p>
+					<p>В качестве альтернативы, вы можете помочь дружественному существу атаковать другое существо, находящееся в пределах 5 футов от вас. Вы совершаете финт, отвлекаете цель или каким-то другим
+						образом делаете атаку союзника более эффективной.</p>
+					<p>Если ваш союзник атакует цель до начала вашего следующего хода, первый бросок атаки совершается с преимуществом.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="useitem" class="modal fade" id="useitem" tabindex="-1" role="dialog" aria-labelledby="useitem" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="useitem">Использование предмета</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Обычно вы взаимодействуете с предметами во время других действий, например, вынимаете меч частью атаки, но если предмет требует действия для его использования, вы совершаете действие <em>Использование
+							предмета</em>. Это действие также пригодится, если вы хотите в течение хода взаимодействовать сразу с несколькими предметами.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="ambush" class="modal fade" id="ambush" tabindex="-1" role="dialog" aria-labelledby="ambush" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ambush">Засада</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Если вы совершаете действие <em>Засада</em>, вы совершаете проверку <em>Ловкости (Скрытность)</em>, пытаясь спрятаться. В случае успеха вы получаете определённые преимущества описанные неиже.
+					</p>
+					<p>
+						<strong>Невидимые атакующие и цели</strong>
+					</p>
+					<p>Участники сражения часто пытаются избежать внимания врагов, прячась, накладывая заклинания и скрываясь в темноте.</p>
+					<p>
+						Если вы атакуете цель, которую не видите, бросок атаки совершается с <span class="badge badge-danger">помехой</span>. Это справедливо и в случае, если вы не знаете местонахождение цели, и в
+						случае, если вы слышите цель, но не видите её. Если цели не было в том месте, которое&nbsp;вы атаковали, вы автоматически промахиваетесь, но Мастер обычно просто говорит, что атака промахнулась,
+						не сообщая, что цель была вообще в другом месте.
+					</p>
+					<p>
+						Если существо вас не видит, вы совершаете по нему броски атаки с <span class="badge badge-success">преимуществом</span>. Если вы скрылись (вас не видно и не слышно), то при совершении атаки вы
+						выдаёте своё местоположение, когда атака попадает или промахивается.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="search" class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="search" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="search">Поиск</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Совершив действие <em>Поиск</em>, вы уделяете внимание поиску чего-то. В зависимости от характера ваших поисков, Мастер может призвать к проверке <em>Мудрости (Внимательность)</em> или <em>Интеллекта
+							(Анализ)</em>.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="improvisation" class="modal fade" id="improvisation" tabindex="-1" role="dialog" aria-labelledby="improvisation" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="improvisation">Импровизация</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Ваши персонажи могут совершать действия, не описанные в правилах к игре, такие как выламывание дверей, запугивание врагов, поиски брешей в магической обороне или призывы к переговорам с
+						врагами. Единственным ограничением будет ваше воображение и значения характеристик.&nbsp;</p>
+					<p>Когда вы описываете действие, не упомянутое в правилах, Мастер сообщает, возможно ли это действие, и какие проверки нужно совершить для определения успешности.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="preparation" class="modal fade" id="preparation" tabindex="-1" role="dialog" aria-labelledby="preparation" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="preparation">Подготовка</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>
+						Вы можете прыгнуть на врага, когда он будет проходить под вами, или подождать, пока не произойдёт определённое событие. Для этого вы совершаете в свой ход действие Подготовка, чтобы Р<em>еакцией</em>
+						подействовать позже.
+					</p>
+					<p>Во-первых, определите, какое воспринимаемое событие вызовет вашу реакцию. Затем выберите действие, либо перемещение, которое будет совершено.</p>
+					<p>
+						<em>Примеры: &laquo;Если культист наступит на люк, я дёрну рычаг и открою его&raquo;, &laquo;Если передо мной</em><br /> <em>встанет гоблин, я отойду прочь&raquo;.</em>
+					</p>
+					<p>Когда срабатывает условие, вы можете либо совершить свою реакцию до окончания действия, вызвавшего срабатывание, либо игнорировать срабатывание условия. Подготовленное действие можно
+						совершить только до начала вашего следующего хода. Помните, что вы можете совершить только одну реакцию в раунд.</p>
+					<p>
+						Если вы подготовили заклинание, вы накладываете его как обычно, но удерживаете энергию,<br />пока не сработает условие. Для того чтобы заклинание можно было подготовить, у него должно быть
+						время накладывания &laquo;1 действие&raquo;, а удерживание магии требует концентрации. Если концентрация прервана, заклинание тратится без всякого эффекта.
+					</p>
+					<p>
+						<em>Например, если вы концентрируетесь на заклинании паутина и подготавливаете волшебную стрелу, заклинание паутина заканчивается, и если вы получите урон до накладывания волшебной стрелы
+							реакцией, ваша концентрация рискует прерваться.</em>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="stabilization" class="modal fade" id="stabilization" tabindex="-1" role="dialog" aria-labelledby="stabilization" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="stabilization">Стабилизация существа</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Самый надёжный способ помочь существу с 0 хитов это его лечение. Если лечение недоступно, существо можно хотя бы стабилизировать, чтобы оно не умерло от проваленного спасброска от смерти.</p>
+					<p>
+						Вы можете действием оказать первую помощь находящемуся без сознания существу и попытаться стабилизировать его, для чего требуется совершить проверку <em>Мудрости (Медицина)</em> со Сл 10.
+					</p>
+					<p>
+						<strong>Стабилизированное существо</strong> не совершает спасброски от смерти, несмотря на то, что хиты равны 0, но и в сознание не приходит. Получив&nbsp;урон, существо перестаёт быть
+						стабилизированным и снова начинает совершать спасброски от смерти.
+					</p>
+					<p>Стабилизированное существо, не получившее лечения, восстанавливает 1 хит после 1к4 часов.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

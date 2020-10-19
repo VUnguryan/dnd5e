@@ -31,7 +31,7 @@ tr.shown td.details-control {
 	<div class="container" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-11 mt-3 mb-3">
-				<table id="example" class="table table-hover" style="width: 100%">
+				<table id="example" class="table table-hover table-sm" style="width: 100%">
 					<thead>
 						<tr>
 							<th>Школа</th>
@@ -450,11 +450,31 @@ tr.shown td.details-control {
 			}
 			info += ', ' + d.school;
 			info += '</em></p>';
-			info += '<p><strong>Время накладывания:</strong> '+ d.timeCast + '</p>'+
-            '<p><strong>Дистанция:</strong> ' + d.distance + '</p>'+
-        	'<p><strong>Длительность:</strong> '+ d.duration + '</p>'+ 
-        	 (d.components != null ? '<p><strong>Материалы:</strong> '+ d.components + '</p>' : '') +
-			 d.description;
+			info += '<div><strong>Время накладывания:</strong> '+ d.timeCast + '</div>'+
+            '<div><strong>Дистанция:</strong> ' + d.distance + '</div>';
+            info += '<div><strong>Компоненты:</strong> ';
+            if (d.verbalComponent == '★') {
+            	info +='В';            	
+            }
+            if (d.somaticComponent == '★') {
+            	if (d.verbalComponent == '★'){
+            		info +=', ';
+            	}
+            	info +='C';
+            }
+            if (d.materialComponent == '★') {
+            	if (d.somaticComponent == '★' || d.verbalComponent == '★'){
+            		info +=', ';
+            	}
+            	info +='М'; 
+            	if (d.components != null){
+            		info += ' (' + d.components+')';
+            	}
+            }
+            info += '</div>';
+            info += '<div><strong>Длительность:</strong> '+ d.duration + '</div>'+ 
+        	 '<p>' +
+        	 d.description + '</p>';
 			 if (d.upperLevel) {
 				 info += '<p><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</p>';
 			 }

@@ -20,17 +20,20 @@
 						<img th:if="${session.settings != null and session.settings.homeRule and race.book.type.name() eq 'OFFICAL'}" th:src="@{/resources/official.png}" height="20" width="20" title="офицальное">
 					</h4>
 				</div>
-				<a th:href="@{'/hero/races/race/'+ ${race.id}}"> <img class="img-fluid" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
+				<a th:href="@{|/hero/races/race/${race.id}|}"> <img class="img-fluid" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
 				<div class="card-footer">
-					<h6 class="card-subtitle mb-2 text-muted" th:text="${race.abilityBonuses}"></h6>
-					<h6 th:if="${not race.chiledAbilityBonuses.empty}" class="card-subtitle mb-2 text-muted" th:text="${'Подрасы: ' + race.chiledAbilityBonuses}"></h6>
-					<img th:if="${race.darkVision}" class="invert" th:src="@{/resources/icons/Icon.6_30.png}" height="25" title="темное зрение" /><img th:if="${race.natureArmor}" class="invert"
-						th:src="@{/resources/icons/Icon.7_67.png}" height="25" title="природный доспех"
-					/><img th:if="${race.athletics}" class="invert" th:src="@{/resources/icons/Icon.4_64.png}" height="25" title="атлетичный" /><img th:if="${race.stealth}" class="invert"
-						th:src="@{/resources/icons/Icon.6_10.png}" height="25" title="скрытный"
-					/> <img th:if="${race.resistenceFire}" class="invert" th:src="@{/resources/icons/Icon.6_68.png}" height="25" title="сопротивление к урону огнем" /><img th:if="${race.resistencePoison}"
-						class="invert" th:src="@{/resources/icons/Icon.1_69.png}" height="25" title="сопротивление или иммунитет к урону ядом"
-					/> <img src="a.gif" style="display: none;" />
+					<h6 class="card-subtitle mb-2 text-muted">
+					<span th:text="${race.abilityBonuses}"></span>
+					<a data-toggle="tooltip" data-placement="top" th:href="@{|/hero/races/race/${race.id}|}" th:if="${not race.chiledAbilityBonuses.empty}" class="card-subtitle mb-2 text-muted" th:title ="${race.chiledAbilityBonuses}">Разновидности</a>
+					</h6>
+					
+					<img data-toggle="tooltip" data-placement="top" th:if="${race.darkVision}" class="invert" th:src="@{/resources/icons/Icon.6_30.png}" height="25" title="темное зрение" /><img
+						data-toggle="tooltip" data-placement="top" th:if="${race.natureArmor}" class="invert" th:src="@{/resources/icons/Icon.7_67.png}" height="25" title="природный доспех"
+					/><img data-toggle="tooltip" data-placement="top" th:if="${race.athletics}" class="invert" th:src="@{/resources/icons/Icon.4_64.png}" height="25" title="атлетичный" /><img
+						data-toggle="tooltip" data-placement="top" th:if="${race.stealth}" class="invert" th:src="@{/resources/icons/Icon.6_10.png}" height="25" title="скрытный"
+					/> <img data-toggle="tooltip" data-placement="top" th:if="${race.resistenceFire}" class="invert" th:src="@{/resources/icons/Icon.6_68.png}" height="25" title="сопротивление к урону огнем" /><img
+						data-toggle="tooltip" data-placement="top" th:if="${race.resistencePoison}" class="invert" th:src="@{/resources/icons/Icon.1_69.png}" height="25" title="сопротивление или иммунитет к урону ядом"
+					/><img height="25" />
 				</div>
 				<footer class="card-footer">
 					<small class="text-muted" th:text="'Источник: ' + ${race.book.name}"></small>

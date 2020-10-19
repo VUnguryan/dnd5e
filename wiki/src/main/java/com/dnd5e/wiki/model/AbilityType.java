@@ -16,7 +16,10 @@ public enum AbilityType {
 	CONSTITUTION("Телосложение"), // 2
 	INTELLIGENCE("Интеллект"),    // 3
 	WISDOM("Мудрость"),           // 4
-	CHARISMA("Харизма");          // 5
+	CHARISMA("Харизма"),          // 5
+	
+	CHOICE("любая другая по выбору"),
+	CHOICE_UNIQUE("любые две другие по выбору");
 
 	private String cyrilicName;
 

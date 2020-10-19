@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.hero.race;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -82,15 +83,29 @@ public class Race {
 	}
 
 	public String getAbilityBonuses() {
+		if (features.stream().flatMap(f -> f.getAbilityBonuses().stream()).count() == 6) {
+			return "+1 к каждой характеристике";
+		}
 		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
 				.map(b -> b.getAbility().getShortName() + " " + String.format("%+d", b.getBonus()))
 				.collect(Collectors.joining(", "));
 	}
 	
 	public String getChiledAbilityBonuses() {
-		return subRaces.stream().flatMap(r-> r.features.stream()).flatMap(f -> f.getAbilityBonuses().stream())
-				.map(b -> b.getAbility().getShortName() + " " + String.format("%+d", b.getBonus())).distinct()
-				.collect(Collectors.joining(", "));
+		List<String> subraceAbilities = new ArrayList<>();
+		for (Race subrace : subRaces) {
+			for (Feature feature : subrace.getFeatures()) {
+				if (feature.getAbilityBonuses().isEmpty()) {
+					continue;
+				}
+				String bonuses = feature.getAbilityBonuses().stream()
+						.map(b -> String.format("%s %+d", b.getAbility().getShortName(), b.getBonus())).distinct()
+						.collect(Collectors.joining(", "));
+					
+				subraceAbilities.add(subrace.getName().toLowerCase() + ": (" + bonuses + ")");
+			}
+		}
+		return String.join(", ", subraceAbilities);
 	}
 
 	public String getCapName() {

@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.hero.classes;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,6 +49,7 @@ public class Archetype {
 	
 	public Map<Integer, List<Spell>> getLevelSpells(){
 		return spells.stream()
-				.collect(Collectors.groupingBy(ArchetypeSpell::getLevel, Collectors.mapping(ArchetypeSpell::getSpell, Collectors.toList())));
+				.collect(Collectors.groupingBy(ArchetypeSpell::getLevel,
+						Collectors.mapping(ArchetypeSpell::getSpell, Collectors.toList())));
 	}
 }

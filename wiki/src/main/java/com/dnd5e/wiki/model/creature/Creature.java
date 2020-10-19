@@ -266,7 +266,8 @@ public class Creature {
 	}
 
 	public String getAllSpeed() {
-		return String.format("%d фт.", speed) + (flySpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">летая</a> %d фт.", flyTittle, flySpeed))
+		return String.format("%d фт.", speed) + (flySpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">летая</a> %d фт.", flyTittle, flySpeed)) 
+				+ (hover == null ? "" : " (парит)")
 				+ (swimmingSpped == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">плавая</a> %d фт.",swimTittle, swimmingSpped))
 				+ (diggingSpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">копая</a> %d фт.", giggingTittle, diggingSpeed))
 				+ (climbingSpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">лазая</a> %d фт.", climbingTittle, climbingSpeed));

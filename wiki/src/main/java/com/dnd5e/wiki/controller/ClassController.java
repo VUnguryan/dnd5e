@@ -48,6 +48,7 @@ public class ClassController {
 			heroClass.setArchetypes(archetypes);
 		}
 		model.addAttribute("heroClass", heroClass);
+		model.addAttribute("order", "[[ 1, 'asc' ]]");
 		return "classView";
 	}
 }
