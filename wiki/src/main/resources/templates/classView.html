@@ -4,20 +4,30 @@
 img {
 	float: center;
 }
-
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-	background: moccasin;
+td.details-control {
+	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
+		center;
+	cursor: pointer;
+}
+tr.shown td.details-control {
+	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
+		center;
+}
+.badge-info {
+  background-color: #F0D46C;
+}
+.badge-success {
+  background-color: #9FD8AF;
 }
 </style>
 </head>
 <body>
 	<div class="container" style="margin-top: 25px" layout:fragment="content" th:object="${heroClass}">
-		<ul class="nav nav-tabs" id="classTab" role="tablist">
+		<ul class="nav nav-tabs" id="nav-tabs" role="tablist">
 			<li class="nav-item" role="presentation"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Навыки</a></li>
 			<li class="nav-item" role="presentation"><a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Описание</a></li>
 			<li class="nav-item" role="presentation"><a class="nav-link" id="spells-tab" data-toggle="tab" href="#spells" role="tab" aria-controls="spells" aria-selected="false"
@@ -41,7 +51,7 @@ img {
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item"><b>Доспехи:</b> <th:bloc th:text="*{armor}" /></li>
 						<li class="list-group-item"><b>Оружие:</b> <th:block th:text="*{weapon}" /></li>
-						<li class="list-group-item"><b>Спаброски:</b> <th:block th:text="*{savingThrows}" /></li>
+						<li class="list-group-item"><b>Спаcброски:</b> <th:block th:text="*{savingThrows}" /></li>
 						<li class="list-group-item"><b>Навыки:</b> Выберите [[*{skillAvailableCount}]] навыка из следующих: <th:block th:if="*{skillAvailableCount == 18}">Выберите [[*{skillAvailableCount}]] любых навыка.</th:block>
 							<th:block th:each="skill, iterStat : *{availableSkills}" th:text="${iterStat.last} ? ${skill.cyrilicName} : ${skill.cyrilicName} + ', '" /></li>
 					</ul>
@@ -99,7 +109,7 @@ img {
 												</th:block></td>
 											<td th:each="featureLevel : *{featureLevelDefenitions}" th:with="byLevel = ${featureLevel.getByLevel(level)}"><th:block th:if="${featureLevel.prefix ne null and byLevel gt 0}"
 													th:text="${featureLevel.prefix}"
-												/> <th:block th:if="${byLevel gt 0}" th:text="${byLevel}" /> <th:block th:if="${byLevel eq 0}" th:text="'—'" /> <th:block th:if="${byLevel eq -1}" th:text="'Неограниченно'" /> <th:block
+												/><th:block th:if="${byLevel gt 0}" th:text="${byLevel}" /> <th:block th:if="${byLevel eq 0}" th:text="'—'" /><th:block th:if="${byLevel eq -1}" th:text="'Неограниченно'" /><th:block
 													th:if="${featureLevel.sufix ne null and byLevel gt 0}" th:text="${featureLevel.sufix}"
 												/></td>
 											<th:block th:unless="*{levelDefenitions.empty}">
@@ -608,7 +618,7 @@ img {
             '<div><strong>Дистанция:</strong> ' + d.distance + '</div>'+
         	'<div><strong>Длительность:</strong> '+ d.duration + '</div>'+ 
         	 (d.components != null ? '<div><strong>Материалы:</strong> '+ d.components + '</div>' : '') +
-			 d.description;
+        	 '<p>' + d.description + '</p]>';
 			 if (d.upperLevel) {
 				 info += '<p><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</p>';
 			 }

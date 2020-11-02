@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="manual" style="margin-top: 10px">
+		<form id="abilityChange" th:action="@{'~' + ${flowExecutionUrl} + '&_eventId_changeAbility'}" method="post" th:object="${abilityInfo}" enctype="multipart/form-data">
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="strength">Сила</label> 
+					<input onchange="abilityChange.submit()" type="number" min="3" max="18" class="form-control"
+						th:field="*{strength}">
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="dexterity">Ловкость</label>
+					 <input onchange="abilityChange.submit()" type="number" min="3" max="18" class="form-control"
+						th:field="*{dexterity}">
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="constitution">Телосложение</label> 
+					<input onchange="abilityChange.submit()" type="number" min="3" max="18" class="form-control"
+						th:field="*{constitution}">
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="intellect">Интеллект</label>
+					 <input onchange="abilityChange.submit()" type="number" min="3" max="18" class="form-control"
+						th:field="*{intellect}">
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="wizdom">Мудрость</label> 
+					<input onchange="abilityChange.submit()" type="number" min="3" max="18" class="form-control"
+						th:field="*{wizdom}">
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="cha">Харизма</label> 
+					<input onchange="abilityChange.submit()" id="cha" type="number" min="3" max="18" class="form-control"
+						th:field="*{charisma}">
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div th:fragment="array" style="margin-top: 10px">
+		<form id="changeArrayAbility" th:action="@{'~' + ${flowExecutionUrl} + '&_eventId_changeArrayAbility'}" method="post" th:object="${abilityInfo}" enctype="multipart/form-data"> 
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="strength">Сила</label> 
+					<select onchange="changeArrayAbility.submit()" id="strength" name="strength" class="form-control">
+						<option value="0">-</option>
+						<option th:selected="${heroModel.abilityInfo.strength eq value}" th:each="value : ${heroModel.abilityInfo.strengthArray}" th:text="${value}" th:value="${value}" />
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="dexterity">Ловкость</label> 
+					<select onchange="changeArrayAbility.submit()" id="dexterity" name="dexterity" class="form-control">
+						<option value="0">-</option>
+						<option th:selected="${heroModel.abilityInfo.dexterity eq value}" th:each="value : ${heroModel.abilityInfo.dexterityArray}" th:text="${value}" th:value="${value}" />
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="constitution">Телосложение</label> 
+					<select onchange="changeArrayAbility.submit()" id="constitution" name="constitution" class="form-control">
+						<option value="0">-</option>
+						<option th:selected="${heroModel.abilityInfo.constitution eq value}" th:each="value : ${heroModel.abilityInfo.constitutionArray}" th:text="${value}" th:value="${value}" />
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="intellect">Интеллект</label> <select onchange="arrayAbility.submit()" id="intellect" name="intellect" class="form-control">
+						<option value="0">-</option>
+						<option th:selected="${heroModel.abilityInfo.intellect eq value}" th:each="value : ${heroModel.abilityInfo.intellectArray}" th:text="${value}" th:value="${value}" />
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="wizdom">Мудрость</label> 
+					<select onchange="changeArrayAbility.submit()" id="wizdom" name="wizdom" class="form-control">
+						<option value="0">-</option>
+						<option th:selected="${heroModel.abilityInfo.wizdom eq value}" th:each="value : ${heroModel.abilityInfo.wizdomArray}" th:text="${value}" th:value="${value}" />
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="cha">Харизма</label> 
+					<select onchange="changeArrayAbility.submit()" id="charisma" name="charisma" class="form-control">
+						<option value="0">-</option>
+						<option th:selected="${heroModel.abilityInfo.charisma eq value}" th:each="value : ${heroModel.abilityInfo.charismaArray}" th:text="${value}" th:value="${value}" />
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div th:fragment="pointBuy" style="margin-top: 10px">
+		<form id="changePointBuy" th:action="@{'~' + ${flowExecutionUrl} + '&_eventId_changePointBy'}" method="post" th:object="${abilityInfo}" enctype="multipart/form-data"> 
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="strength">Сила</label> 
+					<select onchange="changePointBuy.submit()" id="strength" name="strength" class="form-control">
+						<option th:selected="${heroModel.abilityInfo.strength eq entry.key}" th:each="entry : ${heroModel.abilityInfo.strengtPoints}" th:text="${entry.value}" th:value="${entry.key}" />
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="dexterity">Ловкость</label> 
+					<select onchange="changePointBuy.submit()" id="dexterity" name="dexterity" class="form-control">
+						<option th:selected="${heroModel.abilityInfo.dexterity eq entry.key}" th:each="entry : ${heroModel.abilityInfo.dexterityPoints}" th:text="${entry.value}" th:value="${entry.key}" />
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="constitution">Телосложение</label> 
+					<select onchange="changePointBuy.submit()" id="constitution" name="constitution" class="form-control">
+						<option th:selected="${heroModel.abilityInfo.constitution eq entry.key}" th:each="entry : ${heroModel.abilityInfo.constitutionPoints}" th:text="${entry.value}" th:value="${entry.key}"/>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="intellect">Интеллект</label>
+					 <select onchange="changePointBuy.submit()" id="intellect" name="intellect" class="form-control">
+						<option th:selected="${heroModel.abilityInfo.intellect eq entry.key}" th:each="entry : ${heroModel.abilityInfo.intellectPoints}" th:text="${entry.value}" th:value="${entry.key}"/>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="wizdom">Мудрость</label> 
+					<select onchange="changePointBuy.submit()" id="wizdom" name="wizdom" class="form-control">
+						<option th:selected="${heroModel.abilityInfo.wizdom eq entry.key}" th:each="entry : ${heroModel.abilityInfo.wizdomPoints}" th:text="${entry.value}" th:value="${entry.key}"/>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label class="col-sm-2 col-form-label col-form-label-lg" for="cha">Харизма</label> 
+					<select onchange="changePointBuy.submit()" id="charisma" name="charisma" class="form-control">
+						<option th:selected="${heroModel.abilityInfo.charisma eq entry.key}" th:each="entry : ${heroModel.abilityInfo.charismaPoints}" th:text="${entry.value}" th:value="${entry.key}"/>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

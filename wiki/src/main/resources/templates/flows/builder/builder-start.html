@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title>Создание персонажа</title>
+</head>
+<body>
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
+		<div th:insert="fragments/builder :: menu('start')"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<h4>Создание персонажа (Этап 1)</h4>
+				<hr />
+				<form method="post" th:object="${heroInfo}" enctype="multipart/form-data">
+					<div class="form-group row">
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-secondary" name="_eventId_validateHero">Далее (Выбор расы)</button>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="image" class="col-sm-2 col-form-label">Изображение персонажа</label>
+						<div class="col-sm-10">
+							<input type="file" class="form-control" id="image" placeholder="Image file" name="image" /> <small class="form-text text-danger" th:if="${#fields.hasErrors('imageContent')}"
+								th:errors="*{imageContent}"
+							></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="name" class="col-sm-2 col-form-label">Имя персонажа</label>
+						<div class="col-sm-10">
+							<input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Имя персонажа" autofocus /> <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}"
+							></small>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

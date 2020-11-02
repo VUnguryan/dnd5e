@@ -2,14 +2,14 @@
 <head>
 <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">DnD 5E</title>
 <meta charset="utf-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="icon" th:href="@{/resources/icon.png}">
 <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/dataTables.bootstrap4.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/searchPanes/searchPanes.bootstrap4.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.bootstrap4.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
@@ -27,7 +27,7 @@
 <body>
 	<div th:insert="fragments/header :: header"></div>
 	<div layout:fragment="content">
-		<h1>Добавь контент сука</h1>
+		<h1>Добавь контент</h1>
 	</div>
 	<footer th:insert="fragments/footer :: footer" class="footer">Это подвал, он же футтер, он же Гога</footer>
 	<script th:src="@{/resources/js/settings.js}"></script>

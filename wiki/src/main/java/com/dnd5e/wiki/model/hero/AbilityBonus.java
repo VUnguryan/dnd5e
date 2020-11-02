@@ -23,5 +23,4 @@ public class AbilityBonus {
 	@Enumerated(EnumType.STRING)
 	private AbilityType ability;
 	private byte bonus;
-	
 }

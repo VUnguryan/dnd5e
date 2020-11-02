@@ -14,7 +14,6 @@ import com.dnd5e.wiki.repository.TransportRepository;
 @Controller
 @RequestMapping("/travel/transports")
 public class TransportController {
-
 	@Autowired
 	TransportRepository repo;
 

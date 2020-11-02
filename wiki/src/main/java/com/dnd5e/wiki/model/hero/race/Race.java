@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.model.hero.race;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,19 +27,27 @@ import org.thymeleaf.util.StringUtils;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
+import com.dnd5e.wiki.model.hero.AbilityBonus;
 import com.dnd5e.wiki.model.hero.classes.Feature;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 
 @Entity
 @Table(name = "races")
-@Data
-public class Race {
+public class Race implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String englishName;
+	private Integer minAge;
+	private Integer maxAge;
 
 	@OneToMany
 	@JoinColumn(name = "race_id")
@@ -88,6 +97,20 @@ public class Race {
 		}
 		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
 				.map(b -> b.getAbility().getShortName() + " " + String.format("%+d", b.getBonus()))
+				.collect(Collectors.joining(", "));
+	}
+
+	public List<AbilityBonus> getAbilityValueBonuses() {
+		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
+				.collect(Collectors.toList());
+	}
+	
+	public String getFullNameAbilityBonuses() {
+		if (features.stream().flatMap(f -> f.getAbilityBonuses().stream()).count() == 6) {
+			return "+1 к каждой характеристике";
+		}
+		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
+				.map(b -> String.format("%+d %s", b.getBonus(), b.getAbility().getCyrilicName()))
 				.collect(Collectors.joining(", "));
 	}
 	

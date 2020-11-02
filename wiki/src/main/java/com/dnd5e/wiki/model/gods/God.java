@@ -60,6 +60,6 @@ public class God {
 	private Pantheon pantheon;
 	
 	public String getPrefixName() {
-		return rank == null ? sex.getCyrilicName() : rank.getName(sex) + " " + sex.getCyrilicName();   
+		return rank == null ? sex.getCyrilicName() : rank.getName(sex) + " " + sex.getCyrilicName();
 	}
 }

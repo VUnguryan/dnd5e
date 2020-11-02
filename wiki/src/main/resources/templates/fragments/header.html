@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
@@ -14,43 +14,51 @@
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Персонаж </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/hero/classes}">Классы</a> <a class="dropdown-item" th:href="@{/hero/races}">Расы</a> <a class="dropdown-item" th:href="@{/hero/backgrounds}">Предыстории</a>
-						<a class="dropdown-item" th:href="@{/hero/traits}">Черты</a> <a class="dropdown-item" th:href="@{/hero/conditions}">Состояния и болезни</a>
+						<a class="dropdown-item" th:href="@{/hero/classes}">Классы</a>
+						<a class="dropdown-item" th:href="@{/hero/races}">Расы</a>
+						<a class="dropdown-item" th:href="@{/hero/backgrounds}">Предыстории</a>
+						<a class="dropdown-item" th:href="@{/hero/traits}">Черты</a>
+						<a class="dropdown-item" th:href="@{/hero/conditions}">Состояния и болезни</a>
 					</div></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/hero/spells}">Заклинания</a></li>
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Сокровища </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/stock/treasures}">Драгоценности</a> <a class="dropdown-item" th:href="@{/stock/artifacts}">Магические предметы</a>
+						<a class="dropdown-item" th:href="@{/stock/treasures}">Драгоценности</a>
+						<a class="dropdown-item" th:href="@{/stock/artifacts}">Магические предметы</a>
 					</div></li>
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Инвентарь</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/stock/armors}">Доспехи</a> <a class="dropdown-item" th:href="@{/stock/weapons}">Оружие</a> <a class="dropdown-item" th:href="@{/stock/equipments}">Снаряжение</a>
+						<a class="dropdown-item" th:href="@{/stock/armors}">Доспехи</a>
+						<a class="dropdown-item" th:href="@{/stock/weapons}">Оружие</a>
+						<a class="dropdown-item" th:href="@{/stock/equipments}">Снаряжение</a>
 					</div></li>
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Мастерская</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/calc/master}">Ширма</a> <a class="dropdown-item" th:href="@{/calc/idle}">Время простоя</a><a class="dropdown-item" th:href="@{/calc/buyMagicThings}">Покупка
-							магических вещей</a>
+						<a class="dropdown-item" th:href="@{/calc/master}">Ширма</a>
+						<a class="dropdown-item" th:href="@{/calc/idle}">Время простоя</a>
+						<a class="dropdown-item" th:href="@{/calc/buyMagicThings}">Покупка магических вещей</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" th:href="@{/calc/taverna}">Таверна на скорую руку</a> <a class="dropdown-item" th:href="@{/calc/wildMagic}">Дикая магия</a> <a class="dropdown-item"
-							th:href="@{/calc/madness}"
-						>Безумие</a>
+						<a class="dropdown-item" th:href="@{/calc/taverna}">Таверна на скорую руку</a>
+						<a class="dropdown-item" th:href="@{/calc/wildMagic}">Дикая магия</a> <a class="dropdown-item" th:href="@{/calc/madness}">Безумие</a>
 					</div></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/entities/gods}">Боги</a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/entities/creatures}">Бестиарий</a></li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/references}">Ссылки</a></li>
-				<li sec:authorize="hasRole('ROLE_USER')" class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Мастерская</a>
+				<li sec:authorize="hasRole('ROLE_USER')" class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Персонажи</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href="@{/tavern/add}">Создать персонажа</a> <a class="dropdown-item" th:href="@{/tavern?sort=name,asc}">Список персонажей</a> <a class="dropdown-item"
-							th:href="@{/magic/books}"
-						>Книги заклинаний</a>
+						<a class="dropdown-item" th:href="@{/builder}">Создать персонажа</a>
+						<a class="dropdown-item" th:href="@{/characters}">Список персонажей</a>
 					</div></li>
 				<li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Админка</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить магическую вещь</a> <a class="dropdown-item" th:href=@{/admin/spell/add}>Добавить заклинание</a> <a class="dropdown-item"
-							th:href="@{/admin/class/add}"
-						>Добавить класс</a> <a class="dropdown-item" th:href="@{/admin/race/add}">Добавить рассу</a> <a class="dropdown-item" th:href="@{/admin/background/add}">Добавить предысторию</a> <a
-							class="dropdown-item" th:href="@{/admin/trait/add}"
-						>Добавить черту</a> <a class="dropdown-item" th:href="@{/admin/creature/add}">Добавить в бестиарий</a> <a class="dropdown-item" th:href="@{/admin/creature/parse}">Импорт монстра</a>
+						<a class="dropdown-item" th:href=@{/admin/artifact/add}>Добавить магическую вещь</a>
+						<a class="dropdown-item" th:href=@{/admin/spell/add}>Добавить заклинание</a>
+						<a class="dropdown-item" th:href="@{/admin/class/add}">Добавить класс</a>
+						<a class="dropdown-item" th:href="@{/admin/race/add}">Добавить рассу</a>
+						<a class="dropdown-item" th:href="@{/admin/background/add}">Добавить предысторию</a>
+						<a class="dropdown-item" th:href="@{/admin/trait/add}">Добавить черту</a>
+						<a class="dropdown-item" th:href="@{/admin/creature/add}">Добавить в бестиарий</a>
+						<a class="dropdown-item" th:href="@{/admin/creature/parse}">Импорт монстра</a>
 					</div></li>
 			</ul>
 			<form class="form-inline">

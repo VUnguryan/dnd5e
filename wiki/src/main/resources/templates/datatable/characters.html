@@ -1,0 +1,88 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<head>
+<title>Персонажи</title>
+</head>
+<body>
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
+		<table id="example" class="table table-hover  table-sm" style="width: 100%">
+			<thead>
+				<tr>
+					<th></th>
+					<th scope="col" class="text-center">Уровень</th>
+					<th scope="col" class="text-center">Имя</th>
+					<th scope="col" class="text-center">Раса</th>
+					<th scope="col" class="text-center">Класс</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</body>
+<script layout:fragment="datatable">
+	$(document)
+			.ready(function() {
+						var table = $('#example')
+								.DataTable(
+										{
+											iDisplayLength : 25,
+											processing : true,
+											serverSide : true,
+											ajax : '/table/characters',
+											columns : [ 
+											{
+												data : "id",
+											}, 
+											{
+												data : "exp",
+												width : "1%",
+											    className: "text-center",
+											}, 
+											{
+												data : "name",
+											}, 
+											{
+												data : "race",
+											    searchable: false,
+											    orderable: false,
+
+											}, 
+											{
+												data : "className",
+											    searchable: false,
+											    orderable: false,
+											}, 
+											],
+											columnDefs : [
+									            {
+									                targets : [ 0 ],
+									                visible : false
+									            },
+										    ],
+											language : {
+												processing : "Загрузка...",
+												search : "Поиск",
+												lengthMenu : "Показывать _MENU_ записей на странице",
+												zeroRecords : "Ничего не найдено",
+												info : "Показано с _START_ до _END_ из _TOTAL_",
+												infoEmpty : "Нет доступных записей",
+												infoFiltered : "(filtered from _MAX_ всего)",
+												paginate : {
+													first : "В начало",
+													previous : "Предыдущая",
+													next : "Следущая",
+													last : "В конец"
+												},
+												searchPanes : {
+													clearMessage : "Сбросить",
+													title : {
+														_ : 'Отфильтровано - %d',
+														0 : 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+														1 : 'Один фильтр выбран',
+													},
+													collapse : 'Фильтры (%d)'
+												},
+											},
+											ordering : true,
+										});
+					});
+</script>
+</html>

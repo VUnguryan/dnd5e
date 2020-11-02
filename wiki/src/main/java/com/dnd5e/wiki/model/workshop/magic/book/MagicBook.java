@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-@Entity
+//@Entity
 @Table(name = "magic_books")
 public class MagicBook {
 	@Id

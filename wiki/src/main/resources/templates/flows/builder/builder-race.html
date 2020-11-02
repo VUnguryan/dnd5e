@@ -1,0 +1,204 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<head>
+<title>Создание персонажа</title>
+<style type="text/css">
+.modal-header {
+	background-color: darkgray;
+	color: white;
+}
+
+.modal-content {
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	background-color: #FFFAF0;
+}
+</style>
+</head>
+<body>
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
+		<div th:insert="fragments/builder :: menu('race')"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<h4>Выбор расы (Этап 1)</h4>
+				<form method="post">
+					<div class="form-group row">
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-secondary" name="_eventId_start">Назад</button>
+							<button type="submit" class="btn btn-secondary" name="_eventId_selectClass">Далее</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div th:if="${heroModel.raceInfo}">
+			<img th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${selectRace.id} +'.jpg'}" height="100"> Выбрана раса: <span th:if="${selectRace.parentName}" th:text="${selectRace.parentName}"></span>
+			<span th:text="${selectRace.name}"></span> <a th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_clearRace'}">Изменить</a>
+			<th:block th:unless="${#lists.isEmpty(selectRace.parentFeatures)}">
+				<div class="card" th:each="feature : ${selectRace.parentFeatures}">
+					<h6 class="card-header" th:text="${feature.name}"></h6>
+					<div class="card-body" th:utext="${feature.description}"></div>
+				</div>
+			</th:block>
+			<div class="card" th:each="feature : ${selectRace.features}">
+				<h6 class="card-header" th:text="${feature.name}"></h6>
+				<div class="card-body" th:utext="${feature.description}"></div>
+				<th:block th:if="${feature.choice gt 0}">
+					<select><option th:each="abilityOption : ${feature.abilityOptions}" th:text="${abilityOption}" th:value="${abilityOption}"></option></select>
+				</th:block>
+			</div>
+		</div>
+		<table th:unless="${heroModel.raceInfo}" id="example" class="table table-hover" style="width: 100%">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Раса</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+		</table>
+		<div th:each="race : ${races}" class="modal fade" th:id="'m' + ${race.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel" th:text="${race.name}">Modal title</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div>
+							<strong>Увеличение характеристик:</strong> <span th:text="${race.abilityBonuses}"></span>
+						</div>
+						<div>
+							<strong>Скорость:</strong> <span th:text="${race.speed}"></span>
+						</div>
+						<div>
+							<strong>Размер:</strong> <span th:text="${race.size}"></span>
+						</div>
+						<th:block th:unless="${#lists.isEmpty(race.parentFeatures)}">
+							<div class="card" th:each="feature : ${race.parentFeatures}">
+								<h6 class="card-header" th:text="${feature.name}"></h6>
+								<div class="card-body" th:utext="${feature.description}"></div>
+							</div>
+						</th:block>
+						<div class="card" th:each="feature : ${race.features}">
+							<h6 class="card-header" th:text="${feature.name}"></h6>
+							<div class="card-body" th:utext="${feature.description}"></div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<form method="post" th:object="${raceInfo}" enctype="multipart/form-data">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+							<input id="id" hidden="true" type="number" th:name="id" th:value="${race.id}"></input> <input id="name" hidden="true" type="text" th:name="name" th:value="${race.name}"></input>
+							<button id="raceSelectButton" type="submit" class="btn btn-success" name="_eventId_addRace">Потвердить выбор</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script layout:fragment="datatable">
+	$(document).ready(function() {
+		$('a.toggle-vis').on('click', function(e) {
+			e.preventDefault();
+			var column = table.column($(this).attr('data-column'));
+			column.visible(!column.visible());
+		});
+
+		var table = $('#example').DataTable({
+			processing : true,
+			serverSide : true,
+			paging : false,
+			ajax : '/table/races',
+			columns : [ {
+				data : "id",
+				width : "1%",
+			    orderable: false,
+				render : function(data, type) {
+					if (type === 'display') {
+						return '<img src="https://storage.googleapis.com/dnd5/races/'+ data +'.jpg" height="50">';
+					}
+					return data;
+				},
+			},
+			{
+				data : "name",
+				width : "50%",
+				render : function(data, type, row) {
+					if (type === 'display') {
+						var result = '<h5>' + data + '</h5>';
+						return result;
+					}
+					return data;
+				}, 
+			},
+			{
+				data : "id",
+				width : "20%",
+			    searchable: false,
+			    orderable: false,
+				render : function(data, type, row) {
+					if (type === 'display') {
+						if (row.hasSubRaces === '+'){
+							return '<a href="#" class="btn btn-outline-secondary">Разновидности</a>';
+						}
+						return '<a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#m'+ data+'">Выбрать</a>';
+					}
+					return data;
+				}, 
+			},
+			{
+				data : "hasSubRaces",
+				width : "1%",
+			    searchable: false,
+			    orderable: false,
+			},
+			],
+			columnDefs : [
+	            {
+	                "targets": [ 3 ],
+	                "visible": false
+	            },
+	        ],
+			language : {
+				processing : "Загрузка...",
+				search : "Поиск",
+				lengthMenu : "Показывать _MENU_ записей на странице",
+				zeroRecords : "Ничего не найдено",
+				info : "Показано с _START_ до _END_ из _TOTAL_",
+				infoEmpty : "Нет доступных записей",
+				infoFiltered : "(filtered from _MAX_ всего)",
+				paginate : {
+					first : "В начало",
+					previous : "Предыдущая",
+					next : "Следущая",
+					last : "В конец"
+				},
+			},
+			order : [(${order})],
+			ordering : true,
+		});
+		$('#example tbody').on('click', 'tr', function() {
+			var tr = $(this).closest('tr');
+			var row = table.row(tr);
+			if (row.child.isShown()) {
+				row.child.hide();
+				tr.removeClass('shown');
+			} else {
+				row.child(format(row.data())).show();
+				tr.addClass('shown');
+			}
+		});
+	});
+	function format(d) {
+		var info = '';
+		for(var race in d.subRaces){
+			info += '<tr><td>' + d.subRaces[race].name + '</td><td><a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#m'+ d.subRaces[race].id +'">Выбрать</a></td></tr>';
+		}
+		return info;
+	}
+</script>
+</html>

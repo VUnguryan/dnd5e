@@ -19,8 +19,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TavernaPrefixName {
-	private static final String HARD = "пбфвтдсзцшжкгхмнрл";
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

@@ -1,0 +1,266 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title>Создание персонажа</title>
+<style>
+.example-shadow-1 {
+  background: #e6e3df;
+  text-align: center;
+}
+.example-shadow-1 span {
+  margin: 50px;
+  height: 100px;
+  width: 200px;
+  display: inline-block;
+  box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);
+}
+</style>
+</head>
+<body>
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
+		<div th:insert="fragments/builder :: menu('ability')"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<h4>Настройка характеристик (Этап 3)</h4>
+				<form method="post">
+					<div class="form-group row">
+						<div class="col-sm-10">
+							<button type="submit" class="btn btn-secondary" name="_eventId_selectClass">Назад</button>
+							<button type="submit" class="btn btn-secondary" name="_eventId_selectDescription">Далее</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<form th:object="${abilityInfo}" id="methodAbility" th:action="@{'~' + ${flowExecutionUrl} + '&_eventId_changeMethod'}" class="form-inline" method="post" enctype="multipart/form-data">
+			<select id="pointMethod" name="pointMethod" class="custom-select mr-sm-2" onchange="methodAbility.submit()">
+				<option value="unselected">-Выберать метод начисления-</option>
+				<option th:selected="${heroModel.abilityInfo != null and heroModel.abilityInfo.pointMethod eq 'array'}" value="array">Стандартный массив</option>
+				<option th:selected="${heroModel.abilityInfo != null and heroModel.abilityInfo.pointMethod eq 'manual'}" value="manual">Ручной ввод</option>
+				<option th:selected="${heroModel.abilityInfo != null and heroModel.abilityInfo.pointMethod eq 'pointbuy'}" value="pointbuy">Покупка за баллы</option>
+			</select>
+		</form>
+		<th:block th:if="${heroModel.abilityInfo}">
+			<h3 class="text-center" th:if="${heroModel.abilityInfo.pointMethod eq 'pointbuy'}">Оставшиеся баллы</h3>
+			<h3 class="text-center" th:classappend="${heroModel.abilityInfo.points lt 0} ? 'text-danger' :''" th:if="${heroModel.abilityInfo.pointMethod eq 'pointbuy'}">[[${heroModel.abilityInfo.points}]]/27</h3>
+		
+			<div th:if="${heroModel.abilityInfo.pointMethod eq 'manual'}" th:insert="builder/abilities :: manual"></div>
+			<div th:if="${heroModel.abilityInfo.pointMethod eq 'array'}" th:insert="builder/abilities :: array"></div>
+			<div th:if="${heroModel.abilityInfo.pointMethod eq 'pointbuy'}" th:insert="builder/abilities :: pointBuy"></div>
+		</th:block>
+		<div class="card-deck">
+			<div class="card">
+				<h6 class="card-header text-center">Сила</h6>
+				<div class="card-body">
+					<table class="table shadow">
+						<tbody>
+							<tr>
+								<td class="table-success">Общий счет</td>
+								<td class="table-secondary align-middle shadow"><h5 class="text-right" th:text="${heroModel.strength}">0</h5></td>
+							</tr>
+							<tr>
+								<td>Модификатор</td>
+								<td th:text="${heroModel.strengthMod}" class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Базовое значение</td>
+								<td th:if="${heroModel.abilityInfo}" th:text="${heroModel.abilityInfo.strength}" class="table-secondary text-right align-middle shadow">0</td>
+								<td th:unless="${heroModel.abilityInfo}" class="table-secondary  text-right shadow">-</td>
+							</tr>
+							<tr>
+								<td>Расовый бонус</td>
+								<td th:if="${heroModel.raceInfo}" th:text="${heroModel.raceInfo.strength}" class="table-secondary text-right align-middle shadow">0</td>
+								<td th:unless="${heroModel.raceInfo}" class="table-secondary  text-right shadow">-</td>
+							</tr>
+							<tr>
+								<td>Улучшение</td>
+								<td class="table-secondary text-right align-middle align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Бонус</td>
+								<td class="table-secondary text-right align-middle align-middle shadow">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card">
+				<h6 class="card-header text-center">Ловкость</h6>
+				<div class="card-body">
+					<table class="table shadow">
+						<tbody>
+							<tr>
+								<td class="table-success">Общий счет</td>
+								<td class="table-secondary text-right  align-middle shadow"><h5 th:text="${heroModel.dexterity}"></h5></td>
+							</tr>
+							<tr>
+								<td>Модификатор</td>
+								<td th:text="${heroModel.dexterityMod}" class="table-secondary  text-right  align-middle shadow">1</td>
+							</tr>
+							<tr>
+								<td>Базовое значение</td>
+								<td th:if="${heroModel.abilityInfo}" th:text="${heroModel.abilityInfo.dexterity}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.abilityInfo}" class="table-secondary  text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Расовый бонус</td>
+								<td th:if="${heroModel.raceInfo}" th:text="${heroModel.raceInfo.dexterity}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.raceInfo}" class="table-secondary  text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Улучшение</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Бонус</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card">
+				<h6 class="card-header text-center">Телосложение</h6>
+				<div class="card-body">
+					<table class="table shadow">
+						<tbody>
+							<tr>
+								<td class="table-success">Общий счет</td>
+								<td class="table-secondary text-right align-middle shadow"><h5 th:text="${heroModel.constitution}"></h5></td>
+							</tr>
+							<tr>
+								<td>Модификатор</td>
+								<td th:text="${heroModel.constitutionMod}" class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Базовое значение</td>
+								<td th:if="${heroModel.abilityInfo}" th:text="${heroModel.abilityInfo.constitution}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.abilityInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Расовый бонус</td>
+								<td th:if="${heroModel.raceInfo}" th:text="${heroModel.raceInfo.constitution}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.raceInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Улучшение</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Бонус</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="card-deck">
+			<div class="card">
+				<h6 class="card-header text-center">Интеллект</h6>
+				<div class="card-body">
+					<table class="table shadow">
+						<tbody>
+							<tr>
+								<td class="table-success">Общий счет</td>
+								<td class="table-secondary text-right align-middle shadow"><h5 th:text="${heroModel.intellect}"></h5></td>
+							</tr>
+							<tr>
+								<td>Модификатор</td>
+								<td th:text="${heroModel.intellectMod}" class="table-secondary text-right align-middle shadow">1</td>
+							</tr>
+							<tr>
+								<td>Базовое значение</td>
+								<td th:if="${heroModel.abilityInfo}" th:text="${heroModel.abilityInfo.intellect}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.abilityInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Расовый бонус</td>
+								<td th:if="${heroModel.raceInfo}" th:text="${heroModel.raceInfo.intellect}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.raceInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Улучшение</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Бонус</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card">
+				<h6 class="card-header text-center">Мудрость</h6>
+				<div class="card-body">
+					<table class="table shadow">
+						<tbody>
+							<tr>
+								<td class="table-success">Общий счет</td>
+								<td class="table-secondary text-right align-middle shadow"><h5 th:text="${heroModel.wizdom}"></h5></td>
+							</tr>
+							<tr>
+								<td>Модификатор</td>
+								<td th:text="${heroModel.wizdomMod}" class="table-secondary text-right align-middle shadow">1</td>
+							</tr>
+							<tr>
+								<td>Базовое значение</td>
+								<td th:if="${heroModel.abilityInfo}" th:text="${heroModel.abilityInfo.wizdom}" class="table-secondary text-right align-middle shadow">0</td>
+								<td th:unless="${heroModel.abilityInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Расовый бонус</td>
+								<td th:if="${heroModel.raceInfo}" th:text="${heroModel.raceInfo.wizdom}" class="table-secondary text-right align-middle shadow">0</td>
+								<td th:unless="${heroModel.raceInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Улучшение</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Бонус</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card">
+				<h6 class="card-header text-center">Харизма</h6>
+				<div class="card-body">
+					<table class="table shadow">
+						<tbody>
+							<tr>
+								<td class="table-success">Общий счет</td>
+								<td class="table-secondary text-right align-middle shadow"><h5 th:text="${heroModel.charisma}"></h5></td>
+							</tr>
+							<tr>
+								<td>Модификатор</td>
+								<td th:text="${heroModel.charismaMod}" class="table-secondary text-right align-middle shadow">1</td>
+							</tr>
+							<tr>
+								<td>Базовое значение</td>
+								<td th:if="${heroModel.abilityInfo}" th:text="${heroModel.abilityInfo.charisma}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.abilityInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Расовый бонус</td>
+								<td th:if="${heroModel.raceInfo}" th:text="${heroModel.raceInfo.charisma}" class="table-secondary text-right align-middle shadow">1</td>
+								<td th:unless="${heroModel.raceInfo}" class="table-secondary text-right align-middle shadow">-</td>
+							</tr>
+							<tr>
+								<td>Улучшение</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+							<tr>
+								<td>Бонус</td>
+								<td class="table-secondary text-right align-middle shadow">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

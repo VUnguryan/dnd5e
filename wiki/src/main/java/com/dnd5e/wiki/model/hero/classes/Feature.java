@@ -2,15 +2,22 @@ package com.dnd5e.wiki.model.hero.classes;
 
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.creature.Language;
+import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.AbilityBonus;
 
 import lombok.Data;
@@ -29,4 +36,13 @@ public class Feature {
 	@OneToMany
 	@JoinColumn(name = "feature_id")
 	private List<AbilityBonus> abilityBonuses;
+	
+	@ManyToMany
+	private List<Language> lanuages;
+	
+	@ElementCollection(targetClass = SkillType.class)
+	@CollectionTable(name = "race_feature_skill_type")
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private List<SkillType> skills;
 }

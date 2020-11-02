@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title>Создание персонажа</title>
+</head>
+<body>
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
+		<div th:insert="fragments/builder :: menu('equipment')"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<h4>Выбор снаряжения (Этап 5)</h4>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

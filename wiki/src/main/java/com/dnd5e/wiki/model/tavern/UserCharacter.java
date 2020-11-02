@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,21 +17,28 @@ import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.hero.race.Race;
 import com.dnd5e.wiki.model.user.User;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "heroes")
-@Data
-public class Hero {
+@Getter
+@Setter
+public class UserCharacter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@ManyToOne
+	@JoinColumn(name = "usr_id")
+	private User user;
+
 	private String name;
 
 	@Column(nullable = false, columnDefinition = "int default 0")
 	private int exp;
 
-	@ManyToOne
+	@ManyToOne (fetch = FetchType.LAZY)
 	@JoinColumn(name = "race_id")
 	private Race race;
 
@@ -42,10 +50,6 @@ public class Hero {
 	@JoinColumn(name = "archetype_id")
 	private Archetype archetype;
 	
-	@ManyToOne
-	@JoinColumn(name = "usr_id")
-	private User user;
-
 	// Хаактеристики
 	private byte strength = 10;
 	private byte dexterity = 10;
@@ -58,6 +62,7 @@ public class Hero {
 	private short maxHp;
 	
 	private byte glory;
+	// дни простоя
 	private int idleDays;
 	private int heroism;
 	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
@@ -11,6 +12,7 @@ import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.model.spell.GroupByCount;
 
+@Repository
 public interface TraitDatatableRepository extends DataTablesRepository<Trait, Integer> {
 
 	List<Trait> findAll();

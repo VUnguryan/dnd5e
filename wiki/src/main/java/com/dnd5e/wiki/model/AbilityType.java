@@ -17,9 +17,9 @@ public enum AbilityType {
 	INTELLIGENCE("Интеллект"),    // 3
 	WISDOM("Мудрость"),           // 4
 	CHARISMA("Харизма"),          // 5
-	
-	CHOICE("любая другая по выбору"),
-	CHOICE_UNIQUE("любые две другие по выбору");
+
+	CHOICE("к любой другой по выбору"),
+	CHOICE_UNIQUE("к двум любым другим по выбору");
 
 	private String cyrilicName;
 
@@ -50,7 +50,7 @@ public enum AbilityType {
 	public String getCapitalizeName() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}
-	
+
 	public static AbilityType parse(String name) {
 		for (AbilityType abilityType : values()) {
 			if (abilityType.getCyrilicName().equalsIgnoreCase(name)) {
@@ -58,5 +58,9 @@ public enum AbilityType {
 			}
 		}
 		return null;
+	}
+
+	public static byte getModifier(byte ability) {
+		return (byte) ((ability - 10) < 0 ? (ability - 11) / 2 : (ability - 10) / 2);
 	}
 }

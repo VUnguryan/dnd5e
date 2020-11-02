@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+	<var name="heroModel" class="com.dnd5e.wiki.builder.model.HeroModel" />
+	<var name="heroInfo" class="com.dnd5e.wiki.builder.model.HeroInfo" />
+	<var name="raceInfo" class="com.dnd5e.wiki.builder.model.RaceInfo" />
+	<var name="classInfo" class="com.dnd5e.wiki.builder.model.ClassInfo" />
+	<var name="abilityInfo" class="com.dnd5e.wiki.builder.model.AbilityInfo" />
+
+	<on-start>
+		<evaluate expression="heroBuilderHandler.init()" result="flowScope.heroModel" />
+	</on-start>
+
+	<!-- is the start state -->
+	<view-state id="start" view="flows/builder/builder-start" model="heroInfo">
+		<transition on="start" to="start" />
+		<transition on="validateHero" to="validateHero" />
+		<transition on="selectRace" to="selectRace" />
+		<transition on="selectClass" to="selectClass" />
+		<transition on="selectAbility" to="selectAbility" />
+		<transition on="selectDescription" to="selectDescription" />
+		<transition on="selectEquipment" to="selectEquipment" />
+		<on-exit>
+			<evaluate expression="heroBuilderHandler.addHeroInfo(flowScope.heroModel, heroInfo)"></evaluate>
+		</on-exit>
+	</view-state>
+	<action-state id="validateHero">
+		<evaluate expression="heroBuilderHandler.validateHeroInfo(heroInfo, messageContext)" />
+		<transition on="success" to="selectRace" />
+		<transition on="failure" to="start" />
+	</action-state>
+
+	<view-state id="selectRace" view="flows/builder/builder-race" model="raceInfo">
+		<on-render>
+			<evaluate expression="raceBuilderHandler.getRaces()" result="viewScope.races" />
+			<evaluate expression="raceBuilderHandler.getRaceOrder()" result="viewScope.order" />
+			<evaluate expression="raceBuilderHandler.getRace(flowScope.heroModel)" result="viewScope.selectRace" />
+		</on-render>
+		<transition on="start" to="start" />
+		<transition on="addRace" to="selectRace">
+			<evaluate expression="raceBuilderHandler.addRace(flowScope.heroModel, raceInfo)"></evaluate>
+		</transition>
+		<transition on="clearRace" to="selectRace">
+			<evaluate expression="raceBuilderHandler.removeRace(flowScope.heroModel)"></evaluate>
+		</transition>
+		<transition on="selectRace" to="selectRace" />
+		<transition on="selectClass" to="selectClass" />
+		<transition on="selectAbility" to="selectAbility" />
+		<transition on="selectDescription" to="selectDescription" />
+		<transition on="selectEquipment" to="selectEquipment" />
+	</view-state>
+
+	<view-state id="selectClass" view="flows/builder/builder-class" model="classInfo">
+		<on-render>
+			<evaluate expression="classBuilderHandler.getClasses()" result="viewScope.classes" />
+			<evaluate expression="classBuilderHandler.getClassOrder()" result="viewScope.order" />
+		</on-render>
+		<transition on="start" to="start" />
+		<transition on="addClass" to="selectClass">
+			<evaluate expression="classBuilderHandler.addClass(flowScope.heroModel, classInfo)"></evaluate>
+		</transition>
+		<transition on="removeClass" to="selectClass">
+			<evaluate expression="classBuilderHandler.removeClass(flowScope.heroModel, classInfo)"></evaluate>
+		</transition>
+		<transition on="changeLevel" to="selectClass">
+			<evaluate expression="classBuilderHandler.changeClassLevel(flowScope.heroModel, classInfo)"></evaluate>
+		</transition>
+		<transition on="addMulticlass" to="selectClass">
+			<evaluate expression="classBuilderHandler.addMulticlass(flowScope.heroModel, classInfo)"></evaluate>
+		</transition>
+		<transition on="selectRace" to="selectRace" />
+		<transition on="selectClass" to="selectClass" />
+		<transition on="selectAbility" to="selectAbility" />
+		<transition on="selectDescription" to="selectDescription" />
+		<transition on="selectEquipment" to="selectEquipment" />
+	</view-state>
+
+	<view-state id="selectAbility" view="flows/builder/builder-ability" model="abilityInfo">
+		<transition on="start" to="start" />
+		<transition on="selectRace" to="selectRace" />
+		<transition on="selectClass" to="selectClass" />
+		<transition on="selectAbility" to="selectAbility" />
+		<transition on="changeMethod" to="selectAbility">
+			<evaluate expression="abilityBuilderHandler.changeMethod(flowScope.heroModel, abilityInfo)"></evaluate>
+		</transition>
+		<transition on="changeArrayAbility" to="selectAbility">
+			<evaluate expression="abilityBuilderHandler.changeAbilityArray(flowScope.heroModel, abilityInfo)"></evaluate>
+		</transition>
+		<transition on="changeAbility" to="selectAbility">
+			<evaluate expression="abilityBuilderHandler.changeAbility(flowScope.heroModel, abilityInfo)"></evaluate>
+		</transition>
+		<transition on="changePointBy" to="selectAbility">
+			<evaluate expression="abilityBuilderHandler.changePointBy(flowScope.heroModel, abilityInfo)"></evaluate>
+		</transition>
+		<transition on="selectDescription" to="selectDescription" />
+		<transition on="selectEquipment" to="selectEquipment" />
+	</view-state>
+
+	<view-state id="selectDescription" view="flows/builder/builder-description" model="flowScope.registerModel">
+		<transition on="start" to="start" />
+		<transition on="selectRace" to="selectRace" />
+		<transition on="selectClass" to="selectClass" />
+		<transition on="selectAbility" to="selectAbility" />
+		<transition on="selectDescription" to="selectDescription" />
+		<transition on="selectEquipment" to="selectEquipment" />
+	</view-state>
+
+	<view-state id="selectEquipment" view="flows/builder/builder-equipment" model="flowScope.registerModel">
+		<transition on="start" to="start" />
+		<transition on="selectRace" to="selectRace" />
+		<transition on="selectClass" to="selectClass" />
+		<transition on="selectAbility" to="selectAbility" />
+		<transition on="selectDescription" to="selectDescription" />
+		<transition on="selectEquipment" to="selectEquipment" />
+	</view-state>
+
+	<!-- end state -->
+	<end-state id="finish" view="flows/builder/builder-finish" />
+	<end-state id="home" view="externalRedirect:contextRelative:/" />
+
+	<!-- Global Transition -->
+	<global-transitions>
+		<transition on="home" to="home" validate="false" />
+	</global-transitions>
+</flow>

@@ -31,6 +31,12 @@ import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.datatable.SpellDatatableRepository;
 
+/**
+ * @see
+ * @since 1.2
+ * @author Виталий
+ *
+ */
 @RestController
 public class SpellRestController {
 	@Autowired

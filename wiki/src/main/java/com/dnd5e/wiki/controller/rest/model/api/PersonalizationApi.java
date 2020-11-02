@@ -5,10 +5,10 @@ import com.dnd5e.wiki.model.hero.Personalization;
 import lombok.Getter;
 
 @Getter
-public class PersonalizationDto {
+public class PersonalizationApi {
 	private String type;
 	private String text;
-	public PersonalizationDto(Personalization personalization) {
+	public PersonalizationApi(Personalization personalization) {
 		type = personalization.getType().getName();
 		text = personalization.getText();
 	}
