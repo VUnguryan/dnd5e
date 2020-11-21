@@ -22,6 +22,7 @@
 		<transition on="selectAbility" to="selectAbility" />
 		<transition on="selectDescription" to="selectDescription" />
 		<transition on="selectEquipment" to="selectEquipment" />
+		<transition on="finish" to="finish" />
 		<on-exit>
 			<evaluate expression="heroBuilderHandler.addHeroInfo(flowScope.heroModel, heroInfo)"></evaluate>
 		</on-exit>
@@ -50,6 +51,7 @@
 		<transition on="selectAbility" to="selectAbility" />
 		<transition on="selectDescription" to="selectDescription" />
 		<transition on="selectEquipment" to="selectEquipment" />
+		<transition on="finish" to="finish" />
 	</view-state>
 
 	<view-state id="selectClass" view="flows/builder/builder-class" model="classInfo">
@@ -70,11 +72,15 @@
 		<transition on="addMulticlass" to="selectClass">
 			<evaluate expression="classBuilderHandler.addMulticlass(flowScope.heroModel, classInfo)"></evaluate>
 		</transition>
+		<transition on="cancleMulticlass" to="selectClass">
+			<evaluate expression="classBuilderHandler.cancelMulticlass(flowScope.heroModel, classInfo)"></evaluate>
+		</transition>
 		<transition on="selectRace" to="selectRace" />
 		<transition on="selectClass" to="selectClass" />
 		<transition on="selectAbility" to="selectAbility" />
 		<transition on="selectDescription" to="selectDescription" />
 		<transition on="selectEquipment" to="selectEquipment" />
+		<transition on="finish" to="finish" />
 	</view-state>
 
 	<view-state id="selectAbility" view="flows/builder/builder-ability" model="abilityInfo">
@@ -96,6 +102,7 @@
 		</transition>
 		<transition on="selectDescription" to="selectDescription" />
 		<transition on="selectEquipment" to="selectEquipment" />
+		<transition on="finish" to="finish" />
 	</view-state>
 
 	<view-state id="selectDescription" view="flows/builder/builder-description" model="flowScope.registerModel">
@@ -105,6 +112,7 @@
 		<transition on="selectAbility" to="selectAbility" />
 		<transition on="selectDescription" to="selectDescription" />
 		<transition on="selectEquipment" to="selectEquipment" />
+		<transition on="finish" to="finish" />
 	</view-state>
 
 	<view-state id="selectEquipment" view="flows/builder/builder-equipment" model="flowScope.registerModel">
@@ -114,11 +122,12 @@
 		<transition on="selectAbility" to="selectAbility" />
 		<transition on="selectDescription" to="selectDescription" />
 		<transition on="selectEquipment" to="selectEquipment" />
+		<transition on="finish" to="finish" />
 	</view-state>
 
 	<!-- end state -->
 	<end-state id="finish" view="flows/builder/builder-finish" />
-	<end-state id="home" view="externalRedirect:contextRelative:/" />
+	<end-state id="home" view="externalRedirect:contextRelative:/builder" />
 
 	<!-- Global Transition -->
 	<global-transitions>

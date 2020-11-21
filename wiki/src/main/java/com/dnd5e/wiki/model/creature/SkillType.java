@@ -30,7 +30,7 @@ public enum SkillType {
 	ARCANA (INTELLIGENCE, "Магия"), // 4
 	HISTORY (INTELLIGENCE, "История"), // 5
 	INVESTIGATION (INTELLIGENCE, "Анализ", "Расследование"), //6 
-	NATURE (INTELLIGENCE, "Природа"), //7 
+	NATURE (INTELLIGENCE, "Природа", "Естествознание"), //7 
 	RELIGION (INTELLIGENCE, "Религия"), //8 
 	ANIMAL_HANDLING (WISDOM, "Уход за животными", "Обращение с животными"), // 9
 	INSIGHT (WISDOM,"Проницательность"), //10

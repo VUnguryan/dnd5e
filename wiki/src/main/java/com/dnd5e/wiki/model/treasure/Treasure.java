@@ -7,7 +7,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.dnd5e.wiki.model.Book;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +33,8 @@ public class Treasure {
 	
 	@Enumerated(EnumType.STRING)
 	private TreasureType type;
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
+	private Short page;
 }

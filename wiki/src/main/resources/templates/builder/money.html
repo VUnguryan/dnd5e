@@ -6,7 +6,7 @@
 <title>Снаряжение</title>
 </head>
 <body>
-	<div th:fragment="equipment()">
+	<div th:fragment="money">
 		<div class="card-columns" style="margin-top: 10px">
 			<div class="form-check">
 				<div class="card">
@@ -42,16 +42,6 @@
 							</div>
 							<input type="number" class="form-control" aria-describedby="platinumCoins" th:field="*{platinum}" />
 						</div>
-					</div>
-				</div>
-			</div>
-			<div class="card">
-				<div class="card-header">Рюкзак</div>
-				<div class="card-body">
-					<div class="col-xs-4">
-						<select id="equipList" class="selectpicker" data-live-search="true">
-							<option th:each="equipment : ${equipments}" th:value="${equipment.id}" th:text=${equipment.name} />
-						</select>
 					</div>
 				</div>
 			</div>

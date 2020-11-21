@@ -1,6 +1,9 @@
 package com.dnd5e.wiki.model.stock;
 
+import java.util.Set;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -8,10 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.creature.DamageType;
 
 import lombok.Data;
 
@@ -23,20 +28,24 @@ public class Equipment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private int cost;
+	private Integer cost;
 	
 	@Enumerated(EnumType.ORDINAL)
 	private Currency currency;
 	
-	private float weight;
+	private Float weight;
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	
-	@Enumerated(EnumType.STRING)
-	private EquipmentType type;
+	@ElementCollection(targetClass = EquipmentType.class)
+	@JoinTable(name = "equipments_types", joinColumns = @JoinColumn(name = "equipment_id"))
+	@Column(name = "type", nullable = false)
+	@Enumerated(javax.persistence.EnumType.STRING)
+	private Set<EquipmentType> types;
 	
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	private Short page;
 }

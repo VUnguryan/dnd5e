@@ -165,6 +165,7 @@ public class Creature {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	private Short page;
 
 	public String getSizeName() {
 		return size.getSizeName(type);

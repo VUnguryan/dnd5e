@@ -64,7 +64,7 @@ img {
 				</p>
 			</div>
 			<footer class="blockquote-footer">
-				<small class="text-muted" th:if="${spell.book}" th:text="'Источник: ' + ${spell.book.name}"></small>
+				<small class="text-muted" th:if="${spell.book}" th:text="|Источник: ${spell.book.name}${spell.page eq null?'':', стр.' + spell.page}|"></small>
 			</footer>
 		</div>
 	</div>

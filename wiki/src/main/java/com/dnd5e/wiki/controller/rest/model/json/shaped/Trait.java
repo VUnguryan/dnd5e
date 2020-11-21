@@ -16,7 +16,7 @@ public class Trait {
 	private String recharge;
 	public Trait(CreatureTrait trait) {
 		name = StringUtils.capitalize(trait.getName());
-		text = Compendium.removeHtml(trait.getDescription().replace("</p>","\n"));
+		text = Compendium.removeHtml(trait.getDescription().replace("</p>"," "));
 		if (name.contains("(1/ход)")) {
 			recharge = "1/Turn";
 			name = name.replace("(1/ход)", "").trim();

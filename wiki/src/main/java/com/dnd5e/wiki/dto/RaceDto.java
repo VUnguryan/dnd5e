@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.hero.AbilityBonus;
-import com.dnd5e.wiki.model.hero.classes.Feature;
+import com.dnd5e.wiki.model.hero.race.Feature;
 import com.dnd5e.wiki.model.hero.race.Race;
 
 import lombok.Getter;

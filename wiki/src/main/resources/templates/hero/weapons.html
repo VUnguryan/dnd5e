@@ -31,7 +31,7 @@
 					<table class="table table-striped table-sm">
 						<thead>
 							<tr>
-								<th scope="col" style="width: 20%">Название</th>
+								<th scope="col" style="width: 30%">Название</th>
 								<th class="text-center" scope="col" style="width: 10%">Стоимость</th>
 								<th class="text-center" scope="col" style="width: 15%">Урон</th>
 								<th class="text-center" scope="col" style="width: 12%">Вес (в фнт.)</th>
@@ -44,7 +44,7 @@
 							</tr>
 							<tr th:each="weapon : ${weapons.get(type)}" th:id="'d' + ${type.ordinal()}">
 								<td class="hiddenRow">
-									<div th:text="${weapon.name}"></div>
+									<div><span th:text="${weapon.name}"></span> <small class="text-secondary" th:if="${weapon.englishName}" th:text="|(${weapon.englishName})|"></small></div>
 								</td>
 								<td class="text-center">
 									<div>

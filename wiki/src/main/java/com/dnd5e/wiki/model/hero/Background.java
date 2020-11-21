@@ -77,7 +77,12 @@ public class Background {
 	@Column(columnDefinition = "TEXT")
 	private String personalization;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = true)
+	private LifeStyle lifeStyle;
+	
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	private Short page;
 }

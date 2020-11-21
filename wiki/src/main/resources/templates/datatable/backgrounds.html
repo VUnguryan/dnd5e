@@ -184,14 +184,19 @@ tr.shown td.details-control {
 		});
 	});
 	function format ( d ) {
-		var info = d.description + 
-		'<p><strong>Умение: '+ d.skillName + '</strong>' + d.skillDescription + ' </p>' +
-		'<p><strong>Владение навыками: </strong>' + d.skills + ' </p>'; 
+		var info = d.description + '<p><strong>Умение: '+ d.skillName + '</strong>' + d.skillDescription + ' </p>';
+		if (d.skills){
+			info += '<p><strong>Владение навыками: </strong>' + d.skills + ' </p>';
+		}
 		if (d.toolOwnership) {
 			info += '<p><strong>Владение инструментами: </strong>' + d.toolOwnership + ' </p>'
 		}
-		info += '<p><strong>Языки: </strong>' + d.languages + ' </p>';
-		info += '<p><strong>Снаряжение: </strong>' + d.equipments + ' </p>';
+		if (d.languages){
+			info += '<p><strong>Языки: </strong>' + d.languages + ' </p>';
+		}
+		if (d.equipments) {
+			info += '<p><strong>Снаряжение: </strong>' + d.equipments + ' </p>';
+		}
    	 	info += '<a class="btn btn-outline-dark btn-sm" href="/hero/backgrounds/personalizare/' + d.id + '">Персонализация</a>';
 		info += '<p class="text-right"><small>Источник: '+ d.book + '</small></p>';
 		return info;

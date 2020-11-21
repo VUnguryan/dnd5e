@@ -37,6 +37,9 @@ import com.dnd5e.wiki.model.creature.Condition;
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
 import com.dnd5e.wiki.model.gods.GodSex;
+import com.dnd5e.wiki.model.hero.ArchetypeTrait;
+import com.dnd5e.wiki.model.hero.classes.Archetype;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.places.Place;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
@@ -47,11 +50,14 @@ import com.dnd5e.wiki.model.stock.Equipment;
 import com.dnd5e.wiki.model.treasure.MagicThing;
 import com.dnd5e.wiki.model.treasure.MagicThingType;
 import com.dnd5e.wiki.model.treasure.Rarity;
+import com.dnd5e.wiki.repository.ArchetypeRepository;
 import com.dnd5e.wiki.repository.ArmorRepository;
 import com.dnd5e.wiki.repository.ArtifactRepository;
+import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
 import com.dnd5e.wiki.repository.EquipmentRepository;
+import com.dnd5e.wiki.repository.HeroClassFeatRepository;
 import com.dnd5e.wiki.repository.LanguagesRepository;
 import com.dnd5e.wiki.repository.PlaceRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
@@ -80,9 +86,15 @@ public class AdminController {
 	private ArmorRepository armorRepository;
 	@Autowired
 	private PlaceRepository placeRepository;
-
+	
 	@Autowired
 	private GodDatatableRepository godRepository;
+	@Autowired
+	private ClassRepository classRepo;
+	@Autowired
+	private ArchetypeRepository archetyprRepo;
+	@Autowired
+	private HeroClassFeatRepository featRepo;
 
 	@GetMapping("/place/{id}")
 	public String getPlace(Model model, Integer id)
@@ -606,7 +618,47 @@ public class AdminController {
 		creatureRepository.save(creature);
 		return "admin/parseMonster";
 	}
+	@GetMapping("/archetype/add")
+	public String getArchitypeForm(Model model) {
 
+		model.addAttribute("classes", classRepo.findAll());
+		model.addAttribute("archetype", new Archetype());
+		return "hero/addClassType";
+	}
+
+	@PostMapping("/archetype/add")
+	public String addArchitype(Archetype archetype) {
+		archetyprRepo.save(archetype);
+		return "redirect:/archetype/add";
+	}
+
+	@GetMapping("/archetype/feat/add")
+	public String getArchitypeFeat(Model model) {
+		model.addAttribute("classes", classRepo.findAll());
+		return "hero/addClassTypeFeat";
+	}
+
+	@GetMapping(value = "/archetype/feat/add", params = { "classTypeId", "archiTypeId" })
+	public String getArchitypeFeatForm(Model model, Integer classTypeId, Integer archiTypeId) {
+		model.addAttribute("classes", classRepo.findAll());
+		Optional<HeroClass> heroClass = classRepo.findById(classTypeId);
+		if (heroClass.isPresent()) {
+			model.addAttribute("archetypes", heroClass.get().getArchetypes());
+		}
+		model.addAttribute("classTypeId", classTypeId);
+		model.addAttribute("archiTypeId", archiTypeId);
+		model.addAttribute("feat", new ArchetypeTrait());
+
+		return "hero/addClassTypeFeat";
+	}
+
+	@PostMapping("/archetype/feat/add")
+	public String addArchitypeFeat(ArchetypeTrait feat, Integer classTypeId) {
+		featRepo.save(feat);
+		return "redirect:/archetype/feat/add?classTypeId=" + classTypeId + "&archiTypeId="
+				+ feat.getArchetype().getId();
+	}
+	
 	private void parseLanguage(String skillText, Creature monster) {
 		List<Language> languageList = new ArrayList<>();
 		skillText = skillText.replace("Языки ", "");

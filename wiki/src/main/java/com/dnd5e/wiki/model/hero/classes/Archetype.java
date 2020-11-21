@@ -46,6 +46,7 @@ public class Archetype {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	private Short page;
 	
 	public Map<Integer, List<Spell>> getLevelSpells(){
 		return spells.stream()

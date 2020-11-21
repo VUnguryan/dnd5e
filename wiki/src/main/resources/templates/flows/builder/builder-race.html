@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div th:if="${heroModel.raceInfo}">
-			<img th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${selectRace.id} +'.jpg'}" height="100"> Выбрана раса: <span th:if="${selectRace.parentName}" th:text="${selectRace.parentName}"></span>
+			<img th:src="@{'https://storage.googleapis.com/dnd5/races/icons/'+ ${selectRace.id} +'.png'}" height="150"> Выбрана раса: <span th:if="${selectRace.parentName}" th:text="${selectRace.parentName}"></span>
 			<span th:text="${selectRace.name}"></span> <a th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_clearRace'}">Изменить</a>
 			<th:block th:unless="${#lists.isEmpty(selectRace.parentFeatures)}">
 				<div class="card" th:each="feature : ${selectRace.parentFeatures}">
@@ -119,7 +119,7 @@
 			    orderable: false,
 				render : function(data, type) {
 					if (type === 'display') {
-						return '<img src="https://storage.googleapis.com/dnd5/races/'+ data +'.jpg" height="50">';
+						return '<img src="https://storage.googleapis.com/dnd5/races/icons/'+ data +'.png" height="50">';
 					}
 					return data;
 				},
@@ -196,7 +196,7 @@
 	function format(d) {
 		var info = '';
 		for(var race in d.subRaces){
-			info += '<tr><td>' + d.subRaces[race].name + '</td><td><a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#m'+ d.subRaces[race].id +'">Выбрать</a></td></tr>';
+			info += '<tr><td><img src="https://storage.googleapis.com/dnd5/races/icons/'+ d.subRaces[race].id +'.png" height="50"></td><td>' + d.subRaces[race].name + '</td><td><a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#m'+ d.subRaces[race].id +'">Выбрать</a></td></tr>';
 		}
 		return info;
 	}

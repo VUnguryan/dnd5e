@@ -31,7 +31,7 @@ public class ClassDto implements Serializable {
 	private String tools;
 	
 	private short skillTrainingCount;
-	private List<String> availableSkills;
+	private List<SkillType> availableSkills;
 	
 	private List<ClassTraitDto> traits;
 
@@ -46,11 +46,9 @@ public class ClassDto implements Serializable {
 		this.armor = heroClass.getArmor();
 		this.weapon = heroClass.getWeapon();
 		this.skillTrainingCount = heroClass.getSkillAvailableCount();
-		
-		this.availableSkills = heroClass.getAvailableSkills().stream()
-				.map(SkillType::getCyrilicName)
-				.collect(Collectors.toList());
-		
+
+		this.availableSkills = heroClass.getAvailableSkills().stream().collect(Collectors.toList());
+
 		this.traits = heroClass.getTraits().stream()
 				.filter(t -> t.getDescription() != null)
 				.map(ClassTraitDto::new)
@@ -67,6 +65,7 @@ public class ClassDto implements Serializable {
 		private String name;
 		private byte level;
 		private String description;
+
 		ClassTraitDto (HeroClassTrait trait){
 			this.name = trait.getName();
 			this.level = trait.getLevel();

@@ -42,7 +42,7 @@ public class BackgroundDto {
 		description = background.getDescription();
 		skillDescription = background.getSkillDescription();
 		toolOwnership = background.getToolOwnership();
-		equipments = background.getEquipments().stream().map(Equipment::getName).collect(Collectors.joining(", "));
+		equipments = background.getEquipmentsText() == null ? background.getEquipments().stream().map(Equipment::getName).collect(Collectors.joining(", ")) : background.getEquipmentsText();
 		languages = (background.getLanguage() == null ? "" : background.getLanguage()) + background.getLanguages().stream().map(Language::getName).collect(Collectors.joining(", "));
 		startMoney = background.getStartMoney();
 		book = background.getBook().getName();

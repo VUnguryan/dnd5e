@@ -12,10 +12,12 @@ public class ConditionDto {
 	private String englishName;
 	private String description;
 	private String type;
+	private String source;
 	public ConditionDto(Condition condition) {
 		name = StringUtils.capitalizeWords(condition.getName().toLowerCase());
 		englishName = condition.getEnglishName();
 		description = condition.getDescription();
 		type = condition.getType().getName();
+		source = condition.getBook().getName() + ", стр. " + condition.getPage(); 
 	}
 }

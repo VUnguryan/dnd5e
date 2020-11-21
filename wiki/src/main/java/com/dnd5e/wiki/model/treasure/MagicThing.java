@@ -72,7 +72,8 @@ public class MagicThing {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
-	
+	private Short page;
+
 	public int getCost() {
 		if (cost != null) {
 			return cost;

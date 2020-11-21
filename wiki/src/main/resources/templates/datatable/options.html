@@ -1,9 +1,14 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
-<title>DnD 5E Снаряжение</title>
+<title>Черты</title>
 <style>
 img {
 	float: center;
+}
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
 }
 td.details-control {
 	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
@@ -19,15 +24,16 @@ tr.shown td.details-control {
 <body>
 	<div class="container" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-10 mt-3 mb-3">
+			<div class="col-lg-11 mt-3 mb-3">
 				<table id="example" class="table table-hover table-sm" style="width: 100%">
 					<thead>
 						<tr>
-							<th>Снаряжение</th>
-							<th>Стоимость</th>
- 							<th title="Вес в фунтах">Вес</th> 
- 							<th>Категория</th> 
+							<th>Опция</th>
+							<th>Тип</th>
+							<th>Требование</th>
+							<th>Уровень</th>
 							<th>Источник</th>
+							<th>englishName</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -42,44 +48,46 @@ tr.shown td.details-control {
 	        var column = table.column( $(this).attr('data-column') );
 	        column.visible( ! column.visible() );
 	    });
-	
 		var table = $('#example').DataTable( {
 			iDisplayLength : 25,
 	        dom: 'Bfrtip',
 			processing : true,
 	        serverSide : true,
-			ajax : '/equipments',
+			ajax : '/options',
 			columns : [
 						{
 							data : "name",
-							width : "33%", 
+							width : "30%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data + '</h6>';
+									return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
+									+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
 								}
 								return data;
 							}, 
 						},
 						{
-							data : "cost",
-							width : "10%",
-						    className: "text-right",
+							data : "optionType",
+							width : "15%",
+							searchable: false,
+						}, 
+						{
+							data : "prerequisite",
+							width : "30%"
 						},
 						{
-							data : "weight",
-							width : "5%",
-						    searchable: false,
-						    className: "text-right",
-						},
-						{
-							data : "type",
-							width : "25%",
+							data : "level",
+							width : "2%",
 						    searchable: false,
 						},
 						{
 							data : "book",
 							width : "10%",
 						    searchable: false,
+						},
+						{
+							data : "englishName",
+							width : "1%"
 						},
 						{
 							className : 'details-control',
@@ -91,14 +99,13 @@ tr.shown td.details-control {
 					],
 					columnDefs : [
 			            {
-			                targets : [3],
-			                visible : false
-			            },
+			                "targets": [ 4 ],
+			                "visible": false
+				        },
 			            {
-			                targets : [4],
-			                visible : false
-			            },
-
+			                "targets": [ 5 ],
+			                "visible": false
+				        },
 				    ],
 				    buttons: [
 			        	'searchPanes',
@@ -106,12 +113,6 @@ tr.shown td.details-control {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
 			                buttons: [
-			                    {
-			                        text: 'Категория',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column( 3 ).visible( ! dt.column( 3 ).visible() );
-			                        }
-			                    },
 			                    {
 			                        text: 'Источник',
 			                        action: function ( e, dt, node, config ) {

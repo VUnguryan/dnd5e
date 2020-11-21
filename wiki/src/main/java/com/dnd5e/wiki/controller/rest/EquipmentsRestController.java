@@ -28,6 +28,7 @@ import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
+import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.model.spell.Spell;
@@ -71,7 +72,11 @@ public class EquipmentsRestController {
 			specification = byOfficial();
 		}
 		if (!filterTypes.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> root.get("type").in(filterTypes));
+			specification = addSpecification(specification, (root, query, cb) -> {
+				Join<DamageType, Spell> types = root.join("types", JoinType.LEFT);
+				query.distinct(true);
+				return types.in(filterTypes);
+			});
 		}
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
@@ -107,9 +112,10 @@ public class EquipmentsRestController {
 	private Specification<Equipment> byOfficial() {
 		return (root, query, cb) -> {
 			Join<Book,Equipment> hero = root.join("book", JoinType.LEFT);
-			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
+			return cb.notEqual(hero.get("type"), TypeBook.CUSTOM);
 		};	
 	}
+
 	private void addItem(String key, Map<String, List<Item>> options, Item v) {
 		options.computeIfAbsent(key, s -> new ArrayList<>()).add(v);
 	}

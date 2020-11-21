@@ -211,6 +211,7 @@ tr.shown td.details-control {
 					</div>
 				</div>
 			</div>
+			<div class="card-footer text-muted" th:text="|Источник: ${heroClass.book.name}${heroClass.page eq null?'':', стр.' + heroClass.page}|"></div>
 		</div>
 	</div>
 </body>

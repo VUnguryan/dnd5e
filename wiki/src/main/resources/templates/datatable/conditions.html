@@ -177,7 +177,10 @@ tr.shown td.details-control {
 									});
 						});
 		function format(d) {
-			return d.description;
+			var info = d.description;
+			info += '<div><p class="text-right font-weight-light"><small>Источник: '
+				+ d.source + '</small></p></div>';
+			return info;
 		}
 	</script>
 </body>

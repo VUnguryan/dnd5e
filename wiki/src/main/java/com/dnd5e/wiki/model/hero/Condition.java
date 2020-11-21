@@ -36,6 +36,7 @@ public class Condition {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	private Short page;
 	
 	@AllArgsConstructor
 	@Getter

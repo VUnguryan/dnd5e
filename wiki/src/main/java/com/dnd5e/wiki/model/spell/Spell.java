@@ -77,4 +77,5 @@ public class Spell {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	private Short page;
 }

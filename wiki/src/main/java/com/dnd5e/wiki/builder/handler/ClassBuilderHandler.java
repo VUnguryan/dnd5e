@@ -56,6 +56,10 @@ public class ClassBuilderHandler {
 	public void addMulticlass(HeroModel heroModel, ClassInfo classInfo) {
 		heroModel.setSelected(true);
 	}
+
+	public void cancelMulticlass(HeroModel heroModel, ClassInfo classInfo) {
+		heroModel.setSelected(false);
+	}	
 	
 	@Transactional
 	public List<ClassDto> getClasses(){

@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.model.hero.classes;
+package com.dnd5e.wiki.model.hero.race;
 
 import java.util.List;
 

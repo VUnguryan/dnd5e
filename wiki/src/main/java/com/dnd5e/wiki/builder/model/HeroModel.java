@@ -21,7 +21,7 @@ public class HeroModel implements Serializable {
 	private RaceInfo raceInfo;
 	private boolean selected = true;
 	private List<ClassInfo> classes = new ArrayList<>();
-	private AbilityInfo abilityInfo;
+	private AbilityInfo abilityInfo = new AbilityInfo();
 	private Set<SkillType> trainedSkills;
 
 	/**

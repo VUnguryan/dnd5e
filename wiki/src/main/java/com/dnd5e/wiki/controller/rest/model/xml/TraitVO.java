@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.hero.classes.Feature;
+import com.dnd5e.wiki.model.hero.race.Feature;
 
 import lombok.Getter;
 

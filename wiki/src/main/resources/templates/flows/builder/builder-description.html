@@ -8,6 +8,16 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h4>Описание персонажа (Этап 4)</h4>
+				<form method="post" th:object="${heroInfo}" enctype="multipart/form-data">
+					<div class="form-group row">
+						<label for="name" class="col-sm-2 col-form-label">Имя персонажа</label>
+						<div class="col-sm-10">
+							<input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Имя персонажа" autofocus /> <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}"
+							></small>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>

@@ -35,87 +35,85 @@
 			<h4>
 				Общий уровень персонажа: <span th:text="${heroModel.level}"></span>
 			</h4>
-			<table class="tabel">
-				<tbody>
-					<th:block th:each="selectedClass : ${heroModel.classes}">
-						<tr>
-							<td><img class="img-fluid" th:src="@{|https://storage.googleapis.com/dnd5/classes/${selectedClass.id}.png|}" height="60" width="60" /></td>
-							<td><h4 th:text="${selectedClass.name}"></h4></td>
-							<td>
-								<div class="row">
-									<form class="form-inline" th:id="'levelClass' + ${selectedClass.id}" th:action="@{'~' + ${flowExecutionUrl} + '&_eventId_changeLevel'}" method="post" th:object="${classInfo}"
-										enctype="multipart/form-data"
-									>
-										<input id="id" hidden="true" type="number" th:name="id" th:value="${selectedClass.id}">
-										<div class="form-group">
-											<label for="selectedLevelClass">Уровень: </label> <select id="level" name="level" class="custom-select mr-sm-2" th:onchange="'levelClass'+${selectedClass.id}+'.submit()'">
-												<option th:each="level : ${#numbers.sequence(1, 20)}" th:selected="${level eq selectedClass.level}" th:text="${level}" th:value="${level}" />
-											</select>
-										</div>
-									</form>
-									<form class="form-inline" method="post" th:object="${classInfo}" enctype="multipart/form-data">
-										<input id="id" hidden="true" type="number" th:name="id" th:value="${selectedClass.id}"></input>
-										<button id="deleteSelectButton" class="btn btn-outline-danger" type="submit" name="_eventId_removeClass">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</form>
+			<th:block th:unless="${heroModel.selected}" th:each="selectedClass : ${heroModel.classes}">
+				<div class="row justify-content-between">
+					<div class="col-4">
+						<div class="row">
+							<img class="img-fluid" th:src="@{|https://storage.googleapis.com/dnd5/classes/${selectedClass.id}.png|}" height="50" width="50" />
+							<h4 th:text="${selectedClass.name}"></h4>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="row">
+							<form class="form-inline" th:id="'levelClass' + ${selectedClass.id}" th:action="@{'~' + ${flowExecutionUrl} + '&_eventId_changeLevel'}" method="post" th:object="${classInfo}"
+								enctype="multipart/form-data"
+							>
+								<input id="id" hidden="true" type="number" th:name="id" th:value="${selectedClass.id}">
+								<div class="form-group">
+									<label for="level">Уровень </label> <select id="level" name="level" class="custom-select mr-sm-2" th:onchange="'levelClass'+${selectedClass.id}+'.submit()'">
+										<option th:each="level : ${#numbers.sequence(1, 20)}" th:selected="${level eq selectedClass.level}" th:text="${level}" th:value="${level}" />
+									</select>
 								</div>
-							</td>
-						</tr>
-						<tr>
-							<td><a class="btn btn-link" data-toggle="collapse" th:href="|#classTraits${selectedClass.id}|" role="button"
-								th:attr="aria-expanded=${heroModel.classes.size() eq 1}, aria-controls='classTraits' + ${selectedClass.id}"
-							>Особенности класса</a></td>
-						</tr>
-						<tr class="collapse" th:classappend="${heroModel.classes.size() eq 1} ? 'show': ''" th:id="|classTraits${selectedClass.id}|">
-							<td colspan="4">
-								<div>
-									<th:block th:each="heroClass : ${classes}">
-										<th:block th:if="${heroClass.id eq selectedClass.id}">
-											<div class="card">
-												<h6 class="card-header">ВЛАДЕНИЯ</h6>
-												<div class="card-body">
-													<div>
-														<strong>Доспехи:</strong> <span th:text="${heroClass.armor}"></span>
-													</div>
-													<div>
-														<strong>Оружие:</strong> <span th:text="${heroClass.weapon}"></span>
-													</div>
-													<div>
-														<strong>Инструменты:</strong> <span th:text="${heroClass.tools}"></span>
-													</div>
-													<div>
-														<strong>Спасброски:</strong> <span th:text="${heroClass.savingThrows}"></span>
-													</div>
-													<div>
-														<strong>Навыки:</strong> Выберите <span th:text="${heroClass.skillTrainingCount}"></span> навыка
-													</div>
-													<th:block th:each="skillCount : ${#numbers.sequence(1, heroClass.skillTrainingCount)}">
-														<form>
-															<select class="form-control">
-																<option>-Выбрать навыки из следующих-</option>
-																<option th:each="skill : ${heroClass.availableSkills}" th:text="${skill}" th:value="${skill}"></option>
-															</select>
-														</form>
-													</th:block>
-												</div>
-											</div>
-											<div class="card" th:each="trait : ${heroClass.traits}">
-												<th:block th:if="${trait.level le selectedClass.level}">
-													<h6 class="card-header" th:text="${trait.name}"></h6>
-													<div class="card-body" th:utext="${trait.description}"></div>
-												</th:block>
-											</div>
+							</form>
+							<form class="form-inline" method="post" th:object="${classInfo}" enctype="multipart/form-data">
+								<input id="id" hidden="true" type="number" th:name="id" th:value="${selectedClass.id}"></input>
+								<button id="deleteSelectButton" class="btn btn-outline-danger" type="submit" name="_eventId_removeClass">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div>
+					<a class="btn btn-link" data-toggle="collapse" th:href="|#classTraits${selectedClass.id}|" role="button"
+						th:attr="aria-expanded=${heroModel.classes.size() eq 1}, aria-controls='classTraits' + ${selectedClass.id}"
+					>Особенности класса</a>
+					<div class="collapse" th:classappend="${heroModel.classes.size() eq 1} ? 'show': ''" th:id="|classTraits${selectedClass.id}|">
+						<th:block th:each="heroClass : ${classes}">
+							<th:block th:if="${heroClass.id eq selectedClass.id}">
+								<div class="card">
+									<h6 class="card-header">ВЛАДЕНИЯ</h6>
+									<div class="card-body">
+										<div>
+											<strong>Доспехи:</strong> <span th:text="${heroClass.armor}"></span>
+										</div>
+										<div>
+											<strong>Оружие:</strong> <span th:text="${heroClass.weapon}"></span>
+										</div>
+										<div>
+											<strong>Инструменты:</strong> <span th:text="${heroClass.tools}"></span>
+										</div>
+										<div>
+											<strong>Спасброски:</strong> <span th:text="${heroClass.savingThrows}"></span>
+										</div>
+										<div>
+											<strong>Навыки:</strong> Выберите <span th:text="${heroClass.skillTrainingCount}"></span> навыка
+										</div>
+										<th:block th:each="skillCount : ${#numbers.sequence(1, heroClass.skillTrainingCount)}">
+											<form th:id="'levelClass' + ${selectedClass.id}" th:action="@{'~' + ${flowExecutionUrl} + '&_eventId_addSkill'}" method="post" th:object="${classInfo}" enctype="multipart/form-data">
+												<select id="skill" name="skill" class="form-control">
+													<option>-Выбрать навыки из следующих-</option>
+													<option th:each="skill : ${heroClass.availableSkills}" th:text="${skill.cyrilicName}" th:value="${skill}"></option>
+												</select>
+											</form>
 										</th:block>
+									</div>
+								</div>
+								<div class="card" th:each="trait : ${heroClass.traits}">
+									<th:block th:if="${trait.level le selectedClass.level}">
+										<h6 class="card-header" th:text="${trait.name}"></h6>
+										<div class="card-body" th:utext="${trait.description}"></div>
 									</th:block>
 								</div>
-							</td>
-						</tr>
-					</th:block>
-				</tbody>
-			</table>
+							</th:block>
+						</th:block>
+					</div>
+				</div>
+			</th:block>
 		</div>
-		<a th:unless="${heroModel.classes.empty}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_addMulticlass'}">Добавить другой класс</a>
+		<a th:unless="${heroModel.classes.empty or heroModel.selected}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_addMulticlass'}">Добавить другой класс</a> <a
+			th:if="${not heroModel.classes.empty and heroModel.selected}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_cancleMulticlass'}"
+		>Отменить выбор класса</a>
 		<table th:if="${heroModel.selected}" id="example" class="table table-hover" style="width: 100%">
 			<thead>
 				<tr>
@@ -162,7 +160,7 @@
 		</div>
 	</div>
 </body>
-<script layout:fragment="datatable">
+<script th:inline="javascript" layout:fragment="datatable">
 	$(document).ready(function() {
 		$('a.toggle-vis').on('click', function(e) {
 			e.preventDefault();
@@ -204,6 +202,41 @@
 			    orderable: false,
 				render : function(data, type, row) {
 					if (type === 'display') {
+						if (![[${heroModel.classes.empty}]]) {
+							for (var i=0; i<[[${heroModel.classes.size()}]]; i++){
+								if ([[${heroModel.classes}]][i].id == row.id){
+									return '<div class="alert alert-primary" role="alert">Уже выбран</div>';
+								}
+							}
+							if ((row.id == 1 || row.id == 5 || row.id == 8) && [[${heroModel.abilityInfo.charisma}]] < 13){
+								return '<div class="alert alert-danger" role="alert">Харизма 13 или более</div>';
+							}
+							if ((row.id == 2 || row.id == 14) && [[${heroModel.abilityInfo.intellect}]] < 13){
+								return '<div class="alert alert-danger" role="alert">Интеллект 13 или более</div>';
+							}
+							if ((row.id == 3 || row.id == 4) && [[${heroModel.abilityInfo.wizdom}]] < 13){
+								return '<div class="alert alert-danger" role="alert">Мудрость 13 или более</div>';
+							}
+							if (row.id == 6 && ([[${heroModel.abilityInfo.strength}]] < 13 || [[${heroModel.abilityInfo.charisma}]] < 13)){
+								return '<div class="alert alert-danger" role="alert">Сила и Харизма 13 или более</div>';
+							}
+							if (row.id == 7 && ([[${heroModel.abilityInfo.dexterity}]] < 13 || [[${heroModel.abilityInfo.wizdom}]] < 13)){
+								return '<div class="alert alert-danger" role="alert">Ловкость и Мудрость 13 или более</div>';
+							}
+							if (row.id == 9 && [[${heroModel.abilityInfo.strength}]] < 13){
+								return '<div class="alert alert-danger" role="alert">Сила 13 или более</div>';
+							}
+							if (row.id == 11 && [[${heroModel.abilityInfo.strength}]] < 13 && [[${heroModel.abilityInfo.dexterity}]] < 13){
+								return '<div class="alert alert-danger" role="alert">Сила или Ловкость 13 или более</div>';
+							}
+							if (row.id == 12 && ([[${heroModel.abilityInfo.wizdom}]] < 13 || [[${heroModel.abilityInfo.dexterity}]] < 13)){
+								return '<div class="alert alert-danger" role="alert">Ловкость и Мудрость 13 или более</div>';
+							}
+							if (row.id == 13 && [[${heroModel.abilityInfo.dexterity}]] < 13){
+								return '<div class="alert alert-danger" role="alert">Ловкость 13 или более</div>';
+							}
+							return '<a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#m'+ data+'">Добавить</a>';
+						}
 						return '<a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#m'+ data+'">Выбрать</a>';
 					}
 					return data;

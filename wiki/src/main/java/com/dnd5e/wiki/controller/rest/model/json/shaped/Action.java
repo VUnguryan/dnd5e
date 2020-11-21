@@ -1,5 +1,8 @@
 package com.dnd5e.wiki.controller.rest.model.json.shaped;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.dnd5e.wiki.controller.rest.model.xml.Compendium;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,7 +18,52 @@ public class Action {
 	private Byte cost;
 	public Action(com.dnd5e.wiki.model.creature.Action action) {
 		name = action.getName();
-		text = Compendium.removeHtml(action.getDescription().replace("</p>","\n"));
+		text = Compendium.removeHtml(action.getDescription().replace("</p>"," "));
+		text = text.replaceAll("Рукопашная атака оружием\\s?:", "Melee Weapon Attack:");
+		text = text.replaceAll("Дальнобойная атака оружием\\s?:", "Ranged Weapon Attack:");
+		text = text.replaceAll("к попаданию", "to hit");
+		text = text.replaceAll("досягаемость", "reach");  
+		text = text.replaceAll("одна цель", "one target");
+		text = text.replaceAll("одно существо", "one creature");
+		text = text.replaceAll("дистанция", "range");
+		text = text.replaceAll("плюс урон", "plus");
+		text = text.replace("фт.", "ft.");
+		text = text.replaceAll(" Попадание: ", "Hit:");
+		
+		Pattern pattern = Pattern.compile("\\d+к\\d+");
+	    Matcher matcher = pattern.matcher(text);
+	    while (matcher.find()) {
+	    	String damage = text.substring(matcher.start(), matcher.end());
+	    	text = text.replace(damage, damage.replace('к', 'd'));
+	    	int indexDamageType = text.lastIndexOf("Колющий урон ", matcher.start());
+	    	if (indexDamageType >=0) {
+	    		StringBuilder builder = new StringBuilder(text);
+	    		if (text.length()>=matcher.end() + 3) {
+		    		builder.insert(matcher.end() + 3, " piercing damage");
+	    		}
+	    		text = builder.toString();
+	    		text = text.replaceAll("Колющий урон ", "");
+	    	}
+	    	indexDamageType = text.lastIndexOf("Рубящий урон ", matcher.start());
+	    	if (indexDamageType >=0) {
+	    		StringBuilder builder = new StringBuilder(text);
+	    		if (text.length()>=matcher.end() + 3) {
+		    		builder.insert(matcher.end() + 3, " slashing damage");
+	    		}
+	    		text = builder.toString();
+	    		text = text.replaceAll("Рубящий урон ", "");
+	    	}
+	    	indexDamageType = text.lastIndexOf("Дробящий урон ", matcher.start());
+	    	if (indexDamageType >=0) {
+	    		StringBuilder builder = new StringBuilder(text);
+	    		if (text.length()>=matcher.end() + 3) {
+		    		builder.insert(matcher.end() + 3, " bludgeoning damage");
+	    		}
+	    		text = builder.toString();
+	    		text = text.replaceAll("Дробящий урон ", "");
+	    	}
+	    	
+	    }
 		if (name.contains("(1/ход)")) {
 			recharge = "1/Turn";
 			name = name.replace("(1/ход)", "").trim();

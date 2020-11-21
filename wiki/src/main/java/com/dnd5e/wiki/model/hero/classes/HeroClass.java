@@ -16,11 +16,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.AbilityType;
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.Rest;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
@@ -101,6 +103,11 @@ public class HeroClass {
 	@OneToMany
 	@JoinColumn(name = "class_id")
 	private List<ClassPersonalization> personalizations;
+	
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
+	private Short page;
 	
 	public List<HeroClassTrait> getTraits(int level) {
 		return traits.stream().filter(t -> t.getLevel() == level).collect(Collectors.toList());

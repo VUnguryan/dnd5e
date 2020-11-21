@@ -19,7 +19,7 @@ public interface EquipmentRepository extends DataTablesRepository<Equipment, Int
 	Page<Equipment> findByNameContaining(Pageable page, String search);
 	List<Equipment> findByNameContaining(String search);
 
-	@Query("SELECT s.type AS field, COUNT(s.type) AS total FROM Equipment s GROUP BY s.type")
+	@Query("SELECT DISTINCT t AS field, COUNT(e) AS total FROM Equipment e JOIN e.types t GROUP BY t")
 	List<GroupByCount<EquipmentType>> countTotalEquipmentByType();
 
 	@Query("SELECT s.book AS field, COUNT(s.book) AS total FROM Equipment s GROUP BY s.book")

@@ -28,7 +28,6 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.hero.AbilityBonus;
-import com.dnd5e.wiki.model.hero.classes.Feature;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -82,6 +81,7 @@ public class Race implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	private Short page;
 
 	public String getFullName() {
 		if (parent != null) {

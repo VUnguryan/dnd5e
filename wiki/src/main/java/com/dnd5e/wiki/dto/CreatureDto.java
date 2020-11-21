@@ -73,7 +73,6 @@ public class CreatureDto {
 		
 		ac = creature.getAC();
 		armorType = creature.getArmorTypes().isEmpty() ? null : creature.getArmorTypes().stream().map(ArmorType::getCyrillicName).collect(Collectors.joining(", "));
-		book = creature.getBook().getName();
 		hp = creature.getHp();
 		speed = "" + creature.getSpeed() + " фт." + (creature.getFlySpeed() == null ? "" : ", летая " + creature.getFlySpeed() + " фт.")
 				+ (creature.getHover() == null ? "" : " (парит)")
@@ -110,5 +109,6 @@ public class CreatureDto {
 		reactions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION).collect(Collectors.toList());
 		legendary = creature.getLegendary() == null ? String.format("%1$s может совершить 3 легендарных действия, выбирая из представленных ниже вариантов. За один раз можно использовать только одно легендарное действие, и только в конце хода другого существа. %1$s восстанавливает использованные легендарные действия в начале своего хода.", name) : creature.getLegendary();
 		legendaryActions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY).collect(Collectors.toList());
+		book = creature.getBook().getName() + (creature.getPage() != null ? ", стр. " + creature.getPage() : "");
 	}
 }

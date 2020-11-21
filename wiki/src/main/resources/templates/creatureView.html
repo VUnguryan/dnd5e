@@ -197,7 +197,7 @@ img {
 					<img class="card-img-bottom" th:src="@{|https://storage.googleapis.com/dnd5/creatures/${creature.id}.jpg|}" align="middle" />
 				</div>
 			</div>
-			<div class="card-footer text-muted" th:if="${creature.book}" th:text="|Источник: ${creature.book.name}|"></div>
+			<div class="card-footer text-right" th:if="${creature.book}" th:text="|Источник: ${creature.book.name}${creature.page eq null?'':', стр.' + creature.page}|"></div>
 		</div>
 	</div>
 </body>

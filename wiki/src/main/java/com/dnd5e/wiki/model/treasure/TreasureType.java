@@ -12,7 +12,8 @@ public enum TreasureType {
 	GEM("Драгоценные камни"),
 	WORKS_OF_ART("Произведения искусства"),
 	BAUBLE("Безделушка"),
-	GOTIC_BAUBLE("Готическая безделушка");
+	GOTIC_BAUBLE("Готическая безделушка"),
+	ELVEN_TRINKET("Эльфийская безделушка");
 	
 	private String name;
 

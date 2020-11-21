@@ -55,7 +55,7 @@
 					<h5 class="card-header">Описание</h5>
 					<p th:utext="*{description}" />
 				</div>
-				<div class="card-footer text-muted" th:text="'Источник: ' + *{book.name}"></div>
+				<div class="card-footer text-muted" th:text="|Источник: *{book.name}${race.page eq null?'':', стр.' + race.page}|"></div>
 			</div>
 			<img class="card-img-top" th:src="@{|https://storage.googleapis.com/dnd5/races/*{id}.jpg|}" th:title="*{name}" />
 		</div>

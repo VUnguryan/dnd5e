@@ -1,3 +1,4 @@
+
 package com.dnd5e.wiki.builder.handler;
 
 import java.util.Arrays;
@@ -15,7 +16,6 @@ import com.dnd5e.wiki.builder.model.HeroModel;
 public class AbilityBuilderHandler {
 	public void changeMethod(HeroModel model, AbilityInfo abilityInfo) {
 		AbilityInfo ai = new AbilityInfo();
-
 		if ("array".equals(abilityInfo.getPointMethod())) {
 			List<Byte> defaultList = Arrays.asList((byte) 8, (byte) 10, (byte) 12, (byte) 13, (byte) 14, (byte) 15);
 			ai.setStrengthArray(new TreeSet<>(defaultList));
@@ -205,7 +205,6 @@ public class AbilityBuilderHandler {
 				model.getAbilityInfo().getIntellectArray().add(oldValue);
 				model.getAbilityInfo().getCharismaArray().add(oldValue);
 			}
-
 			model.getAbilityInfo().setWizdom(newValue);
 		}
 		if (model.getAbilityInfo().getCharisma() != abilityInfo.getCharisma()) {

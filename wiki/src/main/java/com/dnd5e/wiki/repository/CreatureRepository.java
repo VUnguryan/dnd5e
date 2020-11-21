@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.Creature;
 
 @Repository
-public abstract interface CreatureRepository extends JpaRepository<Creature, Integer>, JpaSpecificationExecutor<Creature> {
+public abstract interface CreatureRepository
+		extends JpaRepository<Creature, Integer>, JpaSpecificationExecutor<Creature> {
 
 	@Query("SELECT c FROM Creature c WHERE c.name LIKE %:searchTerm% OR c.englishName LIKE %:searchTerm%")
 	List<Creature> findByNameAndEnglishNameContaining(@Param("searchTerm") String search);
@@ -20,4 +22,6 @@ public abstract interface CreatureRepository extends JpaRepository<Creature, Int
 	List<Creature> findAllByRaceIdOrderByExpAsc(Integer id);
 
 	Creature findByName(String name);
+
+	List<Creature> findAllByBook(Book book);
 }

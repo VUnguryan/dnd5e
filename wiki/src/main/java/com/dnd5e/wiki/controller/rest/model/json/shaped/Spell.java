@@ -24,7 +24,7 @@ public class Spell {
 
 	private String description;
 	private Boolean concentration;
-	
+
 	private String higherLevel;
 	@JsonProperty("save")
 	private Save save;
@@ -44,8 +44,8 @@ public class Spell {
 		range = spell.getDistance();
 		components = new Components(spell);
 		duration = spell.getDuration();
-		concentration = spell.getConcentration() ? spell.getConcentration() : null; 
-		description = Compendium.removeHtml(spell.getDescription().replace("</p>", "\n"));
+		concentration = spell.getConcentration() ? spell.getConcentration() : null;
+		description = Compendium.removeHtml(spell.getDescription().replace("</p>", " "));
 		higherLevel = spell.getUpperLevel() == null ? null : Compendium.removeHtml(spell.getUpperLevel());
 
 		if (description.contains("атаку заклинанием")) {
@@ -56,8 +56,13 @@ public class Spell {
 				save = new Save(spell, description);
 			}
 		}
-		if (description.contains("восстанавливает количество хитов") || description.contains("восстанавливают хиты в количестве")) {
-			
+		if (description.contains("восстанавливает количество хитов")
+				|| description.contains("восстанавливают хиты в количестве")
+				|| description.contains("Цель восстанавливает ")) {
+			heal = new Heal(spell, description);
+		}
+		if (spell.getEnglishName().equalsIgnoreCase("heal")) {
+			heal = new Heal(70);
 		}
 	}
 }
