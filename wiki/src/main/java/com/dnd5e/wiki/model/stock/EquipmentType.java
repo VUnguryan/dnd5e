@@ -36,6 +36,7 @@ public enum EquipmentType {
 	EXOTIC_WEAPON("Экзотическое оружие"),
 	MELE_WAPON("Рукопашное оружие"), 
 	RANGE_WAPON("Дальнобойное оружие"),
+	FIRE_WEAPON("Огнестрельное оружие"),
 	AMMUNITION("Боеприпасы"),
 	SHIELD("Щит"),
 

@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EquipmentDto {
 	private String name;
+	private String englishName;
 	private String cost;
 	private String weight;
 	private String description;
@@ -22,6 +23,7 @@ public class EquipmentDto {
 	
 	public EquipmentDto(Equipment equipment) {
 		name = equipment.getName();
+		englishName = equipment.getEnglishName();
 		if (equipment.getCost() == null) {
 			cost = "&mdash;";
 		}

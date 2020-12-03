@@ -28,6 +28,7 @@ tr.shown td.details-control {
  							<th title="Вес в фунтах">Вес</th> 
  							<th>Категория</th> 
 							<th>Источник</th>
+							<th>EnglishName</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -77,6 +78,10 @@ tr.shown td.details-control {
 						    searchable: false,
 						},
 						{
+							data : "englishName",
+							width : "10%",
+						},
+						{
 							data : "book",
 							width : "10%",
 						    searchable: false,
@@ -98,7 +103,10 @@ tr.shown td.details-control {
 			                targets : [4],
 			                visible : false
 			            },
-
+			            {
+			                targets : [5],
+			                visible : false
+			            },
 				    ],
 				    buttons: [
 			        	'searchPanes',
@@ -115,7 +123,7 @@ tr.shown td.details-control {
 			                    {
 			                        text: 'Источник',
 			                        action: function ( e, dt, node, config ) {
-			                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
+			                            dt.column( 5 ).visible( ! dt.column( 5 ).visible() );
 			                        }
 			                    },
 			                ]

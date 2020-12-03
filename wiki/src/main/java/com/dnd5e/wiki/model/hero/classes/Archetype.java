@@ -1,6 +1,5 @@
 package com.dnd5e.wiki.model.hero.classes;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,7 +30,9 @@ public class Archetype {
 	private String name;
 	@Column(columnDefinition = "TEXT")
 	private String description;
-
+	
+	private byte level;
+	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;
 
@@ -42,7 +43,7 @@ public class Archetype {
 	@OneToMany
 	@JoinColumn(name = "archetype_id")
 	private List<ArchetypeSpell> spells;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;

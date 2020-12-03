@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
-import com.dnd5e.wiki.model.creature.DamageType;
 
 import lombok.Data;
 
@@ -28,6 +27,7 @@ public class Equipment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String englishName;
 	private Integer cost;
 	
 	@Enumerated(EnumType.ORDINAL)

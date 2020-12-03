@@ -34,22 +34,24 @@ tbody .hiddenRow {
 	border-color: #AEFF5E;
 }
 .card-header {
-	background-color: #FFD39B;
+	background-color: #F2DCBB;
 }
 .card-title {
-	background-color: #EEC591;
+	color: #A12000;
+	background-color: #FDF1DF;
 }
 .card-body {
-	background-color: #FFE4C4;
+	background-color: #FDF1DF;
 }
 .card-deck {
-	background-color: #FFE4C4;
+	background-color: #FDF1DF;
 }
 .blockquote-foote {
 	background-color: #FFFAF0;
 }
 .list-group-item {
-	background-color: #FFE4C4; img { width : 40%;
+	background-color: #FDF1DF; 
+	img { width : 40%;
 	float: left;
 }
 html {

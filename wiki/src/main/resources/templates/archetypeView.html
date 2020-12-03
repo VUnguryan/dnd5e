@@ -42,13 +42,13 @@ tr.shown td.details-control {
 		<div class="card">
 			<h5 class="card-header">
 				<th:block th:text="*{name}" />
-				<small th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
+				<small class="text-muted" th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small><br><small><a th:href="|#ad${selectedArchetypeId}|" class ="text-secondary" th:text="${archetypeName}"></a></small>
 			</h5>
 			<div class="tab-content" id="classTabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 					<div class="card-body">
 						<h5 class="card-title text-center" th:text="*{archetypeName}">архетипы</h5>
-						<th:block th:each="archetype : *{archetypes}">
+						<th:block th:each="archetype : ${archetypes}">
 							<a class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-secondary" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
 								th:text="${archetype.name}"
 							></a>
@@ -106,23 +106,15 @@ tr.shown td.details-control {
 										<tr th:each="level : ${#numbers.sequence(1, 20)}" align="center">
 											<td align="center" th:text="${level}" />
 											<td align="center" th:text="${'+' + levelDef[level]}" />
-											<td><th:block th:each="trait : ${heroClass.getTraits(level)}">
+											<td><th:block th:each="trait, iterStat : ${heroClass.getTraits(level)}">
 													<th:block th:if=${trait.architype}>
-														<div class="dropdown">
-															<a class="dropdown-toggle" href="#" role="button" id="archetypeMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${trait.name.toLowerCase() + ' ' }"></a>
-															<div class="dropdown-menu" aria-labelledby="archetypeMenu">
-																<a th:each="architypeTrait : ${heroClass.getArhitypeTraitNames(level)}"
-																	th:text="${#strings.toLowerCase(architypeTrait.name) + ' (' + #strings.capitalize(#strings.toLowerCase(architypeTrait.archetype.name))+')'}" class="dropdown-item"
-																	th:href="${'#a'+architypeTrait.id}"
-																></a>
-															</div>
-														</div>
+														<a th:each="architypeTrait, iterStat : ${heroClass.getArhitypeTraitNames(level)}" th:text="${iterStat.last} ? ${#strings.toLowerCase(architypeTrait.name)} : ${#strings.toLowerCase(architypeTrait.name)} + ', '" th:href="|#a${architypeTrait.id}|"></a>
 													</th:block>
-													<a th:unless=${trait.architype} th:href="${'#c' + trait.id}" th:utext="${trait.name.toLowerCase() + '<br>' }"></a>
+													<a th:unless=${trait.architype} th:href="|#c${trait.id}|" th:utext="${iterStat.last} ? ${trait.name.toLowerCase()} : ${trait.name.toLowerCase()} + ', '"></a>
 												</th:block></td>
 											<td th:each="featureLevel : *{featureLevelDefenitions}" th:with="byLevel = ${featureLevel.getByLevel(level)}"><th:block th:if="${featureLevel.prefix ne null and byLevel gt 0}"
 													th:text="${featureLevel.prefix}"
-												/><th:block th:if="${byLevel gt 0}" th:text="${byLevel}" /><th:block th:if="${byLevel eq 0}" th:text="'—'" /><th:block th:if="${byLevel eq -1}" th:text="'Неограниченно'" /><th:block
+												/> <th:block th:if="${byLevel gt 0}" th:text="${byLevel}" /> <th:block th:if="${byLevel eq 0}" th:text="'—'" /> <th:block th:if="${byLevel eq -1}" th:text="'Неограниченно'" /> <th:block
 													th:if="${featureLevel.sufix ne null and byLevel gt 0}" th:text="${featureLevel.sufix}"
 												/></td>
 											<th:block th:unless="*{levelDefenitions.empty}">
@@ -146,53 +138,11 @@ tr.shown td.details-control {
 						<h5 class="card-header">Умения</h5>
 						<div class="card-body">
 							<th:block th:each="feature : ${features}">
-								<h5 class="card-title mb-0" th:text="${feature.name}" th:id="${'c'+feature.id}"></h5>
-								<h6 class="card-text text-secondary mb-0" th:text="${feature.type}"></h6>
-								<hr class ="mb-0 mt-1" color="#A12000"/>
-								<p class="card-text mb-0" th:utext="${feature.description}" />
+								<h5 class="card-title mb-0" th:text="${feature.name}" th:id="|${feature.prefix}${feature.id}|"></h5>
+								<h6 class="text-secondary mb-0" th:text="${feature.type}"></h6>
+								<hr class ="mb-0 mt-1" color="#A12000" />
+								<p class="card-text" th:utext="${feature.description}" />
 							</th:block>
-						</div>
-						<h5 class="card-header" th:text="*{archetypeName}"></h5>
-						<div class="card-body">
-							<div class="accordion" id="subClasses">
-								<div class="card" th:each="archetype : *{archetypes}">
-									<div class="card-header" th:id="${archetype.id}">
-										<h5 class="mb-0">
-											<img th:if="${session.settings != null and session.settings.homeRule and archetype.book.type.name() eq 'OFFICAL'}" th:src="@{/resources/official.png}" height="20" width="20"
-												title="офицальное"
-											>
-											<button class="btn btn-link" th:text="${archetype.name}" type="button" data-toggle="collapse" th:attr="data-target='#collapse'+ ${archetype.id}, aria-controls=${'collapse'+ archetype.id}"
-												aria-expanded="false"
-											></button>
-										</h5>
-									</div>
-									<div th:id="'collapse' + ${archetype.id}" class="collapse" th:attr="aria-labelledby=${archetype.id}" data-parent="#subClasses">
-										<div class="card-body">
-											<p th:utext="${archetype.description}"></p>
-											<table class="table-striped mx-auto" th:if=${!archetype.spells.isEmpty()}>
-												<thead>
-													<tr>
-														<th class="text-center">Уровень</th>
-														<th>Заклинания</th>
-													</tr>
-												</thead>
-												<tr th:each="element : ${archetype.levelSpells}">
-													<td class="text-center" th:text="${element.key}"></td>
-													<td><a th:href="@{'/hero/spells/spell/' + ${spell.id}}" th:each="spell, iterStat : ${element.value}"
-														th:text="${iterStat.last} ? ${#strings.toLowerCase(spell.name)} : ${#strings.toLowerCase(spell.name)} + ', '"
-													></a></td>
-												</tr>
-												<tbody>
-												</tbody>
-											</table>
-											<ul class="list-group list-group-flush">
-												<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5 th:id="${'f'+feat.name}" class="card-title" th:text="${feat.name}" /></h5> <th:block th:utext="${feat.description}"></th:block>
-											</ul>
-										</div>
-										<footer class="blockquote-footer" th:if="${archetype.book}" th:text="'Источник: ' + ${archetype.book.name}"></footer>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -349,7 +299,7 @@ tr.shown td.details-control {
 									if (type === 'display') {
 										if (data.includes('1 реакция'))
 										{
-											return '1 реакция';												
+											return '1 реакция';
 										}
 										return data;
 									}
