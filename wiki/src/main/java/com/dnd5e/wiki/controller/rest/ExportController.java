@@ -22,18 +22,17 @@ import com.dnd5e.wiki.controller.rest.model.json.Skill;
 import com.dnd5e.wiki.controller.rest.model.json.TraitJS;
 import com.dnd5e.wiki.controller.rest.model.json.etools.ETools;
 import com.dnd5e.wiki.controller.rest.model.json.etools.Monster;
-import com.dnd5e.wiki.controller.rest.model.json.shaped.HeroClass;
+import com.dnd5e.wiki.controller.rest.model.json.shaped.SHeroClass;
 import com.dnd5e.wiki.controller.rest.model.json.shaped.ShapedEntity;
-import com.dnd5e.wiki.controller.rest.model.json.shaped.Spell;
+import com.dnd5e.wiki.controller.rest.model.json.shaped.SSpell;
 import com.dnd5e.wiki.controller.rest.model.xml.Compendium;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
-import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.model.creature.CreatureFeat;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.SavingThrow;
 import com.dnd5e.wiki.model.creature.Condition;
 import com.dnd5e.wiki.repository.ArmorRepository;
-import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.BackgroundRepository;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
@@ -41,6 +40,7 @@ import com.dnd5e.wiki.repository.EquipmentRepository;
 import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 import com.dnd5e.wiki.repository.WeaponRepository;
+import com.dnd5e.wiki.repository.datatable.ArtifactRepository;
 import com.dnd5e.wiki.repository.datatable.TraitDatatableRepository;
 
 @RestController
@@ -191,7 +191,7 @@ public class ExportController {
 			jsonCreature.withSpeed(speeds);
 
 			List<TraitJS> traits = new ArrayList<>();
-			for (CreatureTrait feat : creature.getFeats()) {
+			for (CreatureFeat feat : creature.getFeats()) {
 				TraitJS trait = new TraitJS();
 				trait.withName(feat.getName()).withContent(feat.getDescription().replaceAll(HTML_REGEXP, ""));
 				traits.add(trait);
@@ -219,10 +219,10 @@ public class ExportController {
 	public ShapedEntity getShaped() {
 		ShapedEntity entity = new ShapedEntity();
 		entity.setMonsters(creatureRepo.findAll().stream()
-				.map(com.dnd5e.wiki.controller.rest.model.json.shaped.Monster::new)
+				.map(com.dnd5e.wiki.controller.rest.model.json.shaped.SMonster::new)
 				.collect(Collectors.toList()));
-		entity.setClasses(classRepo.findAll().stream().map(HeroClass::new).collect(Collectors.toList()));
-		entity.setSpells(spellRepo.findAll().stream().map(Spell::new).collect(Collectors.toList()));;
+		entity.setClasses(classRepo.findAll().stream().map(SHeroClass::new).collect(Collectors.toList()));
+		entity.setSpells(spellRepo.findAll().stream().map(SSpell::new).collect(Collectors.toList()));;
 		return entity;
 	}
 	

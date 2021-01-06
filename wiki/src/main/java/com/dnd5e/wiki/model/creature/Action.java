@@ -4,32 +4,34 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 
 @Entity
 @Table(name="action")
-@Data
 public class Action
 {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
   private String name;
-  
+
   @Column(columnDefinition = "TEXT")
   private String description;
-  
+
   @Enumerated(EnumType.ORDINAL)
   private ActionType actionType;
-  private Integer mwa;
-  private Integer rwa;
-  private Integer msa;
-  private Integer rsa;
-  @Enumerated(EnumType.STRING)
-  private DamageType damageType;
+
+  @OneToOne (fetch = FetchType.LAZY)
+  private ActionData actionData;
 }

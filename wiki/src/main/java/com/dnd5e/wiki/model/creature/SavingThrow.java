@@ -13,9 +13,10 @@ import com.dnd5e.wiki.model.AbilityType;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter @Setter
+
 @Entity
 @Table(name = "bonus_saving_throws")
-@Getter @Setter
 public class SavingThrow {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -45,7 +45,7 @@ public class ClassFetureDto {
 		}
 		prefix ="c";
 		type+= " уровень, умение класса " + StringUtils.capitalizeWords(className.toLowerCase());
-		order = 1;
+		order = 2;
 	}
 	
 	public ClassFetureDto(ArchetypeTrait feature, String archetypeName) {
@@ -72,6 +72,6 @@ public class ClassFetureDto {
 		}
 		prefix ="a";
 		type += " уровень, умение " + archetypeName;
-		order = 2;
+		order = 1;
 	}
 }

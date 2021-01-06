@@ -54,11 +54,12 @@ public class HeroClass {
 	@OneToMany()
 	@JoinColumn(name = "hero_class_id")
 	private List<FeatureLevelDefinition> featureLevelDefenitions;
-	
+
 	private byte diceHp;
 
 	private String armor;
 	private String weapon;
+	private String tools;
 	private String savingThrows;
 	private String archetypeName;
 	

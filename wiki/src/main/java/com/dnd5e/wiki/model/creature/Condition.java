@@ -18,7 +18,7 @@ public enum Condition {
 	DYING(-1,"смерть"), //2 
 	EVASIONS(-2, "уклонение"), //3
 	DEAFENED(5, "глухота", "оглохший"),  //4
-	EXHAUSTING(10, "истощение"), //5 
+	EXHAUSTION(10, "истощение"), //5 exhaustion
 	FRIGHTENED(2, "испуг", "страх", "испуган"), //6
 	GRAPPLED(15, "захват", "схваченный"), // 7
 	INCAPACITATED(4, "недееспособность"), //8
@@ -48,6 +48,6 @@ public enum Condition {
 	}
 	
 	public static Set<Condition> getImmunity() {
-		return EnumSet.of(BLINDED, CHARMED, DEAFENED,EXHAUSTING,FRIGHTENED, GRAPPLED, PARALYZED, PETRIFIED, POISONED, PRONE, RESTRAINED, STUNNED, UNCONSCIOUS);
+		return EnumSet.of(BLINDED, CHARMED, DEAFENED,EXHAUSTION,FRIGHTENED, GRAPPLED, PARALYZED, PETRIFIED, POISONED, PRONE, RESTRAINED, STUNNED, UNCONSCIOUS);
 	}
 }

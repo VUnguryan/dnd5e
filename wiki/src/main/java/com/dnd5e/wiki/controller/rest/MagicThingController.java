@@ -29,7 +29,7 @@ import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.treasure.MagicThing;
 import com.dnd5e.wiki.model.treasure.MagicThingType;
 import com.dnd5e.wiki.model.treasure.Rarity;
-import com.dnd5e.wiki.repository.ArtifactRepository;
+import com.dnd5e.wiki.repository.datatable.ArtifactRepository;
 
 @RestController
 public class MagicThingController {

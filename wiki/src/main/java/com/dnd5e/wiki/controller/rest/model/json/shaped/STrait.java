@@ -3,18 +3,18 @@ package com.dnd5e.wiki.controller.rest.model.json.shaped;
 import org.thymeleaf.util.StringUtils;
 
 import com.dnd5e.wiki.controller.rest.model.xml.Compendium;
-import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.model.creature.CreatureFeat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Trait {
+public class STrait {
 	private String name;
 	private String text;
 	private String recharge;
-	public Trait(CreatureTrait trait) {
+	public STrait(CreatureFeat trait) {
 		name = StringUtils.capitalize(trait.getName());
 		text = Compendium.removeHtml(trait.getDescription().replace("</p>"," "));
 		if (name.contains("(1/ход)")) {

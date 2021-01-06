@@ -10,14 +10,14 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Heal {
+public class SHeal {
 	private String heal;
 	private Integer bonus;
 	private Integer higherLevelAmount;
 	private Boolean castingStat;
 	private Integer higherLevelDice;
 	
-	public Heal(Spell spell, String description) {
+	public SHeal(Spell spell, String description) {
 		Pattern pattern = Pattern.compile("\\d+к\\d+");
 	    Matcher matcher = pattern.matcher(description);
 	    if (matcher.find()) {
@@ -42,7 +42,7 @@ public class Heal {
 	    }
 	}
 
-	public Heal(int value) {
+	public SHeal(int value) {
 		heal = String.valueOf(value);
 		higherLevelDice = 10;
 	}

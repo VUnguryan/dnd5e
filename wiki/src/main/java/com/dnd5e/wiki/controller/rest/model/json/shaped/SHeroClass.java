@@ -13,13 +13,13 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class HeroClass {
+public class SHeroClass {
 	private String name;
-	private List<Archetype> archetypes;
+	private List<SArchetype> archetypes;
 	private List<String> spells;
-	public HeroClass(com.dnd5e.wiki.model.hero.classes.HeroClass heroClass) {
+	public SHeroClass(com.dnd5e.wiki.model.hero.classes.HeroClass heroClass) {
 		name = heroClass.getEnglishName();
-		archetypes = heroClass.getArchetypes().stream().map(Archetype::new).collect(Collectors.toList());
+		archetypes = heroClass.getArchetypes().stream().map(SArchetype::new).collect(Collectors.toList());
 		spells = heroClass.getSpells().stream().map(Spell::getName).map(String::toLowerCase).map(StringUtils::capitalize).collect(Collectors.toList());
 	}
 }

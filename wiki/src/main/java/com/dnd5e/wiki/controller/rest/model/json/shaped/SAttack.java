@@ -12,12 +12,12 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Attack {
+public class SAttack {
 	private String type;
 	private String damage;
 	private String damageType;
 	private Integer higherLevelDice;
-	public Attack(Spell spell, String description) {
+	public SAttack(Spell spell, String description) {
 		if (description.toLowerCase().contains("дальнобойную атаку заклинанием")) {
 			type = "ranged";	
 		} else if(description.toLowerCase().contains("рукопашную атаку заклинанием")) {

@@ -2,6 +2,7 @@ package com.dnd5e.wiki.model.hero.classes;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.persistence.Column;
@@ -28,6 +29,8 @@ public class Archetype {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String englishName;
+
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	
@@ -51,7 +54,7 @@ public class Archetype {
 	
 	public Map<Integer, List<Spell>> getLevelSpells(){
 		return spells.stream()
-				.collect(Collectors.groupingBy(ArchetypeSpell::getLevel,
+				.collect(Collectors.groupingBy(ArchetypeSpell::getLevel, TreeMap::new,
 						Collectors.mapping(ArchetypeSpell::getSpell, Collectors.toList())));
 	}
 }

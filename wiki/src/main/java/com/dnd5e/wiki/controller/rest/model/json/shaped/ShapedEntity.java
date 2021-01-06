@@ -16,11 +16,11 @@ public class ShapedEntity {
 	private String version = "2.0.0";
 	
 	@JsonProperty("classes")
-	private List<HeroClass> classes; 
+	private List<SHeroClass> classes; 
 	
 	@JsonProperty("monsters")
-	private List<Monster> monsters;
+	private List<SMonster> monsters;
 	
 	@JsonProperty("spells")
-	private List<Spell> spells;
+	private List<SSpell> spells;
 }

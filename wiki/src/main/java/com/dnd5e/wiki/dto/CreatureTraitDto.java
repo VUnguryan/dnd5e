@@ -1,6 +1,6 @@
 package com.dnd5e.wiki.dto;
 
-import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.model.creature.CreatureFeat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ public class CreatureTraitDto {
 	private String description;
 	private boolean reverseIndent = false;
 
-	public CreatureTraitDto(CreatureTrait trait) {
+	public CreatureTraitDto(CreatureFeat trait) {
 		name = trait.getName();
 		description = trait.getDescription();
 		if (name.trim().startsWith("Колдовство") || name.trim().startsWith("Использование заклинаний")

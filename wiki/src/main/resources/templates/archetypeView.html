@@ -140,8 +140,26 @@ tr.shown td.details-control {
 							<th:block th:each="feature : ${features}">
 								<h5 class="card-title mb-0" th:text="${feature.name}" th:id="|${feature.prefix}${feature.id}|"></h5>
 								<h6 class="text-secondary mb-0" th:text="${feature.type}"></h6>
-								<hr class ="mb-0 mt-1" color="#A12000" />
+								<hr class="mb-0 mt-1" color="#A12000" />
 								<p class="card-text" th:utext="${feature.description}" />
+								<div th:if="${feature.prefix eq 'ad'}">
+									<table class="table-striped mx-auto" th:unless=${selectedArchetype.spells.isEmpty()}>
+										<thead>
+											<tr>
+												<th class="text-center">Уровень</th>
+												<th>Заклинания</th>
+											</tr>
+										</thead>
+										<tr th:each="element : ${selectedArchetype.levelSpells}">
+											<td class="text-center" th:text="${element.key}"></td>
+											<td><a th:href="@{'/hero/spells/spell/' + ${spell.id}}" th:each="spell, iterStat : ${element.value}"
+												th:text="${iterStat.last} ? ${#strings.toLowerCase(spell.name)} : ${#strings.toLowerCase(spell.name)} + ', '"
+											></a></td>
+										</tr>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
 							</th:block>
 						</div>
 					</div>

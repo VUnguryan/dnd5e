@@ -7,12 +7,12 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Components {
+public class SComponents {
 	private Boolean verbal;
 	private Boolean somatic;
 	private Boolean material;
 	private String materialMaterial;
-	public Components(Spell spell) {
+	public SComponents(Spell spell) {
 		if (spell.getVerbalComponent()) {
 			verbal = true;
 		}

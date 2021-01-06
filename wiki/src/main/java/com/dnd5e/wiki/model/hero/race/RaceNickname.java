@@ -40,7 +40,8 @@ public class RaceNickname {
 		NICKNAME("по прозвищу"),
 		HOUSE("из дома"),
 		SQUAD("из отряда"),
-		TRIBE("из племени");
+		TRIBE("из племени"),
+		FROM("из");
 		private String name;
 	}
 }

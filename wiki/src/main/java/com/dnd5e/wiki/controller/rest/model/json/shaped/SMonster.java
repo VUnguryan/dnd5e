@@ -20,7 +20,7 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Monster {
+public class SMonster {
 	private String name;
 	private String size;
 	private String type;
@@ -49,16 +49,16 @@ public class Monster {
 	private List<String> environments;
 	
 	@JsonProperty("traits")
-	private List<Trait> traits;
+	private List<STrait> traits;
 	@JsonProperty("actions")
-	private List<Action> actions;
+	private List<SAction> actions;
 	@JsonProperty("reactions")
-	private List<Action> reactions;
+	private List<SAction> reactions;
 	
 	@JsonProperty("legendaryActions")
-	private List<Action> legendaryActions;
+	private List<SAction> legendaryActions;
 	
-	public Monster(Creature creature) {
+	public SMonster(Creature creature) {
 		name = creature.getName();
 		size = StringUtils.capitalize(creature.getSize().name().toLowerCase());
 		type = creature.getType().getCyrilicName();
@@ -117,16 +117,16 @@ public class Monster {
 			challenge = Float.valueOf(creature.getChallengeRating());	
 		}
 		
-		traits = creature.getFeats().isEmpty() ? null : creature.getFeats().stream().map(Trait::new).collect(Collectors.toList());
+		traits = creature.getFeats().isEmpty() ? null : creature.getFeats().stream().map(STrait::new).collect(Collectors.toList());
 		if (creature.getActions().stream().anyMatch(a -> a.getActionType() == ActionType.ACTION)) {
-			actions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.ACTION).map(Action::new).collect(Collectors.toList());			
+			actions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.ACTION).map(SAction::new).collect(Collectors.toList());			
 		}
 		if (creature.getActions().stream().anyMatch(a -> a.getActionType() == ActionType.REACTION)) {
-			reactions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.REACTION).map(Action::new).collect(Collectors.toList());			
+			reactions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.REACTION).map(SAction::new).collect(Collectors.toList());			
 		}
 		if (creature.getActions().stream().anyMatch(a -> a.getActionType() == ActionType.LEGENDARY)) {
 			legendaryPoints = 3;
-			legendaryActions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.LEGENDARY).map(Action::new).collect(Collectors.toList());
+			legendaryActions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.LEGENDARY).map(SAction::new).collect(Collectors.toList());
 		}
 	}
 }

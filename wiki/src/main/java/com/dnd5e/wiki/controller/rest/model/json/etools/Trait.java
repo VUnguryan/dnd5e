@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.dnd5e.wiki.controller.rest.model.xml.Compendium;
-import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.model.creature.CreatureFeat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -25,7 +25,7 @@ public class Trait {
 	@JsonProperty("entries")
 	private List<String> entries = null;
 	
-	public Trait(CreatureTrait trait) {
+	public Trait(CreatureFeat trait) {
 		name = trait.getName();
 		entries = Arrays.stream(trait.getDescription().split("<p>"))
 				.filter(Objects::nonNull)

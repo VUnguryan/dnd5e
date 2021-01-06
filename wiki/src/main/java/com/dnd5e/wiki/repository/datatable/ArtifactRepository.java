@@ -1,4 +1,4 @@
-package com.dnd5e.wiki.repository;
+package com.dnd5e.wiki.repository.datatable;
 
 import java.util.List;
 

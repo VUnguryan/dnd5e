@@ -1,12 +1,19 @@
 package com.dnd5e.wiki.dto;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.thymeleaf.util.StringUtils;
 
 import com.dnd5e.wiki.dto.user.HeroClassDto;
 import com.dnd5e.wiki.model.creature.DamageType;
+import com.dnd5e.wiki.model.hero.classes.Archetype;
+import com.dnd5e.wiki.model.hero.classes.ArchetypeSpell;
+import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Getter;
@@ -35,6 +42,7 @@ public class SpellDto {
 	private String book;
 	private String damageType;
 	private List<HeroClassDto> heroClass;
+	private List<ArchitypeDto> subClass;
 	private String englishName;
 	private Boolean consumable = false;
 	

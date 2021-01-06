@@ -25,7 +25,7 @@ import com.dnd5e.wiki.model.creature.Alignment;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureRace;
 import com.dnd5e.wiki.model.creature.CreatureSize;
-import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.model.creature.CreatureFeat;
 import com.dnd5e.wiki.model.creature.CreatureType;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Dice;
@@ -52,7 +52,6 @@ import com.dnd5e.wiki.model.treasure.MagicThingType;
 import com.dnd5e.wiki.model.treasure.Rarity;
 import com.dnd5e.wiki.repository.ArchetypeRepository;
 import com.dnd5e.wiki.repository.ArmorRepository;
-import com.dnd5e.wiki.repository.ArtifactRepository;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.CreatureRaceRepository;
 import com.dnd5e.wiki.repository.CreatureRepository;
@@ -61,6 +60,7 @@ import com.dnd5e.wiki.repository.HeroClassFeatRepository;
 import com.dnd5e.wiki.repository.LanguagesRepository;
 import com.dnd5e.wiki.repository.PlaceRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
+import com.dnd5e.wiki.repository.datatable.ArtifactRepository;
 import com.dnd5e.wiki.repository.datatable.GodDatatableRepository;
 
 @Controller
@@ -527,8 +527,8 @@ public class AdminController {
 			creature.setExp(Integer.valueOf(crAndExp[1].replaceAll("[^0-9]", "").trim()));
 
 			// Фиты
-			CreatureTrait feat = new CreatureTrait();
-			List<CreatureTrait> feats = new ArrayList<>();
+			CreatureFeat feat = new CreatureFeat();
+			List<CreatureFeat> feats = new ArrayList<>();
 			boolean newFeet = true;
 			do {
 				skillText = reader.readLine();
@@ -560,7 +560,7 @@ public class AdminController {
 				if (skillText.endsWith(".")) {
 					feat.setDescription(description);
 					feats.add(feat);
-					feat = new CreatureTrait();
+					feat = new CreatureFeat();
 					newFeet = true;
 				}
 			} while (!skillText.trim().equals("Действия"));

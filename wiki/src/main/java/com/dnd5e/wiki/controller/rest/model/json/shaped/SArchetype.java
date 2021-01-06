@@ -10,10 +10,10 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Archetype {
+public class SArchetype {
 	private String name;
 	private List<String> spells;
-	public Archetype(com.dnd5e.wiki.model.hero.classes.Archetype archetype) {
+	public SArchetype(com.dnd5e.wiki.model.hero.classes.Archetype archetype) {
 		name = StringUtils.capitalize(archetype.getName().toLowerCase());
 	}
 }

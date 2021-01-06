@@ -15,9 +15,11 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dnd5e.wiki.controller.rest.model.json.foundary.FCreature;
 import com.dnd5e.wiki.controller.rest.paging.Item;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
@@ -120,6 +122,14 @@ public class CreatureRestController {
 		SearchPanesOutput<CreatureDto> spOutput = new SearchPanesOutput<>(output);
 		spOutput.setSearchPanes(sPanes);
 		return spOutput;
+	}
+	
+	@GetMapping("/creatures/{id}")
+	public FCreature getCreature(@PathVariable Integer id)
+	{
+		Creature creature = repo.findById(id).get();
+		FCreature fcreature = new FCreature(creature);
+		return fcreature;
 	}
 	
 	private Item<Float> convertCr(GroupByCount<String> group) {

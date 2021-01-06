@@ -11,12 +11,12 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Action {
+public class SAction {
 	private String name;
 	private String text;
 	private String recharge;
 	private Byte cost;
-	public Action(com.dnd5e.wiki.model.creature.Action action) {
+	public SAction(com.dnd5e.wiki.model.creature.Action action) {
 		name = action.getName();
 		text = Compendium.removeHtml(action.getDescription().replace("</p>"," "));
 		text = text.replaceAll("Рукопашная атака оружием\\s?:", "Melee Weapon Attack:");

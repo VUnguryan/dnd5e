@@ -478,14 +478,25 @@ tr.shown td.details-control {
 			 if (d.upperLevel) {
 				 info += '<p><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</p>';
 			 }
-        	 info += '<p><strong>Классы:</strong> ';
         	 info+= '<div class="btn-group" role="group">'
+             info += '<p><strong>Классы:</strong> ';
         	 for (var hclass in d.heroClass){
         		 info += '<a class="btn btn-outline-secondary btn-sm"  href="/hero/classes/class/' + d.heroClass[hclass].id + '">'; 
         		 info += '<img src="/resources/classes/' + d.heroClass[hclass].id + '.png" title="' + d.heroClass[hclass].name + '" height="25" width="25" /> </a>';
         	 }
-        	 info+= '</div>';
+        	 info+= '</div> ';
         	 info += '</p>';
+        	 if (d.subClass.length > 0)  {
+            	 info+= '<div class="btn-group" role="group">'
+                 info += '<p><strong>Подклассы:</strong> ';
+                 for (var sub in d.subClass){
+               		 info += '<a class="btn btn-outline-secondary btn-sm"  href="/hero/classes/class/' + d.subClass[sub].classId + '/archetype/'+ d.subClass[sub].architypeId + '">';
+               		 info += '<img src="/resources/classes/' + d.subClass[sub].classId + '.png" " height="25" width="25" />';
+               		 info += d.subClass[sub].architypeName + '</a> ';
+               	 }
+               	 info+= '</div>';
+               	 info += '</p>';
+        	 }
         	 info += '<a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a>';
 			 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
 		    return info; 

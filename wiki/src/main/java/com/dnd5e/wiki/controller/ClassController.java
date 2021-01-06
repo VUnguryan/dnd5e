@@ -109,6 +109,7 @@ public class ClassController {
 		model.addAttribute("heroClass", heroClass);
 		model.addAttribute("features", features);
 		model.addAttribute("selectedArchetypeId", archetypeId);
+		model.addAttribute("selectedArchetype", archetype);
 		model.addAttribute("order", "[[ 1, 'asc' ]]");
 		return "archetypeView";
 	}

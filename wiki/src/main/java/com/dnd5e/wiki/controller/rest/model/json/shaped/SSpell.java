@@ -10,13 +10,13 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Spell {
+public class SSpell {
 	private String name;
 	private byte level;
 	private String school;
 	private Boolean ritual;
 	@JsonProperty("components")
-	private Components components;
+	private SComponents components;
 
 	private String castingTime;
 	private String range;
@@ -27,13 +27,13 @@ public class Spell {
 
 	private String higherLevel;
 	@JsonProperty("save")
-	private Save save;
+	private SSave save;
 	@JsonProperty("attack")
-	private Attack attack;
+	private SAttack attack;
 	@JsonProperty("heal")
-	private Heal heal;
+	private SHeal heal;
 
-	public Spell(com.dnd5e.wiki.model.spell.Spell spell) {
+	public SSpell(com.dnd5e.wiki.model.spell.Spell spell) {
 		name = StringUtils.capitalize(spell.getName().toLowerCase());
 		level = spell.getLevel();
 		school = StringUtils.capitalize(spell.getSchool().name().toLowerCase());
@@ -42,27 +42,27 @@ public class Spell {
 		}
 		castingTime = spell.getTimeCast();
 		range = spell.getDistance();
-		components = new Components(spell);
+		components = new SComponents(spell);
 		duration = spell.getDuration();
 		concentration = spell.getConcentration() ? spell.getConcentration() : null;
 		description = Compendium.removeHtml(spell.getDescription().replace("</p>", " "));
 		higherLevel = spell.getUpperLevel() == null ? null : Compendium.removeHtml(spell.getUpperLevel());
 
 		if (description.contains("атаку заклинанием")) {
-			attack = new Attack(spell, description);
+			attack = new SAttack(spell, description);
 		} else if (description.contains("спасброс")) {
-			Save s = new Save(spell, description);
+			SSave s = new SSave(spell, description);
 			if (s.getAbility() != null) {
-				save = new Save(spell, description);
+				save = new SSave(spell, description);
 			}
 		}
 		if (description.contains("восстанавливает количество хитов")
 				|| description.contains("восстанавливают хиты в количестве")
 				|| description.contains("Цель восстанавливает ")) {
-			heal = new Heal(spell, description);
+			heal = new SHeal(spell, description);
 		}
 		if (spell.getEnglishName().equalsIgnoreCase("heal")) {
-			heal = new Heal(70);
+			heal = new SHeal(70);
 		}
 	}
 }

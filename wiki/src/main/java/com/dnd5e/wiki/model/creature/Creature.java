@@ -60,6 +60,7 @@ public class Creature {
 
 	@Column(nullable = false)
 	private byte AC;
+	private String bonusAC;
 
 	@ElementCollection
 	@Enumerated(EnumType.STRING)
@@ -140,7 +141,7 @@ public class Creature {
 	private List<Language> languages;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<CreatureTrait> feats;
+	private List<CreatureFeat> feats;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Action> actions;
@@ -212,7 +213,13 @@ public class Creature {
 		}
 		return String.format("%d (%d%s + %d)", averageHp, countDiceHp, diceHp.name(), bonusHP);
 	}
-
+	public String getHpFormula() {
+		if (bonusHP == null) {
+			return String.format("%d%s", countDiceHp, diceHp.name());
+		}
+		return String.format("%d%s+%d", countDiceHp, diceHp.name(), bonusHP);
+	}
+	
 	public String getSense() {
 		List<String> sense = new ArrayList<String>(5);
 		if (blindsight != null) {
@@ -274,8 +281,8 @@ public class Creature {
 				+ (climbingSpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">лазая</a> %d фт.", climbingTittle, climbingSpeed));
 	}
 	
-	private static final String flyTittle = "Чудовище, имеющее скорость полёта, может использовать часть или всё передвижение для полёта.";
-	private static final String swimTittle = "Чудовище, имеющее скорость плавания, не тратит дополнительное движение при плавании.";
-	private static final String climbingTittle = "Чудовище, имеющее скорость лазания, может использовать часть или всё передвижение для перемещения по вертикальным поверхностям. Чудовищу нет необходимости тратить дополнительное движение для лазания.";
-	private static final String giggingTittle = "Чудовище, имеющее скорость копания, может использовать её для передвижения через песок, землю, грязь или лёд. Чудовище не может копать сквозь камень, если у него нет особого умения, позволяющего делать это.";
+	private static final String flyTittle = "Существо, имеющее скорость полёта, может использовать часть или всё передвижение для полёта.";
+	private static final String swimTittle = "Существо, имеющее скорость плавания, не тратит дополнительное движение при плавании.";
+	private static final String climbingTittle = "Существо, имеющее скорость лазания, может использовать часть или всё передвижение для перемещения по вертикальным поверхностям. Чудовищу нет необходимости тратить дополнительное движение для лазания.";
+	private static final String giggingTittle = "Существо, имеющее скорость копания, может использовать её для передвижения через песок, землю, грязь или лёд. Чудовище не может копать сквозь камень, если у него нет особого умения, позволяющего делать это.";
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dnd5e.wiki.controller.rest.paging.Item;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
+import com.dnd5e.wiki.dto.ArchitypeDto;
 import com.dnd5e.wiki.dto.SpellDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.Book;
@@ -29,6 +31,7 @@ import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
+import com.dnd5e.wiki.repository.ArchetypeSpellRepository;
 import com.dnd5e.wiki.repository.datatable.SpellDatatableRepository;
 
 /**
@@ -44,6 +47,9 @@ public class SpellRestController {
 	
 	@Autowired
 	private SpellDatatableRepository repo;
+	
+	@Autowired
+	private ArchetypeSpellRepository aSpellRepo; 
 	
 	@GetMapping("/spells")
 	public DataTablesOutput<SpellDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
@@ -114,7 +120,7 @@ public class SpellRestController {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
 		output = repo.findAll(input, null, specification, SpellDto::new);
-		
+		output.getData().forEach(s -> s.setSubClass(aSpellRepo.findAllBySpellId(s.getId()).stream().map(ArchitypeDto::new).collect(Collectors.toList())));
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
 

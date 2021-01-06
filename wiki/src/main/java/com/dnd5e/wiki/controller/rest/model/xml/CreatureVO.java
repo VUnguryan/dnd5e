@@ -16,7 +16,7 @@ import org.thymeleaf.util.StringUtils;
 import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.ArmorType;
 import com.dnd5e.wiki.model.creature.Creature;
-import com.dnd5e.wiki.model.creature.CreatureTrait;
+import com.dnd5e.wiki.model.creature.CreatureFeat;
 import com.dnd5e.wiki.model.creature.HabitatType;
 
 @XmlRootElement(name = "monster")
@@ -145,7 +145,7 @@ public class CreatureVO {
 				.map(a -> new Legendary(a.getName(), Compendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		//this.description = Conpendium.removeHtml(creature.getDescription());
-		for (CreatureTrait trait : creature.getFeats()) {
+		for (CreatureFeat trait : creature.getFeats()) {
 			if (trait.getName().contains("Колдовство") || trait.getName().contains("колдовство")
 					|| trait.getName().contains("Использование заклинаний") || trait.getName().contains("Колдовство")) {
 				String descr = Compendium.removeHtml(trait.getDescription());

@@ -12,7 +12,7 @@ import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
-public class Save {
+public class SSave {
 	private String ability;
 	private String damage;
 	private String damageType;
@@ -21,7 +21,7 @@ public class Save {
 
 	private String saveSuccess;
 
-	public Save(Spell spell, String description) {
+	public SSave(Spell spell, String description) {
 		if (!spell.getDamageType().isEmpty())
 		{
 			damageType = spell.getDamageType().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));			
