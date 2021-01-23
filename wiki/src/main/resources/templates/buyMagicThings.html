@@ -43,6 +43,8 @@
 				<input id="thingPrice" type="text" class="form-control" disabled value="10 зм." /> <input id="thingRollPrice" type="text" class="form-control" disabled value="" />
 			</div>
 		</div>
+		<a href="#baymt" data-toggle="modal" data-target="#baymt">Руководство по покупке магических предметов</a> (из Руководства Занатар обо всем)
+		<div th:insert="fragments/downtime :: baymt"></div>
 	</div>
 </body>
 <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>

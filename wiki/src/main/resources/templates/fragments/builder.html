@@ -7,7 +7,7 @@
 		<a class="btn" th:classappend = "${select eq 'start' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_start'}">Начало</a>
 		<a class="btn" th:classappend = "${select eq 'race' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_selectRace'}">1. Раса</a>
 		<a class="btn" th:classappend = "${select eq 'class' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_selectClass'}">2. Класс</a>
-		<a class="btn" th:classappend = "${select eq 'ability' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_selectAbility'}">3. Храктеристики</a>
+		<a class="btn" th:classappend = "${select eq 'ability' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_selectAbility'}">3. Характеристики</a>
 		<a class="btn" th:classappend = "${select eq 'description' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_selectDescription'}">4. Описание</a>
 		<a class="btn" th:classappend = "${select eq 'equipment' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_selectEquipment'}">5. Снаряжение</a>
 		<a class="btn" th:classappend = "${select eq 'finish' ? 'btn-dark' : 'btn-outline-dark'}" th:href="@{'~' + ${flowExecutionUrl} + '&_eventId_finish'}">Завершение</a>

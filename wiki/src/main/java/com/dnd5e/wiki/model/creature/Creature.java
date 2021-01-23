@@ -27,7 +27,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Описание существа
+ * Существо
  */
 @Entity
 @Table(name = "creatures")
@@ -44,6 +44,7 @@ public class Creature {
 	private Integer id;
 	@Column(nullable = false)
 	private String name;
+	private String altName;
 	private String englishName;
 
 	@Enumerated(EnumType.ORDINAL)

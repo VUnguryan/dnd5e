@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.hero.race.Race;
 import com.dnd5e.wiki.repository.RaceRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @Controller
 @RequestMapping("/hero/races")
@@ -35,12 +37,11 @@ public class RaceController {
 	@GetMapping
 	public String getRaces(Model model) {
 		List<Race> races = repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name"));
-		Setting settings = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
-		if (settings == null || !settings.isHomeRule()) {
-			races = races.stream()
-					.filter(r -> r.getBook().getType() == TypeBook.OFFICAL)
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		races = races.stream()
+					.filter(r -> sources.contains(r.getBook().getType()))
 					.collect(Collectors.toList());
-		}
 		model.addAttribute("races", races);
 		return "hero/races";
 	}

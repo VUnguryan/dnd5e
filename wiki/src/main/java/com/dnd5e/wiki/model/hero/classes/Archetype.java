@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.spell.Spell;
 
@@ -29,6 +30,8 @@ public class Archetype {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String genitiveName;
+
 	private String englishName;
 
 	@Column(columnDefinition = "TEXT")
@@ -56,5 +59,13 @@ public class Archetype {
 		return spells.stream()
 				.collect(Collectors.groupingBy(ArchetypeSpell::getLevel, TreeMap::new,
 						Collectors.mapping(ArchetypeSpell::getSpell, Collectors.toList())));
+	}
+	
+	public boolean isOfficial() {
+		return book.getType() != null && book.getType() == TypeBook.OFFICAL;  
+	}
+
+	public boolean isSetting() {
+		return book.getType() != null && book.getType() == TypeBook.SETTING;
 	}
 }

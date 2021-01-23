@@ -8,5 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Setting {
+	private boolean baseRule = true;
+	private boolean setting;
+	private boolean module;
 	private boolean homeRule;
 }

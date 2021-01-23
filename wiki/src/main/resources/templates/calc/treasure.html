@@ -1,0 +1,78 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title>Генератор сокровищницы</title>
+</head>
+<body>
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
+		<div class="card">
+			<div class="card-body">
+				<form method="post">
+					<div class="form-group row">
+						<label for="result" class="col-sm-4 col-form-label">Показатель опасности</label> <select class="form-control" id="cr" name="cr">
+							<option value="1" th:selected="${cr eq 1}">0-4</option>
+							<option value="2" th:selected="${cr eq 2}">5-10</option>
+							<option value="3" th:selected="${cr eq 3}">11-15</option>
+							<option value="4" th:selected="${cr eq 4}">17+</option>
+						</select>
+					</div>
+					<button class="btn btn-outline-secondary" type="submit" id="calc">Найти сокровища</button>
+				</form>
+			</div>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>мм</th>
+					<th>см</th>
+					<th>эм</th>
+					<th>зм</th>
+					<th>пм</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td th:text="${coper}"></td>
+					<td th:text="${silver}"></td>
+					<td th:text="${electrum}"></td>
+					<td th:text="${gold}"></td>
+					<td th:text="${platina}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<th:block th:if="${treasures}">
+			<th:block th:unless="${treasures.empty}">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Тип</th>
+							<th>Камни и предметы исскуства</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="treasure : ${treasures}">
+							<td th:text="${treasure.type.name}"></td>
+							<td th:text="${treasure.name}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</th:block>
+		</th:block>
+		<th:block th:unless="${things.empty}">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Редкость</th>
+						<th>Магический Предмет</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="thing : ${things}">
+						<td th:text="${thing.rarity}"></td>
+						<td th:text="${thing.name}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</th:block>
+	</div>
+</body>
+</html>

@@ -12,6 +12,7 @@ import lombok.ToString;
 public enum TypeBook {
 	OFFICAL("официальное"),
 	MODULE("приключение"),
+	SETTING("сеттинг"),
 	CUSTOM("хомрул");
 
 	private String name;

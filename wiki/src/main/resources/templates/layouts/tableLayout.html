@@ -10,6 +10,7 @@
 <link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.bootstrap4.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
@@ -29,6 +30,7 @@
 	<div layout:fragment="content">
 		<h1>Добавь контент</h1>
 	</div>
+	<div layout:fragment="backToTop"></div>
 	<footer th:insert="fragments/footer :: footer" class="footer">Это подвал, он же футтер, он же Гога</footer>
 	<script th:src="@{/resources/js/settings.js}"></script>
 	<script layout:fragment="datatable"></script>

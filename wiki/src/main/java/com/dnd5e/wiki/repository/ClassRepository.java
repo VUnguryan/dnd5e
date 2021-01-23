@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 
 @Repository
@@ -15,4 +16,7 @@ public abstract interface ClassRepository extends JpaRepository<HeroClass, Integ
 	List<HeroClass> findBySpellName(@Param("spellName") String paramString);
 
 	List<HeroClass> findByNameContaining(String paramString);
+
+	@Query("SELECT c FROM HeroClass c WHERE c.book.type IN :types")
+	List<HeroClass> findAllBySources(@Param("types") Iterable<TypeBook> types);
 }

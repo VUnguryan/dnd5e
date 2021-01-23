@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.dnd5e.wiki.model.Book;
 
+@Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
 	@Query(value = "SELECT distinct b.source, b.description, b.name, b.type FROM books b RIGHT JOIN spells s ON b.source = s.source", nativeQuery = true)
 	List<Book> finadAllByLeftJoinSpell();

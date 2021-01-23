@@ -4,12 +4,8 @@
 </style>
 <title>Боги</title>
 <style>
-img {
-	float: center;
-}
-.invert {
-	filter: invert(100%);
-	-webkit-filter: invert(100%) sepia(100%);
+p.text-justify {
+    text-indent: 15px; 
 }
 td.details-control {
 	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
@@ -200,15 +196,15 @@ tr.shown td.details-control {
 	});
 	function format ( d ) {
 		var info = '';
-		info += '<p><strong>Ранг: </strong>' + d.rank + ' ' + d.sex + '</p>';
+		info += '<p class="mb-1"><strong>Ранг: </strong>' + d.rank + ' ' + d.sex + '</p>';
 		if (d.nicknames) {
-			info += '<p><strong>Титулы: </strong>' + d.nicknames + '</p>'; 
+			info += '<p class="mb-1"><strong>Титулы: </strong>' + d.nicknames + '</p>'; 
 		}
 		if (d.symbol) {
-			info += '<p><strong>Символ: </strong>' + d.symbol + '</p>';
+			info += '<p class="mb-1"><strong>Символ: </strong>' + d.symbol + '</p>';
 		}
-		info += '<p><strong>Домены: </strong>' + d.domains + '</p>';
-		info += '<p><strong>Пантеон: </strong>' + d.pantheon + '</p>';
+		info += '<p class="mb-1"><strong>Домены: </strong>' + d.domains + '</p>';
+		info += '<p class="mb-1"><strong>Пантеон: </strong>' + d.pantheon + '</p>';
 		return info + d.description; 
 	}
 	</script>

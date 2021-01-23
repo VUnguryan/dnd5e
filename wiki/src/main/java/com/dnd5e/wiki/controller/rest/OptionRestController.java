@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -29,6 +30,7 @@ import com.dnd5e.wiki.model.hero.Option;
 import com.dnd5e.wiki.model.hero.Option.OptionType;
 import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.repository.datatable.OptionDatatableRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @RestController
 public class OptionRestController {
@@ -40,7 +42,8 @@ public class OptionRestController {
 
 	@GetMapping("/options")
 	public SearchPanesOutput<OptionDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
-		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
 
 		List<Book> filterBooks = new ArrayList<>();
 		for (int j = 0; j <= 21; j++) {
@@ -58,10 +61,7 @@ public class OptionRestController {
 				filterTypes.add(OptionType.parse(type));
 			}
 		}
-		Specification<Option> specification = null;
-		if (setting == null || !setting.isHomeRule()) {
-			specification = byOfficial();
-		}
+		Specification<Option> specification = bySources(sources);
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
@@ -86,11 +86,8 @@ public class OptionRestController {
 		return spOutput;
 	}
 
-	private Specification<Option> byOfficial() {
-		return (root, query, cb) -> {
-			Join<Book, Trait> hero = root.join("book", JoinType.LEFT);
-			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
-		};
+	private <T> Specification<T> bySources(Set<TypeBook> types) {
+		return (root, query, cb) -> root.get("book").get("type").in(types);
 	}
 
 	private <T> Specification<T> addSpecification(Specification<T> specification , Specification<T> addSpecification){

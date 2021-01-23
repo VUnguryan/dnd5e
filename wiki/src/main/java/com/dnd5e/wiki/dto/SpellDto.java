@@ -65,9 +65,9 @@ public class SpellDto {
 		consumable = spell.getConsumable();
 		description = spell.getDescription();
 		upperLevel = spell.getUpperLevel();
-		book = spell.getBook().getName() + (spell.getPage() != null ? ", стр. " + spell.getPage() : "");
 		damageType = spell.getDamageType().isEmpty() ? "" : spell.getDamageType().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
 		heroClass = spell.getHeroClass().stream().map(HeroClassDto::new).collect(Collectors.toList());
 		englishName = spell.getEnglishName();
+		book = spell.getBook().getName() + (spell.getPage() != null ? ", стр. " + spell.getPage() : "");
 	}
 }

@@ -162,7 +162,7 @@ tr.shown td.details-control {
 		});
 	});
 	function format ( d ) {
-		return d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
+		return "<p><small>" + d.type + "</small></p>" + d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
 	}
 	</script>
 </body>

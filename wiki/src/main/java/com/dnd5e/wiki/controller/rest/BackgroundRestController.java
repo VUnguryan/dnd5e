@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -28,7 +29,9 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Background;
+import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.repository.BackgroundRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @RestController
 public class BackgroundRestController {
@@ -41,8 +44,6 @@ public class BackgroundRestController {
 	@GetMapping("/backgrounds")
 	public SearchPanesOutput<BackgroundDto> getData(@Valid DataTablesInput input,
 			@RequestParam Map<String, String> searchPanes) {
-		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
-
 		List<SkillType> filterSkills = new ArrayList<>();
 		for (int j = 0; j <= SkillType.values().length; j++) {
 			String abylity = searchPanes.get("searchPanes.skills." + j);
@@ -59,10 +60,9 @@ public class BackgroundRestController {
 				filterBooks.add(book);
 			}
 		}
-		Specification<Background> specification = null;
-		if (setting == null || !setting.isHomeRule()) {
-			specification = byOfficial();
-		}
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		Specification<Background> specification = bySources(sources);
 		if (!filterSkills.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<AbilityType, Background> abilityType = root.join("skills", JoinType.LEFT);
@@ -90,11 +90,8 @@ public class BackgroundRestController {
 		return spOutput;
 	}
 
-	private Specification<Background> byOfficial() {
-		return (root, query, cb) -> {
-			Join<Book, Background> hero = root.join("book", JoinType.LEFT);
-			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
-		};
+	private Specification<Background> bySources(Set<TypeBook> sources) {
+		return (root, query, cb) -> root.get("book").get("type").in(sources);
 	}
 	
 	private Specification<Background> addSpecification(Specification<Background> specification , Specification<Background> addSpecification){

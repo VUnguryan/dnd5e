@@ -15,6 +15,7 @@ public class OptionDto {
 	private String name;
 	private String englishName;
 	private String optionType;
+	private String type;
 	private String prerequisite;
 	private Integer level;
 	private String description;
@@ -26,6 +27,7 @@ public class OptionDto {
 				.replace(" Над ", " над ").replace(" В ", " в ");
 		englishName = option.getEnglishName();
 		optionType = option.getOptionType().getShortName();
+		type = option.getOptionType().getName();
 		prerequisite = option.getPrerequisite();
 		level = option.getLevel();
 		description = option.getDescription();

@@ -2,8 +2,11 @@ package com.dnd5e.wiki.dto;
 
 import java.util.stream.Collectors;
 
+import org.apache.commons.compress.utils.IOUtils;
+
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
+import com.dnd5e.wiki.util.HtmlConverter;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +39,7 @@ public class GodDto {
 		symbol = god.getSymbol();
 		domains = god.getDomains().stream().map(Domain::getCyrilicName).collect(Collectors.joining(", "));
 		pantheon = god.getPantheon().getName();
-		description = god.getDescription() == null ? "": god.getDescription();
+		description = god.getDescription() == null ? "": HtmlConverter.toHtml(god.getDescription());
 		rank = god.getRank().getName(god.getSex());
 	}
 }

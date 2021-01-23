@@ -9,9 +9,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Dice;
 
@@ -66,6 +69,10 @@ public class Weapon {
 	
 	@Column(columnDefinition = "TEXT")
 	private String special;
+	
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
 	
 	public String getDamage() {
 		if (numberDice == null) {

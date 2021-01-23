@@ -38,6 +38,9 @@ public class BackgroundDto {
 		englishName = background.getEnglishName();
 		skillName = background.getSkillName();
 		skills = background.getSkills().stream().map(SkillType::getCyrilicName).collect(Collectors.joining(", "));
+		if (background.getOtherSkills() != null) {
+			skills+=", " + background.getOtherSkills();
+		}
 		background.getEquipments();
 		description = background.getDescription();
 		skillDescription = background.getSkillDescription();

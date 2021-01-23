@@ -48,13 +48,15 @@ public class Option {
 	@AllArgsConstructor
 	@Getter
 	public enum OptionType {
-		ARCANE_SHOT("Магический выстрел, Мистического Лучника", "МВ"),
-		MANEUVER("Маневр, Мастра боевых искуств", "М, МБИ"),
-		METAMAGIC("Метамагия", "ММ"),
-		ELDRITCH_INVOCATION("Таинственное воззвание, Колдуна","ТВ"),
-		FIGHTING_STYLE("Боевой стиль", "БС"),
-		ELEMENTAL_DISCIPLINE("Стихийные практики, Путь четырех стихий", "СП"),
-		ARTIFICER_INFUSION("Инфузии, Изобретателя","ИИ");
+		ARCANE_SHOT("Магический выстрел, Мистический Лучник, Воин", "МВ"),
+		MANEUVER("Маневр, Мастер боевых искуств, Воин", "М, МБИ"),
+		METAMAGIC("Метамагия, Чародей", "ММ"),
+		ELDRITCH_INVOCATION("Таинственное воззвание, Колдун","ТВ"),
+		FIGHTING_STYLE("Боевой стиль, Воин", "БС"),
+		ELEMENTAL_DISCIPLINE("Стихийные практики, Путь четырех стихий, Монах", "СП, ПЧС"),
+		ARTIFICER_INFUSION("Инфузия, Изобретатель","И, И"),
+		RUNE("Руна, Рунический рыцарь", "РР, Р"),
+		BONE("Договор, Колдун", "Д, К"),;
 
 		private String name;
 		private String shortName;

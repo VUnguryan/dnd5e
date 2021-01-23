@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -28,7 +29,9 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Trait;
+import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.datatable.TraitDatatableRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @RestController
 public class TraitRestController {
@@ -40,7 +43,7 @@ public class TraitRestController {
 
 	@GetMapping("/traits")
 	public SearchPanesOutput<TraitDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
-		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 
 		List<AbilityType> filterAbylities = new ArrayList<>();
 		for (int j = 0; j <= AbilityType.values().length; j++) {
@@ -65,10 +68,9 @@ public class TraitRestController {
 				filterBooks.add(book);
 			}
 		}
-		Specification<Trait> specification = null;
-		if (setting == null || !setting.isHomeRule()) {
-			specification = byOfficial();
-		}
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		Specification<Trait> specification = bySources(sources);
+
 		if (!filterAbylities.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<AbilityType, Trait> abilityType = root.join("abilities", JoinType.LEFT);
@@ -109,11 +111,8 @@ public class TraitRestController {
 		return spOutput;
 	}
 
-	private Specification<Trait> byOfficial() {
-		return (root, query, cb) -> {
-			Join<Book, Trait> hero = root.join("book", JoinType.LEFT);
-			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
-		};
+	private Specification<Trait> bySources(Set<TypeBook> types) {
+		return (root, query, cb) -> root.get("book").get("type").in(types);
 	}
 
 	private Specification<Trait> addSpecification(Specification<Trait> specification , Specification<Trait> addSpecification){

@@ -8,17 +8,23 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Domain {
-	KNOWLEDGE("Знание"),
-	WAR("Война"),
-	STORM("Буря"),
-	DEATH("Смерть"),
-	DECEPTION("Обман"),
-	LIFE("Жизнь"),
-	NATURE("Природа"),
-	LIGHT("Свет"),
 	ARCANA("Магия"),
+	DEATH("Смерть"),
 	FORGE("Кузня"),
-	UNDEFINE("Нет жрецов");
+	GRAVE("Могила"),
+	KNOWLEDGE("Знание"),
+	LIFE("Жизнь"),
+	LIGHT("Свет"),
+	NATURE("Природа"),
+	NONE("Нет"),
+	ORDER("Порядок"),
+	TEMPEST("Буря"),
+	TRICKERY("Обман"),
+	WAR("Война"),
+
+	STORM("Буря"),
+	DECEPTION("Обман"),
+	UNDEFINE("Нет жрецов"); 
 
 	private String cyrilicName;
 	public static Domain parse(String value) {

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.GroupByCount;
@@ -20,6 +21,7 @@ import com.dnd5e.wiki.model.spell.GroupByCount;
 @Repository
 public abstract interface SpellRepository extends JpaRepository<Spell, Integer>, JpaSpecificationExecutor<Spell> {
 	List<Spell> findByName(String paramString);
+	List<Spell> findByLevelAndBook_type(Byte level, TypeBook type);
 
 	@Query("SELECT s.distance FROM Spell s GROUP BY s.distance ORDER BY s.distance")
 	List<String> findAllDistanceName();
@@ -33,8 +35,7 @@ public abstract interface SpellRepository extends JpaRepository<Spell, Integer>,
 	@Query("SELECT s.school AS field, COUNT(s.level) AS total FROM Spell s GROUP BY s.school")
 	List<GroupByCount<MagicSchool>> countTotalSpellBySchool();
 	
-	@Query("SELECT c AS field, COUNT(c) AS total "
-			+ "FROM Spell s JOIN s.heroClass AS c GROUP BY c")
+	@Query("SELECT c AS field, COUNT(c) AS total FROM Spell s JOIN s.heroClass AS c GROUP BY c")
 	List<GroupByCount<HeroClass>> countTotalSpellByHeroClass();
 	
 	@Query("SELECT s.book AS field, COUNT(s.book) AS total FROM Spell s GROUP BY s.book")

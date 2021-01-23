@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.controller.rest.model.xml;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -10,9 +11,13 @@ import com.dnd5e.wiki.model.stock.Armor;
 import com.dnd5e.wiki.model.stock.ArmorType;
 import com.dnd5e.wiki.model.stock.Currency;
 import com.dnd5e.wiki.model.stock.Equipment;
+import com.dnd5e.wiki.model.stock.EquipmentType;
 import com.dnd5e.wiki.model.stock.Weapon;
 import com.dnd5e.wiki.model.stock.WeaponProperty;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class ItemVO {
 	@XmlElement
 	private String name;
@@ -47,16 +52,28 @@ public class ItemVO {
 	@XmlElement(required = false)
 	private String property;
 
-	public ItemVO() {
-
-	}
-
 	public ItemVO(Equipment equipment) {
 		this.name = StringUtils.capitalize(equipment.getName().toLowerCase()).trim();
 		this.text = Compendium.removeHtml(equipment.getDescription()).trim();
-		this.type = "G";
-		this.value = Math.round(100 * Currency.GM.convert(equipment.getCurrency(), equipment.getCost())) / 100f;
-		this.weight = equipment.getWeight();
+		Set<EquipmentType> types = equipment.getTypes();
+		if (types.contains(EquipmentType.ADVENTURING_GEAR)) {
+			this.type = "G";	
+		}
+		if (types.contains(EquipmentType.MELE_WAPON)) {
+			this.type = "M";	
+		}
+		if (types.contains(EquipmentType.RANGE_WAPON)) {
+			this.type = "R";	
+		}
+		if (types.contains(EquipmentType.HEAVY_ARMOR)) {
+			this.type = "HA";	
+		}
+		if (equipment.getCost()!=null) {
+			this.value = Math.round(100 * Currency.GM.convert(equipment.getCurrency(), equipment.getCost())) / 100f;
+		}
+		if (equipment.getWeight()!=null) {
+			this.weight = equipment.getWeight();
+		}
 	}
 
 	public ItemVO(Weapon weapon) {

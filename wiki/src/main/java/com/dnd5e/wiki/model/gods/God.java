@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.Alignment;
 
 import lombok.Getter;
@@ -42,14 +43,13 @@ public class God {
 	private Rank rank;
 	
 	@Enumerated(EnumType.STRING)
-	Alignment aligment;
+	private Alignment aligment;
 	
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	private String symbol;
 	private String nicknames;
 	
-
 	@ElementCollection(targetClass=Domain.class)
     @CollectionTable(name="god_domains")
 	@Enumerated(EnumType.STRING)
@@ -59,6 +59,11 @@ public class God {
 	@JoinColumn(name = "pantheon_id")
 	private Pantheon pantheon;
 	
+	@ManyToOne
+	@JoinColumn(name = "source")
+	private Book book;
+	private Short page;
+
 	public String getPrefixName() {
 		return rank == null ? sex.getCyrilicName() : rank.getName(sex) + " " + sex.getCyrilicName();
 	}

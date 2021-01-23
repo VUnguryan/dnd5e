@@ -484,8 +484,8 @@ tr.shown td.details-control {
         		 info += '<a class="btn btn-outline-secondary btn-sm"  href="/hero/classes/class/' + d.heroClass[hclass].id + '">'; 
         		 info += '<img src="/resources/classes/' + d.heroClass[hclass].id + '.png" title="' + d.heroClass[hclass].name + '" height="25" width="25" /> </a>';
         	 }
-        	 info+= '</div> ';
         	 info += '</p>';
+        	 info+= '</div> ';
         	 if (d.subClass.length > 0)  {
             	 info+= '<div class="btn-group" role="group">'
                  info += '<p><strong>Подклассы:</strong> ';
@@ -494,10 +494,10 @@ tr.shown td.details-control {
                		 info += '<img src="/resources/classes/' + d.subClass[sub].classId + '.png" " height="25" width="25" />';
                		 info += d.subClass[sub].architypeName + '</a> ';
                	 }
-               	 info+= '</div>';
                	 info += '</p>';
+                 info+= '</div>';
         	 }
-        	 info += '<a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a>';
+        	 info += '<p><a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a></p>';
 			 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
 		    return info; 
 	}

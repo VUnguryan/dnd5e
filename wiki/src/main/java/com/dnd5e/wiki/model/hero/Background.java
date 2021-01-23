@@ -51,6 +51,9 @@ public class Background {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private List<SkillType> skills;
+	
+	@Column(columnDefinition = "TEXT")
+	private String otherSkills;
 
 	private String skillName;
 

@@ -20,7 +20,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "books")
-public class Book implements Serializable{
+public class Book implements Serializable, Comparable<Book>{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -33,4 +33,9 @@ public class Book implements Serializable{
 	
 	@Enumerated(EnumType.STRING) 
 	private TypeBook type;
+
+	@Override
+	public int compareTo(Book b) {
+		return type.compareTo(b.getType());
+	}
 }

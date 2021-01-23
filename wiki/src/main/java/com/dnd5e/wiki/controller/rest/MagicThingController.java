@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -30,6 +31,7 @@ import com.dnd5e.wiki.model.treasure.MagicThing;
 import com.dnd5e.wiki.model.treasure.MagicThingType;
 import com.dnd5e.wiki.model.treasure.Rarity;
 import com.dnd5e.wiki.repository.datatable.ArtifactRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @RestController
 public class MagicThingController {
@@ -41,14 +43,11 @@ public class MagicThingController {
 	
 	@GetMapping("/magicThings")
 	public DataTablesOutput<MagicThingDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
-		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
 
 		DataTablesOutput<MagicThingDto> output;
-		Specification<MagicThing> specification = null;
-		if (setting == null || !setting.isHomeRule())
-		{
-			specification = byOfficial();
-		}
+		Specification<MagicThing> specification = bySources(sources);
 		List<Rarity> filterRarities = new ArrayList<>();
 		for (int j = 0; j <= Rarity.values().length; j++) {
 			String rarity = searchPanes.get("searchPanes.rarity." + j);
@@ -115,10 +114,7 @@ public class MagicThingController {
 		options.computeIfAbsent(key, s -> new ArrayList<>()).add(v);
 	}
 	
-	private Specification<MagicThing> byOfficial() {
-		return (root, query, cb) -> {
-			Join<Book, Spell> hero = root.join("book", JoinType.LEFT);
-			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
-		};	
+	private <T> Specification<T> bySources(Set<TypeBook> types) {
+		return (root, query, cb) -> root.get("book").get("type").in(types);
 	}
 }

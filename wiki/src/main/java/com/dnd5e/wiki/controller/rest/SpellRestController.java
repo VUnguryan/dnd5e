@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Join;
@@ -33,6 +34,7 @@ import com.dnd5e.wiki.model.spell.MagicSchool;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.ArchetypeSpellRepository;
 import com.dnd5e.wiki.repository.datatable.SpellDatatableRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 /**
  * @see
@@ -53,7 +55,8 @@ public class SpellRestController {
 	
 	@GetMapping("/spells")
 	public DataTablesOutput<SpellDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
-		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+
 		List<Integer> filterLevels = new ArrayList<>();
 		for (int j = 0; j <= 9; j++) {
 			String level = searchPanes.get("searchPanes.level." + j);
@@ -92,11 +95,8 @@ public class SpellRestController {
 			}
 		}
 		DataTablesOutput<SpellDto> output;
-		Specification<Spell> specification = null;
-		if (setting == null || !setting.isHomeRule())
-		{
-			specification = byOfficial();
-		}
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		Specification<Spell> specification = bySources(sources);
 		if (!filterLevels.isEmpty()) {
 			specification = addSpecification(specification,  (root, query, cb) -> root.get("level").in(filterLevels));
 		}
@@ -161,10 +161,7 @@ public class SpellRestController {
 		options.computeIfAbsent(key, s -> new ArrayList<>()).add(v);
 	}
 	
-	private Specification<Spell> byOfficial() {
-		return (root, query, cb) -> {
-			Join<Book, Spell> hero = root.join("book", JoinType.LEFT);
-			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
-		};	
+	private Specification<Spell> bySources(Set<TypeBook> types) {
+		return (root, query, cb) -> root.get("book").get("type").in(types);
 	}
 }

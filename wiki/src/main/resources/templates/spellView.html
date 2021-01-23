@@ -6,6 +6,7 @@
 img {
 	float: center;
 }
+
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
@@ -52,16 +53,26 @@ img {
 				<div class="card border-warning" th:if="${spell.upperLevel}">
 					<div class="card-body">
 						<h5 class="card-title">На более высоких уровнях</h5>
-						<p th:text="*{upperLevel}"></p>
+						<p th:utext="*{upperLevel}"></p>
 					</div>
 				</div>
-				<h5>Заклинание доступно классам:</h5>
-				<p>
-					<a th:each="hero : *{heroClass}" th:href="@{|/hero/classes/class/${hero.id}|}"> <img data-toggle="tooltip" data-placement="top" th:src="@{|/resources/classes/${hero.id}.png|}"
-						th:title="${hero.name}" height="60" width="60"
-					/>
-					</a>
-				</p>
+				<th:block th:unless="*{heroClass.empty}">
+					<h5>Заклинание доступно классам:</h5>
+					<p>
+						<a class="btn btn-outline-secondary btn-sm" th:each="hero : *{heroClass}" th:href="@{|/hero/classes/class/${hero.id}|}"> <img data-toggle="tooltip" data-placement="top"
+							th:src="@{|/resources/classes/${hero.id}.png|}" th:title="${hero.name}" height="60" width="60"
+						/>
+						</a>
+					</p>
+				</th:block>
+				<th:block th:unless="${arhitypes.empty}">
+					<h5>Заклинание доступно подклассам:</h5>
+					<p>
+						<a class="btn btn-outline-secondary btn-sm" th:each="archetype: ${arhitypes}" th:href="@{|/hero/classes/class/${archetype.classId}/archetype/${archetype.architypeId}|}"><img
+							data-toggle="tooltip" data-placement="top" th:src="@{|/resources/classes/${archetype.classId}.png|}" th:title="|${archetype.className} ${archetype.architypeName}|" height="60" width="60"
+						/> <span th:text="${archetype.architypeName}"></span> </a>
+					</p>
+				</th:block>
 			</div>
 			<footer class="blockquote-footer">
 				<small class="text-muted" th:if="${spell.book}" th:text="|Источник: ${spell.book.name}${spell.page eq null?'':', стр.' + spell.page}|"></small>

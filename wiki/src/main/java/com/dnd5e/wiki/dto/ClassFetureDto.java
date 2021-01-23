@@ -44,7 +44,17 @@ public class ClassFetureDto {
 			break;
 		}
 		prefix ="c";
-		type+= " уровень, умение класса " + StringUtils.capitalizeWords(className.toLowerCase());
+		if (className.equalsIgnoreCase("Чародей")) {
+			className = "Чародея";
+		} else if (className.equalsIgnoreCase("Изобретатель")) {
+			className = "Изобретателя";
+		}else if (className.equalsIgnoreCase("Кровавый охотник")) {
+			className = "Кровавого охотника";
+		}
+		else {
+			className += "а"; 
+		}
+		type+= " уровень, умение " + StringUtils.capitalizeWords(className.toLowerCase());
 		order = 2;
 	}
 	

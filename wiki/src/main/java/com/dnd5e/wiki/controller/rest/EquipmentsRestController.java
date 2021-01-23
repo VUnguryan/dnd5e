@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -23,19 +23,15 @@ import com.dnd5e.wiki.controller.rest.paging.Item;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
 import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.EquipmentDto;
-import com.dnd5e.wiki.dto.TraitDto;
 import com.dnd5e.wiki.dto.user.Setting;
-import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.DamageType;
-import com.dnd5e.wiki.model.creature.SkillType;
-import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.stock.Equipment;
 import com.dnd5e.wiki.model.stock.EquipmentType;
 import com.dnd5e.wiki.repository.EquipmentRepository;
-import com.dnd5e.wiki.repository.datatable.TraitDatatableRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @RestController
 public class EquipmentsRestController {
@@ -48,7 +44,6 @@ public class EquipmentsRestController {
 	@GetMapping("/equipments")
 	public SearchPanesOutput<EquipmentDto> getData(@Valid DataTablesInput input,
 			@RequestParam Map<String, String> searchPanes) {
-
 		List<EquipmentType> filterTypes = new ArrayList<>();
 		for (int j = 0; j <= EquipmentType.values().length; j++) {
 			String abylity = searchPanes.get("searchPanes.type." + j);
@@ -65,12 +60,9 @@ public class EquipmentsRestController {
 				filterBooks.add(book);
 			}
 		}
-		Specification<Equipment> specification = null;
-		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
-		if (setting == null || !setting.isHomeRule())
-		{
-			specification = byOfficial();
-		}
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		Specification<Equipment> specification = bySources(sources);
 		if (!filterTypes.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<DamageType, Spell> types = root.join("types", JoinType.LEFT);
@@ -109,11 +101,8 @@ public class EquipmentsRestController {
 		return specification.and(addSpecification);
 	}
 	
-	private Specification<Equipment> byOfficial() {
-		return (root, query, cb) -> {
-			Join<Book,Equipment> hero = root.join("book", JoinType.LEFT);
-			return cb.notEqual(hero.get("type"), TypeBook.CUSTOM);
-		};	
+	private <T> Specification<T> bySources(Set<TypeBook> types) {
+		return (root, query, cb) -> root.get("book").get("type").in(types);
 	}
 
 	private void addItem(String key, Map<String, List<Item>> options, Item v) {

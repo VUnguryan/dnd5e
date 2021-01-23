@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -31,7 +32,9 @@ import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.CreatureType;
 import com.dnd5e.wiki.model.spell.GroupByCount;
+import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.datatable.CreatureDatatableRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @RestController
 public class CreatureRestController {
@@ -43,7 +46,8 @@ public class CreatureRestController {
 	
 	@GetMapping("/creatures")
 	public DataTablesOutput<CreatureDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
-		Setting setting = (Setting) session.getAttribute(SettingRestController.HOME_RULE);
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
 
 		List<Book> filterBooks = new ArrayList<>();
 		for (int j = 0; j <= 21; j++) {
@@ -55,11 +59,7 @@ public class CreatureRestController {
 			}
 		}
 		DataTablesOutput<CreatureDto> output;
-		Specification<Creature> specification = null;
-		if (setting == null || !setting.isHomeRule())
-		{
-			specification = byOfficial();
-		}
+		Specification<Creature> specification = bySources(sources);
 		List<String> filterCr = new ArrayList<>();
 		for (int j = 0; j <= 34; j++) {
 			String cr = searchPanes.get("searchPanes.exp." + j);
@@ -162,10 +162,7 @@ public class CreatureRestController {
 		options.computeIfAbsent(key, s -> new ArrayList<>()).add(v);
 	}
 	
-	private Specification<Creature> byOfficial() {
-		return (root, query, cb) -> {
-			Join<Book, Creature> hero = root.join("book", JoinType.LEFT);
-			return cb.equal(hero.get("type"), TypeBook.OFFICAL);
-		};	
+	private Specification<Creature> bySources(Set<TypeBook> types) {
+		return (root, query, cb) -> root.get("book").get("type").in(types);
 	}
 }
