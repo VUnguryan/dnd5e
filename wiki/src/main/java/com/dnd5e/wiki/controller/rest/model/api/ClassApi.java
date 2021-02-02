@@ -5,10 +5,10 @@ import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import lombok.Getter;
 
 @Getter
-public class ClassApiDto {
+public class ClassApi {
 	private int id;
 	private String name;
-	public ClassApiDto(HeroClass heroClass) {
+	public ClassApi(HeroClass heroClass) {
 		id = heroClass.getId();
 		name = heroClass.getName();
 	}

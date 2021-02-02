@@ -20,7 +20,10 @@ import com.dnd5e.wiki.model.spell.GroupByCount;
 
 @Repository
 public abstract interface SpellRepository extends JpaRepository<Spell, Integer>, JpaSpecificationExecutor<Spell> {
-	List<Spell> findByName(String paramString);
+	
+	@Query("SELECT s FROM Spell s WHERE s.name = :name OR s.englishName = :name")
+	Spell findOneByName(String name);
+
 	List<Spell> findByLevelAndBook_type(Byte level, TypeBook type);
 
 	@Query("SELECT s.distance FROM Spell s GROUP BY s.distance ORDER BY s.distance")

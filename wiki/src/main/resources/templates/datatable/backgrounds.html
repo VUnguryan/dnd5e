@@ -38,6 +38,7 @@ tr.shown td.details-control {
 							<th>Владение навыками</th>
 							<th>В кошельке (зм.)</th>
 							<th>Источник</th>
+							<th>English</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -96,6 +97,10 @@ tr.shown td.details-control {
 						    searchable: false,
 						},
 						{
+							data : "englishName",
+							width : "15%",
+						},
+						{
 							className : 'details-control',
 						    searchable: false,
 						    orderable: false,
@@ -105,15 +110,23 @@ tr.shown td.details-control {
 					],
 					columnDefs : [
 			            {
-			                targets : [ 2 ],
+			                targets : [2],
 			                visible : false
 			            },
 			            {
-			                targets : [ 3 ],
+			                targets : [3],
 			                visible : false
 			            },
 			            {
-			                targets : [ 4 ],
+			                targets : [4],
+			                visible : false
+			            },
+			            {
+			                targets : [5],
+			                visible : false
+			            },
+			            {
+			                targets : [6],
 			                visible : false
 			            },
 				    ],

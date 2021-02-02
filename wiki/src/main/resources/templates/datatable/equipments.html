@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
-<title>DnD 5E Снаряжение</title>
+<title>Снаряжение</title>
 <style>
 img {
 	float: center;
@@ -56,7 +56,12 @@ tr.shown td.details-control {
 							width : "33%", 
 							render : function(data, type, row) {
 								if (type === 'display') {
-									return '<h6>' + data + '</h6>';
+									var header = '<h6>' + data; 
+									if (row.englishName != null) {
+										header += ' <small class="text-secondary">(' + row.englishName + ')</small>';
+									}
+									header += '</h6>'
+									return header;
 								}
 								return data;
 							}, 
@@ -118,6 +123,12 @@ tr.shown td.details-control {
 			                        text: 'Категория',
 			                        action: function ( e, dt, node, config ) {
 			                            dt.column( 3 ).visible( ! dt.column( 3 ).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'English',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
 			                        }
 			                    },
 			                    {

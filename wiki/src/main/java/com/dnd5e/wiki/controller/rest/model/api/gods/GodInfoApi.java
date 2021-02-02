@@ -28,6 +28,7 @@ public class GodInfoApi {
 
 	private List<String> entries;
 	private String source;
+	private int version;
 	
 	public GodInfoApi(God god){
 		this.id = god.getId();
@@ -40,10 +41,16 @@ public class GodInfoApi {
 		this.domains = god.getDomains().stream().map(Domain::getCyrilicName).collect(Collectors.toList());
 		this.pantheon = god.getPantheon().getName();
 		this.entries = Arrays.asList(god.getDescription().split("\r"));
+		this.version = god.getVersion();
 	}
 
 	public static God build(GodInfoApi godInfoApi) {
 		God god = new God();
+		update(god, godInfoApi);
+		return god;
+	}
+	
+	public static void update(God god, GodInfoApi godInfoApi) {
 		god.setName(godInfoApi.getName());
 		god.setEnglishName(godInfoApi.getEnglishName());
 		god.setDescription(String.join("\\r", godInfoApi.getEntries()));
@@ -52,32 +59,36 @@ public class GodInfoApi {
 		if (godInfoApi.getTitle().contains("@godrankmale")) {
 			god.setSex(GodSex.MALE);
 		} else if (godInfoApi.getTitle().contains("@godrankfemale")) {
-			god.setSex(GodSex.MALE);
+			god.setSex(GodSex.FEMALE);
 		} else if (godInfoApi.getTitle().contains("@godrankphilosophy")) {
-			god.setSex(GodSex.MALE);
+			god.setSex(GodSex.PHILOSOPHY);
 		} else {
 			god.setSex(GodSex.UNDEFINE);
 		}
-		if (godInfoApi.getAlignment().contains("L")) {
-			if (godInfoApi.getAlignment().contains("G")) {
-				god.setAligment(Alignment.LAWFUL_GOOD);
-			} else if (godInfoApi.getAlignment().contains("E")) {
-				god.setAligment(Alignment.LAWFUL_EVIL);
+		god.setAligment(parseAligment(godInfoApi.getAlignment()));
+	}
+
+	private static Alignment parseAligment(List<String> alignments) {
+		if (alignments.contains("L")) {
+			if (alignments.contains("G")) {
+				return Alignment.LAWFUL_GOOD;
+			} else if (alignments.contains("E")) {
+				return Alignment.LAWFUL_EVIL;
 			}
-		} else if (godInfoApi.getAlignment().contains("C")) {
-			if (godInfoApi.getAlignment().contains("G")) {
-				god.setAligment(Alignment.CHAOTIC_GOOD);
-			} else if (godInfoApi.getAlignment().contains("E")) {
-				god.setAligment(Alignment.CHAOTIC_EVIL);
+		} else if (alignments.contains("C")) {
+			if (alignments.contains("G")) {
+				return Alignment.CHAOTIC_GOOD;
+			} else if (alignments.contains("E")) {
+				return Alignment.CHAOTIC_EVIL;
 			}
 			
-		} else if (godInfoApi.getAlignment().contains("N")) {
-			if (godInfoApi.getAlignment().contains("G")) {
-				god.setAligment(Alignment.NEUTRAL_GOOD);
-			} else if (godInfoApi.getAlignment().contains("E")) {
-				god.setAligment(Alignment.NEUTRAL_EVIL);
+		} else if (alignments.contains("N")) {
+			if (alignments.contains("G")) {
+				return Alignment.NEUTRAL_GOOD;
+			} else if (alignments.contains("E")) {
+				return Alignment.NEUTRAL_EVIL;
 			}
 		}
-		return god;
+		return Alignment.WITHOUT;
 	}
 }

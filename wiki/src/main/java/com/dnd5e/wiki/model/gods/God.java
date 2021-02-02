@@ -63,6 +63,9 @@ public class God {
 	@JoinColumn(name = "source")
 	private Book book;
 	private Short page;
+	
+	@Column(columnDefinition = "integer default 1")
+	private int version = 1;
 
 	public String getPrefixName() {
 		return rank == null ? sex.getCyrilicName() : rank.getName(sex) + " " + sex.getCyrilicName();

@@ -56,7 +56,7 @@ public class Archetype {
 	private Short page;
 	
 	public Map<Integer, List<Spell>> getLevelSpells(){
-		return spells.stream()
+		return spells.stream().filter(s -> s.getLevel() > 0)
 				.collect(Collectors.groupingBy(ArchetypeSpell::getLevel, TreeMap::new,
 						Collectors.mapping(ArchetypeSpell::getSpell, Collectors.toList())));
 	}

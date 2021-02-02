@@ -1,28 +1,29 @@
-package com.dnd5e.wiki.model.spell;
+package com.dnd5e.wiki.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Getter
 @Setter
 
 @Entity
-@Table(name ="spell_times")
-public class TimeCast {
+@Table(name = "archives")
+public class Archive {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	private String type;
 
-	private int number;
-	@Enumerated(EnumType.STRING)
-	private TimeUnit unit;
-	private String condition;
+	@Column(columnDefinition = "TEXT")
+	private String text;
+	private int version;
 }

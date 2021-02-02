@@ -28,6 +28,8 @@ public class Book implements Serializable, Comparable<Book>{
 	@Size(max = 32)
 	private String source;
 	private String name;
+	private String englishName;
+
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	

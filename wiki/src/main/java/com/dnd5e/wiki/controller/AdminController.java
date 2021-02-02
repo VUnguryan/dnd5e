@@ -188,11 +188,10 @@ public class AdminController {
 			} else {
 				spell.setName(header.trim().toUpperCase());
 			}
-			List<Spell> spells = spellRepository.findByName(spell.getName());
-			if (spells != null && !spells.isEmpty()) {
-				spell = spells.get(0);
-			}
-			String text = reader.readLine();
+			/*
+			 * List<Spell> spells = spellRepository.findByName(spell.getName()); if (spells
+			 * != null && !spells.isEmpty()) { spell = spells.get(0); }
+			 */			String text = reader.readLine();
 			String[] levelAndSchool = text.split(",");
 			if (levelAndSchool[0].startsWith("Заговор") || levelAndSchool[0].startsWith("заговор")) {
 				spell.setLevel((byte) 0);

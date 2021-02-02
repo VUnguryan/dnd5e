@@ -22,6 +22,9 @@ import com.dnd5e.wiki.repository.SpellRepository;
 @RequestMapping({ "/hero/spells" })
 public class SpellController {
 	@Autowired
+	private SpellRepository spellRepo;
+
+	@Autowired
 	private ArchetypeSpellRepository aSpellRepo; 
 	
 	@Autowired
@@ -36,6 +39,14 @@ public class SpellController {
 	@GetMapping("/spell/{spell:\\d+}")
 	public String getSpell(Model model, @PathVariable Spell spell) {
 		model.addAttribute("spell", ResponseEntity.ok(spell).getBody());
+		model.addAttribute("arhitypes", aSpellRepo.findAllBySpellId(spell.getId()).stream().map(ArchitypeDto::new).collect(Collectors.toList()));
+		return "spellView";
+	}
+	
+	@GetMapping("/{spellName}")
+	public String getSpellByName(Model model, @PathVariable String spellName) {
+		Spell spell = spellRepo.findOneByName(spellName);
+		model.addAttribute("spell", spell);
 		model.addAttribute("arhitypes", aSpellRepo.findAllBySpellId(spell.getId()).stream().map(ArchitypeDto::new).collect(Collectors.toList()));
 		return "spellView";
 	}

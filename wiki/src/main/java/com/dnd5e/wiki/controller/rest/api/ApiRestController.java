@@ -17,26 +17,33 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dnd5e.wiki.controller.rest.model.api.BackgroundApi;
-import com.dnd5e.wiki.controller.rest.model.api.ClassApiDto;
-import com.dnd5e.wiki.controller.rest.model.api.ClassApiInfoDto;
+import com.dnd5e.wiki.controller.rest.model.api.ClassApi;
+import com.dnd5e.wiki.controller.rest.model.api.ClassInfoApi;
 import com.dnd5e.wiki.controller.rest.model.api.PersonalizationApi;
-import com.dnd5e.wiki.controller.rest.model.api.SpellApiDto;
+import com.dnd5e.wiki.controller.rest.model.api.SpellApi;
 import com.dnd5e.wiki.controller.rest.model.api.gods.GodApi;
 import com.dnd5e.wiki.controller.rest.model.api.gods.GodInfoApi;
+import com.dnd5e.wiki.model.Archive;
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
 import com.dnd5e.wiki.model.gods.Pantheon;
 import com.dnd5e.wiki.model.hero.Background;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
+import com.dnd5e.wiki.repository.ArchiveRepository;
 import com.dnd5e.wiki.repository.BackgroundRepository;
 import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.repository.GodRepository;
 import com.dnd5e.wiki.repository.PantheonRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController()
 @RequestMapping("/api")
 public class ApiRestController {
+	@Autowired
+	private ArchiveRepository archiveRepository;
+	
 	@Autowired
 	private BackgroundRepository backgroundRepository;
 	
@@ -53,18 +60,18 @@ public class ApiRestController {
 	private PantheonRepository pantheonRepository;
 	
 	@GetMapping("/spells")
-	public List<SpellApiDto> getSpells(){
-		return spellRepository.findAll().stream().map(SpellApiDto::new).collect(Collectors.toList());
+	public List<SpellApi> getSpells(){
+		return spellRepository.findAll().stream().map(SpellApi::new).collect(Collectors.toList());
 	}
 
 	@GetMapping("/classes")
-	public List<ClassApiDto> getClasses(){
-		return classRepository.findAll().stream().map(ClassApiDto::new).collect(Collectors.toList());
+	public List<ClassApi> getClasses(){
+		return classRepository.findAll().stream().map(ClassApi::new).collect(Collectors.toList());
 	}
 	
 	@GetMapping("/classes/{id}")
-	public ResponseEntity<ClassApiInfoDto> getClass(@PathVariable Integer id){
-		return ResponseEntity.ok(new ClassApiInfoDto(classRepository.findById(id).orElseGet(() -> new HeroClass())));
+	public ResponseEntity<ClassInfoApi> getClass(@PathVariable Integer id){
+		return ResponseEntity.ok(new ClassInfoApi(classRepository.findById(id).orElseGet(() -> new HeroClass())));
 	}
 	
 	@GetMapping("/backgrounds")
@@ -106,9 +113,19 @@ public class ApiRestController {
 	@Transactional
 	@PutMapping("/gods/")
 	@ResponseStatus(HttpStatus.CREATED)
-	public GodInfoApi updateGod(GodInfoApi godInfoApi){
+	public GodInfoApi updateGod(GodInfoApi godInfoApi) throws JsonProcessingException{
 		God god = godRepository.findById(godInfoApi.getId()).orElseThrow(NullPointerException::new);
-		god.setId(godInfoApi.getId());
+		ObjectMapper objectMapper = new ObjectMapper();
+		String json = objectMapper.writeValueAsString(godInfoApi);
+
+		Archive archive = new Archive();
+		archive.setType("god");
+		archive.setText(json);
+		archive.setVersion(god.getVersion());
+		archiveRepository.save(archive);
+
+		GodInfoApi.update(god, godInfoApi);
+		god.setVersion(god.getVersion() + 1);
 		return godInfoApi;
 	}
 	
