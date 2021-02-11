@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -32,7 +30,6 @@ import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.CreatureType;
 import com.dnd5e.wiki.model.spell.GroupByCount;
-import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.datatable.CreatureDatatableRepository;
 import com.dnd5e.wiki.util.SourceUtil;
 
@@ -101,7 +98,7 @@ public class CreatureRestController {
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
-		output = repo.findAll(input, null, specification, i -> new CreatureDto(i));
+		output = repo.findAll(input, null, specification, creature -> new CreatureDto(creature));
 		
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();

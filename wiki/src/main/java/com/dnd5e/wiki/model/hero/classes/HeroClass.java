@@ -110,6 +110,16 @@ public class HeroClass {
 	private Book book;
 	private Short page;
 	
+	public String getAblativeName() {
+		switch (name) {
+		case "ЧАРОДЕЙ":
+			return "чародеем";
+		case "ИЗОБРЕТАТЕЛЬ":
+			return "изобретателем";
+		default:
+			return name + "ом";
+		}
+	}
 	public List<HeroClassTrait> getTraits(int level) {
 		return traits.stream().filter(t -> t.getLevel() == level).collect(Collectors.toList());
 	}

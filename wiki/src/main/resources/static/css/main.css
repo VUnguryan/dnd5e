@@ -46,7 +46,7 @@ tbody .hiddenRow {
 .card-deck {
 	background-color: #FDF1DF;
 }
-.blockquote-foote {
+.blockquote-footer {
 	background-color: #FFFAF0;
 }
 .list-group-item {
@@ -59,7 +59,6 @@ html {
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
 .footer {

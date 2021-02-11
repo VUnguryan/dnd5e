@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +32,14 @@ public class SpellController {
 	private SpellRepository repo;
 	
 	@GetMapping
-	public String getSpellTable(Model model) {
+	public String getSpellTable(Model model, Device device) {
 		model.addAttribute("order", "[[ 1, 'asc' ]]");
-		return "datatable/spells";
+		if (device.isMobile()) {
+			return "datatable/spells";	
+		}
+		return "datatable/spells2";
 	}
-
+	
 	@GetMapping("/spell/{spell:\\d+}")
 	public String getSpell(Model model, @PathVariable Spell spell) {
 		model.addAttribute("spell", ResponseEntity.ok(spell).getBody());

@@ -49,7 +49,7 @@ public class GodInfoApi {
 		update(god, godInfoApi);
 		return god;
 	}
-	
+
 	public static void update(God god, GodInfoApi godInfoApi) {
 		god.setName(godInfoApi.getName());
 		god.setEnglishName(godInfoApi.getEnglishName());

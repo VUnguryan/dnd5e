@@ -16,12 +16,16 @@ import javax.persistence.Table;
 import com.dnd5e.wiki.model.Book;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 
 @Entity
 @Table(name = "conditions")
-@Data
 public class Condition {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

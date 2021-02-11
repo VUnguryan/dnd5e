@@ -89,7 +89,9 @@ public class ApiRestController {
 	
 	@GetMapping("/gods")
 	public ResponseEntity<List<GodApi>> getGods(){
-		return ResponseEntity.ok(godRepository.findAll().stream().map(GodApi::new).collect(Collectors.toList()));
+		return ResponseEntity.ok(godRepository.findAll().stream()
+				.map(GodApi::new)
+				.collect(Collectors.toList()));
 	}
 	
 	@GetMapping("/gods/{id}")

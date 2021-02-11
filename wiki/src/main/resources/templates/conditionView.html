@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title th:text="${condition.name}"></title>
+<style>
+img {
+	float: center;
+}
+
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(100%);
+}
+</style>
+</head>
+<body>
+	<div class="container" style="margin-top: 25px" layout:fragment="content">
+		<div class="card" th:object="${condition}">
+			<h5 class="card-header">
+				<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
+			</h5>
+			<div class="card-body" th:utext="*{description}"></div>
+			<footer class="blockquote-footer">
+				<small class="text-muted" th:if="${condition.book}" th:text="|Источник: ${condition.book.name}${condition.page eq null?'':', стр.' + condition.page}|"></small>
+			</footer>
+		</div>
+	</div>
+</body>
+</html>

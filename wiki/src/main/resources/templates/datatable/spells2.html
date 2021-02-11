@@ -3,6 +3,9 @@
 <head>
 <title>Заклинания</title>
 <style>
+p.text-justify {
+    text-indent: 15px; 
+}
 img {
 	float: center;
 }
@@ -10,29 +13,43 @@ img {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
 .badge-info {
   background-color: #F0D46C;
 }
 .badge-success {
   background-color: #9FD8AF;
 }
+.line1 {
+       display: block;
+       position: relative;
+       padding: 0;
+       margin: 8px auto;
+       height: 2px;
+       width: 100%;
+       max-height: 2;
+       font-size: 1px;
+       line-height: 0;
+       clear: both;
+       border-top: 1px solid #E69A28;
+       border-bottom: 1px solid #E69A28;
+       background-color: #E69A28
+}
+table.dataTable tbody tr.selected {
+  background-color: #F0D0A0;
+}
+div.container {
+	width: 50%;
+}
+.spellHeader {
+	color: #A12000;
+}
 </style>
 </head>
 <body>
-	
-	<div class="container" layout:fragment="content">
+	<div id="mainContainer" class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-11 mt-3 mb-3">
-				<table id="example" class="table table-hover table-sm" style="width: 100%">
+			<div class="col-5">
+				<table id="example" class="table table-hover table-sm nowrap" style="width:100%; background-color: #FFFAF0;">
 					<thead>
 						<tr>
 							<th>Школа</th>
@@ -51,13 +68,14 @@ tr.shown td.details-control {
 							<th>Источник</th>
 							<th>English</th>
 							<th>Расходуемые материалы</th>
-							<th></th>
 						</tr>
 					</thead>
 				</table>
 			</div>
+			<div class="col-6 pt-5" style="height: 80vh; overflow: auto;">
+				<div id="info"></div>
+			</div>
 		</div>
-		<div id="info" class="row"></div>
 	</div>
 	<script layout:fragment="datatable">
 	$(document).ready(function() {
@@ -69,11 +87,17 @@ tr.shown td.details-control {
 	
 		var table = $('#example').DataTable( {
 			stateSave: true,
-			iDisplayLength : 25,
 			dom: 'Bfrtip',
-	        processing : true,
 	        serverSide : true,
 			ajax : '/spells',
+	        scrollY: "65vh",
+	        scrollCollapse: true,
+	        scroller: true,
+	        paging: false,
+	        select: {
+	            style: 'single'
+	        },
+	        autoWidth: false,
 			columns : [
 						{
 							data : "school",
@@ -166,7 +190,7 @@ tr.shown td.details-control {
 						},
 						{
 								data : "timeCast",
-								width : "5%",
+								width : "1%",
 								className: "dt-head-center",
 							    className: "dt-body-center",
 								render : function(data, type) {
@@ -182,12 +206,12 @@ tr.shown td.details-control {
 						},
 						{
 								data : "duration",
-								width : "5%",
+								width : "1%",
 							    className: "text-center"
 						},
 						{
 							data : "distance",
-							width : "5%",
+							width : "1%",
 						    className: "text-center"
 						},
 						{
@@ -247,7 +271,7 @@ tr.shown td.details-control {
 							},
 							{
 								data : "damageType",
-								width : "10%",
+								width : "2%",
 							    className: "text-center",
 							    searchable: false		
 							},
@@ -267,13 +291,6 @@ tr.shown td.details-control {
 								width : "1%",
 							    orderable: false,
 							    searchable: false,
-							},
-							{
-								className : 'details-control',
-							    searchable: false,
-							    orderable: false,
-								defaultContent : '',
-								width : "1%"
 							},
 							],
 							columnDefs : [
@@ -330,9 +347,9 @@ tr.shown td.details-control {
 					                "visible": false
 					            },
 					            {
-					                targets: [ 15 ],
-					                visible: false
-					            }
+					                "targets": [ 15 ],
+					                "visible": false
+					            },
 					        ],
 					        buttons: [
 					        	'searchPanes',
@@ -389,6 +406,7 @@ tr.shown td.details-control {
 					                        text: 'Тип урона',
 					                        action: function ( e, dt, node, config ) {
 					                            dt.column( 12 ).visible( ! dt.column( 12 ).visible() );
+					                            table.columns.adjust().draw();
 					                        }
 					                    },
 					                    {
@@ -406,9 +424,9 @@ tr.shown td.details-control {
 						search : "Поиск",
 						lengthMenu : "Показывать _MENU_ записей на странице",
 						zeroRecords : "Ничего не найдено",
-						info : "Показано с _START_ до _END_ из _TOTAL_",
+						info : "Показано _TOTAL_",
 						infoEmpty : "Нет доступных записей",
-						infoFiltered : "(filtered from _MAX_ всего)",
+						infoFiltered : "из _MAX_",
 						paginate : {
 							first : "В начало",
 							previous : "Предыдущая",
@@ -428,22 +446,15 @@ tr.shown td.details-control {
 					ordering : true,
 				});
 	$('#example tbody').on('click', 'tr', function () {
-    	var tr = $(this).closest('tr');
-    	var row = table.row( tr );
-	
-	    if ( row.child.isShown() ) {
-        	row.child.hide();
-        	tr.removeClass('shown');
-    	}
-    	else {
-	        row.child( format(row.data()) ).show();
-        	tr.addClass('shown');
-    	}
+    		var tr = $(this).closest('tr');
+    		var row = table.row( tr );
+    		var element = document.getElementById("info");
+			var name = '<h5 class="spellHeader">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
+    		element.innerHTML = name + format(row.data());
 		});
 	});
-	
 	function format (d) {
-			var info = '<p><em>' + d.level; 
+			var info = '<hr class ="line1"/><p class ="mb-2 mt-1"><em>' + d.level; 
 			if (d.level != 'Заговор') {
 				info += ' уровень'
 			}
@@ -474,32 +485,34 @@ tr.shown td.details-control {
             	}
             }
             info += '</div>';
-            info += '<div><strong>Длительность:</strong> '+ d.duration + '</div>'+ 
-        	 '<p>' +
-        	 d.description + '</p>';
+            info += '<div><strong>Длительность:</strong> '
+            + d.duration 
+            + '</div><hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />' +
+        	 d.description
+        	 + '</div><hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />';
 			 if (d.upperLevel) {
 				 info += '<p><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</p>';
+				 info += '<hr class ="mb-2 mt-1" align="center" size="5" color="#822000"/>';
 			 }
-        	 info+= '<div class="btn-group" role="group">'
-             info += '<p><strong>Классы:</strong> ';
+			 info += '<div class="btn-toolbar mb-3" role="toolbar" aria-label="classes">';
+             info += '<strong>Классы:</strong> ';
+        	 info += '<div class="btn-group" role="group">';
         	 for (var hclass in d.heroClass){
         		 info += '<a class="btn btn-outline-secondary btn-sm"  href="/hero/classes/class/' + d.heroClass[hclass].id + '">'; 
         		 info += '<img src="/resources/classes/' + d.heroClass[hclass].id + '.png" title="' + d.heroClass[hclass].name + '" height="25" width="25" /> </a>';
         	 }
-        	 info += '</p>';
-        	 info+= '</div> ';
+        	 info+= '</div></div>';
         	 if (d.subClass.length > 0)  {
+                 info += '<strong>Подклассы:</strong> ';
             	 info+= '<div class="btn-group" role="group">'
-                 info += '<p><strong>Подклассы:</strong> ';
                  for (var sub in d.subClass){
                		 info += '<a class="btn btn-outline-secondary btn-sm"  href="/hero/classes/class/' + d.subClass[sub].classId + '/archetype/'+ d.subClass[sub].architypeId + '">';
                		 info += '<img src="/resources/classes/' + d.subClass[sub].classId + '.png" " height="25" width="25" />';
                		 info += d.subClass[sub].architypeName + '</a> ';
                	 }
-               	 info += '</p>';
-                 info+= '</div>';
+               	 info += '</div>';
         	 }
-        	 info += '<p><a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a></p>';
+        	 info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a></p>';
 			 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
 		    return info; 
 	}

@@ -125,8 +125,8 @@ tr.shown td.details-control {
 												<td align="center" th:text="${'+' + levelDef[level]}" />
 												<td><th:block th:each="trait, iterStat : ${heroClass.getTraits(level)}">
 														<th:block th:if=${trait.architype}>
-															<a th:each="architypeTrait, iterStat : ${heroClass.getArhitypeTraitNames(level)}"
-																th:text="${iterStat.last} ? ${#strings.toLowerCase(architypeTrait.name)} : ${#strings.toLowerCase(architypeTrait.name)} + ', '" th:href="|#a${architypeTrait.id}|"
+															<a th:each="architypeTrait, iterStat2 : ${heroClass.getArhitypeTraitNames(level)}"
+																th:text="${iterStat2.last} and ${iterStat.last} ? ${#strings.toLowerCase(architypeTrait.name)} : ${#strings.toLowerCase(architypeTrait.name)} + ', '" th:href="|#a${architypeTrait.id}|"
 																th:onclick="|slowScroll('#a${architypeTrait.id}')|"
 															></a>
 														</th:block>
@@ -174,7 +174,11 @@ tr.shown td.details-control {
 											</thead>
 											<tr th:each="element : ${selectedArchetype.levelSpells}">
 												<td class="text-center" th:text="${element.key}"></td>
-												<td><a th:href="@{'/hero/spells/spell/' + ${spell.id}}" th:each="spell, iterStat : ${element.value}"
+												<td><a class="text-danger" th:href="@{'/hero/spells/spell/' + ${spell.id}}"
+												tabindex="0" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="auto"
+												th:title="${spell.name}"
+												th:attr="data-content=${spell.description}"
+												th:each="spell, iterStat : ${element.value}"
 													th:text="${iterStat.last} ? ${#strings.toLowerCase(spell.name)} : ${#strings.toLowerCase(spell.name)} + ', '"
 												></a></td>
 											</tr>
@@ -661,5 +665,12 @@ tr.shown td.details-control {
         }, 1000);
         return false; 
     }
+    $(function () {
+      $('[data-toggle="popover"]').popover({
+    	delay: { "show": 400, "hide": 100 },
+    	html: true,
+    	container: 'body',
+      })
+    })
 	</script>
 </html>

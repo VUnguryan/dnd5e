@@ -52,7 +52,9 @@ public class MagicThingDto {
 		rarity = magicThing.getRarity().getCyrilicName(); 
 		customization = magicThing.getCustomization();
 		custSpecial = magicThing.getCustSpecial();
-		custClasses = magicThing.getCustClasses().stream().map(HeroClass::getName).map(c-> "ЧАРОДЕЙ".equals(c) ? "чародеем": c + "ом").map(String::toLowerCase).collect(Collectors.joining(", "));
+		custClasses = magicThing.getCustClasses().stream()
+				.map(HeroClass::getAblativeName)
+				.map(String::toLowerCase).collect(Collectors.joining(", "));
 		cost = magicThing.getCost();
 		description = magicThing.getDescription();
 		book = magicThing.getBook().getName();

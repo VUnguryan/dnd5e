@@ -1,0 +1,456 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<head>
+<head>
+<title>Бестиарий</title>
+<style>
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+</style>
+<title>DnD 5E Бестиарий</title>
+<link rel="stylesheet" th:href="@{/resources/css/statblock.css}" />
+<style>
+img {
+	float: center;
+}
+
+td.details-control {
+	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
+		center;
+	cursor: pointer;
+}
+
+tr.shown td.details-control {
+	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
+		center;
+}
+table.dataTable tbody tr.selected {
+	background-color: #F0D0A0;
+}
+div.container {
+	width: 50%;
+}
+</style>
+</head>
+<body>
+	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
+		<div class="row">
+			<div class="col mt-3 mb-3">
+				<table id="example" class="table table-hover table-sm nowrap" style="width:100%; background-color: #FFFAF0;">
+					<thead>
+						<tr>
+							<th title="Уровень угрозы (Опастность)">CR</th>
+							<th>Название</th>
+							<th>Тип</th>
+							<th>Размер</th>
+							<th>Мировоззрение</th>
+							<th>Среда обитания</th>
+							<th>English</th>
+							<th>Источник</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="col pt-5" style="height: 80vh; overflow: auto;">
+				<div id="info"></div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="datatable">
+		$('.toast').toast('show');
+		$(document)
+				.ready(
+						function() {
+							$('a.toggle-vis').on(
+									'click',
+									function(e) {
+										e.preventDefault();
+										var column = table.column($(this).attr(
+												'data-column'));
+										column.visible(!column.visible());
+									});
+
+							var table = $('#example')
+									.DataTable(
+											{
+												stateSave : true,
+												dom : 'Bfrtip',
+												serverSide : true,
+												ajax : '/creatures',
+												scrollY : "65vh",
+												scrollCollapse : true,
+												scroller : true,
+												paging : false,
+												select : {
+													style : 'single'
+												},
+												autoWidth : false,
+												columns : [
+														{
+															data : "exp",
+															width : "5%",
+															searchable : false,
+															className : "text-center",
+														},
+														{
+															data : "name",
+															width : "30%",
+															render : function(
+																	data, type,
+																	row) {
+																if (type === 'display') {
+																	return '<h6>'
+																			+ data
+																			+ (row.englishName ? '<small class="text-secondary"> ('
+																					+ row.englishName
+																					+ ')</small>'
+																					: '')
+																			+ '</h6>'
+																			+ '<div class="text-secondary"><small>'
+																			+ row.book
+																			+ '</small></div>';
+																}
+																return data;
+															},
+														},
+														{
+															data : "type",
+															width : "10%",
+															searchable : false,
+															className : "text-center",
+														},
+														{
+															data : "size",
+															width : "15%",
+															searchable : false,
+															className : "text-center",
+														},
+														{
+															data : "alignment",
+															width : "15%",
+															searchable : false,
+															className : "text-center",
+														},
+														{
+															data : "habitates",
+															width : "15%",
+															searchable : false,
+															className : "text-center",
+														},
+														{
+															data : "englishName",
+															width : "10%",
+														}, {
+															data : "book",
+															width : "10%",
+															searchable : false,
+														}],
+												columnDefs : [ {
+													searchPanes : {
+														searchable : false,
+													},
+													targets : [ 0 ]
+												}, {
+													targets : [ 2 ],
+													visible : false
+												}, {
+													targets : [ 3 ],
+													visible : false
+												}, {
+													targets : [ 4 ],
+													visible : false
+												}, {
+													targets : [ 5 ],
+													visible : false
+												}, {
+													targets : [ 6 ],
+													visible : false
+												}, {
+													targets : [ 7 ],
+													visible : false
+												}, ],
+												buttons : [
+														'searchPanes',
+														{
+															extend : 'colvis',
+															text : 'Столбцы',
+															buttons : [
+																	{
+																		text : 'Тип',
+																		action : function(
+																				e,
+																				dt,
+																				node,
+																				config) {
+																			dt
+																					.column(
+																							2)
+																					.visible(
+																							!dt
+																									.column(
+																											2)
+																									.visible());
+																		}
+																	},
+																	{
+																		text : 'Размер',
+																		action : function(
+																				e,
+																				dt,
+																				node,
+																				config) {
+																			dt
+																					.column(
+																							3)
+																					.visible(
+																							!dt
+																									.column(
+																											3)
+																									.visible());
+																		}
+																	},
+																	{
+																		text : 'Мировоззрение',
+																		action : function(
+																				e,
+																				dt,
+																				node,
+																				config) {
+																			dt
+																					.column(
+																							4)
+																					.visible(
+																							!dt
+																									.column(
+																											4)
+																									.visible());
+																		}
+																	},
+																	{
+																		text : 'Среда обитания',
+																		action : function(
+																				e,
+																				dt,
+																				node,
+																				config) {
+																			dt
+																					.column(
+																							5)
+																					.visible(
+																							!dt
+																									.column(
+																											5)
+																									.visible());
+																		}
+																	},
+																	{
+																		text : 'Источник',
+																		action : function(
+																				e,
+																				dt,
+																				node,
+																				config) {
+																			dt
+																					.column(
+																							7)
+																					.visible(
+																							!dt
+																									.column(
+																											7)
+																									.visible());
+																		}
+																	}, ],
+														} ],
+												language : {
+													processing : "Загрузка...",
+													search : "Поиск",
+													lengthMenu : "Показывать _MENU_ записей на странице",
+													zeroRecords : "Ничего не найдено",
+													info : "Показано с _START_ до _END_ из _TOTAL_",
+													infoEmpty : "Нет доступных записей",
+													infoFiltered : "из _MAX_)",
+													paginate : {
+														first : "В начало",
+														previous : "Предыдущая",
+														next : "Следущая",
+														last : "В конец"
+													},
+													searchPanes : {
+														clearMessage : "Сбросить",
+														title : {
+															_ : 'Отфильтровано - %d',
+															0 : 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+															1 : 'Один фильтр выбран',
+														},
+														collapse : 'Фильтры (%d)'
+													},
+												},
+												ordering : true,
+											});
+							$('#example tbody')
+									.on(
+											'click',
+											'tr',
+											function() {
+												var tr = $(this).closest('tr');
+												var row = table.row(tr);
+												var element = document.getElementById("info");
+												element.innerHTML = format(row.data());
+											});
+						});
+		function format(d) {
+			var info = '<div id="stat-block" class="stat-block">';
+			info += '<hr class="orange-border" />';
+			info += '<div class="section-left">';
+			info += '<div class="creature-heading"><h1>' + d.name + '</h1>';
+			info += '<h2>' + d.size + ' ' + d.type;
+			info += d.race ? ' ' + d.race : '';
+			info += ', ' + d.alignment + '</h2></div>';
+			info += '<svg class="tapered-rule"><polyline points="0,0 400,2.5 0,5"></polyline></svg>'
+			info += '<div class="top-stats"><div class="property-line first"><h4><strong>Класс доспеха</strong></h4><p> '
+					+ d.ac
+					+ ' '
+					+ (d.armorType ? '(' + d.armorType + ')' : '')
+					+ '</p></div>';
+			info += '<div class="property-line"><h4><strong>Хиты</strong> <//h4><p>'
+					+ d.hp + '</p></div>';
+			info += '<div class="property-line last"><h4><strong>Скорость</strong> </h4><p>'
+					+ d.speed + '</p></div>';
+			info += '<svg class="tapered-rule"><polyline points="0,0 400,2.5 0,5"></polyline></svg>';
+			info += '<div class="scores">';
+			info += '<div class="scores-strength"><h4><strong>СИЛ</strong></h4><p>'
+					+ d.str + '</p></div>';
+			info += '<div class="scores-dexterity"><h4><strong>ЛОВ</strong></h4><p>'
+					+ d.dex + '</p></div>';
+			info += '<div class="scores-intelligence"><h4><strong>ТЕЛ</strong></h4><p>'
+					+ d.con + '</p></div>';
+			info += '<div class="scores-intelligence"><h4><strong>ИНТ</strong></h4><p>'
+					+ d.inte + '</p></div>';
+			info += '<div class="scores-constitution"><h4><strong>МДР</strong></h4><p>'
+					+ d.wiz + '</p></div>';
+			info += '<div class="scores-charisma"><h4><strong>ХАР</strong></h4><p>'
+					+ d.chr + '</p></div>';
+			info += '</div>';
+			info += '<svg class="tapered-rule"><polyline points="0,0 400,2.5 0,5"></polyline></svg>';
+			var first = ' first';
+			if (d.savingThrows) {
+				info += '<div class="property-line'+ first +'"><h4><strong>Спасброски</strong> </h4><p>'
+						+ d.savingThrows + '</p></div>';
+				first = '';
+			}
+			if (d.skills) {
+				info += '<div class="property-line'+ first +'"><h4><strong>Навыки</strong> </h4><p>'
+						+ d.skills + '</p></div>';
+				first = '';
+			}
+			if (d.vulnerabilityDamages) {
+				info += '<div class="property-line'+ first +'"><h4><strong>Уязвимость к урону</strong> </h4><p>'
+						+ d.vulnerabilityDamages + '</p></div>';
+				first = '';
+			}
+			if (d.resistanceDamages) {
+				info += '<div class="property-line'+ first +'"><h4><strong>Сопротивление к урону</strong> </h4><p>'
+						+ d.resistanceDamages + '</p></div>';
+				first = '';
+			}
+			if (d.immunityDamages) {
+				info += '<div class="property-line'+ first +'"><h4><strong>Иммунитет к урону</strong> </h4><p>'
+						+ d.immunityDamages + '</p></div>';
+				first = '';
+			}
+			if (d.immunityStates) {
+				info += '<div class="property-line'+ first +'"><h4><strong>Иммунитет к состояниям</strong> </h4><p>'
+						+ d.immunityStates + '</p></div>';
+				first = '';
+			}
+			info += '<div class="property-line'+ first +'"><h4><strong>Чувства</strong> </h4><p>'
+					+ d.feelings + '</p></div>';
+			info += '<div class="property-line"><h4><strong>Языки</strong> </h4><p>'
+					+ d.languages + '</p></div>';
+			info += '<div class="property-line last"><h4><strong>Опасность</strong> </h4><p>'
+					+ d.exp + ' (' + d.expa + ' опыта)</p></div>';
+			info += '<svg class="tapered-rule"><polyline points="0,0 400,2.5 0,5"></polyline></svg>'
+			for ( var feet in d.feets) {
+				info += '<div class="property-block"><h4><strong>'
+						+ d.feets[feet].name + '. </strong></h4>';
+				var paragraphs = d.feets[feet].description.split('</p>');
+				var reverse = false;
+				for (i = 0; i < paragraphs.length; i++) {
+					reverse = (d.feets[feet].reverseIndent && paragraphs[i]
+							.endsWith(':'))
+							|| reverse;
+					if (i === 0) {
+						info += paragraphs[i] + '</p>';
+					} else {
+						if (reverse) {
+							info += '<div class ="reverse-indent">';
+						} else {
+							info += '<div class ="indent">';
+						}
+						info += paragraphs[i].replace('/<p[^>]*>/', '')
+								+ '</div>';
+					}
+					if (paragraphs[i].endsWith(':')) {
+						info += '<br>';
+					}
+				}
+				info += '</div>';
+			}
+			info += '</div></div>';
+			info += '<div class="section-right">';
+			if (d.actions.length > 0) {
+				info += '<div class="actions"><h3>Действия</h3>';
+				for ( var action in d.actions) {
+					info += '<div class="property-block"><h4><strong>'
+							+ d.actions[action].name + '. </strong></h4>';
+					var paragraphs = d.actions[action].description
+							.split('</p>');
+					for (i = 0; i < paragraphs.length; i++) {
+						if (i === 0) {
+							info += '<p>' + paragraphs[i];
+						} else {
+							info += '<div class ="indent">'
+									+ paragraphs[i].replace('/<p[^>]*>/', '')
+									+ '</div>';
+						}
+					}
+					info += '</div>';
+				}
+				info += '</div>';
+			}
+			if (d.reactions.length > 0) {
+				info += '<div class="actions"><h3>Реакции</h3>';
+				for ( var reaction in d.reactions) {
+
+					info += '<div class="property-block"><h4><strong>'
+							+ d.reactions[reaction].name
+							+ '.</strong></h4> <p>'
+							+ d.reactions[reaction].description + '</p></div>';
+				}
+				info += '</div>';
+			}
+			if (d.legendaryActions.length > 0) {
+				info += '<div class="actions"><h3>Легендарные действия</h3>';
+				info += '<div class="property-block">' + d.legendary + '</div>';
+				for ( var legendary in d.legendaryActions) {
+
+					info += '<div class="property-block"><div><h4><strong>'
+							+ d.legendaryActions[legendary].name
+							+ '.</strong></h4> <p>'
+							+ d.legendaryActions[legendary].description
+							+ '</p></div></div>';
+				}
+				info += '</div>';
+			}
+			info += '<div><p class="text-right font-weight-light"><small>Источник: '
+					+ d.book + '</small></p></div>';
+
+			info += '</div>';
+			info += '<div><a class="btn btn-outline-dark btn-sm" href="/entities/creature/' + d.id + '">Подробно</a></div>';
+			info += '<hr class="orange-border bottom" />';
+			info += '</div>';
+			return info;
+		}
+	</script>
+</body>
+</html>

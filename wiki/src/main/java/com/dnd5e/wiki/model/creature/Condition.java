@@ -33,9 +33,10 @@ public enum Condition {
 
 	private String cyrilicName;
 	private Set<String> names;
-	private int id;
+	private Integer id;
 	
 	Condition(int id, String ...  names){
+		this.id = id;
 		cyrilicName = names[0];
 		this.names = Arrays.stream(names).collect(Collectors.toSet());
 	}

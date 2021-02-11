@@ -39,6 +39,8 @@ public class Creature {
 	private static final String blindsightTitle = "Чудовище со слепым зрением воспринимает окружение в определённом радиусе, не полагаясь на зрение. Как правило, это особое чувство есть у существ без глаз, таких как гримлоки и серая слизь, а также у существ с эхолокацией или обострённым восприятием, таких как летучие мыши и истинные драконы. Если чудовище слепо от природы, это указывается в скобках наряду с радиусом, за пределами которого существо слепо.";
 	private static final String truesightTitle = "Чудовище с истинным зрением в определённом радиусе видит в обычной и магической тьме, видит невидимых существ, автоматически распознаёт визуальные иллюзии и успешно преуспевает в спасбросках от них, и видит истинную форму перевёртышей и существ, превращённых магией. Кроме того, зрение этого чудовища простирается на Эфирный План в том же радиусе.";
 
+	private static final String popover = "tabindex=\"0\" href=\"#\" class=\"text-danger\" data-trigger=\"hover\" data-container=\"body\" data-toggle=\"popover\" data-placement=\"top\"";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -245,22 +247,22 @@ public class Creature {
 	public String getAllSense() {
 		List<String> sense = new ArrayList<>(5);
 		if (blindsight != null) {
-			String blind = String.format("<a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">слепое зрение</a> %d фт.", blindsightTitle, blindsight);
+			String blind = String.format("<a class=\"text-danger\" " + popover + " data-content =\"%s\">слепое зрение</a> %d фт.", blindsightTitle, blindsight);
 			if (blindsightRadius != null) {
 				blind += " (слеп за пределами этого радиуса)";
 			}
 			sense.add(blind);
 		}
 		if (darkvision != null) {
-			sense.add(String.format("<a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">тёмное зрение</a> %d фт.", darkvisionTitle,
+			sense.add(String.format("<a class=\"text-danger\" " + popover + " data-content =\"%s\">тёмное зрение</a> %d фт.", darkvisionTitle,
 					darkvision));
 		}
 		if (trysight != null) {
 			
-			sense.add(String.format("<a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">истинное зрение</a> %d фт.", truesightTitle, trysight));
+			sense.add(String.format("<a class=\"text-danger\" " + popover + " data-content =\"%s\">истинное зрение</a> %d фт.", truesightTitle, trysight));
 		}
 		if (vibration != null) {
-			sense.add(String.format("<a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">чувство вибрации</a> %d фт.", vibrationTitle, vibration));
+			sense.add(String.format("<a class=\"text-danger\" " + popover + " data-content =\"%s\">чувство вибрации</a> %d фт.", vibrationTitle, vibration));
 		}
 		sense.add(String.format("пассивная Внимательность %d", passivePerception));
 
@@ -275,11 +277,11 @@ public class Creature {
 	}
 
 	public String getAllSpeed() {
-		return String.format("%d фт.", speed) + (flySpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">летая</a> %d фт.", flyTittle, flySpeed)) 
+		return String.format("%d фт.", speed) + (flySpeed == null ? "" : String.format(", <a class=\"text-danger\" "  +popover+ " data-content =\"%s\">летая</a> %d фт.", flyTittle, flySpeed)) 
 				+ (hover == null ? "" : " (парит)")
-				+ (swimmingSpped == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">плавая</a> %d фт.",swimTittle, swimmingSpped))
-				+ (diggingSpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">копая</a> %d фт.", giggingTittle, diggingSpeed))
-				+ (climbingSpeed == null ? "" : String.format(", <a class=\"text-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title =\"%s\">лазая</a> %d фт.", climbingTittle, climbingSpeed));
+				+ (swimmingSpped == null ? "" : String.format(", <a class=\"text-danger\" " + popover + " data-content =\"%s\">плавая</a> %d фт.",swimTittle, swimmingSpped))
+				+ (diggingSpeed == null ? "" : String.format(", <a class=\"text-danger\" " + popover + " data-content =\"%s\">копая</a> %d фт.", giggingTittle, diggingSpeed))
+				+ (climbingSpeed == null ? "" : String.format(", <a class=\"text-danger\" " + popover + " data-content =\"%s\">лазая</a> %d фт.", climbingTittle, climbingSpeed));
 	}
 	
 	private static final String flyTittle = "Существо, имеющее скорость полёта, может использовать часть или всё передвижение для полёта.";

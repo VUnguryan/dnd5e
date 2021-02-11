@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/js-layout}">
 <head>
 <title th:text="${creature.name}"></title>
 <style>
@@ -99,7 +99,10 @@ img {
 								<b>Иммунитет к урону </b><span th:each="immunityDamage, iterStat : *{immunityDamages}" th:text="${iterStat.last} ? ${immunityDamage.cyrilicName} : ${immunityDamage.cyrilicName} + ', '"></span>
 							</div>
 							<div th:unless="*{#lists.isEmpty(immunityStates)}">
-								<b>Иммунитет к состоянию </b><span th:each="state, iterStat : *{immunityStates}" th:text="${iterStat.last} ? ${state.cyrilicName} : ${state.cyrilicName} + ', '"></span>
+								<b>Иммунитет к состоянию </b><span th:each="state, iterStat : *{immunityStates}"> <a class="text-danger" th:href="@{|/conditions/${state.id}|}"
+									th:text="${iterStat.last} ? ${state.cyrilicName} : ${state.cyrilicName} + ', '" tabindex="0" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="auto"
+									th:title="${conditions.get(state.id).name}" th:attr="data-content=${conditions.get(state.id).description}"
+								></a></span>
 							</div>
 							<div>
 								<b>Чувства</b> <span th:utext="*{allSense}"></span>
@@ -201,4 +204,13 @@ img {
 		</div>
 	</div>
 </body>
+<script type="text/javascript" layout:fragment="script">
+$(function () {
+  $('[data-toggle="popover"]').popover({
+  	delay: { "show": 400, "hide": 100 },
+	html: true,
+	container: 'body',
+  })
+})
+</script>
 </html>

@@ -15,6 +15,7 @@ import com.dnd5e.wiki.model.hero.classes.Archetype;
 import com.dnd5e.wiki.model.hero.classes.ArchetypeSpell;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.Spell;
+import com.dnd5e.wiki.util.HtmlConverter;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,7 +64,8 @@ public class SpellDto {
 		materialComponent = spell.getMaterialComponent() != null && spell.getMaterialComponent() ? "★": "";
 		components = spell.getAdditionalMaterialComponent();
 		consumable = spell.getConsumable();
-		description = spell.getDescription();
+		description = spell.getDescription() == null ? "": HtmlConverter.toHtml(spell.getDescription());
+
 		upperLevel = spell.getUpperLevel();
 		damageType = spell.getDamageType().isEmpty() ? "" : spell.getDamageType().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
 		heroClass = spell.getHeroClass().stream().map(HeroClassDto::new).collect(Collectors.toList());

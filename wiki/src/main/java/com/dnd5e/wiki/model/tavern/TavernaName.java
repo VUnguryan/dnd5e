@@ -22,6 +22,7 @@ public class TavernaName {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	private String names;
 	@Enumerated(EnumType.STRING)
 	private Sex sex;
 	@Enumerated(EnumType.STRING)

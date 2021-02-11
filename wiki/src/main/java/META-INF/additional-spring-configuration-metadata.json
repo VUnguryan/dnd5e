@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "spring.mobile.devicedelegatingviewresolver.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.mobile.devicedelegatingviewresolver.enabled'"
+  },
+  {
+    "name": "spring.mobile.sitepreference.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.mobile.sitepreference.enabled'"
+  }
+]}
