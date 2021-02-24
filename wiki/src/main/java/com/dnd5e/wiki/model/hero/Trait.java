@@ -19,11 +19,14 @@ import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.SkillType;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 
 @Entity
 @Table(name = "traits")
-@Data
 public class Trait {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

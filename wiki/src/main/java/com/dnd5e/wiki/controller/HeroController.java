@@ -1,7 +1,7 @@
 package com.dnd5e.wiki.controller;
 
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,17 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/hero/")
 public class HeroController {
 	@GetMapping("/conditions")
-	public String getCondinons(Model model) {
+	public String getCondinons(Device device) {
 		return "datatable/conditions";
 	}
 
 	@GetMapping("/options")
-	public String getTableOptions() {
-		return "datatable/options";
+	public String getTableOptions(Device device) {
+		if (device.isMobile()) {
+			return "datatable/options";
+		}
+		return "datatable/options2";
 	}
 
 	@GetMapping("/traits")
-	public String getTableTraits() {
-		return "datatable/traits";
+	public String getTableTraits(Device device) {
+		if (device.isMobile()) {
+			return "datatable/traits";
+		}
+		return "datatable/traits2";
 	}
 }

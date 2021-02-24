@@ -28,7 +28,7 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.hero.Option;
 import com.dnd5e.wiki.model.hero.Option.OptionType;
-import com.dnd5e.wiki.model.hero.Trait;
+import com.dnd5e.wiki.model.spell.GroupByCount;
 import com.dnd5e.wiki.repository.datatable.OptionDatatableRepository;
 import com.dnd5e.wiki.util.SourceUtil;
 
@@ -54,31 +54,60 @@ public class OptionRestController {
 				filterBooks.add(book);
 			}
 		}
-		List<OptionType> filterTypes = new ArrayList<>();
-		for (int j = 0; j <= 21; j++) {
-			String type = searchPanes.get("searchPanes.optionType." + j);
+		List<OptionType> optionTypes = new ArrayList<>();
+		for (int j = 0; j <= OptionType.values().length; j++) {
+			String type = searchPanes.get("searchPanes.optionTypes." + j);
 			if (type != null) {
-				filterTypes.add(OptionType.parse(type));
+				optionTypes.add(OptionType.parse(type));
+			}
+		}
+		List<String> prerequisites = new ArrayList<>();
+		for (int j = 0; j <= 10; j++) {
+			String prerequisite = searchPanes.get("searchPanes.prerequisite." + j);
+			if (prerequisite != null) {
+				prerequisites.add(prerequisite);
 			}
 		}
 		Specification<Option> specification = bySources(sources);
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
-		if (!filterTypes.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> root.get("optionType").in(filterTypes));
+		if (!optionTypes.isEmpty()) {
+			specification = addSpecification(specification, (root, query, cb) ->{
+				Join<OptionType, Option> optionType = root.join("optionTypes", JoinType.LEFT);
+				return optionType.in(optionTypes);
+			}); 
+		}
+		if (!prerequisites.isEmpty()) {
+			specification = addSpecification(specification, (root, query, cb) -> root.get("prerequisite").in(prerequisites));
 		}
 		DataTablesOutput<OptionDto> output = repo.findAll(input, specification, specification,
 				i -> new OptionDto(i));
 		SearchPanes sPanes = new SearchPanes();
-		Map<String, List<Item>> options = new HashMap<>();
 
-		repo.countTotalOptionBook().stream().map(
-				c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+		Map<String, List<Item>> options = new HashMap<>();
+		List<GroupByCount<OptionType>> groupOptionTypes = repo.countTotalOptionType();
+		groupOptionTypes.stream()
+			.map(c -> new Item(c.getField().getName(), c.getTotal(), c.getField().getName(), c.getTotal()))
+			.forEach(v -> addItem("optionTypes", options, v));
+
+		List<GroupByCount<String>> prerequsites;
+		if (optionTypes.isEmpty()) {
+			prerequsites = repo.countTotalPrerequisite();
+		}
+		else
+		{
+			prerequsites = repo.countTotalPrerequisite(optionTypes);
+		}
+		if (prerequsites.size() > 1) {
+			prerequsites.stream()
+			.map(c -> new Item(c.getField(), c.getTotal(), c.getField(), c.getTotal()))
+				.forEach(v -> addItem("prerequisite", options, v));
+		}
+
+		repo.countTotalOptionBook().stream()
+			.map(c -> new Item(c.getField().getSource(), c.getTotal(), c.getField().getSource(), c.getTotal()))
 				.forEach(v -> addItem("book", options, v));
-		repo.countTotalOptionType().stream().map(
-				c -> new Item(c.getField().getName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
-				.forEach(v -> addItem("optionType", options, v));
 
 		sPanes.setOptions(options);
 		SearchPanesOutput<OptionDto> spOutput = new SearchPanesOutput<>(output);

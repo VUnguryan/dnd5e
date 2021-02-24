@@ -23,6 +23,9 @@ public interface ArtifactRepository extends DataTablesRepository<MagicThing, Int
 	@Query("SELECT m.type AS field, COUNT(m.type) AS total FROM MagicThing m GROUP BY m.type")
 	List<GroupByCount<MagicThingType>> countTotalMagicThingsByType();
 	
+	@Query("SELECT m.customization AS field, COUNT(m.customization) AS total FROM MagicThing m GROUP BY m.customization")
+	List<GroupByCount<Boolean>> countTotalMagicThingsByCustomization();
+	
 	@Query("SELECT m.book AS field, COUNT(m.book) AS total FROM MagicThing m GROUP BY m.book")
 	List<GroupByCount<Book>> countTotalMagicThingsByBook();
 }

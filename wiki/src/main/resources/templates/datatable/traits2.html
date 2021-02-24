@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
-<title>Опции классов</title>
+<title>Черты</title>
 <style>
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
+.line1 {
+       display: block;
+       position: relative;
+       padding: 0;
+       margin: 8px auto;
+       height: 2px;
+       width: 100%;
+       max-height: 2;
+       font-size: 1px;
+       line-height: 0;
+       clear: both;
+       border-top: 1px solid #E69A28;
+       border-bottom: 1px solid #E69A28;
+       background-color: #E69A28
 }
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
+table.dataTable tbody tr.selected {
+  background-color: #F0D0A0;
+}
+div.container {
+	width: 50%;
+}
+.header {
+	color: #A12000;
 }
 </style>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
+	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-11 mt-3 mb-3">
-				<table id="example" class="table table-hover table-sm" style="width: 100%">
+			<div class="col-5 mt-3 mb-3">
+				<table id="example" class="table table-hover table-sm" style="width: 100%; background-color: #FFFAF0;">
 					<thead>
 						<tr>
-							<th>Опция</th>
-							<th>Тип</th>
-							<th>Требование</th>
-							<th>Уровень</th>
+							<th>Черта</th>
+							<th>Требования</th>
+							<th title="Увеличение характеристик">Хар-ки</th>
+							<th title="Получение навыков">Навыки</th>
 							<th>Источник</th>
 							<th>englishName</th>
-							<th></th>
 						</tr>
 					</thead>
 				</table>
+			</div>
+			<div class="col-6 pt-5" style="height: 80vh; overflow: auto;">
+				<div id="info"></div>
 			</div>
 		</div>
 	</div>
@@ -44,9 +61,16 @@ tr.shown td.details-control {
 		var table = $('#example').DataTable( {
 			iDisplayLength : 25,
 	        dom: 'Bfrtip',
-			processing : true,
 	        serverSide : true,
-			ajax : '/options',
+			ajax : '/traits',
+	        scrollY: "65vh",
+	        scrollCollapse: true,
+	        scroller: true,
+	        paging: false,
+	        select: {
+	            style: 'single'
+	        },
+	        autoWidth: false,
 			columns : [
 						{
 							data : "name",
@@ -60,18 +84,19 @@ tr.shown td.details-control {
 							}, 
 						},
 						{
-							data : "optionTypes",
-							width : "10%",
-							searchable: false,
-						}, 
-						{
-							data : "prerequisite",
-							width : "30%"
+							data : "requirement",
+							width : "15%"
 						},
 						{
-							data : "level",
-							width : "1%",
+							data : "abilities",
+							width : "10%",
 						    searchable: false,
+						}, 
+						{
+							data : "skills",
+							width : "10%",
+						    searchable: false,
+
 						},
 						{
 							data : "book",
@@ -82,15 +107,16 @@ tr.shown td.details-control {
 							data : "englishName",
 							width : "1%"
 						},
-						{
-							className : 'details-control',
-						    searchable: false,
-						    orderable: false,
-							defaultContent : '',
-							width : "1%"
-						},
 					],
 					columnDefs : [
+			            {
+			                targets : [ 2 ],
+			                visible : false
+			            },
+			            {
+			                "targets": [ 3 ],
+			                "visible": false
+				        },
 			            {
 			                "targets": [ 4 ],
 			                "visible": false
@@ -106,6 +132,18 @@ tr.shown td.details-control {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
 			                buttons: [
+			                    {
+			                        text: 'Увлеличение характеристик',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 2 ).visible( ! dt.column( 2 ).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Получение навыков',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 3 ).visible( ! dt.column( 3 ).visible() );
+			                        }
+			                    },
 			                    {
 			                        text: 'Источник',
 			                        action: function ( e, dt, node, config ) {
@@ -142,20 +180,22 @@ tr.shown td.details-control {
 					ordering : true,
 				});
 	$('#example tbody').on('click', 'tr', function () {
-    	var tr = $(this).closest('tr');
-    	var row = table.row( tr );
-	    if ( row.child.isShown() ) {
-        	row.child.hide();
-        	tr.removeClass('shown');
-    	}
-    	else {
-	        row.child( format(row.data()) ).show();
-        	tr.addClass('shown');
-    	}
+		var tr = $(this).closest('tr');
+		var row = table.row( tr );
+		var element = document.getElementById("info");
+		var name = '<h5 class="header">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
+		element.innerHTML = name + format(row.data());
 		});
 	});
 	function format ( d ) {
-		return "<p><small>" + d.type + "</small></p>" + d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
+		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
+		if (d.requirement !== null) {
+			info+='<p class ="mb-2 mt-1"><em>Требования: '+ d.requirement +'</em></p>';
+			info+='<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
+		}
+		info+= d.description;
+		info+= '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>';
+		return info; 
 	}
 	</script>
 </body>

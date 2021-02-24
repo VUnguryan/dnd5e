@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
+import com.dnd5e.wiki.model.hero.Option.OptionType;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Data;
@@ -49,6 +52,9 @@ public class Archetype {
 	@OneToMany
 	@JoinColumn(name = "archetype_id")
 	private List<ArchetypeSpell> spells;
+
+	@Enumerated(EnumType.STRING)
+	private OptionType optionType;
 
 	@ManyToOne
 	@JoinColumn(name = "source")

@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -20,6 +24,7 @@ import com.dnd5e.wiki.controller.rest.SettingRestController;
 import com.dnd5e.wiki.dto.ClassFetureDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.TypeBook;
+import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.classes.Archetype;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.repository.ClassRepository;
@@ -60,9 +65,20 @@ public class ClassController {
 			.filter(f -> !f.isArchitype())
 			.map(f -> new ClassFetureDto(f, heroClass.getName()))
 			.forEach(f -> features.add(f));
+		Map<Integer, Set<ClassFetureDto>> archetypeTraits = heroClass.getArchetypes()
+				.stream().flatMap(a -> a.getFeats().stream())
+				.collect(
+						Collectors.groupingBy(
+								f -> f.getArchetype().getId(),
+								Collectors.mapping(f -> new ClassFetureDto(
+										f, f.getArchetype().getGenitiveName()), 
+										Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ClassFetureDto::getLevel))))
+								)
+				);
 		Collections.sort(features, Comparator.comparing(ClassFetureDto::getLevel));
 		model.addAttribute("features", features);
 		model.addAttribute("heroClass", heroClass);
+		model.addAttribute("archetypeTraits", archetypeTraits);
 		model.addAttribute("order", "[[ 1, 'asc' ]]");
 		return "classView";
 	}

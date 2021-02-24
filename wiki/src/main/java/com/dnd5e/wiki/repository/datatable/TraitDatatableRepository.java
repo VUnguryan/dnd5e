@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.repository.datatable;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
@@ -25,4 +26,7 @@ public interface TraitDatatableRepository extends DataTablesRepository<Trait, In
 	
 	@Query("SELECT b AS field, COUNT(b) AS total FROM Trait s JOIN s.book AS b GROUP BY b")
 	List<GroupByCount<Book>> countTotalTraitBook();
+
+	@Query("SELECT t.requirement AS field, COUNT(*) AS total FROM Trait t GROUP BY t.requirement")
+	List<GroupByCount<String>> countTotalRequirement();
 }

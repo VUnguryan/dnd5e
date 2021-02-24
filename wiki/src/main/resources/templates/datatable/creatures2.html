@@ -35,7 +35,7 @@ div.container {
 <body>
 	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
 		<div class="row">
-			<div class="col mt-3 mb-3">
+			<div class="col-5 mt-3 mb-3">
 				<table id="example" class="table table-hover table-sm nowrap" style="width:100%; background-color: #FFFAF0;">
 					<thead>
 						<tr>
@@ -46,6 +46,7 @@ div.container {
 							<th>Мировоззрение</th>
 							<th>Среда обитания</th>
 							<th>English</th>
+							<th>Особенности</th>
 							<th>Источник</th>
 						</tr>
 					</thead>
@@ -59,20 +60,12 @@ div.container {
 	<script layout:fragment="datatable">
 		$('.toast').toast('show');
 		$(document)
-				.ready(
-						function() {
-							$('a.toggle-vis').on(
-									'click',
-									function(e) {
-										e.preventDefault();
-										var column = table.column($(this).attr(
-												'data-column'));
-										column.visible(!column.visible());
-									});
-
-							var table = $('#example')
-									.DataTable(
-											{
+				.ready(function() {$('a.toggle-vis').on('click', function(e) {
+					e.preventDefault();
+					var column = table.column($(this).attr('data-column'));
+					column.visible(!column.visible());
+		});
+		var table = $('#example').DataTable({
 												stateSave : true,
 												dom : 'Bfrtip',
 												serverSide : true,
@@ -88,13 +81,13 @@ div.container {
 												columns : [
 														{
 															data : "exp",
-															width : "5%",
+															width : "3%",
 															searchable : false,
 															className : "text-center",
 														},
 														{
 															data : "name",
-															width : "30%",
+															width : "20%",
 															render : function(
 																	data, type,
 																	row) {
@@ -124,12 +117,14 @@ div.container {
 															width : "15%",
 															searchable : false,
 															className : "text-center",
+															searchable : false,
 														},
 														{
 															data : "alignment",
 															width : "15%",
 															searchable : false,
 															className : "text-center",
+															searchable : false,
 														},
 														{
 															data : "habitates",
@@ -140,11 +135,18 @@ div.container {
 														{
 															data : "englishName",
 															width : "10%",
-														}, {
+														},
+														{
+															data : "legendary",
+															width : "10%",
+															searchable : false,
+														},
+														{
 															data : "book",
 															width : "10%",
 															searchable : false,
-														}],
+														},
+														],
 												columnDefs : [ {
 													searchPanes : {
 														searchable : false,
@@ -166,100 +168,51 @@ div.container {
 													targets : [ 6 ],
 													visible : false
 												}, {
+									                searchPanes: {
+									                    controls: false
+									                },
 													targets : [ 7 ],
 													visible : false
-												}, ],
+												}, {
+													targets : [ 8 ],
+													visible : false
+												}, 
+												],
 												buttons : [
-														'searchPanes',
-														{
+														'searchPanes',	{
 															extend : 'colvis',
 															text : 'Столбцы',
 															buttons : [
 																	{
 																		text : 'Тип',
-																		action : function(
-																				e,
-																				dt,
-																				node,
-																				config) {
-																			dt
-																					.column(
-																							2)
-																					.visible(
-																							!dt
-																									.column(
-																											2)
-																									.visible());
+																		action : function(e,dt,node,config) {
+																			dt.column(2).visible(!dt.column(2).visible());
 																		}
 																	},
 																	{
 																		text : 'Размер',
-																		action : function(
-																				e,
-																				dt,
-																				node,
-																				config) {
-																			dt
-																					.column(
-																							3)
-																					.visible(
-																							!dt
-																									.column(
-																											3)
-																									.visible());
+																		action : function(e,dt,node,config) {
+																			dt.column(3).visible(!dt.column(3).visible());
 																		}
 																	},
 																	{
 																		text : 'Мировоззрение',
-																		action : function(
-																				e,
-																				dt,
-																				node,
-																				config) {
-																			dt
-																					.column(
-																							4)
-																					.visible(
-																							!dt
-																									.column(
-																											4)
-																									.visible());
+																		action : function(e,dt,node,config) {
+																			dt.column(4).visible(!dt.column(4).visible());
 																		}
 																	},
 																	{
 																		text : 'Среда обитания',
-																		action : function(
-																				e,
-																				dt,
-																				node,
-																				config) {
-																			dt
-																					.column(
-																							5)
-																					.visible(
-																							!dt
-																									.column(
-																											5)
-																									.visible());
+																		action : function(e,dt,node,config) {
+																			dt.column(5).visible(!dt.column(5).visible());
 																		}
 																	},
 																	{
 																		text : 'Источник',
-																		action : function(
-																				e,
-																				dt,
-																				node,
-																				config) {
-																			dt
-																					.column(
-																							7)
-																					.visible(
-																							!dt
-																									.column(
-																											7)
-																									.visible());
+																		action : function(e,dt,node,config) {
+																			dt.column(8).visible(!dt.column(8).visible());
 																		}
-																	}, ],
+																	},],
 														} ],
 												language : {
 													processing : "Загрузка...",

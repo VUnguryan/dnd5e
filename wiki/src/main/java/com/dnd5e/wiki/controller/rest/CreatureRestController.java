@@ -114,7 +114,12 @@ public class CreatureRestController {
 		repo.countTotalCreatureByBook().stream() .map(c -> new
 				  Item(String.valueOf(c.getField().getSource()), c.getTotal(),
 				  String.valueOf(c.getField()), c.getTotal())) .forEach(v -> addItem("book", options, v));
-		
+
+		addItem("legendary", options, new Item<String>("Колдовство", 0L, "Колдовство", 0L));
+		addItem("legendary", options, new Item<String>("Врожденное колдовство", 0L, "Врожденное колдовство", 0L));
+		addItem("legendary", options, new Item<String>("Легендарные действия", 0L, "Легендарные действия", 0L));
+		addItem("legendary", options, new Item<String>("Логово", 0L, "Логово", 0L));
+
 		sPanes.setOptions(options); 
 		SearchPanesOutput<CreatureDto> spOutput = new SearchPanesOutput<>(output);
 		spOutput.setSearchPanes(sPanes);

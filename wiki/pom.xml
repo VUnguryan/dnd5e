@@ -122,7 +122,11 @@
 			<artifactId>webjars-locator</artifactId>
 			<version>0.30</version>
 		</dependency>
-
+		<dependency>
+    		<groupId>org.webjars</groupId>
+    		<artifactId>datatables</artifactId>
+    		<version>1.10.23</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.darrachequesne</groupId>
 			<artifactId>spring-data-jpa-datatables</artifactId>

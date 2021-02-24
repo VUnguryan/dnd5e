@@ -31,9 +31,11 @@
 						data-toggle="tooltip" data-placement="top" th:if="${race.natureArmor}" class="invert" th:src="@{/resources/icons/Icon.7_67.png}" height="25" title="природный доспех"
 					/><img data-toggle="tooltip" data-placement="top" th:if="${race.athletics}" class="invert" th:src="@{/resources/icons/Icon.4_64.png}" height="25" title="атлетичный" /><img
 						data-toggle="tooltip" data-placement="top" th:if="${race.stealth}" class="invert" th:src="@{/resources/icons/Icon.6_10.png}" height="25" title="скрытный"
-					/> <img data-toggle="tooltip" data-placement="top" th:if="${race.resistenceFire}" class="invert" th:src="@{/resources/icons/Icon.6_68.png}" height="25" title="сопротивление к урону огнем" /><img
+					/><img data-toggle="tooltip" data-placement="top" th:if="${race.resistenceFire}" class="invert" th:src="@{/resources/icons/Icon.6_68.png}" height="25" title="сопротивление к урону огнем" /><img
 						data-toggle="tooltip" data-placement="top" th:if="${race.resistencePoison}" class="invert" th:src="@{/resources/icons/Icon.1_69.png}" height="25" title="сопротивление или иммунитет к урону ядом"
-					/><img height="25" />
+					/><img data-toggle="tooltip" data-placement="top" th:if="${race.resistenceCold}" class="invert" th:src="@{/resources/icons/Icon.2_66.png}" height="25" title="сопротивление к урорну холодом" /><img
+						height="25"
+					/>
 				</div>
 				<footer class="card-footer">
 					<small class="text-muted" th:text="'Источник: ' + ${race.book.name}"></small>

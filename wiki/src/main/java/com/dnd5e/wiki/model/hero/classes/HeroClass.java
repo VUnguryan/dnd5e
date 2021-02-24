@@ -27,6 +27,7 @@ import com.dnd5e.wiki.model.Rest;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.HeroClassTrait;
+import com.dnd5e.wiki.model.hero.Option.OptionType;
 import com.dnd5e.wiki.model.spell.Spell;
 
 import lombok.Getter;
@@ -97,6 +98,9 @@ public class HeroClass {
 	@Column(name = "skill", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private List<SkillType> availableSkills;
+	
+	@Enumerated(EnumType.STRING)
+	private OptionType optionType;
 	
 	@Enumerated(EnumType.STRING)
 	private Rest slotsReset;

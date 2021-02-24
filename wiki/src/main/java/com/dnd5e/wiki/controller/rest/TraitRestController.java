@@ -68,6 +68,13 @@ public class TraitRestController {
 				filterBooks.add(book);
 			}
 		}
+		List<String> requirements = new ArrayList<>();
+		for (int j = 0; j <= 40; j++) {
+			String requirement = searchPanes.get("searchPanes.requirement." + j);
+			if (requirement != null) {
+				requirements.add(requirement);
+			}
+		}
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		Specification<Trait> specification = bySources(sources);
 
@@ -85,6 +92,9 @@ public class TraitRestController {
 				return cb.and(abilityType.in(filterSkills));
 			});
 		}
+		if (!requirements.isEmpty()) {
+			specification = addSpecification(specification, (root, query, cb) -> root.get("requirement").in(requirements));
+		}
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
@@ -101,10 +111,14 @@ public class TraitRestController {
 				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 				.forEach(v -> addItem("skills", options, v));
 		
+		repo.countTotalRequirement().stream().map(
+				c -> new Item(c.getField(), c.getTotal(), c.getField(), c.getTotal()))
+				.forEach(v -> addItem("requirement", options, v));
+
 		repo.countTotalTraitBook().stream().map(
 				c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 				.forEach(v -> addItem("book", options, v));
-
+	
 		sPanes.setOptions(options);
 		SearchPanesOutput<TraitDto> spOutput = new SearchPanesOutput<>(output);
 		spOutput.setSearchPanes(sPanes);

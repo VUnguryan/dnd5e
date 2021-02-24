@@ -1,0 +1,240 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<head>
+<head>
+<style>
+.table>tbody .hiddenRow {
+	padding: 0 8px;
+}
+</style>
+<title>Предыстории</title>
+<style>
+table.dataTable tbody tr.selected {
+  background-color: #F0D0A0;
+}
+div.container {
+	width: 50%;
+}
+.lineTop {
+       display: block;
+       position: relative;
+       padding: 0;
+       margin: 8px auto;
+       height: 2px;
+       width: 100%;
+       max-height: 2;
+       font-size: 1px;
+       line-height: 0;
+       clear: both;
+       border-top: 1px solid #E69A28;
+       border-bottom: 1px solid #E69A28;
+       background-color: #E69A28
+}
+.header {
+	color: #A12000;
+}
+</style>
+</head>
+<body>
+	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
+		<div class="row">
+			<div class="col-5 mt-3 mb-3">
+				<table id="example" class="table table-hover table-sm nowrap" style="width: 100%; background-color: #FFFAF0;">
+					<thead>
+						<tr>
+							<th>Предыстория</th>
+							<th>Умение</th>
+							<th>Владение навыками</th>
+							<th>В кошельке (зм.)</th>
+							<th>Источник</th>
+							<th>English</th>
+							<th></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="col-6 pt-5" style="height: 80vh; overflow: auto;">
+				<div id="info"></div>
+			</div>
+		</div>
+	</div>
+	<script layout:fragment="datatable">
+	$(document).ready(function() {
+		$('a.toggle-vis').on( 'click', function (e) {
+	        e.preventDefault();
+	        var column = table.column( $(this).attr('data-column') );
+	        column.visible( ! column.visible() );
+	    });
+
+		var table = $('#example').DataTable( {
+			stateSave: true,
+			iDisplayLength : 25,
+	        dom: 'Bfrtip',
+	        serverSide : true,
+			ajax : '/backgrounds',
+	        scrollY: "65vh",
+	        scrollCollapse: true,
+	        scroller: true,
+	        paging: false,
+	        select: {
+	            style: 'single'
+	        },
+			columns : [
+						{
+							data : "name",
+							width : "30%", 
+							render : function(data, type, row) {
+								if (type === 'display') {
+									var name = '<h6>' + data;
+									if (row.englishName) {
+										name+= ' <small class="text-secondary"> (' + row.englishName + ')';
+									}
+									return name + '</h6>' + '<div class="text-secondary"><small>' + row.book +'</small></div>';
+								}
+								return data;
+							}, 
+						},
+						{
+							data : "skillName",
+							width : "20%"
+						},
+						{
+							data : "skills",
+							width : "10%",
+						    searchable: false,
+						},
+						{
+							data : "startMoney",
+							width : "1%",
+						    className: "text-center",
+						    searchable: false,
+						},
+						{
+							data : "book",
+							width : "15%",
+						    searchable: false,
+						},
+						{
+							data : "englishName",
+							width : "15%",
+						},
+						{
+							className : 'details-control',
+						    searchable: false,
+						    orderable: false,
+							defaultContent : '',
+							width : "1%"
+						},
+					],
+					columnDefs : [
+			            {
+			                targets : [2],
+			                visible : false
+			            },
+			            {
+			                targets : [3],
+			                visible : false
+			            },
+			            {
+			                targets : [4],
+			                visible : false
+			            },
+			            {
+			                targets : [5],
+			                visible : false
+			            },
+			            {
+			                targets : [6],
+			                visible : false
+			            },
+				    ],
+				    buttons: [
+			        	'searchPanes',
+			            {
+			        		extend: 'colvis',
+			                text: 'Столбцы',
+			                buttons: [
+			                    {
+			                        text: 'Получение навыков',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 2 ).visible( ! dt.column( 2 ).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Начальный капитал',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 3 ).visible( ! dt.column( 3 ).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Источник',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
+			                        }
+			                    },
+			                ]
+			            }
+			        ],
+					language : {
+						processing : "Загрузка...",
+						search : "Поиск",
+						lengthMenu : "Показывать _MENU_ записей на странице",
+						zeroRecords : "Ничего не найдено",
+						info : "Показано с _START_ до _END_ из _TOTAL_",
+						infoEmpty : "Нет доступных записей",
+						infoFiltered : "(filtered from _MAX_ всего)",
+						paginate : {
+							first : "В начало",
+							previous : "Предыдущая",
+							next : "Следущая",
+							last : "В конец"
+						},
+						searchPanes: {
+							clearMessage : "Сбросить",
+				            title : {
+				                    _: 'Отфильтровано - %d',
+				                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+				                    1: 'Один фильтр выбран',
+				            },
+				            collapse: 'Фильтры (%d)'
+				        },
+					},
+					ordering : true,
+				});
+	$('#example tbody').on('click', 'tr', function () {
+			var tr = $(this).closest('tr');
+			var row = table.row( tr );
+			var element = document.getElementById("info");
+			var name = '<h5 class="header">' + row.data().name; 
+			if (row.data().englishName !== null) {
+				name+=' <small class="text-secondary">(' + row.data().englishName + ')'+'</small>';
+			}
+			name+='</h5>';
+			element.innerHTML = name + format(row.data());
+		});
+	});
+	function format ( d ) {
+		var info ='<hr class ="lineTop" align="center" size="5" color="#822000" />';
+		if (d.skills){
+			info += '<p class ="mb-1 mt-1"><strong>Владение навыками: </strong>' + d.skills + '</p>';
+		}
+		if (d.toolOwnership) {
+			info += '<p class ="mb-1 mt-1"><strong>Владение инструментами: </strong>' + d.toolOwnership + ' </p>'
+		}
+		if (d.languages){
+			info += '<p class ="mb-1 mt-1"><strong>Языки: </strong>' + d.languages + ' </p>';
+		}
+		if (d.equipments) {
+			info += '<p class ="mb-1 mt-1"><strong>Снаряжение: </strong>' + d.equipments + ' </p>';
+		}
+		info +='<hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />';
+		info += d.description;
+		info += '<strong>Умение: '+ d.skillName + '</strong> ';
+		info +='<hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />';
+		info += d.skillDescription;
+   	 	info += '<div class="text-right mb-2"><a class="btn btn-outline-dark btn-sm" href="/hero/backgrounds/personalizare/' + d.id + '">Персонализация</a></div>';
+		info += '<p class="text-right"><small>Источник: '+ d.book + '</small></p>';
+		return info;
+	}
+	</script>
+</body>
+</html>

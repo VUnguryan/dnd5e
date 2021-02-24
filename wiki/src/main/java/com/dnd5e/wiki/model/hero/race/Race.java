@@ -164,6 +164,10 @@ public class Race implements Serializable {
 		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
 				.anyMatch(f -> (f.contains("урону ядом")));
 	}
+	public boolean isResistenceCold() {
+		return features.parallelStream().map(Feature::getDescription).map(String::toLowerCase)
+				.anyMatch(f -> (f.contains("урону холодом")));
+	}
 
 	public Map<Sex, Set<String>> getNames() {
 		return names.stream().collect(Collectors.groupingBy(RaceName::getSex,

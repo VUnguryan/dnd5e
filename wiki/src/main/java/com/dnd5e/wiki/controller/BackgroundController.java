@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +34,11 @@ public class BackgroundController {
 	private PersonalizationFeatureRepository repoFeature;
 	
 	@GetMapping
-	public String getBackgrounds() {
-		return "datatable/backgrounds";
+	public String getBackgrounds(Device device) {
+		if (device.isMobile()) {
+			return "datatable/backgrounds";	
+		}
+		return "datatable/backgrounds2";
 	}
 	
 	@GetMapping("/personalizare/{id}")
@@ -51,6 +55,7 @@ public class BackgroundController {
 			personalizations.add(list.get(rnd.nextInt(list.size())));
 		}
 		model.addAttribute("personalizations", personalizations);
+		model.addAttribute("tables", map);
 		List<PersonalizationFeature> features = repoFeature.findAll();
 		String feature = features.get(rnd.nextInt(features.size())).getText();
 		model.addAttribute("feature", feature);

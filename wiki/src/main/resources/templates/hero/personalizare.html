@@ -6,6 +6,20 @@
 	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<div class="card">
 			<h5 class="card-header" th:text="${name}"></h5>
+			<div class="card-body">
+				<table class="table">
+					<th:block th:each="type : ${tables}">
+						<tr>
+							<td class="text-center" colspan="2"><strong th:text="${type.key.name}"></strong></td>
+						</tr>
+						<tr th:each="value, status : ${type.value}">
+							<td th:text="${status.index + 1}"></td>
+							<td th:utext="${value.text}"></td>
+						</tr>
+					</th:block>
+				</table>
+			</div>
+			<a id="persone" class="btn btn-secondary" th:href="@{|/hero/backgrounds/personalizare/${id}|}">Случайная персонализация</a>
 			<div th:utext="${description}" class="card-body"></div>
 			<th:block class="card" th:each="p : ${personalizations}">
 				<h5 class="card-header" th:text="${p.type.name}"></h5>
@@ -13,7 +27,6 @@
 			</th:block>
 			<h5 class="card-header">Индивидуальная особенность</h5>
 			<div th:utext="${feature}" class="card-body"></div>
-			<a class="btn btn-secondary" th:href="@{|/hero/backgrounds/personalizare/${id}|}" id="persone">Случайная  персонализация</a>
 		</div>
 	</div>
 </body>

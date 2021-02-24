@@ -1,6 +1,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<head>
 <title th:text="${heroClass.name}"></title>
 <style>
+p.text-justify {
+    text-indent: 15px; 
+}
 img {
 	float: center;
 }
@@ -33,6 +37,8 @@ tr.shown td.details-control {
 			<li class="nav-item" role="presentation"><a class="nav-link" id="spells-tab" data-toggle="tab" href="#spells" role="tab" aria-controls="spells" aria-selected="false"
 				th:unless="${heroClass.spells.empty}"
 			>Заклинания</a></li>
+			<li class="nav-item" role="presentation"><a class="nav-link" id="options-tab" data-toggle="tab" href="#options" role="tab" aria-controls="options" aria-selected="false"
+				th:if="${heroClass.optionType}" th:text="${heroClass.optionType.displayName}">Опции</a></li>
 		</ul>
 		<div class="card">
 			<h5 class="card-header">
@@ -47,7 +53,8 @@ tr.shown td.details-control {
 							<th:block th:switch="${archetype.book.type.name()}">
 								<a th:case="'OFFICAL'" class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-secondary" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
 									th:text="${archetype.name}"
-								></a> <a th:case="'CUSTOM'" class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-info" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
+								></a>
+								<a th:case="'CUSTOM'" class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-info" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
 									th:text="${archetype.name}"
 								></a>
 								<a th:case="'SETTING'" class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-success" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
@@ -58,16 +65,17 @@ tr.shown td.details-control {
 					</div>
 					<h6 class="card-header">Хиты</h6>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item"><b>Кость Хитов:</b> 1к<th:block th:text="*{diceHp}" /> за каждый уровень</li>
-						<li class="list-group-item"><b>Хиты на 1 уровне:</b> <th:block th:text="*{diceHp}" /> + ваш модификатор Телосложения</li>
-						<li class="list-group-item"><b>Хиты на следующих уровнях:</b> 1к[[*{diceHp}]] (или [[*{diceHp/2 + 1}]]) + модификатор <em>Телосложения</em> за каждый уровень этого класса, после первого</li>
+						<li class="list-group-item pt-1 pb-1"><b>Кость Хитов:</b> 1к<th:block th:text="*{diceHp}" /> за каждый уровень</li>
+						<li class="list-group-item pt-1 pb-1"><b>Хиты на 1 уровне:</b> <th:block th:text="*{diceHp}" /> + ваш модификатор Телосложения</li>
+						<li class="list-group-item pt-1 pb-1"><b>Хиты на следующих уровнях:</b> 1к[[*{diceHp}]] (или [[*{diceHp/2 + 1}]]) + модификатор <em>Телосложения</em> за каждый уровень этого класса, после первого</li>
 					</ul>
 					<h6 class="card-header">Владение</h6>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item"><b>Доспехи:</b> <th:bloc th:text="*{armor}" /></li>
-						<li class="list-group-item"><b>Оружие:</b> <th:block th:text="*{weapon}" /></li>
-						<li class="list-group-item"><b>Спаcброски:</b> <th:block th:text="*{savingThrows}" /></li>
-						<li class="list-group-item"><b>Навыки:</b> Выберите [[*{skillAvailableCount}]] навыка из следующих: <th:block th:if="*{skillAvailableCount == 18}">Выберите [[*{skillAvailableCount}]] любых навыка.</th:block>
+						<li class="list-group-item pt-1 pb-1"><b>Доспехи:</b> <th:bloc th:text="*{armor}" /></li>
+						<li class="list-group-item pt-1 pb-1"><b>Оружие:</b> <th:block th:text="*{weapon}" /></li>
+						<li class="list-group-item pt-1 pb-1"><b>Инструменты:</b> <th:block th:text="*{tools}" /></li>
+						<li class="list-group-item pt-1 pb-1"><b>Спаcброски:</b> <th:block th:text="*{savingThrows}" /></li>
+						<li class="list-group-item pt-1 pb-1"><b>Навыки:</b> Выберите [[*{skillAvailableCount}]] навыка из следующих: <th:block th:if="*{skillAvailableCount == 18}">Выберите [[*{skillAvailableCount}]] любых навыка.</th:block>
 							<th:block th:each="skill, iterStat : *{availableSkills}" th:text="${iterStat.last} ? ${skill.cyrilicName} : ${skill.cyrilicName} + ', '" /></li>
 					</ul>
 					<h6 th:if="*{equipment}" class="card-header">Снаряжение</h6>
@@ -75,7 +83,7 @@ tr.shown td.details-control {
 						<p>Вы начинаете со следующим снаряжением в дополнение к снаряжению, полученному за вашу предысторию:</p>
 						<th:block th:utext="*{equipment}"></th:block>
 					</div>
-					<div id= "begin" class="card">
+					<div id="begin" class="card">
 						<h5 class="card-header">Развитие по уровням</h5>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -148,7 +156,7 @@ tr.shown td.details-control {
 							<th:block th:each="feature : ${features}">
 								<h5 class="card-title mb-0" th:text="${feature.name}" th:id="${'c'+feature.id}"></h5>
 								<h6 class="card-text text-secondary mb-0" th:text="${feature.type}"></h6>
-								<hr class ="mb-0 mt-1" color="#A12000"/>
+								<hr class="mb-0 mt-1" color="#A12000" />
 								<p class="card-text mb-0" th:utext="${feature.description}" />
 							</th:block>
 						</div>
@@ -185,9 +193,12 @@ tr.shown td.details-control {
 												<tbody>
 												</tbody>
 											</table>
-											<ul class="list-group list-group-flush">
-												<li th:each="feat: ${archetype.feats}" class="list-group-item"><h5 th:id="${'f'+feat.name}" class="card-title" th:text="${feat.name}" /></h5> <th:block th:utext="${feat.description}"></th:block>
-											</ul>
+											<th:block th:each="feature : ${archetypeTraits[archetype.id]}">
+												<h5 class="card-title mb-0" th:text="${feature.name}" th:id="|${feature.prefix}${feature.id}|"></h5>
+												<h6 class="text-secondary mb-0" th:text="${feature.type}"></h6>
+												<hr class="mb-0 mt-1" color="#A12000" />
+												<p class="card-text mb-1 mt-1" th:utext="${feature.description}" />
+											</th:block>
 										</div>
 										<footer class="blockquote-footer" th:if="${archetype.book}" th:text="'Источник: ' + ${archetype.book.name}"></footer>
 									</div>
@@ -201,7 +212,7 @@ tr.shown td.details-control {
 				</div>
 				<div class="tab-pane fade" id="spells" role="tabpanel" aria-labelledby="spells-tab">
 					<div th:unless="${heroClass.spells.empty}" class="card-body">
-						<table id="example" class="table table-hover table-sm" style="width: 100%">
+						<table id="spellsTable" class="table table-hover table-sm" style="width: 100%; background-color: #FFFAF0;">
 							<thead>
 								<tr>
 									<th>Школа</th>
@@ -226,11 +237,32 @@ tr.shown td.details-control {
 						</table>
 					</div>
 				</div>
+				<div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="options-tab">
+					<div th:if="${heroClass.optionType}" class="card-body">
+						<table id="classOptionsTable" class="table table-hover table-sm" style="width: 100%; background-color: #FFFAF0;">
+							<thead>
+								<tr>
+									<th>Опция</th>
+									<th>Тип</th>
+									<th>Требование</th>
+									<th>Уровень</th>
+									<th>Источник</th>
+									<th>englishName</th>
+									<th></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
 			</div>
 			<div class="card-footer text-muted" th:text="|Источник: ${heroClass.book.name}${heroClass.page eq null?'':', стр.' + heroClass.page}|"></div>
 		</div>
+		<div class="fixed-bottom row justify-content-center">
+			<button id="back-to-top" onclick="slowScroll('#begin')" class="btn btn-light btn-lg scroll-top" data-scroll="up" type="button">
+				<i class="fa fa-chevron-up"></i>
+			</button>
+		</div>
 	</div>
-	<a layout:fragment="backToTop" id="back-to-top" href="#begin" onclick="slowScroll('#begin')" class="btn btn-light btn-lg back-to-top">^</a>
 </body>
 <script layout:fragment="datatable">
 	$(document).ready(function() {
@@ -239,17 +271,17 @@ tr.shown td.details-control {
 	        var column = table.column( $(this).attr('data-column') );
 	        column.visible( ! column.visible() );
 	    });
-		$('#example').one(
+		$('#spellsTable').one(
 				'preXhr.dt',
 				function(e, settings, data) {
 					data.searchPanes = {};
-					data.searchPanes["heroClass.0"] =  '[[${heroClass.name}]]';
-				})
-		var table = $('#example').DataTable( {
-			iDisplayLength : 25,
+					data.searchPanes["heroClass.0"] = '[[${heroClass.name}]]';
+				}
+		)
+		var table = $('#spellsTable').DataTable({
 			dom: 'Bfrtip',
-	        processing : true,
-	        serverSide : true,
+			serverSide : true,
+	        paging: false,
 			ajax : '/spells',
 			columns : [
 						{
@@ -289,14 +321,11 @@ tr.shown td.details-control {
 							},
 							width : "1%",
 						    className: "text-center"
-						}, 
-						{
+						},{
 								data : "level",
 								width : "1%",
 							    className: "text-center"
-						}
-						,
-						{
+						},{
 							data : "heroClass",
 							render: {
 			                    _: '[, ].name',
@@ -304,10 +333,9 @@ tr.shown td.details-control {
 			                },
 							width : "1%",
 						    className: "text-center"
-						},
-						{
+						},{
 								data : "name",
-								width : "20%", 
+								width : "30%", 
 								render : function(data, type, row) {
 									if (type === 'display') {
 										var school = '';
@@ -340,10 +368,9 @@ tr.shown td.details-control {
 									}
 									return data;
 								}, 
-						},
-						{
+						},{
 								data : "timeCast",
-								width : "5%",
+								width : "1%",
 								className: "dt-head-center",
 							    className: "dt-body-center",
 								render : function(data, type) {
@@ -356,20 +383,17 @@ tr.shown td.details-control {
 									}
 									return data;
 								}
-						},
-						{
+						},{
 								data : "duration",
-								width : "5%",
+								width : "1%",
 							    className: "text-center"
-						},
-						{
+						},{
 							data : "distance",
-							width : "5%",
+							width : "1%",
 						    className: "text-center"
-						},
-						{
+						},{
 								data : "ritual",
-								width : "3%",
+								width : "1%",
 								className: "dt-head-center",
 								className: "dt-body-center",
 								render : function(data, type) {
@@ -385,8 +409,7 @@ tr.shown td.details-control {
 									return data;
 								},
 							    searchable: false
-							},
-							{
+							},{
 								data : "concentration",
 								render : function(data, type) {
 									if (type === 'display') {
@@ -400,116 +423,95 @@ tr.shown td.details-control {
 									}
 									return data;
 								},
-								width : "2%",
+								width : "1%",
 							    className: "text-center",
 							    searchable: false
-							},
-							{
+							},{
 								data : "verbalComponent",
 								width : "1%",
 							    className: "text-center",
 							    searchable: false
-							},
-							{
+							},{
 								data : "somaticComponent",
+								width : "1%",
+							    className: "text-center",
+							    searchable: false
+							},{
+								data : "materialComponent",
+								width : "1%",
+							    className: "text-center",
+							    searchable: false
+							},{
+								data : "damageType",
 								width : "1%",
 							    className: "text-center",
 							    searchable: false
 							},
 							{
-								data : "materialComponent",
+								data : "book",
 								width : "1%",
 							    className: "text-center",
-							    searchable: false		
-							},
-							{
-								data : "damageType",
-								width : "10%",
-							    className: "text-center",
-							    searchable: false		
-							},
-							{
-								data : "book",
-								width : "5%",
-							    className: "text-center",
-							    searchable: false		
-							},
-							{
+							    searchable: false
+							},{
 								data : 'englishName',
 								width : "1%",
-							    orderable: false,
-							},
-							{
+								orderable: false,
+							},{
 								data : 'consumable',
 								width : "1%",
 							    orderable: false,
 							    searchable: false,
-							},
-							{
+							},{
 								className : 'details-control',
 							    searchable: false,
 							    orderable: false,
 								defaultContent : '',
 								width : "1%"
-							},
-							],
+							},],
 							columnDefs : [
 					            {
 					                "targets": [ 0 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 									searchPanes : {
 										preSelect : [ '[[${heroClass.name}]]' ],
 									},
 					            	"targets": [ 2 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 4 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 5 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 6 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 7 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 8 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 9 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 10 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 11 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 12 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 13 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                "targets": [ 14 ],
 					                "visible": false
-					            },
-					            {
+					            },{
 					                targets: [ 15 ],
 					                visible: false
 					            }
@@ -607,28 +609,25 @@ tr.shown td.details-control {
 					},
 					ordering : true,
 				});
-	$('#example tbody').on('click', 'tr', function () {
+	$('#spellsTable tbody').on('click', 'tr', function () {
     	var tr = $(this).closest('tr');
     	var row = table.row( tr );
-	
 	    if ( row.child.isShown() ) {
         	row.child.hide();
-        	tr.removeClass('shown');
-    	}
-    	else {
-	        row.child( format(row.data()) ).show();
-        	tr.addClass('shown');
-    	}
+    	    	tr.removeClass('shown');
+	    } else {
+	        	row.child( format(row.data()) ).show();
+        		tr.addClass('shown');
+    		}
 		});
 	});
-	
-	function format ( d ) {
+	function format(d) {
 			var info = '<p><em>' + d.level; 
 			if (d.level != 'Заговор') {
 				info += ' уровень'
 			}
 			if (d.ritual === 'true') {
-				info += ' (ритуал)'				
+				info += ' (ритуал)'
 			}
 			info += ', ' + d.school;
 			info += '</em></p>';
@@ -652,12 +651,137 @@ tr.shown td.details-control {
 			 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
 		    return info; 
 	}
+	$('#classOptionsTable').one('preXhr.dt', function(e, settings, data) {
+		data.searchPanes = {};
+		data.searchPanes["optionTypes.0"] = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
+	})
+	var otable = $('#classOptionsTable').DataTable( {
+		iDisplayLength : 25,
+        dom: 'Bfrtip',
+        paging: false,
+        serverSide : true,
+		ajax : '/options',
+		columns : [
+					{
+						data : "name",
+						width : "30%", 
+						render : function(data, type, row) {
+							if (type === 'display') {
+								return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
+								+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
+							}
+							return data;
+						}, 
+					},
+					{
+						data : "optionTypes",
+						width : "1%",
+					}, 
+					{
+						data : "prerequisite",
+						width : "30%"
+					},
+					{
+						data : "level",
+						width : "2%",
+					    searchable: false,
+					},
+					{
+						data : "book",
+						width : "10%",
+					    searchable: false,
+					},
+					{
+						data : "englishName",
+						width : "1%"
+					},
+					{
+						className : 'details-control',
+					    searchable: false,
+					    orderable: false,
+						defaultContent : '',
+						width : "1%"
+					},
+		],
+		columnDefs : [
+			{
+			    searchPanes: {
+	            	preSelect : ['[[${heroClass.optionType == null ? null : heroClass.optionType.name}]]'],
+			    },
+				targets: [ 1 ],
+		    	visible: false
+			},
+			{
+				targets: [ 4 ],
+				visible: false
+			},
+			{
+		    	targets: [ 5 ],
+		        visible: false
+			},
+		],
+		buttons: [
+			'searchPanes',
+            {
+		        		extend: 'colvis',
+		                text: 'Столбцы',
+		                buttons: [
+		                    {
+		                        text: 'Источник',
+		                        action: function ( e, dt, node, config ) {
+		                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
+		                        }
+		                    },
+		                ]
+		            }
+		        ],
+				language : {
+					processing : "Загрузка...",
+					search : "Поиск",
+					lengthMenu : "Показывать _MENU_ записей на странице",
+					zeroRecords : "Ничего не найдено",
+					info : "Показано с _START_ до _END_ из _TOTAL_",
+					infoEmpty : "Нет доступных записей",
+					infoFiltered : "(filtered from _MAX_ всего)",
+					paginate : {
+						first : "В начало",
+						previous : "Предыдущая",
+						next : "Следущая",
+						last : "В конец"
+					},
+					searchPanes: {
+						clearMessage : "Сбросить",
+			            title : {
+			                    _: 'Отфильтровано - %d',
+			                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+			                    1: 'Один фильтр выбран',
+			            },
+			            collapse: 'Фильтры (%d)'
+			        },
+				},
+				ordering : true,
+			});
+	$('#classOptionsTable tbody').on('click', 'tr', function () {
+    	var tr = $(this).closest('tr');
+    	var row = otable.row( tr );
+	    if ( row.child.isShown() ) {
+        	row.child.hide();
+        	tr.removeClass('shown');
+    	}
+    	else {
+	        row.child(formatOption(row.data()) ).show();
+        	tr.addClass('shown');
+    	}
+	});
+	function formatOption(d) {
+		return "<small>" + d.type + "</small></p>" + d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small>'; 
+	}
     function slowScroll(id) { 
         var offset = 0;
         $('html, body').animate({ 
              scrollTop: $(id).offset().top - offset 
         }, 1000);
         return false; 
-    } 
+    }
 	</script>
 </html>

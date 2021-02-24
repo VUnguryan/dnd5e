@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -26,7 +24,6 @@ import com.dnd5e.wiki.dto.MagicThingDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
-import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.model.treasure.MagicThing;
 import com.dnd5e.wiki.model.treasure.MagicThingType;
 import com.dnd5e.wiki.model.treasure.Rarity;
@@ -56,7 +53,7 @@ public class MagicThingController {
 			}
 		}
 		if (!filterRarities.isEmpty()) {
-			specification = addSpecification(specification,  (root, query, cb) -> root.get("rarity").in(filterRarities));
+			specification = addSpecification(specification, (root, query, cb) -> root.get("rarity").in(filterRarities));
 		}
 		List<MagicThingType> filterTypes = new ArrayList<>();
 		for (int j = 0; j <= MagicThingType.values().length; j++) {
@@ -66,8 +63,17 @@ public class MagicThingController {
 			}
 		}
 		if (!filterTypes.isEmpty()) {
-			specification = addSpecification(specification,  (root, query, cb) -> root.get("type").in(filterTypes));
+			specification = addSpecification(specification, (root, query, cb) -> root.get("type").in(filterTypes));
 		}
+		
+		
+		String custTrue = searchPanes.get("searchPanes.customization.0");
+		if (custTrue!= null && custTrue.equals("Есть")) {
+			specification = addSpecification(specification, (root, query, cb) -> cb.and(cb.equal(root.get("customization"), 1)));
+		} else if (custTrue!= null && custTrue.equals("Нет")) {
+			specification = addSpecification(specification, (root, query, cb) -> cb.and(cb.equal(root.get("customization"), 0)));
+		}
+		
 		List<Book> filterBooks = new ArrayList<>();
 		for (int j = 0; j <= 21; j++) {
 			String type = searchPanes.get("searchPanes.book." + j);
@@ -84,7 +90,7 @@ public class MagicThingController {
 		
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
-		
+	
 		repo.countTotalMagicThingsByRarity().stream()
 			.map(c -> new Item<String>(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("rarity", options, v));
@@ -96,6 +102,10 @@ public class MagicThingController {
 		repo.countTotalMagicThingsByBook().stream()
 			.map(c -> new Item<String>(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("book", options, v));
+		
+		repo.countTotalMagicThingsByCustomization().stream()
+			.map(c -> new Item<String>(c.getField() ? "Есть" : "Нет", c.getTotal(), c.getField() ? "Есть" : "Нет", c.getTotal()))
+			.forEach(v -> addItem("customization", options, v));
 		
 		sPanes.setOptions(options); 
 		SearchPanesOutput<MagicThingDto> spOutput = new SearchPanesOutput<>(output);
