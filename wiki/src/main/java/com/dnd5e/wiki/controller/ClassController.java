@@ -6,9 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -24,7 +22,6 @@ import com.dnd5e.wiki.controller.rest.SettingRestController;
 import com.dnd5e.wiki.dto.ClassFetureDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.TypeBook;
-import com.dnd5e.wiki.model.hero.ArchetypeTrait;
 import com.dnd5e.wiki.model.hero.classes.Archetype;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.repository.ClassRepository;
@@ -72,7 +69,7 @@ public class ClassController {
 								f -> f.getArchetype().getId(),
 								Collectors.mapping(f -> new ClassFetureDto(
 										f, f.getArchetype().getGenitiveName()), 
-										Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ClassFetureDto::getLevel))))
+										Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ClassFetureDto::getLevel).thenComparing(ClassFetureDto::getName))))
 								)
 				);
 		Collections.sort(features, Comparator.comparing(ClassFetureDto::getLevel));

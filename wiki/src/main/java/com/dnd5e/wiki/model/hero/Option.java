@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.Book;
-import com.dnd5e.wiki.model.creature.DamageType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -67,9 +66,11 @@ public class Option {
 		FIGHTING_STYLE_RANGER("Боевые стили: Следопыт", "БС С"), 
 		FIGHTING_STYLE_PALADIN("Боевые стили: Паладин", "БС П"),
 		FIGHTING_STYLE_BARD("Боевые стили: Колллегия Мечей, Бард", "БС Б"),
+		FIGHTING_STYLE_BLOODHANTER("Боевые стили: Кровавый охотник", "БС КО"),
 		BLOOD_CURSE("Проклятья крови: Кровавый Охотник", "ПК"),
 		MUTAGEN("Мутагены: Ордена мутантов, (Кровавый Охотник)", "М ОМ"),
-		WILD_SHAPE("Формы Дикого Облика: Друид", "ДО");
+		WILD_SHAPE("Формы Дикого Облика: Друид", "ДО"), 
+		PHILOSOPHICAL_SCHOOL("Философские школы: Философ Академии, Волшебник","ФШ ФА");
 
 		private String name;
 		private String shortName;

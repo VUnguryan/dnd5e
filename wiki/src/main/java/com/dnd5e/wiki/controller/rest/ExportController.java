@@ -99,8 +99,7 @@ public class ExportController {
 
 			List<Action> jsonActions = new ArrayList<>();
 			List<com.dnd5e.wiki.model.creature.Action> actions = creature.getActions();
-			for (com.dnd5e.wiki.model.creature.Action action : actions.stream()
-					.filter(a -> a.getActionType() == ActionType.ACTION).collect(Collectors.toList())) {
+			for (com.dnd5e.wiki.model.creature.Action action : actions) {
 				Action jsonAction = new Action();
 				if (action.getDescription() != null) {
 					jsonAction.withName(action.getName())

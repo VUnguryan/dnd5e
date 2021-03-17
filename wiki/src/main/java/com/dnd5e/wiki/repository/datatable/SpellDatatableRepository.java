@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.repository.datatable;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.GroupByCount;
@@ -36,8 +38,8 @@ public interface SpellDatatableRepository extends DataTablesRepository<Spell, In
 			+ "FROM Spell s JOIN s.heroClass AS c GROUP BY c")
 	List<GroupByCount<HeroClass>> countTotalSpellByHeroClass();
 	
-	@Query("SELECT s.book AS field, COUNT(s.book) AS total FROM Spell s GROUP BY s.book")
-	List<GroupByCount<Book>> countTotalSpellByBook();
+	@Query("SELECT s.book AS field, COUNT(s.book) AS total FROM Spell s WHERE s.book.type IN :types GROUP BY s.book")
+	List<GroupByCount<Book>> countTotalSpellByBook(@Param("types") Set<TypeBook> types);
 	
 	@Query("SELECT c AS field, COUNT(c) AS total FROM Spell s JOIN s.damageType AS c GROUP BY c")
 	List<GroupByCount<DamageType>> countTotalSpellByTypeDamage();

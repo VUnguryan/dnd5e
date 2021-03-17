@@ -1,6 +1,8 @@
 package com.dnd5e.wiki.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dnd5e.wiki.controller.rest.SettingRestController;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.TypeBook;
+import com.dnd5e.wiki.model.hero.race.Feature;
 import com.dnd5e.wiki.model.hero.race.Race;
 import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.util.SourceUtil;
@@ -48,7 +51,25 @@ public class RaceController {
 
 	@GetMapping("/race/{id}")
 	public String getRace(Model model, @PathVariable Integer id) {
-		model.addAttribute("race", repo.findById(id).get());
+		Race race = repo.findById(id).orElseThrow(NoSuchElementException::new);
+		model.addAttribute("race", race);
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		List<Feature> features = new ArrayList<>();
+		if (race.getParent() != null) {
+			model.addAttribute("subRaces", race.getParent().getSubRaces().stream()
+					.filter(r -> sources.contains(r.getBook().getType()))
+					.collect(Collectors.toList()));
+			features.addAll(race.getFeatures());
+			features.addAll(race.getParent().getFeatures());
+		}
+		else {
+			model.addAttribute("subRaces", race.getSubRaces().stream()
+					.filter(r -> sources.contains(r.getBook().getType()))
+					.collect(Collectors.toList()));
+			features.addAll(race.getFeatures());
+		}
+		model.addAttribute("features", features);
 		return "hero/raceView";
 	}
 }

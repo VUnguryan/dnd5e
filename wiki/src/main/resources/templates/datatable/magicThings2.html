@@ -305,7 +305,7 @@ div.container {
 		info += '</em>';
 		info+='<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
 		info += d.description;
-   	 	info += '<p class="text-center">Базовая стоимость: ' + d.cost + ' зм. </p>';
+   	 	info += '<p id="cost" class="text-center">Стоимость: ' + d.cost + '</p>';
         info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/stock/artifacts/' + d.id + '">Подробно</a></div>';
 		info += '<p class="text-right font-weight-light"><small class="text-muted">Источник: '+ d.book + '</small></p>'
 		return info; 

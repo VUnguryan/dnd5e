@@ -124,19 +124,32 @@ public class HeroClass {
 			return name + "ом";
 		}
 	}
+
 	public List<HeroClassTrait> getTraits(int level) {
-		return traits.stream().filter(t -> t.getLevel() == level).collect(Collectors.toList());
+		return traits.stream()
+				.filter(t -> t.getLevel() == level)
+				.collect(Collectors.toList());
+	}
+	
+	public List<HeroClassTrait> getTraitsClear(int level) {
+		return traits.stream()
+				.filter(t -> t.getLevel() == level)
+				.filter(t -> !t.isArchitype())
+				.collect(Collectors.toList());
 	}
 	
 	public List<HeroClassTrait> getTraits() {
-		return traits.stream().sorted(Comparator.comparingInt(HeroClassTrait::getLevel)).collect(Collectors.toList());
+		return traits.stream()
+				.sorted(Comparator.comparingInt(HeroClassTrait::getLevel))
+				.collect(Collectors.toList());
 	}
-	
+
 	public List<ArchetypeTrait> getArhitypeTraitNames(int level){
-		return archetypes
+		List<ArchetypeTrait> levelArhitypeFeats = archetypes
 				.stream()
 				.flatMap(a -> a.getFeats().stream())
-				.filter(t->t.getLevel() == level)
+				.filter(t-> t.getLevel() == level)
 				.collect(Collectors.toList());
+		return levelArhitypeFeats;
 	}
 }

@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,7 +100,7 @@ public class MagicThingController {
 			.map(c -> new Item<String>(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("type", options, v));
 		
-		repo.countTotalMagicThingsByBook().stream()
+		repo.countTotalMagicThingsByBook(settings == null ? EnumSet.of(TypeBook.OFFICAL) : settings.getTypeBooks()).stream()
 			.map(c -> new Item<String>(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
 			.forEach(v -> addItem("book", options, v));
 		

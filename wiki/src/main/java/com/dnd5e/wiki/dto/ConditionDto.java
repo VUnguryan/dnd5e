@@ -18,6 +18,9 @@ public class ConditionDto {
 		englishName = condition.getEnglishName();
 		description = condition.getDescription();
 		type = condition.getType().getName();
-		source = condition.getBook().getName() + ", стр. " + condition.getPage(); 
+		source = condition.getBook().getName(); 
+		if (condition.getPage() != null)  {
+			source += ", стр. " + condition.getPage();
+		}
 	}
 }

@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Item <T> {
-	T label;
+	Object label;
     Long total;
     String value;
     Long count;

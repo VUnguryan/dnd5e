@@ -2,6 +2,7 @@ package com.dnd5e.wiki.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,8 @@ public class CreatureController {
 	private ConditionRepository conditionRepo;
 	
 	@GetMapping("/creatures")
-	public String getCreatures(Device device) {
+	public String getCreatures(Model model, Device device) {
+		model.addAttribute("creatureRaces", creatureRaceRepo.findAll(Sort.by("name")));
 		if (device.isMobile())
 		{
 			return "datatable/creatures";
@@ -46,16 +48,13 @@ public class CreatureController {
 
 	@GetMapping("/creature/{id}")
 	public String getCreaturView(Model model, @PathVariable Integer id) {
-		Creature creature = creatureRepo.findById(id).get();
+		Creature creature = creatureRepo.findById(id).orElseThrow(NoSuchElementException::new);
 		model.addAttribute("creature", creature);
-		List<Action> actions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION)
-				.collect(Collectors.toList());
+		List<Action> actions = creature.getActions();
 		model.addAttribute("actions", actions);
-		List<Action> reactions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION)
-				.collect(Collectors.toList());
+		List<Action> reactions = creature.getReactions();
 		model.addAttribute("reactions", reactions);
-		List<Action> legendary = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY)
-				.collect(Collectors.toList());
+		List<Action> legendary = creature.getLegendaries();
 		model.addAttribute("legendary", legendary);
 
 		Map<Integer, Condition> conditions = conditionRepo.findAll().stream().collect(Collectors.toMap(Condition::getId, Function.identity(), (o1, o2) -> o1));

@@ -2,7 +2,6 @@ package com.dnd5e.wiki.model.workshop.magic.book;
 
 import java.sql.Date;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;

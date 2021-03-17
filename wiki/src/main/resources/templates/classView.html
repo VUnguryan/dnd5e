@@ -91,7 +91,7 @@ tr.shown td.details-control {
 									<thead>
 										<tr align="center">
 											<th rowspan="2" style="width: 5%">Уровень</th>
-											<th align="center" rowspan="2" style="width: 5%">Бонус мастерста</th>
+											<th align="center" rowspan="2" style="width: 5%">Бонус мастерства</th>
 											<th align="center" rowspan="2">Умения</th>
 											<th th:each="featurelevelDefinition : *{featureLevelDefenitions}" align="center" rowspan="2" th:text="${featurelevelDefinition.name}" style="width: 5%">Умения</th>
 											<th th:unless="*{levelDefenitions.empty}" align="center" colspan="9">Ячейки заклинаний на уровень заклинаний</th>
@@ -723,7 +723,7 @@ tr.shown td.details-control {
 		buttons: [
 			'searchPanes',
             {
-		        		extend: 'colvis',
+		        extend: 'colvis',
 		                text: 'Столбцы',
 		                buttons: [
 		                    {

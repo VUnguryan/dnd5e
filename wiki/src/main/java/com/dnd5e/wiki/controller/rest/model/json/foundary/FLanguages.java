@@ -1,6 +1,5 @@
 package com.dnd5e.wiki.controller.rest.model.json.foundary;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

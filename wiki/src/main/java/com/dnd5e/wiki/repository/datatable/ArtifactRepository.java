@@ -1,13 +1,16 @@
 package com.dnd5e.wiki.repository.datatable;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.dnd5e.wiki.model.Book;
+import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.spell.GroupByCount;
 import com.dnd5e.wiki.model.treasure.MagicThing;
 import com.dnd5e.wiki.model.treasure.MagicThingType;
@@ -26,6 +29,6 @@ public interface ArtifactRepository extends DataTablesRepository<MagicThing, Int
 	@Query("SELECT m.customization AS field, COUNT(m.customization) AS total FROM MagicThing m GROUP BY m.customization")
 	List<GroupByCount<Boolean>> countTotalMagicThingsByCustomization();
 	
-	@Query("SELECT m.book AS field, COUNT(m.book) AS total FROM MagicThing m GROUP BY m.book")
-	List<GroupByCount<Book>> countTotalMagicThingsByBook();
+	@Query("SELECT m.book AS field, COUNT(m.book) AS total FROM MagicThing m WHERE m.book.type IN :types GROUP BY m.book")
+	List<GroupByCount<Book>> countTotalMagicThingsByBook(@Param("types") Set<TypeBook> types);
 }

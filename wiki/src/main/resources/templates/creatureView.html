@@ -5,10 +5,12 @@
 img {
 	float: center;
 }
+
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
+
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
 	background: moccasin;
 }
@@ -17,22 +19,19 @@ img {
 <body>
 	<div class="container" style="margin-top: 25px" th:object="${creature}" layout:fragment="content">
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
-			<li class="nav-item" role="presentation">
-				<a class="nav-link active" id="statblock-tab" data-toggle="tab" href="#statblock" role="tab" aria-controls="statblock" aria-selected="true">Статблок</a>
+			<li class="nav-item" role="presentation"><a class="nav-link active" id="statblock-tab" data-toggle="tab" href="#statblock" role="tab" aria-controls="statblock" aria-selected="true">Статблок</a>
 			</li>
-			<li th:if="${creature.description}" class="nav-item" role="presentation">
-				<a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Описание</a>
+			<li th:if="${creature.description}" class="nav-item" role="presentation"><a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Описание</a>
 			</li>
 			<li th:each="race : *{races}" class="nav-item" role="presentation"><a class="nav-link" th:id="${race.id} + 'race-tab'" data-toggle="tab" th:href="'#race' + ${race.id}" role="tab"
-				aria-controls="race" aria-selected="true">[[${race.name}]]</a>
-			</li>
+				aria-controls="race" aria-selected="true"
+			>[[${race.name}]]</a></li>
 			<li th:if="${creature.lair}" class="nav-item" role="presentation"><a class="nav-link" id="lair-tab" data-toggle="tab" href="#lair" role="tab" aria-controls="lair" aria-selected="true">Логово</a></li>
 			<li class="nav-item" role="presentation"><a class="nav-link" id="image-tab" data-toggle="tab" href="#image" role="tab" aria-controls="image" aria-selected="true">Изображения</a></li>
 		</ul>
 		<div class="card">
 			<h5 class="card-header">
-				<span th:text="*{name}"></span><span th:if="*{englishName}" th:text="' ('+ *{englishName} + ')'"></span> <small> <span th:text="*{sizeName}"></span> <span th:text="*{type.cyrilicName}"></span>
-					<a class="text-danger" th:if="*{raceName != null}" th:href="@{'/entities/race/' + *{raceId}}"><span th:text="*{raceName}"></span></a>, <span th:text="*{alignment.cyrilicName}"></span>
+				<span th:text="*{name}"></span><span th:if="*{englishName}" th:text="' ('+ *{englishName} + ')'"></span> <small> <span th:text="*{sizeName}"></span> <span th:text="*{type.cyrilicName}"></span><a class="text-danger" th:if="*{raceName != null}" th:href="@{'/entities/race/' + *{raceId}}" th:text="| *{raceName}|"></a>, <span th:text="*{alignment.cyrilicName}"></span>
 				</small>
 			</h5>
 			<div class="tab-content" id="myTabContent">
@@ -52,84 +51,83 @@ img {
 							<b>Скорость</b>
 							<th:block th:utext="*{allSpeed}" />
 						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<table class="table table-sm text-center">
-								<thead>
-									<tr>
-										<th class="text-center" title="Сила" data-toggle="tooltip" data-placement="top">СИЛ</th>
-										<th class="text-center" title="Ловкость" data-toggle="tooltip" data-placement="top">ЛОВ</th>
-										<th class="text-center" title="Телосложение" data-toggle="tooltip" data-placement="top">ТЕЛ</th>
-										<th class="text-center" title="Интеллект" data-toggle="tooltip" data-placement="top">ИНТ</th>
-										<th class="text-center" title="Мудрость" data-toggle="tooltip" data-placement="top">МДР</th>
-										<th class="text-center" title="Харизма" data-toggle="tooltip" data-placement="top">ХАР</th>
-									</tr>
-								</thead>
-								<tr>
-									<td th:text="${creature.strengthText()}" />
-									<td th:text="${creature.dexterityText()}" />
-									<td th:text="${creature.constitutionText()}" />
-									<td th:text="${creature.intellectText()}" />
-									<td th:text="${creature.wizdomText()}" />
-									<td th:text="${creature.charismaText()}" />
-								</tr>
-							</table>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<div th:unless="*{#lists.isEmpty(savingThrows)}">
-								<b>Спасброски </b><span th:each="savingThrow, iterStat : *{savingThrows}" th:text="!${iterStat.last} ? ${savingThrow.text} + ', ': ${savingThrow.text}"></span>
+						<hr class="mb-1 mt-1" color="#A12000" />
+						<div class="row row-cols-6 align-items-center">
+							<div class="col-2 col-lg-2 text-center" title="Сила" data-toggle="tooltip" data-placement="top">
+								<h6 class="card-title">СИЛ</h6>
 							</div>
-							<div th:unless="*{#lists.isEmpty(skills)}">
-								<b>Навыки </b><span th:each="skill, iterStat : *{skills}" th:text="${iterStat.last} ? ${skill.cyrilicText} : ${skill.cyrilicText} +', '"></span>
+							<div class="col-2 col-lg-2 text-center" title="Ловкость" data-toggle="tooltip" data-placement="top">
+								<h6 class="card-title">ЛОВ</h6>
 							</div>
-							<div th:unless="*{#lists.isEmpty(vulnerabilityDamages)}">
-								<b>Уязвимость к урону </b><span th:each="vulnerabilityDamage, iterStat : *{vulnerabilityDamages}"
-									th:text="${iterStat.last} ? ${vulnerabilityDamage.cyrilicName} : ${vulnerabilityDamage.cyrilicName} + ', '"
-								></span>
+							<div class="col-2 col-lg-2 text-center" title="Телосложение" data-toggle="tooltip" data-placement="top">
+								<h6 class="card-title">ТЕЛ</h6>
 							</div>
-							<div th:unless="*{#lists.isEmpty(resistanceDamages)}">
-								<b>Сопротивление к урону </b><span th:each="resistanceDamages, iterStat : *{resistanceDamages}"
-									th:text="${iterStat.last} ? ${resistanceDamages.cyrilicName} : ${resistanceDamages.cyrilicName} + ', '"
-								></span>
+							<div class="col-2 col-lg-2 text-center" title="Интеллект" data-toggle="tooltip" data-placement="top">
+								<h6 class="card-title">ИНТ</h6>
 							</div>
-							<div th:unless="*{#lists.isEmpty(immunityDamages)}">
-								<b>Иммунитет к урону </b><span th:each="immunityDamage, iterStat : *{immunityDamages}" th:text="${iterStat.last} ? ${immunityDamage.cyrilicName} : ${immunityDamage.cyrilicName} + ', '"></span>
+							<div class="col-2 col-lg-2 text-center" title="Мудрость" data-toggle="tooltip" data-placement="top">
+								<h6 class="card-title">МДР</h6>
 							</div>
-							<div th:unless="*{#lists.isEmpty(immunityStates)}">
-								<b>Иммунитет к состоянию </b><span th:each="state, iterStat : *{immunityStates}"> <a class="text-danger" th:href="@{|/conditions/${state.id}|}"
-									th:text="${iterStat.last} ? ${state.cyrilicName} : ${state.cyrilicName} + ', '" tabindex="0" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="auto"
-									th:title="${conditions.get(state.id).name}" th:attr="data-content=${conditions.get(state.id).description}"
-								></a></span>
-							</div>
-							<div>
-								<b>Чувства</b> <span th:utext="*{allSense}"></span>
-							</div>
-							<div>
-								<b>Языки</b> <span th:each="language, iterStat : *{languages}" th:text="${iterStat.last} ? ${language.name} : ${language.name} + ', '"> </span>
-							</div>
-							<div>
-								<b>Опасность</b> <span th:text="*{challengeRating}"></span> (<span th:text="*{exp}"></span> опыта)
+							<div class="col-2 col-lg-2 text-center" title="Харизма" data-toggle="tooltip" data-placement="top">
+								<h6 class="card-title">ХАР</h6>
 							</div>
 						</div>
-					</div>
-					<div th:unless="*{#lists.isEmpty(feats.empty)}" class="card">
-						<div class="card-header">Особенности</div>
-						<div class="card-body">
+						<div class="row row-cols-6 align-items-center">
+							<div class="col-2 col-lg-2 text-center text-monospace" th:text="${creature.strengthText()}"></div>
+							<div class="col-2 col-lg-2 text-center text-monospace" th:text="${creature.dexterityText()}"></div>
+							<div class="col-2 col-lg-2 text-center text-monospace" th:text="${creature.constitutionText()}"></div>
+							<div class="col-2 col-lg-2 text-center text-monospace" th:text="${creature.intellectText()}"></div>
+							<div class="col-2 col-lg-2 text-center text-monospace" th:text="${creature.wizdomText()}"></div>
+							<div class="col-2 col-lg-2 text-center text-monospace" th:text="${creature.charismaText()}"></div>
+						</div>
+						<hr class="mb-0 mt-0" color="#A12000" />
+						<div class="mb-0 mt-0" th:unless="*{#lists.isEmpty(savingThrows)}">
+							<b>Спасброски </b><span th:each="savingThrow, iterStat : *{savingThrows}" th:text="!${iterStat.last} ? ${savingThrow.text} + ', ': ${savingThrow.text}"></span>
+						</div>
+						<div class="mb-0 mt-0" th:unless="*{#lists.isEmpty(skills)}">
+							<b>Навыки </b><span th:each="skill, iterStat : *{skills}" th:text="${iterStat.last} ? ${skill.cyrilicText} : ${skill.cyrilicText} +', '"></span>
+						</div>
+						<div class="mb-0 mt-0" th:unless="*{#lists.isEmpty(vulnerabilityDamages)}">
+							<b>Уязвимость к урону </b><span th:each="vulnerabilityDamage, iterStat : *{vulnerabilityDamages}"
+								th:text="${iterStat.last} ? ${vulnerabilityDamage.cyrilicName} : ${vulnerabilityDamage.cyrilicName} + ', '"
+							></span>
+						</div>
+						<div class="mb-0 mt-0" th:unless="*{#lists.isEmpty(resistanceDamages)}">
+							<b>Сопротивление к урону </b><span th:each="resistanceDamages, iterStat : *{resistanceDamages}"
+								th:text="${iterStat.last} ? ${resistanceDamages.cyrilicName} : ${resistanceDamages.cyrilicName} + ', '"
+							></span>
+						</div>
+						<div class="mb-0 mt-0" th:unless="*{#lists.isEmpty(immunityDamages)}">
+							<b>Иммунитет к урону </b><span th:each="immunityDamage, iterStat : *{immunityDamages}" th:text="${iterStat.last} ? ${immunityDamage.cyrilicName} : ${immunityDamage.cyrilicName} + ', '"></span>
+						</div>
+						<div class="mb-0 mt-0" th:unless="*{#lists.isEmpty(immunityStates)}">
+							<b>Иммунитет к состоянию </b><span th:each="state, iterStat : *{immunityStates}"> <a class="text-danger" th:href="@{|/conditions/${state.id}|}"
+								th:text="${iterStat.last} ? ${state.cyrilicName} : ${state.cyrilicName} + ', '" tabindex="0" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="auto"
+								th:title="${conditions.get(state.id).name}" th:attr="data-content=${conditions.get(state.id).description}"
+							></a></span>
+						</div>
+						<div class="mb-0 mt-0">
+							<b>Чувства</b> <span th:utext="*{allSense}"></span>
+						</div>
+						<div class="mb-0 mt-0">
+							<b>Языки</b> <span th:each="language, iterStat : *{languages}" th:text="${iterStat.last} ? ${language.name} : ${language.name} + ', '"> </span>
+						</div>
+						<div class="mb-0 mt-0">
+							<b>Опасность</b> <span th:text="*{challengeRating}"></span> (<span th:text="*{exp}"></span> опыта)
+						</div>
+						<div th:unless="*{feats.empty}">
+							<hr class="mb-0 mt-1" color="#A12000" />
 							<div th:each="feat : *{feats}">
-								<h5 class="card-title" th:text="${feat.name}"></h5>
-								<p th:utext="${feat.description}" />
+								<h6 class="mb-0 mt-1" th:text="${feat.name}"></h6>
+								<div th:utext="${feat.description}"></div>
 							</div>
 						</div>
-					</div>
-					<div th:unless="${#lists.isEmpty(actions)}" class="card">
-						<div class="card-header">Действия</div>
-						<div class="card-body">
+						<div th:unless="*{actions.empty}">
+							<h5 class="card-title mb-0 mt-2">Действия</h5>
+							<hr class="mb-0 mt-1" color="#A12000" />
 							<div th:each="action : ${actions}">
-								<h5 class="card-title">
-									<th:block th:text="${action.name}" />
+								<h6 class="mb-0 mt-1">
+									<strong th:text="${action.name}"></strong>
 									<img class="invert" th:if="${#strings.contains(action.name,'Мультиатака')}" th:src="@{/resources/icons/Icon.3_64.png}" height="25" width="25"> <img class="invert"
 										th:if="${#strings.contains(action.name,'Укус')}" th:src="@{/resources/icons/Icon.5_25.png}" height="25" width="25"
 									> <img class="invert" th:if="${#strings.contains(action.name,'Когти')}" th:src="@{/resources/icons/Icon.1_77.png}" height="25" width="25"> <img class="invert"
@@ -147,33 +145,30 @@ img {
 									> <img class="invert" th:if="${#strings.contains(action.name, 'Скимитар')}" th:src="@{/resources/icons/Icon.2_62.png}" height="25" width="25"><img class="invert"
 										th:if="${#strings.contains(action.name, 'посох')}" th:src="@{/resources/icons/Icon.7_33.png}" height="25" width="25"
 									>
-								</h5>
-								<p th:utext="${action.description}" />
+								</h6>
+								<div th:utext="${action.description}"></div>
 							</div>
 						</div>
-					</div>
-					<div th:unless="${#lists.isEmpty(reactions)}" class="card">
-						<div class="card-header">Реакции</div>
-						<div class="card-body">
-							<div th:each="action : ${reactions}">
+						<div th:unless="*{reactions.empty}">
+							<h5 class="card-title mb-0 mt-1">Реакции</h5>
+							<hr class="mb-0 mt-1" color="#A12000" />
+							<div th:each="action : *{reactions}">
 								<b th:text="${action.name}"></b>
 								<div th:utext="${action.description}"></div>
 							</div>
 						</div>
-					</div>
-					<div th:unless="${#lists.isEmpty(legendary)}" class="card">
-						<div class="card-header text-white bg-danger">Легендарные действия</div>
-						<div class="card-body">
-							<div th:if="${creature.legendary}" th:utext="*{legendary}"></div>
-							<div th:each="action : ${legendary}">
+						<div th:unless="*{legendaries.empty}">
+							<h5 class="card-title mb-0 mt-1">Легендарные действия</h5>
+							<hr class="mb-0 mt-1" color="#A12000" />
+							<div th:if="*{legendary}" th:utext="*{legendary}"></div>
+							<div th:each="action : *{legendaries}">
 								<b th:text="${action.name}"></b>
 								<div th:utext="${action.description}"></div>
 							</div>
 						</div>
-					</div>
-					<div th:unless="*{#lists.isEmpty(habitates)}" class="card">
-						<div class="card-header">Места обитания</div>
-						<div class="card-body">
+						<div th:unless="*{habitates.empty}">
+							<h6 class="card-title mb-1 mt-3">Места обитания</h6>
+							<hr class="mb-0 mt-1" color="#A12000" />
 							<th:block th:each="habitate, iterStat : *{habitates}" th:text="${iterStat.last} ? ${habitate.name} : ${habitate.name} + ', '">
 							</th:block>
 						</div>
@@ -190,11 +185,15 @@ img {
 					</div>
 				</div>
 				<div th:if="*{lair}" class="tab-pane fade" id="lair" role="tabpanel" aria-labelledby="lair-tab">
-					<div th:if="*{lair.description}" class="card-body" th:utext="*{lair.description}"></div>
-					<div th:if="*{lair.action}" class="card-header">Действи логова</div>
-					<div th:if="*{lair.action}" class="card-body" th:utext="*{lair.action}"></div>
-					<div th:if="*{lair.effect}" class="card-header">Местные эффекты</div>
-					<div th:if="*{lair.effect}" class="card-body" th:utext="*{lair.effect}"></div>
+					<div class="card-body">
+						<div th:if="*{lair.description}" th:utext="*{lair.description}"></div>
+						<h5 th:if="*{lair.action}" class="card-title mb-1 mt-3">Действи логова</h5>
+						<hr class="mb-0 mt-1" color="#A12000" />
+						<div th:if="*{lair.action}" th:utext="*{lair.action}"></div>
+						<h5 th:if="*{lair.effect}" class="card-title mb-1 mt-3">Местные эффекты</h5>
+						<hr class="mb-0 mt-1" color="#A12000" />
+						<div th:if="*{lair.effect}" th:utext="*{lair.effect}"></div>
+					</div>
 				</div>
 				<div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="image-tab">
 					<img class="card-img-bottom" th:src="@{|https://storage.googleapis.com/dnd5/creatures/${creature.id}.jpg|}" align="middle" />
@@ -205,12 +204,15 @@ img {
 	</div>
 </body>
 <script type="text/javascript" layout:fragment="script">
-$(function () {
-  $('[data-toggle="popover"]').popover({
-  	delay: { "show": 400, "hide": 100 },
-	html: true,
-	container: 'body',
-  })
-})
+	$(function() {
+		$('[data-toggle="popover"]').popover({
+			delay : {
+				"show" : 400,
+				"hide" : 100
+			},
+			html : true,
+			container : 'body',
+		})
+	})
 </script>
 </html>

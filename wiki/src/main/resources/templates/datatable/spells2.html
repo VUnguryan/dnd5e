@@ -153,10 +153,10 @@ div.container {
 						    className: "text-center"
 						},
 						{
-								data : "name",
-								width : "20%", 
-								render : function(data, type, row) {
-									if (type === 'display') {
+							data : "name",
+							width : "20%", 
+							render : function(data, type, row) {
+								if (type === 'display') {
 										var school = '';
 										var result = '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')';
 										if (row.ritual === 'true') {
@@ -205,9 +205,9 @@ div.container {
 								}
 						},
 						{
-								data : "duration",
-								width : "1%",
-							    className: "text-center"
+							data : "duration",
+							width : "1%",
+							className: "text-center"
 						},
 						{
 							data : "distance",
@@ -215,11 +215,11 @@ div.container {
 						    className: "text-center"
 						},
 						{
-								data : "ritual",
-								width : "3%",
-								className: "dt-head-center",
-								className: "dt-body-center",
-								render : function(data, type) {
+							data : "ritual",
+							width : "3%",
+							className: "dt-head-center",
+							className: "dt-body-center",
+							render : function(data, type) {
 									if (type === 'display') {
 										var icon = '';
 										switch (data) {
@@ -232,11 +232,11 @@ div.container {
 									return data;
 								},
 							    searchable: false
-							},
-							{
-								data : "concentration",
-								render : function(data, type) {
-									if (type === 'display') {
+						},
+						{
+							data : "concentration",
+							render : function(data, type) {
+								if (type === 'display') {
 										var icon = '';
 										switch (data) {
 										case 'true':
@@ -267,19 +267,19 @@ div.container {
 								data : "materialComponent",
 								width : "1%",
 							    className: "text-center",
-							    searchable: false		
+							    searchable: false
 							},
 							{
 								data : "damageType",
 								width : "2%",
-							    className: "text-center",
-							    searchable: false		
+								className: "text-center",
+								 searchable: false
 							},
 							{
 								data : "book",
 								width : "5%",
 							    className: "text-center",
-							    searchable: false		
+							    searchable: false
 							},
 							{
 								data : 'englishName',
@@ -369,7 +369,6 @@ div.container {
 					                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
 					                        }
 					                    },
-					                    ,
 					                    {
 					                        text: 'Длительность',
 					                        action: function ( e, dt, node, config ) {
@@ -463,8 +462,7 @@ div.container {
 			}
 			info += ', ' + d.school;
 			info += '</em></p>';
-			info += '<div><strong>Время накладывания:</strong> '+ d.timeCast + '</div>'+
-            '<div><strong>Дистанция:</strong> ' + d.distance + '</div>';
+			info += '<div><strong>Время накладывания:</strong> '+ d.timeCast + '</div>'+ '<div><strong>Дистанция:</strong> ' + d.distance + '</div>';
             info += '<div><strong>Компоненты:</strong> ';
             if (d.verbalComponent == '★') {
             	info +='В';

@@ -49,7 +49,7 @@ public class SpellController {
 	
 	@GetMapping("/{spellName}")
 	public String getSpellByName(Model model, @PathVariable String spellName) {
-		Spell spell = spellRepo.findOneByName(spellName);
+		Spell spell = spellRepo.findOneByName(spellName.replace('_', ' '));
 		model.addAttribute("spell", spell);
 		model.addAttribute("arhitypes", aSpellRepo.findAllBySpellId(spell.getId()).stream().map(ArchitypeDto::new).collect(Collectors.toList()));
 		return "spellView";

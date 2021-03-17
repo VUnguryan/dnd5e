@@ -41,6 +41,11 @@ public class Creature {
 
 	private static final String popover = "tabindex=\"0\" href=\"#\" class=\"text-danger\" data-trigger=\"hover\" data-container=\"body\" data-toggle=\"popover\" data-placement=\"top\"";
 
+	private static final String flyTittle = "Существо, имеющее скорость полёта, может использовать часть или всё передвижение для полёта.";
+	private static final String swimTittle = "Существо, имеющее скорость плавания, не тратит дополнительное движение при плавании.";
+	private static final String climbingTittle = "Существо, имеющее скорость лазания, может использовать часть или всё передвижение для перемещения по вертикальным поверхностям. Чудовищу нет необходимости тратить дополнительное движение для лазания.";
+	private static final String giggingTittle = "Существо, имеющее скорость копания, может использовать её для передвижения через песок, землю, грязь или лёд. Чудовище не может копать сквозь камень, если у него нет особого умения, позволяющего делать это.";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -216,6 +221,7 @@ public class Creature {
 		}
 		return String.format("%d (%d%s + %d)", averageHp, countDiceHp, diceHp.name(), bonusHP);
 	}
+
 	public String getHpFormula() {
 		if (bonusHP == null) {
 			return String.format("%d%s", countDiceHp, diceHp.name());
@@ -284,8 +290,13 @@ public class Creature {
 				+ (climbingSpeed == null ? "" : String.format(", <a class=\"text-danger\" " + popover + " data-content =\"%s\">лазая</a> %d фт.", climbingTittle, climbingSpeed));
 	}
 	
-	private static final String flyTittle = "Существо, имеющее скорость полёта, может использовать часть или всё передвижение для полёта.";
-	private static final String swimTittle = "Существо, имеющее скорость плавания, не тратит дополнительное движение при плавании.";
-	private static final String climbingTittle = "Существо, имеющее скорость лазания, может использовать часть или всё передвижение для перемещения по вертикальным поверхностям. Чудовищу нет необходимости тратить дополнительное движение для лазания.";
-	private static final String giggingTittle = "Существо, имеющее скорость копания, может использовать её для передвижения через песок, землю, грязь или лёд. Чудовище не может копать сквозь камень, если у него нет особого умения, позволяющего делать это.";
+	public List<Action> getActions(){
+		return actions.stream().filter(a -> a.getActionType() == ActionType.ACTION).collect(Collectors.toList());
+	}
+	public List<Action> getReactions(){
+		return actions.stream().filter(a -> a.getActionType() == ActionType.REACTION).collect(Collectors.toList());
+	}
+	public List<Action> getLegendaries(){
+		return actions.stream().filter(a -> a.getActionType() == ActionType.LEGENDARY).collect(Collectors.toList());
+	}
 }

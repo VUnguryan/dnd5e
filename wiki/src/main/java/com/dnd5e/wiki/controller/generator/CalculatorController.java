@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.dnd5e.wiki.dto.MagicThingDto;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.Alignment;
+import com.dnd5e.wiki.model.creature.Creature;
+import com.dnd5e.wiki.model.creature.HabitatType;
+import com.dnd5e.wiki.model.encounter.RandomCreature;
+import com.dnd5e.wiki.model.encounter.RandomCreatureDto;
+import com.dnd5e.wiki.model.encounter.RandomEncounter;
 import com.dnd5e.wiki.model.hero.LifeStyle;
 import com.dnd5e.wiki.model.hero.madness.Madness;
 import com.dnd5e.wiki.model.hero.madness.MadnessType;
@@ -28,6 +33,7 @@ import com.dnd5e.wiki.model.treasure.Treasure;
 import com.dnd5e.wiki.model.treasure.TreasureType;
 import com.dnd5e.wiki.repository.MadnessRepository;
 import com.dnd5e.wiki.repository.MagicThingTableRepository;
+import com.dnd5e.wiki.repository.RandomEncounterRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
 import com.dnd5e.wiki.repository.TreasureRepository;
 import com.dnd5e.wiki.repository.WeaponRepository;
@@ -49,6 +55,8 @@ public class CalculatorController {
 	private WeaponRepository weaponRepo;
 	@Autowired
 	private TreasureRepository treasureRepo;
+	@Autowired
+	private RandomEncounterRepository encounterRepo;
 
 	@GetMapping("/master")
 	public String getMaster(Model model) {
@@ -101,6 +109,40 @@ public class CalculatorController {
 		model.addAttribute("result", 1);
 		model.addAttribute("mageRang", 2);
 		return "calc/trader";
+	}
+
+	@GetMapping("/encounters")
+	public String getRandomEncountersForm(Model model) {
+		model.addAttribute("types", HabitatType.types());
+		return "calc/encounters";
+	}
+
+	@PostMapping("/encounters")
+	public String getRandomEncounters(Integer start, Integer end, Integer level, HabitatType type, Model model) {
+		int index = 1 + rnd.nextInt(100);
+		//System.out.println(index);
+		RandomEncounter encounter = encounterRepo.findOne(index, level, type);
+		if (encounter != null && encounter.getCreatures() != null) {
+			List<RandomCreatureDto> creatures = new ArrayList<>();
+			for (RandomCreature creature : encounter.getCreatures()) {
+				RandomCreatureDto rcreature = new RandomCreatureDto();
+				rcreature.setCreature(creature.getCreature());
+				int count = creature.getCount();
+				if (creature.getDice() != null) {
+					count += getCountDice(creature.getCountDice(), creature.getDice().getMaxValue());
+					rcreature.setCount(count);
+				} else {
+					rcreature.setCount(count);
+				}
+				creatures.add(rcreature);
+			}
+			model.addAttribute("creatures", creatures);
+		}
+		model.addAttribute("encounter", encounter);
+		model.addAttribute("types", HabitatType.types());
+		model.addAttribute("level", level);
+		model.addAttribute("selectedType", type);
+		return "calc/encounters";
 	}
 
 	@PostMapping("/trader")
@@ -197,15 +239,15 @@ public class CalculatorController {
 						switch (ri) {
 						case 66:
 							dto.setName("Адамантиновый Доспех (кольчуга)");
-							dto.setCost(dto.getCost() + 75);
+							dto.setCost(Integer.valueOf(dto.getCost()) + 75);
 							break;
 						case 67:
 							dto.setName("Адамантиновый Доспех (кольчужная рубаха)");
-							dto.setCost(dto.getCost() + 50);
+							dto.setCost(Integer.valueOf(dto.getCost()) + 50);
 							break;
 						case 68:
 							dto.setName("Адамантиновый Доспех (чещуйчатый доспех)");
-							dto.setCost(dto.getCost() + 50);
+							dto.setCost(Integer.valueOf(dto.getCost()) + 50);
 							break;
 						}
 					}
@@ -213,11 +255,11 @@ public class CalculatorController {
 						switch (ri) {
 						case 15:
 							dto.setName("Адамантиновый Доспех (кираса)");
-							dto.setCost(dto.getCost() + 400);
+							dto.setCost(Integer.valueOf(dto.getCost()) + 400);
 							break;
 						case 16:
 							dto.setName("Адамантиновый Доспех (наборной доспех)");
-							dto.setCost(dto.getCost() + 200);
+							dto.setCost(Integer.valueOf(dto.getCost()) + 200);
 							break;
 						case 35:
 							dto.setName("Доспех +1 (кожаный)");
@@ -248,11 +290,11 @@ public class CalculatorController {
 						switch (ri) {
 						case 55:
 							dto.setName("Адамантиновый Доспех (латы)");
-							dto.setCost(dto.getCost() + 1500);
+							dto.setCost(Integer.valueOf(dto.getCost()) + 1500);
 							break;
 						case 56:
 							dto.setName("Адамантиновый Доспех (полулаты)");
-							dto.setCost(dto.getCost() + 750);
+							dto.setCost(Integer.valueOf(dto.getCost()) + 750);
 							break;
 						case 65:
 							dto.setName("Доспех +1 (кираса)");
@@ -912,7 +954,7 @@ public class CalculatorController {
 
 	private List<Treasure> getTreasures(int cost, TreasureType type, int count, int dice) {
 		List<Treasure> treasures = new ArrayList<>();
-		int ri = 0;
+		int ri = getCountDice(count, dice);
 		for (int i = 0; i < count; i++) {
 			ri += 1 + rnd.nextInt(dice);
 		}
@@ -921,5 +963,13 @@ public class CalculatorController {
 			treasures.add(treasuresFind.get(rnd.nextInt(treasuresFind.size())));
 		}
 		return treasures;
+	}
+
+	private int getCountDice(int count, int dice) {
+		int ri = 0;
+		for (int i = 0; i < count; i++) {
+			ri += 1 + rnd.nextInt(dice);
+		}
+		return ri;
 	}
 }

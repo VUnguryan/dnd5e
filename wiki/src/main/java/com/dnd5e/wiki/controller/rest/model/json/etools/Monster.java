@@ -243,15 +243,15 @@ public class Monster {
 		if (!creature.getFeats().isEmpty()) {
 			trait = creature.getFeats().stream().map(Trait::new).collect(Collectors.toList());			
 		}
-		action = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION).map(Action::new).collect(Collectors.toList());
+		action = creature.getActions().stream().map(Action::new).collect(Collectors.toList());
 		if (action.isEmpty()) {
 			action = null;
 		}
-		reaction = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION).map(Action::new).collect(Collectors.toList());
+		reaction = creature.getReactions().stream().map(Action::new).collect(Collectors.toList());
 		if (reaction.isEmpty()) {
 			reaction = null;
 		}
-		legendary = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY).map(Action::new).collect(Collectors.toList());
+		legendary = creature.getLegendaries().stream().map(Action::new).collect(Collectors.toList());
 		if (legendary.isEmpty()) {
 			legendary = null;
 		}

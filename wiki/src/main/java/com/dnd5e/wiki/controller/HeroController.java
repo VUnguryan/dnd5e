@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HeroController {
 	@GetMapping("/conditions")
 	public String getCondinons(Device device) {
-		return "datatable/conditions";
+		if (device.isMobile()) {
+			return "datatable/conditions";
+		}
+		return "datatable/conditions2";
 	}
 
 	@GetMapping("/options")

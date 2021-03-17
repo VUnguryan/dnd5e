@@ -116,17 +116,12 @@ public class SMonster {
 		{
 			challenge = Float.valueOf(creature.getChallengeRating());	
 		}
-		
 		traits = creature.getFeats().isEmpty() ? null : creature.getFeats().stream().map(STrait::new).collect(Collectors.toList());
-		if (creature.getActions().stream().anyMatch(a -> a.getActionType() == ActionType.ACTION)) {
-			actions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.ACTION).map(SAction::new).collect(Collectors.toList());			
-		}
-		if (creature.getActions().stream().anyMatch(a -> a.getActionType() == ActionType.REACTION)) {
-			reactions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.REACTION).map(SAction::new).collect(Collectors.toList());			
-		}
-		if (creature.getActions().stream().anyMatch(a -> a.getActionType() == ActionType.LEGENDARY)) {
+		actions = creature.getActions().isEmpty() ? null : creature.getActions().stream().map(SAction::new).collect(Collectors.toList());
+		reactions = creature.getReactions().isEmpty() ? null : creature.getReactions().stream().map(SAction::new).collect(Collectors.toList());
+		if (!creature.getLanguages().isEmpty()) {
 			legendaryPoints = 3;
-			legendaryActions = creature.getActions().isEmpty() ? null : creature.getActions().stream().filter(a-> a.getActionType() == ActionType.LEGENDARY).map(SAction::new).collect(Collectors.toList());
+			legendaryActions = creature.getLanguages().isEmpty() ? null : creature.getLegendaries().stream().map(SAction::new).collect(Collectors.toList());
 		}
 	}
 }

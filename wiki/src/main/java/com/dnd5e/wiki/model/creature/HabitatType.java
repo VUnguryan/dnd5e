@@ -1,5 +1,9 @@
 package com.dnd5e.wiki.model.creature;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,5 +30,8 @@ public enum HabitatType {
 	
 	public boolean isXml() {
 		return xmlName != null;
+	}
+	public static Set<HabitatType> types(){
+		return Arrays.stream(values()).filter(t -> t.xmlName != null).collect(Collectors.toSet());
 	}
 }

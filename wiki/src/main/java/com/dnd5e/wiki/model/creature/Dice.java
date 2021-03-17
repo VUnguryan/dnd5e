@@ -1,14 +1,23 @@
 package com.dnd5e.wiki.model.creature;
 
-public enum Dice {
-	d4,
-	d6,
-	d8,
-	d10,
-	d12,
-	d20,
-	d100;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
+public enum Dice {
+	d4(4),
+	d6(6),
+	d8(8),
+	d10(10),
+	d12(12),
+	d20(20),
+	d100(100),
+	d3(3),
+	d2(2);
+	
+	private int maxValue;
+	
 	public static Dice parse(int dice) {
 		switch(dice) {
 			case 4:

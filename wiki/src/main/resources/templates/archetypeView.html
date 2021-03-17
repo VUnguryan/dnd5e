@@ -115,17 +115,13 @@ tr.shown td.details-control {
 											<tr th:each="level : ${#numbers.sequence(1, 20)}" align="center">
 												<td align="center" th:text="${level}" />
 												<td align="center" th:text="${'+' + levelDef[level]}" />
-												<td><th:block th:each="trait, iterStat : ${heroClass.getTraits(level)}">
-														<th:block th:if=${trait.architype}>
-															<a th:each="architypeTrait, iterStat2 : ${heroClass.getArhitypeTraitNames(level)}"
-																th:text="${iterStat2.last} and ${iterStat.last} ? ${#strings.toLowerCase(architypeTrait.name)} : ${#strings.toLowerCase(architypeTrait.name)} + ', '" th:href="|#a${architypeTrait.id}|"
-																th:onclick="|slowScroll('#a${architypeTrait.id}')|"
-															></a>
-														</th:block>
-														<a th:unless=${trait.architype} th:href="|#c${trait.id}|" th:onclick="|slowScroll('#c${trait.id}')|"
-															th:utext="${iterStat.last} ? ${trait.name.toLowerCase()} : ${trait.name.toLowerCase()} + ', '"
-														></a>
-													</th:block></td>
+												<td><a class="text-info" th:each="architypeTrait, iterStat2 : ${heroClass.getArhitypeTraitNames(level)}"
+													th:text="${iterStat2.last and heroClass.getTraitsClear(level).empty} ? ${#strings.toLowerCase(architypeTrait.name)} : ${#strings.toLowerCase(architypeTrait.name)} + ', '" th:href="|#a${architypeTrait.id}|"
+													th:onclick="|slowScroll('#a${architypeTrait.id}')|"
+												></a>
+												<a th:each="trait, iterStat : ${heroClass.getTraits(level)}" class="text-primary" th:unless=${trait.architype} th:href="|#c${trait.id}|" th:onclick="|slowScroll('#c${trait.id}')|"
+															th:utext="${iterStat.last} ? ${trait.name.toLowerCase()} : ${trait.name.toLowerCase()} + ', '"></a>
+												</td>
 												<td th:each="featureLevel : *{featureLevelDefenitions}" th:with="byLevel = ${featureLevel.getByLevel(level)}"><th:block th:if="${featureLevel.prefix ne null and byLevel gt 0}"
 														th:text="${featureLevel.prefix}"
 													/> <th:block th:if="${byLevel gt 0}" th:text="${byLevel}" /> <th:block th:if="${byLevel eq 0}" th:text="'—'" /> <th:block th:if="${byLevel eq -1}" th:text="'Неограниченно'" /> <th:block
@@ -180,7 +176,9 @@ tr.shown td.details-control {
 						</div>
 					</div>
 					<div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
-						<div class="card-body" th:if="*{description}" th:utext="*{description}"></div>
+						<div class="card-body mb-0 mt-1" th:utext="${selectedArchetype.description}"></div>
+						<hr class="mb-0 mt-1" color="#A12000" />
+						<div class="card-body mb-0 mt-1" th:if="*{description}" th:utext="*{description}"></div>
 					</div>
 					<div class="tab-pane fade" id="spells" role="tabpanel" aria-labelledby="spells-tab">
 						<div th:unless="${heroClass.spells.empty}" class="card-body">

@@ -161,13 +161,31 @@ public class TavernaController {
 			index = rnd.nextInt(prefixes.size());
 			TavernaPrefixName prefix = prefixes.get(index);
 			if (prefix.getObjectType() != null) {
-				tavernaNames = tavernaNames.stream().filter(n -> n.getObjectType() == prefix.getObjectType())
+				tavernaNames = tavernaNames.stream()
+						.filter(n -> n.getObjectType() == prefix.getObjectType())
 						.collect(Collectors.toList());
 				index = rnd.nextInt(tavernaNames.size());
 				tavernaName = tavernaNames.get(index);
 			}
 			int nameType = rnd.nextInt(100);
-			if (nameType > 70) {
+			if (nameType > 85) {
+				tavernaNames = tavernaNames.stream().filter(n -> n.getNames() != null).collect(Collectors.toList());
+				index = rnd.nextInt(tavernaNames.size());
+				TavernaName name = tavernaNames.get(index);
+				tavernName = type.getName() + " \"";
+				switch (rnd.nextInt(5)) {
+				case 0:
+					tavernName += "Три ";
+					break;
+				case 1:
+					tavernName += "Четыре ";
+					break;
+				default:
+					tavernName += name.getSex() == Sex.FEMALE ? "Две " : "Два ";
+					break;
+				}
+				tavernName += tavernaNames.get(index).getNames() + "\"";
+			} else if (nameType > 70) {
 				index = rnd.nextInt(tavernaNames.size());
 				TavernaName tavernaName2 = tavernaNames.get(index);
 				tavernName = type.getName() + " \"" + tavernaName.getName() + " и " + tavernaName2.getName() + "\"";

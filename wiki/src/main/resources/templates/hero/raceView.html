@@ -11,39 +11,43 @@
 			<li class="nav-item" role="presentation"><a class="nav-link" id="names-images" data-toggle="tab" href="#images" role="tab" aria-controls="names" aria-selected="false">Изображения</a></li>
 		</ul>
 		<div class="card">
-			<h5 class="card-header" th:text="*{name}"></h5>
+			<h5 class="card-header">
+				<span th:text="*{name}"></span> <span th:if="*{parent}" th:text="*{parent.name}"> </span> <small class="text-secondary" th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
+			</h5>
 			<div class="tab-content" id="tabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<div class="card-body">
-						<ul class="list-group list-group-flush">
-							<li class="list-group-item" th:each="feature : *{features}"><b><th:block th:text="${feature.name}" /></b>&nbsp; <th:block th:utext="${feature.description}" /></li>
-						</ul>
+					<div class="card-body" th:if="${not subRaces.empty}">
+						<h5 class="card-title text-center">Разновидности</h5>
+						<th:block th:each="subRace : ${subRaces}">
+							<th:block th:switch="${subRace.book.type.name()}">
+								<a th:case="'OFFICAL'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-secondary" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+								<a th:case="'CUSTOM'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-info" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+								<a th:case="'SETTING'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-success" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+							</th:block>
+						</th:block>
 					</div>
-					<div class="card" th:if="${not race.subRaces.empty}">
+					<h5 class="card-header">Умения</h5>
+					<div class="card-body">
+						<th:block th:each="feature : ${features}">
+							<h5 class="card-title mb-0" th:utext="${feature.name}"></h5>
+							<hr class="mb-0 mt-1" color="#A12000" />
+							<p class="card-text mt-1 mb-0" th:utext="${feature.description}"></p>
+						</th:block>
+					</div>
+					<div class="card-body" th:if="${not race.subRaces.empty}">
 						<h5 class="card-header">Разновидности</h5>
 						<div class="accordion" id="subClasses">
-							<div class="card" th:each="subClass : *{subRaces}">
+							<div th:unless="${subClass.features.empty}" th:each="subClass : *{subRaces}">
 								<div class="card-header" th:id="${subClass.id}">
-									<h5 class="mb-0">
-										<button class="btn btn-link" th:text="${subClass.name}" type="button" data-toggle="collapse" th:attr="data-target='#collapse'+ ${subClass.id}, aria-controls=${'collapse'+ subClass.id}"
-											aria-expanded="false"
-										></button>
-									</h5>
+									<button class="btn btn-link" th:text="${subClass.name}" type="button" data-toggle="collapse" th:attr="data-target='#collapse'+ ${subClass.id}, aria-controls=${'collapse'+ subClass.id}"
+										aria-expanded="false"
+									></button>
 								</div>
-								<div th:id="'collapse' + ${subClass.id}" class="collapse" th:attr="aria-labelledby=${subClass.id}" data-parent="#subClasses">
-									<div class="card-body">
-										<p th:each="nameElement , iterStat: ${subClass.names}">
-											<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong>
-											<th:block th:each="name , iterStat: ${nameElement.value}" th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
-										</p>
-									</div>
-									<div class="card-body">
-										<th:block th:utext="${subClass.description}"></th:block>
-										<ul class="list-group list-group-flush">
-											<li class="list-group-item" th:each="featureSubClass : ${subClass.features}"><b><th:block th:text="${featureSubClass.name}" /></b>&nbsp; <th:block
-													th:utext="${featureSubClass.description}"
-												/></li>
-										</ul>
+								<div th:id="'collapse' + ${subClass.id}" class="collapse mb-1 mt-1" th:attr="aria-labelledby=${subClass.id}" data-parent="#subClasses">
+									<div class="list-group-item" th:each="featureSubClass : ${subClass.features}">
+										<h5 class="card-title mb-0" th:utext="${featureSubClass.name}"></h5>
+										<hr class="mb-0 mt-1" color="#A12000" />
+										<p class="card-text mt-1 mb-0" th:utext="${featureSubClass.description}"></p>
 									</div>
 									<div class="card-footer text-muted" th:text="|Источник: ${subClass.book.name}|"></div>
 								</div>
@@ -59,8 +63,10 @@
 				<div class="tab-pane fade" id="names" role="tabpanel" aria-labelledby="names-tab">
 					<div class="card-body">
 						<p th:each="nameElement , iterStat: *{names}">
-							<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong>
-							<th:block th:each="name , iterStat: ${nameElement.value}" th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
+							<th:block th:unless="${nameElement.value.empty}">
+								<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong>
+								<th:block th:each="name , iterStat: ${nameElement.value}" th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
+							</th:block>
 						</p>
 					</div>
 				</div>

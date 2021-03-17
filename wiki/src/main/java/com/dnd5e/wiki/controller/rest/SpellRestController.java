@@ -1,6 +1,8 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -136,7 +138,7 @@ public class SpellRestController {
 			.map(c -> new Item(c.getField().getName(), c.getTotal(), String.valueOf(c.getField().getId()), c.getTotal()))
 			.forEach(v -> addItem("heroClass", options, v));
 		
-		repo.countTotalSpellByBook().stream()
+		repo.countTotalSpellByBook(settings == null ? EnumSet.of(TypeBook.OFFICAL) : settings.getTypeBooks()).stream()
 			.map(c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField().getSource()), c.getTotal()))
 			.forEach(v -> addItem("book", options, v));
 

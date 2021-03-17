@@ -36,7 +36,15 @@ div.container {
 	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
 		<div class="row">
 			<div class="col-5 mt-3 mb-3">
-				<table id="example" class="table table-hover table-sm nowrap" style="width:100%; background-color: #FFFAF0;">
+			    <div class="row justify-content-end">
+					<a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#subRaces" role="button" aria-expanded="false" aria-controls="subRaces">Метки</a>
+				</div>
+				<div class="collapse" id="subRaces">
+					<th:block th:each="creatureRace : ${creatureRaces}">
+						<a class="badge badge-secondary" th:href="@{|/entities/race/${creatureRace.id}|}" th:text="${creatureRace.name}"></a>
+					</th:block>
+				</div>
+				<table id="example" class="table table-hover table-sm nowrap" style="width: 100%; background-color: #FFFAF0;">
 					<thead>
 						<tr>
 							<th title="Уровень угрозы (Опастность)">CR</th>

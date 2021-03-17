@@ -105,10 +105,10 @@ public class CreatureDto {
 
 		
 		feets = creature.getFeats().stream().map(CreatureTraitDto::new).collect(Collectors.toList());
-		actions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION).collect(Collectors.toList());
-		reactions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION).collect(Collectors.toList());
+		actions = creature.getActions();
+		reactions = creature.getReactions();
 		legendary = creature.getLegendary() == null ? String.format("%1$s может совершить 3 легендарных действия, выбирая из представленных ниже вариантов. За один раз можно использовать только одно легендарное действие, и только в конце хода другого существа. %1$s восстанавливает использованные легендарные действия в начале своего хода.", name) : creature.getLegendary();
-		legendaryActions = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY).collect(Collectors.toList());
+		legendaryActions = creature.getLegendaries();
 		book = creature.getBook().getName() + (creature.getPage() != null ? ", стр. " + creature.getPage() : "");
 	}
 }

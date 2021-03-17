@@ -103,7 +103,7 @@ public class OptionRestController {
 			prerequsites.stream()
 			.map(c -> new Item(c.getField(), c.getTotal(), c.getField(), c.getTotal()))
 				.forEach(v -> addItem("prerequisite", options, v));
-		}
+		} 
 
 		repo.countTotalOptionBook().stream()
 			.map(c -> new Item(c.getField().getSource(), c.getTotal(), c.getField().getSource(), c.getTotal()))

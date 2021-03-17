@@ -80,6 +80,7 @@ public class MagicThing {
 		}
 		return consumed ? rarity.getBaseCost() / 2 : rarity.getBaseCost();
 	}
+
 	public int getBaseCost() {
 		return cost;
 	}

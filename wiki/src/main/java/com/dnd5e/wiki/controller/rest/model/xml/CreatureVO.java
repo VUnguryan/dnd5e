@@ -135,13 +135,13 @@ public class CreatureVO {
 				.map(f -> new TraitVO(f.getName(), f.getDescription()))
 				.collect(Collectors.toList());
 
-		this.action = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.ACTION)
+		this.action = creature.getActions().stream()
 				.map(a -> new ActionVO(a.getName(), a.getDescription()))
 				.collect(Collectors.toList());
-		this.reaction = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.REACTION)
+		this.reaction = creature.getReactions().stream()
 				.map(a -> new ReactionVO(a.getName(), Compendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
-		this.legendary = creature.getActions().stream().filter(a -> a.getActionType() == ActionType.LEGENDARY)
+		this.legendary = creature.getLegendaries().stream()
 				.map(a -> new Legendary(a.getName(), Compendium.removeHtml(a.getDescription())))
 				.collect(Collectors.toList());
 		//this.description = Conpendium.removeHtml(creature.getDescription());
