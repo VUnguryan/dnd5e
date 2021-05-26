@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.hero.ArchetypeTrait;
@@ -44,6 +46,18 @@ public class Archetype {
 	
 	@ManyToOne(targetEntity = HeroClass.class)
 	private HeroClass heroClass;
+	
+	@Column(nullable = true)
+	@Enumerated(EnumType.STRING)
+	private SpellcasterType spellcasterType;
+	
+	@OneToMany()
+	@JoinColumn(name = "archetype_id")
+	private List<SpellLevelDefinition> levelDefenitions;
+	
+	@OneToMany()
+	@JoinColumn(name = "archetype_id")
+	private List<FeatureLevelDefinition> featureLevelDefenitions;
 
 	@OneToMany
 	@JoinColumn(name = "archetype_id")

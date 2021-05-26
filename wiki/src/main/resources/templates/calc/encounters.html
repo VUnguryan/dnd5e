@@ -228,6 +228,20 @@
 				</div>
 			</div>
 		</div>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">к100</th>
+					<th>Столкновение</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="encounter : ${encounters}">
+					<td class="text-center" th:text="${encounter.k100}"></td>
+					<td th:text="${encounter.description}"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

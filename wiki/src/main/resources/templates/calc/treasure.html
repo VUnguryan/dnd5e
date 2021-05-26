@@ -46,12 +46,14 @@
 						<tr>
 							<th>Тип</th>
 							<th>Камни и предметы исскуства</th>
+							<th>Базовая стоимость</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="treasure : ${treasures}">
 							<td th:text="${treasure.type.name}"></td>
 							<td th:text="${treasure.name}"></td>
+							<td th:text="${treasure.cost}"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -68,7 +70,7 @@
 				<tbody>
 					<tr th:each="thing : ${things}">
 						<td th:text="${thing.rarity}"></td>
-						<td th:text="${thing.name}"></td>
+						<td><a th:href="|/stock/artifacts/${thing.id}|" th:text="${thing.name}"></a></td>
 					</tr>
 				</tbody>
 			</table>

@@ -31,8 +31,7 @@ public class CreatureDto {
 	private String exp;
 	private String habitates;
 	
-	private int ac;
-	private String armorType;
+	private String ac;
 	private String hp;
 	private String speed;
 	
@@ -54,6 +53,7 @@ public class CreatureDto {
 	private List<CreatureTraitDto> feets;
 	private List<Action> actions;
 	private List<Action> reactions;
+	private List<Action> bonuses;
 	private List<Action> legendaryActions;
 	private String legendary;
 	private int expa;
@@ -71,8 +71,13 @@ public class CreatureDto {
 		alignment = creature.getAlignment().getCyrilicName();
 		habitates = creature.getHabitates().stream().map(HabitatType::getName).collect(Collectors.joining(", "));
 		
-		ac = creature.getAC();
-		armorType = creature.getArmorTypes().isEmpty() ? null : creature.getArmorTypes().stream().map(ArmorType::getCyrillicName).collect(Collectors.joining(", "));
+		ac = String.valueOf(creature.getAC());
+		if (!creature.getArmorTypes().isEmpty()) {
+			ac += " (" +creature.getArmorTypes().stream().map(ArmorType::getCyrillicName).collect(Collectors.joining(", "))+")";
+		}
+		if (creature.getBonusAC() != null) {
+			ac+= " "  +creature.getBonusAC();
+		}
 		hp = creature.getHp();
 		speed = "" + creature.getSpeed() + " фт." + (creature.getFlySpeed() == null ? "" : ", летая " + creature.getFlySpeed() + " фт.")
 				+ (creature.getHover() == null ? "" : " (парит)")
@@ -107,6 +112,7 @@ public class CreatureDto {
 		feets = creature.getFeats().stream().map(CreatureTraitDto::new).collect(Collectors.toList());
 		actions = creature.getActions();
 		reactions = creature.getReactions();
+		bonuses = creature.getBonusActions();
 		legendary = creature.getLegendary() == null ? String.format("%1$s может совершить 3 легендарных действия, выбирая из представленных ниже вариантов. За один раз можно использовать только одно легендарное действие, и только в конце хода другого существа. %1$s восстанавливает использованные легендарные действия в начале своего хода.", name) : creature.getLegendary();
 		legendaryActions = creature.getLegendaries();
 		book = creature.getBook().getName() + (creature.getPage() != null ? ", стр. " + creature.getPage() : "");

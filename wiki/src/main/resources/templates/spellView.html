@@ -17,7 +17,7 @@ img {
 	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<div class="card" th:object="${spell}">
 			<h5 class="card-header">
-				<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
+				<span th:text="*{name}"> </span> <small class="text-secondary" th:text="|(*{englishName})|"></small>
 			</h5>
 			<div class="card-body">
 				<div class="d-flex w-100 justify-content-between">

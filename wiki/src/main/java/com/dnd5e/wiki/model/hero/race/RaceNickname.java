@@ -35,13 +35,17 @@ public class RaceNickname {
 	@AllArgsConstructor
 	@Getter
 	public static enum NicknameType {
-		CLAN("из клана"),
-		SURNAME(""),
-		NICKNAME("по прозвищу"),
-		HOUSE("из дома"),
-		SQUAD("из отряда"),
-		TRIBE("из племени"),
-		FROM("из");
+		CLAN("из клана", "Кланы:"),
+		SURNAME("", "Фамилии:"),
+		NICKNAME("по прозвищу", "Прозвища:"),
+		HOUSE("из дома", "Дома:"),
+		SQUAD("из отряда", "Отряды:"),
+		TRIBE("из племени", "Племена:"),
+		FROM("из", "По месту рождения:"),
+		DYNASTY("династии", "Династии"),
+		;
+
 		private String name;
+		private String display;
 	}
 }

@@ -90,8 +90,8 @@ tr.shown td.details-control {
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr align="center">
-											<th rowspan="2" style="width: 5%">Уровень</th>
-											<th align="center" rowspan="2" style="width: 5%">Бонус мастерства</th>
+											<th rowspan="2" style="width: 5%"><a class="text-reset text-decoration-none" href="#" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top" data-content="Уровень в классе">Ур.</a></th>
+											<th align="center" rowspan="2" style="width: 5%"><a class="text-reset text-decoration-none" href="#" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top" data-content="Бонус мастерства">БМ</a></th>
 											<th align="center" rowspan="2">Умения</th>
 											<th th:each="featurelevelDefinition : *{featureLevelDefenitions}" align="center" rowspan="2" th:text="${featurelevelDefinition.name}" style="width: 5%">Умения</th>
 											<th th:unless="*{levelDefenitions.empty}" align="center" colspan="9">Ячейки заклинаний на уровень заклинаний</th>
@@ -266,6 +266,7 @@ tr.shown td.details-control {
 </body>
 <script layout:fragment="datatable">
 	$(document).ready(function() {
+		
 		$('a.toggle-vis').on( 'click', function (e) {
 	        e.preventDefault();
 	        var column = table.column( $(this).attr('data-column') );
@@ -783,5 +784,12 @@ tr.shown td.details-control {
         }, 1000);
         return false; 
     }
+    $(function () {
+        $('[data-toggle="popover"]').popover({
+      	delay: { "show": 200, "hide": 100 },
+      	html: true,
+      	container: 'body',
+        })
+      })
 	</script>
 </html>

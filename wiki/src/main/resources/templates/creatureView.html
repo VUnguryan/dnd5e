@@ -41,11 +41,10 @@ img {
 							<b>Класс доспеха</b>
 							<th:block th:text="*{AC}" />
 							<th:block th:unless="${#lists.isEmpty(creature.armorTypes)}" th:text="'(' + *{armorTypeString} + ')'" />
+							<th:block th:if="*{bonusAC}" th:text="*{bonusAC}" />
 						</div>
 						<div>
-							<b>Хиты</b> <span th:text="*{averageHp}"></span> (<span th:text="*{countDiceHp}"></span><span th:text="*{diceHp}"></span><span th:if="${creature.bonusHP != null}"> + <span
-								th:text="*{bonusHP}"
-							></span></span>)
+							<b>Хиты</b> <span th:text="*{hp}"></span>
 						</div>
 						<div>
 							<b>Скорость</b>
@@ -153,6 +152,14 @@ img {
 							<h5 class="card-title mb-0 mt-1">Реакции</h5>
 							<hr class="mb-0 mt-1" color="#A12000" />
 							<div th:each="action : *{reactions}">
+								<b th:text="${action.name}"></b>
+								<div th:utext="${action.description}"></div>
+							</div>
+						</div>
+						<div th:unless="*{bonusActions.empty}">
+							<h5 class="card-title mb-0 mt-1">Бонусные действия</h5>
+							<hr class="mb-0 mt-1" color="#A12000" />
+							<div th:each="action : *{bonusActions}">
 								<b th:text="${action.name}"></b>
 								<div th:utext="${action.description}"></div>
 							</div>

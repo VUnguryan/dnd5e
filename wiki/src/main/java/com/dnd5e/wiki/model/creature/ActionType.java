@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum ActionType {
 	  ACTION("Действия"),
 	  REACTION("Реакции"),
-	  LEGENDARY("Легендарные действия");
+	  LEGENDARY("Легендарные действия"),
+	  BONUS("Бонусные действия");
 	  private String name;
 }

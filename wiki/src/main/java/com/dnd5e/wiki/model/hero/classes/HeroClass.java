@@ -74,6 +74,10 @@ public class HeroClass {
 	@Column(nullable = true)
 	@Enumerated(EnumType.STRING)
 	private AbilityType spellAbility;
+	
+	@Column(nullable = true)
+	@Enumerated(EnumType.STRING)
+	private SpellcasterType spellcasterType = SpellcasterType.NONE;
 
 	@ElementCollection(targetClass = AbilityType.class)
 	@JoinTable(name = "class_primary_abilities", joinColumns = @JoinColumn(name = "class_id"))

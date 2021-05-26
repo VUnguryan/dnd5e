@@ -28,6 +28,7 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.hero.AbilityBonus;
+import com.dnd5e.wiki.model.hero.race.RaceNickname.NicknameType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -179,7 +180,14 @@ public class Race implements Serializable {
 	}
 	
 	public Map<Sex, Set<String>> getAllNames() {
-		return Stream.concat(names.stream(), parent == null ? Stream.empty() : parent.names.stream()).collect(Collectors.groupingBy(RaceName::getSex,
-				Collectors.mapping(RaceName::getName, Collectors.toCollection(TreeSet::new))));
+		return Stream.concat(names.stream(), parent == null ? Stream.empty() : parent.names.stream())
+				.collect(Collectors.groupingBy(RaceName::getSex,
+						Collectors.mapping(RaceName::getName, Collectors.toCollection(TreeSet::new))));
+	}
+	
+	public Map<NicknameType, Set<String>> getNicknamesGroup() {
+		return nicknames.stream()
+				.collect(Collectors.groupingBy(RaceNickname::getType,
+						Collectors.mapping(RaceNickname::getName, Collectors.toCollection(TreeSet::new))));
 	}
 }

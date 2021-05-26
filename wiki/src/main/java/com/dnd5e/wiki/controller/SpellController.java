@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +16,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dnd5e.wiki.controller.rest.SettingRestController;
 import com.dnd5e.wiki.dto.ArchitypeDto;
+import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.ArchetypeSpellRepository;
 import com.dnd5e.wiki.repository.SpellRepository;
+import com.dnd5e.wiki.util.SourceUtil;
 
 @Controller
 @RequestMapping({ "/hero/spells" })
 public class SpellController {
+	@Autowired
+	private HttpSession session;
+
 	@Autowired
 	private SpellRepository spellRepo;
 
@@ -43,7 +51,13 @@ public class SpellController {
 	@GetMapping("/spell/{spell:\\d+}")
 	public String getSpell(Model model, @PathVariable Spell spell) {
 		model.addAttribute("spell", ResponseEntity.ok(spell).getBody());
-		model.addAttribute("arhitypes", aSpellRepo.findAllBySpellId(spell.getId()).stream().map(ArchitypeDto::new).collect(Collectors.toList()));
+
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		model.addAttribute("arhitypes", 
+				aSpellRepo.findAllBySpellId(spell.getId(),
+					SourceUtil.getSources(settings)).stream()
+						.map(ArchitypeDto::new)
+						.collect(Collectors.toList()));
 		return "spellView";
 	}
 	
@@ -51,7 +65,13 @@ public class SpellController {
 	public String getSpellByName(Model model, @PathVariable String spellName) {
 		Spell spell = spellRepo.findOneByName(spellName.replace('_', ' '));
 		model.addAttribute("spell", spell);
-		model.addAttribute("arhitypes", aSpellRepo.findAllBySpellId(spell.getId()).stream().map(ArchitypeDto::new).collect(Collectors.toList()));
+
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		model.addAttribute("arhitypes",
+				aSpellRepo.findAllBySpellId(spell.getId(),
+						SourceUtil.getSources(settings)).stream()
+							.map(ArchitypeDto::new)
+							.collect(Collectors.toList()));
 		return "spellView";
 	}
 

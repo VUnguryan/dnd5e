@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
 <title th:text="${race.name}"></title>
 </head>
 <body>
@@ -22,6 +23,7 @@
 							<th:block th:switch="${subRace.book.type.name()}">
 								<a th:case="'OFFICAL'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-secondary" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
 								<a th:case="'CUSTOM'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-info" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+								<a th:case="'MODULE'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-primary" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
 								<a th:case="'SETTING'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-success" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
 							</th:block>
 						</th:block>
@@ -64,7 +66,13 @@
 					<div class="card-body">
 						<p th:each="nameElement , iterStat: *{names}">
 							<th:block th:unless="${nameElement.value.empty}">
-								<strong th:text="${nameElement.key.cyrilicName} + ' имена:'"></strong>
+								<strong th:text="|${nameElement.key.cyrilicName} имена:|"></strong>
+								<th:block th:each="name , iterStat: ${nameElement.value}" th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
+							</th:block>
+						</p>
+						<p th:each="nameElement , iterStat: *{nicknamesGroup}">
+							<th:block th:unless="${nameElement.value.empty}">
+								<strong th:text="${nameElement.key.display}"></strong>
 								<th:block th:each="name , iterStat: ${nameElement.value}" th:text="${iterStat.last} ? ${name} : ${name} + ', '"></th:block>
 							</th:block>
 						</p>

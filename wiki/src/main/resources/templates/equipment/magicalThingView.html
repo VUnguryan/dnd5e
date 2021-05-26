@@ -1,17 +1,17 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<title>Магические вещи</title>
+<title th:text="${magicThing.name}"></title>
 </head>
 <body>
 	<div class="container" style="margin-top: 25px" layout:fragment="content">
 		<div class="card" th:object="${magicThing}">
-			<h5 class="card-header" th:text="*{name}">Название</h5>
+			<h5 class="card-header"><span th:text="*{name}"></span> <small class="text-secondary" th:text="|(*{englishName})|"></small></h5>
 			<div class="card-body">
 				<em th:text="*{type.cyrilicName}"> <span th:text="${#strings.listJoin(magicThing.weapons, ',')}"></span></em>, <em th:text="*{rarity.cyrilicName}"> </em><em th:if="*{customization}">
 					(требуется настройка<span th:if="*{custSpecial}" th:text="| *{custSpecial}|"></span><span th:each="custclass : *{custClasses}" th:text="${' ' + #strings.toLowerCase(custclass.name) + 'ом'}"></span>)
 				</em>
+				<p th:utext="*{description}">
 			</div>
-			<div class="card-body" th:utext="*{description}"></div>
 			<footer class="blockquote-footer">
 				<small class="text-muted" th:if="*{book}" th:text="|Источник:*{book.name}|"></small>
 			</footer>

@@ -49,4 +49,10 @@ public class RandomEncounter {
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
+	public String getK100() {
+		if (start == end) {
+			return String.format("%02d", start);
+		}
+		return String.format("%02d-%02d", end, start);
+	}
 }

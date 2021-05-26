@@ -17,7 +17,7 @@ public enum ArmorType {
 	CHAIN_MAIL("кольчуга"), // 8
 	BREASTPLATE("нагрудник"),
 	HALF_PLATE("полулаты"), 
-	PLATE("латный доспех"),
+	PLATE("латный доспех"), // 11
 	
 	PLATE_HALF("пластинчатый доспех"),
 	CUIRASS("кираса"),

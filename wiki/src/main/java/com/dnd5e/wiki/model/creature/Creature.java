@@ -219,14 +219,14 @@ public class Creature {
 		if (bonusHP == null) {
 			return String.format("%d (%d%s)", averageHp, countDiceHp, diceHp.name());
 		}
-		return String.format("%d (%d%s + %d)", averageHp, countDiceHp, diceHp.name(), bonusHP);
+		return String.format("%d (%d%s %s %d)", averageHp, countDiceHp, diceHp.name(), bonusHP>=0 ? "+" : "-", Math.abs(bonusHP));
 	}
 
 	public String getHpFormula() {
 		if (bonusHP == null) {
 			return String.format("%d%s", countDiceHp, diceHp.name());
 		}
-		return String.format("%d%s+%d", countDiceHp, diceHp.name(), bonusHP);
+		return String.format("%d%s%s%d", countDiceHp, diceHp.name(),  bonusHP>=0 ? "+" : "-", Math.abs(bonusHP));
 	}
 	
 	public String getSense() {
@@ -293,9 +293,15 @@ public class Creature {
 	public List<Action> getActions(){
 		return actions.stream().filter(a -> a.getActionType() == ActionType.ACTION).collect(Collectors.toList());
 	}
+	
 	public List<Action> getReactions(){
 		return actions.stream().filter(a -> a.getActionType() == ActionType.REACTION).collect(Collectors.toList());
 	}
+	
+	public List<Action> getBonusActions(){
+		return actions.stream().filter(a -> a.getActionType() == ActionType.BONUS).collect(Collectors.toList());
+	}
+
 	public List<Action> getLegendaries(){
 		return actions.stream().filter(a -> a.getActionType() == ActionType.LEGENDARY).collect(Collectors.toList());
 	}

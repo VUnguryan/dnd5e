@@ -52,7 +52,7 @@
 									</div>
 								</td>
 								<td class="text-center">
-									<div th:text="${(weapon.numberDice ==null ? '' : weapon.numberDice) + '' + (weapon.damageDice == null ? '' : weapon.damageDice) + ' ' + weapon.damageType.cyrilicName}"></div>
+									<div th:text="${(weapon.numberDice eq null ? '' : weapon.numberDice) + '' + (weapon.damageDice eq null ? '' : weapon.damageDice) + ' ' + weapon.damageType.cyrilicName}"></div>
 								</td>
 								<td class="text-center">
 									<div th:text="${weapon.weight}"></div>

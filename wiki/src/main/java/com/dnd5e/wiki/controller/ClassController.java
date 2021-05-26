@@ -87,7 +87,7 @@ public class ClassController {
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		List<Archetype> archetypes = heroClass.getArchetypes();
 		archetypes = heroClass.getArchetypes().stream()
-				.filter(a -> sources.contains(a.getBook().getType()))
+				.filter(a -> sources.contains(a.getBook().getType()) || a.getId()==archetypeId)
 				.collect(Collectors.toList());
 		Collections.sort(archetypes, Comparator.comparing(Archetype::getBook));
 		heroClass.setArchetypes(archetypes);
@@ -101,16 +101,21 @@ public class ClassController {
 			.filter(f -> !f.isArchitype())
 			.map(f -> new ClassFetureDto(f, heroClass.getName()))
 			.forEach(f -> features.add(f));
-		Archetype archetype = heroClass.getArchetypes().stream().filter(a -> a.getId().equals(archetypeId)).findFirst().orElseGet(Archetype::new);
+		Archetype archetype = heroClass.getArchetypes()
+				.stream()
+				.filter(a -> a.getId().equals(archetypeId))
+				.findFirst().orElseGet(Archetype::new);
+
 		ClassFetureDto feature = new ClassFetureDto();
 		feature.setId(archetypeId);
 		feature.setLevel(archetype.getLevel());
 		feature.setDescription(archetype.getDescription());
 		feature.setName(archetype.getName());
 		feature.setPrefix("ad");
-		feature.setType("Источник: " + archetype.getBook().getName()
-				+ (archetype.getPage() == null ? "" : ", стр. " + archetype.getPage()));
-
+		if (archetype.getBook()!=null) {
+			feature.setType("Источник: " + archetype.getBook().getName()
+					+ (archetype.getPage() == null ? "" : ", стр. " + archetype.getPage()));
+		}
 		features.add(feature);
 		archetype.getFeats().stream()
 			.map(f -> new ClassFetureDto(f, archetype.getGenitiveName()))

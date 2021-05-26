@@ -46,106 +46,87 @@ table.dataTable tbody tr.selected {
 		</div>
 	</div>
 	<script layout:fragment="datatable">
-		$(document)
-				.ready(
-						function() {
-							$('a.toggle-vis').on(
-									'click',
-									function(e) {
-										e.preventDefault();
-										var column = table.column($(this).attr(
-												'data-column'));
-										column.visible(!column.visible());
-									});
-							$('#conditions').one(
-									'preXhr.dt',
-									function(e, settings, data) {
-										data.searchPanes = {};
-										data.searchPanes["type.0"] =  'Состояние';
-									})
-							var table = $('#conditions').DataTable({
-								  rowCallback : function( row, data ) {
-									  var url = window.location.href;
-									  var hash = url.substring(url.indexOf("#")+1);
-									  if ( data.englishName == hash) {
-									    	table.row(row.rowIndex-1).select();
-								    		var tr = $(this).closest('tr');
-								    		var row = table.row( tr );
-								    		var element = document.getElementById("info");
-											var name = '<h5 class="header">' + data.name + ' <small class="text-secondary">(' + data.englishName + ')'+'</small></h5>';
-								    		element.innerHTML = name + format(data);
-									    }
-									  },
-												paging : false,
-												searchPanes : true,
-												dom : 'Bfrtip',
-												serverSide : true,
-										        select: {
-										            style: 'single'
-										        },
-												ajax : '/conditions',
-												columns : [
-														{
-															data : 'type',
-															width : "1%",
-														},
-														{
-															data : "name",
-															width : "20%",
-															render : function(
-																	data, type,
-																	row) {
-																if (type === 'display') {
-																	return '<a class="text-reset text-decoration-none" href="#'+ row.englishName+'"><h6>'
-																			+ data
-																			+ ' <small class="text-secondary">('
-																			+ row.englishName
-																			+ ')</small><h6></a>';
-																}
-																return data;
-															},
-														},
-														{
-															data : 'englishName',
-															width : "1%",
-															orderable : true,
-														},
-												],
-												columnDefs : [
-														{
-															searchPanes : {
-																preSelect : [ 'Состояние' ],
-															},
-															"targets" : [ 0 ],
-															"visible" : false,
-														}, {
-															"targets" : [ 2 ],
-															"visible" : false,
-														}, ],
-												buttons : [
-														'searchPanes',
-														{
-															extend : 'colvis',
-															text : 'Столбцы',
-															buttons : [
-																	{
-																		text : 'Тип',
-																		action : function(
-																				e,
-																				dt,
-																				node,
-																				config) {
-																			dt
-																					.column(
-																							0)
-																					.visible(
-																							!dt
-																									.column(
-																											0)
-																									.visible());
-																		}
-																	}, ],
-														} ],
+		$(document).ready(function() {
+			$('a.toggle-vis').on('click',function(e) {
+				e.preventDefault();
+				var column = table.column($(this).attr(
+				'data-column'));
+				column.visible(!column.visible());
+		});
+		$('#conditions').one('preXhr.dt', function(e, settings, data) {
+			data.searchPanes = {};
+			data.searchPanes["type.0"] =  'Состояние';
+		})
+		var table = $('#conditions').DataTable({ rowCallback : function( row, data ) {
+			var url = window.location.href;
+			var hash = url.substring(url.indexOf("#") + 1);
+			if ( data.englishName == hash) {
+				table.row(row.rowIndex-1).select();
+				var tr = $(this).closest('tr');
+				var row = table.row( tr );
+				var element = document.getElementById("info");
+				var name = '<h5 class="header">' + data.name + ' <small class="text-secondary">(' + data.englishName + ')'+'</small></h5>';
+				element.innerHTML = name + format(data);
+			}
+		},
+		paging : false,
+		searchPanes : true,
+		dom : 'Bfrtip',
+		serverSide : true,
+		select: {
+			style: 'single'
+		},
+		ajax : '/conditions',
+		columns : [
+		{
+			data : 'type',
+			width : "1%",
+		},
+		{
+			data : "name",
+			width : "20%",
+			render : function(data, type, row) {
+				if (type === 'display') {
+					return '<a class="text-reset text-decoration-none" href="#'+ row.englishName+'"><h6>'
+					+ data
+					+ ' <small class="text-secondary">('
+					+ row.englishName
+					+ ')</small><h6></a>';
+				}
+				return data;
+			},
+		},
+		{
+			data : 'englishName',
+			width : "1%",
+			orderable : true,
+		},
+		],
+		columnDefs : [
+		{
+			searchPanes : {
+			preSelect : [ 'Состояние' ],
+		},
+			"targets" : [ 0 ],
+			"visible" : false,
+		},
+		{
+			"targets" : [ 2 ],
+			"visible" : false,
+		}, ],
+		buttons : [
+			'searchPanes',
+			{
+				extend : 'colvis',
+				text : 'Столбцы',
+				buttons : [
+				{
+					text : 'Тип',
+					action : function(e, dt, node, config) {
+						dt.column(0).visible(!dt.column(0).visible());
+					}
+				},],
+		}],
 												language : {
 													processing : "Загрузка...",
 													search : "Поиск",
@@ -186,7 +167,6 @@ table.dataTable tbody tr.selected {
 				+ d.source + '</small></p></div>';
 			return info;
 		}
-		
 	</script>
 </body>
 </html>

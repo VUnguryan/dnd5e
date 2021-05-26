@@ -119,8 +119,10 @@ public class CalculatorController {
 
 	@PostMapping("/encounters")
 	public String getRandomEncounters(Integer start, Integer end, Integer level, HabitatType type, Model model) {
+		List<RandomEncounter> encounters = encounterRepo.findAllByLevelAndType(level, type);
+		model.addAttribute("encounters", encounters);
+
 		int index = 1 + rnd.nextInt(100);
-		//System.out.println(index);
 		RandomEncounter encounter = encounterRepo.findOne(index, level, type);
 		if (encounter != null && encounter.getCreatures() != null) {
 			List<RandomCreatureDto> creatures = new ArrayList<>();

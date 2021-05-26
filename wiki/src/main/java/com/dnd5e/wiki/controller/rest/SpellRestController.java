@@ -122,7 +122,9 @@ public class SpellRestController {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
 		output = repo.findAll(input, null, specification, SpellDto::new);
-		output.getData().forEach(s -> s.setSubClass(aSpellRepo.findAllBySpellId(s.getId()).stream().map(ArchitypeDto::new).collect(Collectors.toList())));
+		output.getData().forEach(s -> s.setSubClass(aSpellRepo.findAllBySpellId(s.getId(), SourceUtil.getSources(settings)).stream()
+				.map(ArchitypeDto::new)
+				.collect(Collectors.toList())));
 		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
 
