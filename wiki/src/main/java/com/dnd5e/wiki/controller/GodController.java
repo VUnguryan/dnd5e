@@ -1,5 +1,6 @@
 package com.dnd5e.wiki.controller;
 
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/entities/gods")
 public class GodController {
-
 	@GetMapping
-	public String getGods()
+	public String getGods(Device device)
 	{
-		return "datatable/gods";
+		if (device.isMobile()) {
+			return "datatable/gods";
+		}
+		return "datatable/gods2";
 	}
 }

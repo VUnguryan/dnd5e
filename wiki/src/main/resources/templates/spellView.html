@@ -14,7 +14,7 @@ img {
 </style>
 </head>
 <body>
-	<div class="container" style="margin-top: 25px" layout:fragment="content">
+	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
 		<div class="card" th:object="${spell}">
 			<h5 class="card-header">
 				<span th:text="*{name}"> </span> <small class="text-secondary" th:text="|(*{englishName})|"></small>

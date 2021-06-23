@@ -11,14 +11,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.SkillType;
-import com.dnd5e.wiki.model.hero.AbilityBonus;
 
 import lombok.Data;
 
@@ -33,10 +30,6 @@ public class Feature {
 	private String englishName;
 	@Column(columnDefinition = "TEXT")
 	private String description;
-	
-	@OneToMany
-	@JoinColumn(name = "feature_id")
-	private List<AbilityBonus> abilityBonuses;
 	
 	@ManyToMany
 	private List<Language> lanuages;

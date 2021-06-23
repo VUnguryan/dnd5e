@@ -1,0 +1,200 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<head>
+<title>Снаряжение</title>
+<style>
+.line1 {
+       display: block;
+       position: relative;
+       padding: 0;
+       margin: 8px auto;
+       height: 2px;
+       width: 100%;
+       max-height: 2;
+       font-size: 1px;
+       line-height: 0;
+       clear: both;
+       border-top: 1px solid #E69A28;
+       border-bottom: 1px solid #E69A28;
+       background-color: #E69A28
+}
+.header {
+	color: #A12000;
+}
+</style>
+</head>
+<body>
+	<table id="example" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
+		<thead>
+			<tr>
+				<th>Снаряжение</th>
+				<th>Стоимость</th>
+ 				<th title="Вес в фунтах">Вес</th> 
+ 				<th>Категория</th> 
+				<th>Источник</th>
+				<th>EnglishName</th>
+				<th></th>
+			</tr>
+		</thead>
+	</table>
+	<script layout:fragment="datatable">
+	$(document).ready(function() {
+		$('a.toggle-vis').on( 'click', function (e) {
+	        e.preventDefault();
+	        var column = table.column( $(this).attr('data-column') );
+	        column.visible( ! column.visible() );
+	    });
+	
+		var table = $('#example').DataTable( {
+	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+	        serverSide : true,
+			ajax : '/equipments',
+	        scrollY: "65vh",
+	        scrollCollapse: true,
+	        scroller: true,
+	        paging: false,
+	        select: {
+	            style: 'single'
+	        },
+	        autoWidth: false,
+			columns : [
+						{
+							data : "name",
+							width : "33%", 
+							render : function(data, type, row) {
+								if (type === 'display') {
+									var header = '<h6>' + data; 
+									if (row.englishName != null) {
+										header += ' <small class="text-secondary">(' + row.englishName + ')</small>';
+									}
+									header += '</h6>'
+									return header;
+								}
+								return data;
+							}, 
+						},
+						{
+							data : "cost",
+							width : "10%",
+						    className: "text-right",
+						},
+						{
+							data : "weight",
+							width : "5%",
+						    searchable: false,
+						    className: "text-right",
+						},
+						{
+							data : "type",
+							width : "25%",
+						    searchable: false,
+						},
+						{
+							data : "englishName",
+							width : "10%",
+						},
+						{
+							data : "book",
+							width : "10%",
+						    searchable: false,
+						},
+						{
+							className : 'details-control',
+						    searchable: false,
+						    orderable: false,
+							defaultContent : '',
+							width : "1%"
+						},
+					],
+					columnDefs : [
+			            {
+			                targets : [3],
+			                visible : false
+			            },
+			            {
+			                targets : [4],
+			                visible : false
+			            },
+			            {
+			                targets : [5],
+			                visible : false
+			            },
+				    ],
+				    buttons: [
+			        	'searchPanes',
+			            {
+			        		extend: 'colvis',
+			                text: 'Столбцы',
+			                buttons: [
+			                    {
+			                        text: 'Категория',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 3 ).visible( ! dt.column( 3 ).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'English',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Источник',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column( 5 ).visible( ! dt.column( 5 ).visible() );
+			                        }
+			                    },
+			                ]
+			            }
+			        ],
+					language : {
+						processing : "Загрузка...",
+						search : "Поиск",
+						lengthMenu : "Показывать _MENU_ записей на странице",
+						zeroRecords : "Ничего не найдено",
+						info : "Показано с _START_ до _END_ из _TOTAL_",
+						infoEmpty : "Нет доступных записей",
+						infoFiltered : "(filtered from _MAX_ всего)",
+						paginate : {
+							first : "В начало",
+							previous : "Предыдущая",
+							next : "Следущая",
+							last : "В конец"
+						},
+						searchPanes: {
+							clearMessage : "Сбросить",
+				            title : {
+				                    _: 'Отфильтровано - %d',
+				                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+				                    1: 'Один фильтр выбран',
+				            },
+				            collapse: 'Фильтры (%d)'
+				        },
+					},
+					ordering : true,
+				});
+		table.on( 'draw.dt', function () {
+			if ( table.data().count() === 1) {
+		    	table.row(0).select();
+	    		var tr = $(this).closest('tr');
+	    		var row = table.row( tr );
+	    		var element = document.getElementById("info");
+				var name = '<h5 class="spellHeader">' + table.row(0).data().name + ' <small class="text-secondary">(' + table.row(0).data().englishName + ')'+'</small></h5>';
+	    		element.innerHTML = name + format(table.row(0).data());
+			}
+		});
+		$('#example tbody').on('click', 'tr', function () {
+			var tr = $(this).closest('tr');
+			var row = table.row( tr );
+			var element = document.getElementById("info");
+			var name = '<h5 class="header">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
+			element.innerHTML = name + format(row.data());
+		});
+	});
+	function format ( d ) {
+		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
+		info+= d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>';
+		return info;
+	}
+	</script>
+</body>
+</html>

@@ -96,7 +96,6 @@ public class SpellRestController {
 				filterBooks.add(book);
 			}
 		}
-		DataTablesOutput<SpellDto> output;
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		Specification<Spell> specification = bySources(sources);
 		if (!filterLevels.isEmpty()) {
@@ -121,7 +120,7 @@ public class SpellRestController {
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
-		output = repo.findAll(input, null, specification, SpellDto::new);
+		DataTablesOutput<SpellDto> output = repo.findAll(input, null, specification, SpellDto::new);
 		output.getData().forEach(s -> s.setSubClass(aSpellRepo.findAllBySpellId(s.getId(), SourceUtil.getSources(settings)).stream()
 				.map(ArchitypeDto::new)
 				.collect(Collectors.toList())));

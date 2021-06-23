@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout-mobile}">
 <head>
 <title>Расы</title>
 <link rel="stylesheet" th:href="@{/resources/css/card.columns.flex.css}" />
@@ -11,7 +11,8 @@
 </style>
 </head>
 <body>
-	<div class="container-flex" style="margin-top: 25px" layout:fragment="content">
+	<div class="container-flex pt-2" layout:fragment="content">
+		<a class="btn btn-secondary btn-sm mb-2 text-center" href="/hero/races/" role="button">Таблица</a>
 		<div class="card-columns">
 			<div th:each="race : ${races}" class="card text-center">
 				<div class="card-header">
@@ -20,13 +21,11 @@
 						<img th:if="${session.settings != null and session.settings.homeRule and race.book.type.name() eq 'OFFICAL'}" th:src="@{/resources/official.png}" height="20" width="20" title="офицальное">
 					</h4>
 				</div>
-				<a th:href="@{|/hero/races/race/${race.id}|}"> <img class="img-fluid" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" /></a>
+				<a th:href="@{|/hero/races/race/${race.id}|}"> <img class="img-fluid" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" height="300" width="300"/></a>
 				<div class="card-footer">
 					<h6 class="card-subtitle mb-2 text-muted">
 					<span th:text="${race.abilityBonuses}"></span>
-					<a data-toggle="tooltip" data-placement="top" th:href="@{|/hero/races/race/${race.id}|}" th:if="${not race.chiledAbilityBonuses.empty}" class="card-subtitle mb-2 text-muted" th:title ="${race.chiledAbilityBonuses}">Разновидности</a>
 					</h6>
-					
 					<img data-toggle="tooltip" data-placement="top" th:if="${race.darkVision}" class="invert" th:src="@{/resources/icons/Icon.6_30.png}" height="25" title="темное зрение" /><img
 						data-toggle="tooltip" data-placement="top" th:if="${race.natureArmor}" class="invert" th:src="@{/resources/icons/Icon.7_67.png}" height="25" title="природный доспех"
 					/><img data-toggle="tooltip" data-placement="top" th:if="${race.athletics}" class="invert" th:src="@{/resources/icons/Icon.4_64.png}" height="25" title="атлетичный" /><img

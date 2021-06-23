@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/* ====================== Contant ====================== */
+ body > .container-fluid {
+    padding: 0;
+    height: 100%;
+    margin-top: 30px;
+}
+.container-fluid .left-block {
+    padding-left: 45px;
+    padding-right: 0px;
+}
+.container-fluid .right-block {
+    padding: 30px 30px 30px 15px;
+    background: #F1EBE4;
+}
+.container-fluid .left-block > .col {
+    height: calc(100vh - 105px);
+    padding: 0px 10px 30px 0px;
+    margin-top: 30px;
+}
+.container-fluid .right-block > .col {
+    height: calc(100vh - 115px);
+    padding: 0px;
+    overflow-y: scroll; 
+  	overflow-x: hidden; 
+} 
+/* ====================== Constant END ====================== */
+/* .navbar-toggler-icon {
+	background-image: url(/resources/icons/svg/expand_more_black_24dp.svg)!important;
+} */
+.card .rounded{
+	background: #E5DACD;
+	border-radius: 16px;
+}
+.card-header {
+	background-color: #E9E2CE;
+}
+.card-title {
+	color: #A12000;
+	background-color: #F1EBE4;
+}
+.card-body {
+	background-color: #F1EBE4;
+}
+.card-deck {
+	background-color: #FDF1DF;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+	background: moccasin;
+}
+.navbar-brand
+{
+	font-family: Della Respira;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 27px;
+}
+.navbar .navbar-text {
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 300;
+	font-size: 8px;
+	line-height: 14px;
+}
+.list-group-item {
+	background-color: #FDF1DF; 
+	img { width : 40%;
+	float: left;
+}
+.page-link:focus, .page-link:hover {
+	color: #fff;
+	text-decoration: none;
+	background-color: #FFE4C4;
+	border-color: #AEFF5E;
+}
+table.dataTable tbody tr.selected {
+  background-color: #C77B57;
+}

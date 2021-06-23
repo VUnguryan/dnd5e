@@ -24,6 +24,7 @@ import javax.persistence.Table;
 
 import org.thymeleaf.util.StringUtils;
 
+import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.Language;
@@ -72,13 +73,21 @@ public class Race implements Serializable {
 
 	@Column(columnDefinition = "int default 30")
 	private int speed;
+	private Integer fly;
+	private Integer climb;
+	private Integer swim;
 
 	@OneToMany(mappedBy = "race")
 	private List<RaceName> names;
 
 	@OneToMany(mappedBy = "race")
 	private List<RaceNickname> nicknames;
-
+	private boolean view = true;
+	
+	@OneToMany
+	@JoinColumn(name = "race_id")
+	private List<AbilityBonus> bonuses;
+	
 	@ManyToOne
 	@JoinColumn(name = "source")
 	private Book book;
@@ -93,45 +102,29 @@ public class Race implements Serializable {
 	}
 
 	public String getAbilityBonuses() {
-		if (features.stream().flatMap(f -> f.getAbilityBonuses().stream()).count() == 6) {
+		if (bonuses.size() == 6) {
 			return "+1 к каждой характеристике";
 		}
-		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
-				.map(b -> b.getAbility().getShortName() + " " + String.format("%+d", b.getBonus()))
+		return bonuses.stream()
+				.map(b -> b.getAbility() == AbilityType.CHOICE_UNIQUE || b.getAbility() == AbilityType.CHOICE
+						? String.format("%s %+d", b.getAbility().getCyrilicName(), b.getBonus())
+						: String.format("%s %+d", b.getAbility().getShortName(), b.getBonus()))
 				.collect(Collectors.joining(", "));
 	}
 
 	public List<AbilityBonus> getAbilityValueBonuses() {
-		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
-				.collect(Collectors.toList());
+		return bonuses;
 	}
 	
 	public String getFullNameAbilityBonuses() {
-		if (features.stream().flatMap(f -> f.getAbilityBonuses().stream()).count() == 6) {
+		if (bonuses.size() == 6) {
 			return "+1 к каждой характеристике";
 		}
-		return features.stream().flatMap(f -> f.getAbilityBonuses().stream())
+		return bonuses.stream()
 				.map(b -> String.format("%+d %s", b.getBonus(), b.getAbility().getCyrilicName()))
 				.collect(Collectors.joining(", "));
 	}
 	
-	public String getChiledAbilityBonuses() {
-		List<String> subraceAbilities = new ArrayList<>();
-		for (Race subrace : subRaces) {
-			for (Feature feature : subrace.getFeatures()) {
-				if (feature.getAbilityBonuses().isEmpty()) {
-					continue;
-				}
-				String bonuses = feature.getAbilityBonuses().stream()
-						.map(b -> String.format("%s %+d", b.getAbility().getShortName(), b.getBonus())).distinct()
-						.collect(Collectors.joining(", "));
-					
-				subraceAbilities.add(subrace.getName().toLowerCase() + ": (" + bonuses + ")");
-			}
-		}
-		return String.join(", ", subraceAbilities);
-	}
-
 	public String getCapName() {
 		return StringUtils.capitalize(name.toLowerCase());
 	}

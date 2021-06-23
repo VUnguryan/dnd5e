@@ -22,6 +22,7 @@ public class ClassDto implements Serializable {
 
 	private int id;
 	private String name;
+	private String englishName;
 	private byte hitDice;
 	private String primaryAbilities;
 	private String savingThrows;
@@ -34,10 +35,12 @@ public class ClassDto implements Serializable {
 	private List<SkillType> availableSkills;
 	
 	private List<ClassTraitDto> traits;
+	private String book;
 
 	public ClassDto(HeroClass heroClass) {
 		this.id = heroClass.getId();
 		this.name = heroClass.getName();
+		this.englishName = heroClass.getEnglishName();
 		this.hitDice = heroClass.getDiceHp();
 		this.primaryAbilities = heroClass.getPrimaryAbilities().stream()
 				.map(AbilityType::getCyrilicName)
@@ -54,6 +57,7 @@ public class ClassDto implements Serializable {
 				.map(ClassTraitDto::new)
 				.sorted(Comparator.comparingInt(ClassTraitDto::getLevel))
 				.collect(Collectors.toList());
+		book = heroClass.getBook().getName();
 	}
 
 	@NoArgsConstructor

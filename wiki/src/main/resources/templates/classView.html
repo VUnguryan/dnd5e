@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/datatable-layout}">
 <head>
 <title th:text="${heroClass.name}"></title>
 <style>
@@ -30,7 +30,7 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div class="container" style="margin-top: 25px" layout:fragment="content" th:object="${heroClass}">
+	<div class="container p-5" layout:fragment="content" th:object="${heroClass}">
 		<ul class="nav nav-tabs" id="nav-tabs" role="tablist">
 			<li class="nav-item" role="presentation"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Навыки</a></li>
 			<li class="nav-item" role="presentation"><a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Описание</a></li>
@@ -63,12 +63,11 @@ tr.shown td.details-control {
 							</th:block>
 						</th:block>
 					</div>
-					<h6 class="card-header">Хиты</h6>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item pt-1 pb-1"><b>Кость Хитов:</b> 1к<th:block th:text="*{diceHp}" /> за каждый уровень</li>
-						<li class="list-group-item pt-1 pb-1"><b>Хиты на 1 уровне:</b> <th:block th:text="*{diceHp}" /> + ваш модификатор Телосложения</li>
-						<li class="list-group-item pt-1 pb-1"><b>Хиты на следующих уровнях:</b> 1к[[*{diceHp}]] (или [[*{diceHp/2 + 1}]]) + модификатор <em>Телосложения</em> за каждый уровень этого класса, после первого</li>
-					</ul>
+					<div class="card"><div class="card-body p-1 rounded">
+						<div class="p-1"><b>Кость Хитов:</b> 1к<th:block th:text="*{diceHp}" /> за каждый уровень</div>
+						<div class="p-1"><b>Хиты на 1 уровне:</b> <th:block th:text="*{diceHp}" /> + ваш модификатор Телосложения</div>
+						<div class="p-1"><b>Хиты на следующих уровнях:</b> 1к[[*{diceHp}]] (или [[*{diceHp/2 + 1}]]) + модификатор <em>Телосложения</em> за каждый уровень этого класса, после первого</div>
+					</div></div>
 					<h6 class="card-header">Владение</h6>
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item pt-1 pb-1"><b>Доспехи:</b> <th:bloc th:text="*{armor}" /></li>

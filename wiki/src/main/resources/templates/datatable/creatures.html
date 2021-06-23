@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/datatable-mobile-layout}">
 <head>
 <head>
 <title>Бестиарий</title>
@@ -28,6 +28,14 @@ tr.shown td.details-control {
 	<div class="container" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-11 mt-3 mb-3">
+				<div class="row justify-content-end">
+					<a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#subRaces" role="button" aria-expanded="false" aria-controls="subRaces">Метки</a>
+				</div>
+				<div class="collapse" id="subRaces">
+					<th:block th:each="creatureRace : ${creatureRaces}">
+						<a class="badge badge-secondary" th:href="@{|/entities/race/${creatureRace.id}|}" th:text="${creatureRace.name}"></a>
+					</th:block>
+				</div>
 				<table id="example" class="table table-hover  table-sm" style="width: 100%">
 					<thead>
 						<tr>

@@ -21,36 +21,24 @@
 table.dataTable tbody tr.selected {
   background-color: #F0D0A0;
 }
-div.container {
-	width: 50%;
-}
 .header {
 	color: #A12000;
 }
 </style>
 </head>
 <body>
-	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
-		<div class="row">
-			<div class="col-5 mt-3 mb-3">
-				<table id="example" class="table table-hover table-sm" style="width: 100%; background-color: #FFFAF0;">
-					<thead>
-						<tr>
-							<th>Черта</th>
-							<th>Требования</th>
-							<th title="Увеличение характеристик">Хар-ки</th>
-							<th title="Получение навыков">Навыки</th>
-							<th>Источник</th>
-							<th>englishName</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="col-6 pt-5" style="height: 80vh; overflow: auto;">
-				<div id="info"></div>
-			</div>
-		</div>
-	</div>
+	<table id="example" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
+		<thead>
+			<tr>
+				<th>Черта</th>
+				<th>Требования</th>
+				<th title="Увеличение характеристик">Хар-ки</th>
+				<th title="Получение навыков">Навыки</th>
+				<th>Источник</th>
+				<th>englishName</th>
+			</tr>
+		</thead>
+	</table>
 	<script layout:fragment="datatable">
 	$(document).ready(function() {
 		$('a.toggle-vis').on( 'click', function (e) {
@@ -60,7 +48,7 @@ div.container {
 	    });
 		var table = $('#example').DataTable( {
 			iDisplayLength : 25,
-	        dom: 'Bfrtip',
+	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
 	        serverSide : true,
 			ajax : '/traits',
 	        scrollY: "65vh",
@@ -155,7 +143,8 @@ div.container {
 			        ],
 					language : {
 						processing : "Загрузка...",
-						search : "Поиск",
+						searchPlaceholder: "Поиск ",
+						search : "_INPUT_",
 						lengthMenu : "Показывать _MENU_ записей на странице",
 						zeroRecords : "Ничего не найдено",
 						info : "Показано с _START_ до _END_ из _TOTAL_",

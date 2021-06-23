@@ -21,30 +21,18 @@
 .header {
 	color: #A12000;
 }
-table.dataTable tbody tr.selected {
-  background-color: #F0D0A0;
-}
 </style>
 </head>
 <body>
-	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
-		<div class="row">
-			<div class="col-5">
-				<table id="conditions" class="table table-hover table-sm" style="width: 100%">
-					<thead>
-						<tr>
-							<th>Тип</th>
-							<th>Состояния</th>
-							<th>English</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="col-6 pt-5" style="height: 80vh; overflow: auto;">
-				<div id="info"></div>
-			</div>
-		</div>
-	</div>
+	<table id="conditions" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
+		<thead>
+			<tr>
+				<th>Тип</th>
+				<th>Состояния</th>
+				<th>English</th>
+			</tr>
+		</thead>
+	</table>
 	<script layout:fragment="datatable">
 		$(document).ready(function() {
 			$('a.toggle-vis').on('click',function(e) {
@@ -71,7 +59,7 @@ table.dataTable tbody tr.selected {
 		},
 		paging : false,
 		searchPanes : true,
-		dom : 'Bfrtip',
+        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
 		serverSide : true,
 		select: {
 			style: 'single'

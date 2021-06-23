@@ -10,15 +10,6 @@ img {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
 .line1 {
        display: block;
        position: relative;
@@ -34,293 +25,295 @@ tr.shown td.details-control {
        border-bottom: 1px solid #E69A28;
        background-color: #E69A28
 }
-table.dataTable tbody tr.selected {
-  background-color: #F0D0A0;
-}
-div.container {
-	width: 50%;
-}
 .header {
 	color: #A12000;
 }
 </style>
 </head>
 <body>
-	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
-		<div class="row">
-			<div class="col-5">
-				<table id="example" class="table table-hover table-sm" style="width: 100%; background-color: #FFFAF0;">
-					<thead>
-						<tr>
-							<th>Предмет</th>
-							<th>Категория</th>
-							<th>Редкость</th>
-							<th>Настройка</th>
-							<th>Стоимость</th>
-							<th>Источник</th>
-							<th>English</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="col-6 pt-5" style="height: 80vh; overflow: auto;">
-				<div id="info"></div>
-			</div>
-		</div>
-	</div>
+	<table id="example" class="table table-hover table-sm color-main-bg-500" layout:fragment="content">
+		<thead>
+			<tr>
+				<th>Предмет</th>
+				<th>Категория</th>
+				<th>Редкость</th>
+				<th>Настройка</th>
+				<th>Стоимость</th>
+				<th>Источник</th>
+				<th>English</th>
+			</tr>
+		</thead>
+	</table>
 	<script layout:fragment="datatable">
-	$(document).ready(function() {
-		$('a.toggle-vis').on( 'click', function (e) {
-	        e.preventDefault();
-	        var column = table.column( $(this).attr('data-column') );
-	        column.visible( ! column.visible() );
-	    });
-	
-		var table = $('#example').DataTable( {
-			stateSave: true,
+		$(document).ready(function() {
+			$('a.toggle-vis').on('click', function(e) {
+				e.preventDefault();
+				var column = table.column($(this).attr('data-column'));
+				column.visible(!column.visible());
+			});
+		var table = $('#example').DataTable(
+		{
+			stateSave : true,
 			iDisplayLength : 25,
-	        dom: 'Bfrtip',
-	        serverSide : true,
+			dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+			serverSide : true,
 			ajax : '/magicThings',
-	        scrollY: "65vh",
-	        scrollCollapse: true,
-	        scroller: true,
-	        paging: false,
-	        select: {
-	            style: 'single'
-	        },
+			scrollY : "65vh",
+			scrollCollapse : true,
+			scroller : true,
+			paging : false,
+			select : {
+				style : 'single'
+			},
 			columns : [
-						{
-							data : "name",
-							width : "30%", 
-							render : function(data, type, row) {
-								if (type === 'display') {
-									return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
-									+ (row.customization ? ' <span title = "Требуется настройка" class="badge badge-secondary">Н</span>' : '')
-									+ '</h6> ' 
-									+ '<div class="text-secondary"><small>' + row.rarity + '</small></div>';
-								}
-								return data;
-							}, 
-						},
-						{
-							data : "type",
-							width : "10%",
-						    searchable: false,
-						    className: "text-center",
-						    render : function(data, type, row) {
-								if (type === 'display') {
-									var typeText = '';
-									switch (data){
-									case 'зелье':
-										typeText = '<img class="invert" src="/resources/icons/Icon.4_92.png" title="' + data +'" height="30">';
-										break;
-									case 'рукопашное оружие':
-										typeText = '<img class="invert" src="/resources/icons/Icon.6_98.png" title="' + data +'" height="30">';
-										break;
-									case 'доспех':
-										typeText = '<img class="invert" src="/resources/icons/Icon.6_94.png" title="' + data +'" height="30">';
-										break;
-									case 'волшебная палочка':
-										typeText = '<img class="invert" src="/resources/icons/Icon.3_03.png" title="' + data +'" height="30">';
-										break;
-									case 'жезл':
-										typeText = '<img class="invert" src="/resources/icons/Icon.7_93.png" title="' + data +'" height="30">';
-										break;
-									case 'посох':
-										typeText = '<img class="invert" src="/resources/icons/Icon.7_33.png" title="' + data +'" height="30">';
-										break;
-									case 'кольцо':
-										typeText = '<img class="invert" src="/resources/icons/Icons8_71.png" title="' + data +'" height="30">';
-										break;
-									case 'свиток':
-										typeText = '<img class="invert" src="/resources/icons/Icon.5_85.png" title="' + data +'" height="30">';
-										break;
-									case 'чудесный предмет':
-										typeText = '<img class="invert" src="/resources/icons/Icon.2_45.png" title="' + data +'" height="30">';
-										break;
-									case 'дальнобойное оружие':
-										typeText = '<img class="invert" src="/resources/icons/Icon.4_60.png" title="' + data +'" height="30">';
-										break;
-									case 'щит':
-										typeText = '<img class="invert" src="/resources/icons/Icon.1_88.png" title="' + data +'" height="30">';
-										break;
-									case 'аммуниция':
-										typeText = '<img class="invert" src="/resources/icons/Icon.4_73.png" title="' + data +'" height="30">';
-										break;
-									}
-									return typeText;
-								}
-								return data;
-							}, 
-						},
-						{
-							data : "rarity",
-							width : "3%",
-						    className: "text-center",
-						},
-						{
-							data : "customization",
-							width : "3%",
-						    searchable: false,
-						    className: "text-center",
-						    render : function(data, type, row) {
-								if (type === 'display') {
-									if (data) {
-										return 'Есть';
-									}
-								}
-								return 'Нет';
-							}, 
-						}, 
-						{
-							data : "cost",
-							width : "10%",
-						    searchable: false,
-						    className: "text-center",
-						}, 
-						{
-							data : "book",
-							width : "10%",
-						    searchable: false,
-						    className: "text-center",
-						},
-						{
-							data : "englishName",
-							width : "1%",
-						    className: "text-center",
-						},
-					],
-					columnDefs : [
-			            {
-			                targets : [ 2 ],
-			                visible : false
-			            },
-			            {
-			                targets : [ 3 ],
-			                visible : false
-			            },
-			            {
-			                "targets": [ 4 ],
-			                "visible": false
-				        },
-			            {
-			                targets: [ 5 ],
-			                visible: false
-				        },
-			            {
-			                targets: [ 6 ],
-			                visible: false
-				        },
-				    ],
-				    buttons: [
-			        	'searchPanes',
-			            {
-			        		extend: 'colvis',
-			                text: 'Столбцы',
-			                buttons: [
-			                    {
-			                        text: 'Категория',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column(1).visible(!dt.column(1).visible() );
-			                        }
-			                    },
-			                    {
-			                        text: 'Редкость',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column(2).visible(!dt.column(2).visible());
-			                        }
-			                    },
-			                    {
-			                        text: 'Настройка',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column(3).visible(!dt.column(3).visible());
-			                        }
-			                    },
-			                    {
-			                        text: 'Стоимость',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column(4).visible(!dt.column(4).visible());
-			                        }
-			                    },
-			                    {
-			                        text: 'Источник',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column(5).visible(!dt.column(5).visible());
-			                        }
-			                    },
-			                ]
-			            }
-			        ],
-					language : {
-						processing : "Загрузка...",
-						search : "Поиск",
-						lengthMenu : "Показывать _MENU_ записей на странице",
-						zeroRecords : "Ничего не найдено",
-						info : "Показано с _START_ до _END_ из _TOTAL_",
-						infoEmpty : "Нет доступных записей",
-						infoFiltered : "(filtered from _MAX_ всего)",
-						paginate : {
-							first : "В начало",
-							previous : "Предыдущая",
-							next : "Следущая",
-							last : "В конец"
-						},
-						searchPanes: {
-							clearMessage : "Сбросить",
-				            title : {
-				                    _: 'Отфильтровано - %d',
-				                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
-				                    1: 'Один фильтр выбран',
-				            },
-				            collapse: 'Фильтры (%d)'
-				        },
-					},
-					ordering : true,
-				});
-	table.on( 'draw.dt', function () {
-		if (table.data().count() === 1) {
-	    	table.row(0).select();
-	   		var tr = $(this).closest('tr');
-	   		var row = table.row( tr );
-	   		var element = document.getElementById("info");
-			var name = '<h5 class="header">' + table.row(0).data().name + ' <small class="text-secondary">(' + table.row(0).data().englishName + ')'+'</small></h5>';
-	   		element.innerHTML = name + format(table.row(0).data());
-		}
-	});
-	$('#example tbody').on('click', 'tr', function () {
-		var tr = $(this).closest('tr');
-		var row = table.row( tr );
-		var element = document.getElementById("info");
-		var name = '<h5 class="header">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
-		element.innerHTML = name + format(row.data());
-		});
-	});
-	function format ( d ) {
-		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
-		info += '<p class ="mb-1 mt-1"><em>' + d.type ;
-		if (d.adType) {
-			info += ' (' + d.adType + ')';
-		}
-		info += ', ' + d.rarity;
-		if (d.customization) {
-			info += ' (требуется настройка';
-			if (d.custClasses){
-				info += ' ' + d.custClasses;
+			{
+				data : "name",
+				width : "30%",
+				render : function(data, type, row) {
+					if (type === 'display') {
+						return '<h6>'+ data	+ (row.englishName ? '<small class="text-secondary"> ('+ row.englishName+ ')</small>': '')
+								+ (row.customization ? ' <span title = "Требуется настройка" class="badge badge-secondary">Н</span>': '')
+								+ '</h6> '
+								+ '<div class="text-secondary"><small>'+ row.rarity + '</small></div>';
+					}
+					return data;
+				},
+			},
+			{
+				data : "type",
+				width : "10%",
+				searchable : false,
+				className : "text-center",
+				render : function(data, type,row) {
+					if (type === 'display') {
+						var typeText = '';
+						switch (data) {
+							case 'зелье':
+								typeText = '<img class="invert" src="/resources/icons/Icon.4_92.png" title="' + data +'" height="30">';
+							break;
+							case 'рукопашное оружие':
+								typeText = '<img class="invert" src="/resources/icons/Icon.6_98.png" title="' + data +'" height="30">';
+							break;
+							case 'доспех':
+								typeText = '<img class="invert" src="/resources/icons/Icon.6_94.png" title="' + data +'" height="30">';
+							break;
+							case 'волшебная палочка':
+								typeText = '<img class="invert" src="/resources/icons/Icon.3_03.png" title="' + data +'" height="30">';
+							break;
+							case 'жезл':
+								typeText = '<img class="invert" src="/resources/icons/Icon.7_93.png" title="' + data +'" height="30">';
+							break;
+							case 'посох':
+								typeText = '<img class="invert" src="/resources/icons/Icon.7_33.png" title="' + data +'" height="30">';
+							break;
+							case 'кольцо':
+								typeText = '<img class="invert" src="/resources/icons/Icons8_71.png" title="' + data +'" height="30">';
+							break;
+							case 'свиток':
+								typeText = '<img class="invert" src="/resources/icons/Icon.5_85.png" title="' + data +'" height="30">';
+							break;
+							case 'чудесный предмет':
+								typeText = '<img class="invert" src="/resources/icons/Icon.2_45.png" title="' + data +'" height="30">';
+							break;
+							case 'дальнобойное оружие':
+								typeText = '<img class="invert" src="/resources/icons/Icon.4_60.png" title="' + data +'" height="30">';
+							break;
+							case 'щит':
+								typeText = '<img class="invert" src="/resources/icons/Icon.1_88.png" title="' + data +'" height="30">';
+							break;
+							case 'аммуниция':
+								typeText = '<img class="invert" src="/resources/icons/Icon.4_73.png" title="' + data +'" height="30">';
+							break;
+						}
+						return typeText;
+					}
+					return data;
+				},
+			},
+			{
+				data : "rarity",
+				width : "3%",
+				className : "text-center",
+			},
+			{
+				data : "customization",
+				width : "3%",
+				searchable : false,
+				className : "text-center",
+				render : function(data, type,row) {
+					if (type === 'display') {
+						if (data) {
+							return 'Есть';
+						}
+					}
+					return 'Нет';
+				},
+			},
+			{
+				data : "cost",
+				width : "10%",
+				searchable : false,
+				className : "text-center",
+			},
+			{
+				data : "book",
+				width : "10%",
+				searchable : false,
+				className : "text-center",
+			},
+			{
+				data : "englishName",
+				width : "1%",
+				className : "text-center",
+			}, ],
+			columnDefs : [ {
+				targets : [ 2 ],
+				visible : false
+			}, {
+				targets : [ 3 ],
+				visible : false
+			}, {
+				targets : [ 4 ],
+				visible : false
+			}, {
+				targets : [ 5 ],
+				visible : false
+			}, {
+				targets : [ 6 ],
+				visible : false
+			}, ],
+			buttons : [
+				'searchPanes',
+				{
+					extend : 'colvis',
+					text : 'Столбцы',
+					buttons : [{
+						text : 'Категория',
+						action : function(e,dt,node,config) {
+							dt.column(1).visible(!dt.column(1).visible());
+					}
+				},
+				{
+					text : 'Редкость',
+					action : function(e,dt,node,config) {
+						dt.column(2).visible(!dt.column(2).visible());
+					}
+				},
+				{
+					text : 'Настройка',
+					action : function(e,dt,node,config) {
+						dt.column(3).visible(!dt.column(3).visible());
+					}
+				},
+				{
+					text : 'Стоимость',
+					action : function(e,dt,node,config) {
+						dt.column(4).visible(!dt.column(4).visible());
+					}
+				},
+				{
+					text : 'Источник',
+					action : function(e,dt,node,config) {
+						dt.column(5).visible(!dt.column(5).visible());
+					}
+				}, ]
+			} ],
+			language : {
+				processing : "Загрузка...",
+				searchPlaceholder: "Поиск ",
+				search : "_INPUT_",
+				lengthMenu : "Показывать _MENU_ записей на странице",
+				zeroRecords : "Ничего не найдено",
+				info : "Показано с _START_ до _END_ из _TOTAL_",
+				infoEmpty : "Нет доступных записей",
+				infoFiltered : "(filtered from _MAX_ всего)",
+				paginate : {
+					first : "В начало",
+					previous : "Предыдущая",
+					next : "Следущая",
+					last : "В конец"
+				},
+				searchPanes : {
+														clearMessage : "Сбросить",
+														title : {
+															_ : 'Отфильтровано - %d',
+															0 : 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+															1 : 'Один фильтр выбран',
+														},
+														collapse : 'Фильтры (%d)'
+													},
+												},
+												ordering : true,
+											});
+							table
+									.on(
+											'draw.dt',
+											function() {
+												if (table.data().count() === 1) {
+													table.row(0).select();
+													var tr = $(this).closest(
+															'tr');
+													var row = table.row(tr);
+													var element = document
+															.getElementById("info");
+													var name = '<h5 class="header">'
+															+ table.row(0)
+																	.data().name
+															+ ' <small class="text-secondary">('
+															+ table.row(0)
+																	.data().englishName
+															+ ')'
+															+ '</small></h5>';
+													element.innerHTML = name
+															+ format(table.row(
+																	0).data());
+												}
+											});
+							$('#example tbody')
+									.on(
+											'click',
+											'tr',
+											function() {
+												var tr = $(this).closest('tr');
+												var row = table.row(tr);
+												var element = document
+														.getElementById("info");
+												var name = '<h5 class="header">'
+														+ row.data().name
+														+ ' <small class="text-secondary">('
+														+ row.data().englishName
+														+ ')' + '</small></h5>';
+												element.innerHTML = name
+														+ format(row.data());
+											});
+						});
+		function format(d) {
+			var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
+			info += '<p class ="mb-1 mt-1"><em>' + d.type;
+			if (d.adType) {
+				info += ' (' + d.adType + ')';
 			}
-			if (d.custSpecial) {
-				info+= ' ' + d.custSpecial;
+			info += ', ' + d.rarity;
+			if (d.customization) {
+				info += ' (требуется настройка';
+				if (d.custClasses) {
+					info += ' ' + d.custClasses;
+				}
+				if (d.custSpecial) {
+					info += ' ' + d.custSpecial;
+				}
+				info += ')';
 			}
-			info += ')';
+			info += '</em>';
+			info += '<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
+			info += d.description;
+			info += '<p id="cost" class="text-center">Стоимость: ' + d.cost
+					+ '</p>';
+			info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/stock/artifacts/' + d.id + '">Подробно</a></div>';
+			info += '<p class="text-right font-weight-light"><small class="text-muted">Источник: '
+					+ d.book + '</small></p>'
+			return info;
 		}
-		info += '</em>';
-		info+='<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
-		info += d.description;
-   	 	info += '<p id="cost" class="text-center">Стоимость: ' + d.cost + '</p>';
-        info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/stock/artifacts/' + d.id + '">Подробно</a></div>';
-		info += '<p class="text-right font-weight-light"><small class="text-muted">Источник: '+ d.book + '</small></p>'
-		return info; 
-	}
 	</script>
 </body>
 </html>

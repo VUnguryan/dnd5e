@@ -8,8 +8,14 @@
 <link rel="stylesheet" th:href="@{/resources/css/searchPanes/searchPanes.bootstrap4.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/select/select.dataTables.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/buttons/buttons.bootstrap4.min.css}" />
-<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/resources/css/main.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/custom.bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/custom.datatables.css}" />
+
 <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
@@ -23,14 +29,31 @@
 <script th:src="@{/resources/js/buttons/buttons.bootstrap4.min.js}"></script>
 <script th:src="@{/resources/js/buttons/buttons.colVis.min.js}"></script>
 <script src="/resources/js/jquery.spring-friendly.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TCB6BLK8NT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TCB6BLK8NT');
+</script>
 </head>
 <body>
-	<div th:insert="fragments/header :: header"></div>
-	<div layout:fragment="content">
-		<h1>Добавь контент</h1>
+	<div id="header" th:replace="fragments/header :: header"></div>
+	<div class="container-fluid">
+		<div class="row m-3">
+			<div class="col-5 left-block">
+				<div class="col">
+					<div layout:fragment="content"></div>
+				</div>
+			</div>
+			<div class="col-7 pr-3 right-block">
+				<div class="col">
+					<div id="info"></div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div layout:fragment="backToTop"></div>
-	<footer th:insert="fragments/footer :: footer" class="footer">Это подвал, он же футтер, он же Гога</footer>
+	<div th:insert="fragments/footer :: footer" class="footer"></div>
 	<script th:src="@{/resources/js/settings.js}"></script>
 	<script layout:fragment="datatable"></script>
 </body>

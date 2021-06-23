@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/datatable-layout}">
 <head>
 <title>Сокровища</title>
 <style>
@@ -23,7 +23,7 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
+	<div class="container p-5" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-10 mt-3 mb-3">
 				<table id="example" class="table table-hover table-sm" style="width: 100%">
@@ -48,7 +48,7 @@ tr.shown td.details-control {
 	
 		var table = $('#example').DataTable( {
 			iDisplayLength : 25,
-	        dom: 'Bfrtip',
+	        dom: '<"top"<"left-col"f><"center-col"B>>rtip',
 			processing : true,
 	        serverSide : true,
 			ajax : '/treasures',

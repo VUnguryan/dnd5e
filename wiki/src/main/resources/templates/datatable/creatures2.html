@@ -33,37 +33,27 @@ div.container {
 </style>
 </head>
 <body>
-	<div class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
-		<div class="row">
-			<div class="col-5 mt-3 mb-3">
-			    <div class="row justify-content-end">
-					<a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#subRaces" role="button" aria-expanded="false" aria-controls="subRaces">Метки</a>
-				</div>
-				<div class="collapse" id="subRaces">
-					<th:block th:each="creatureRace : ${creatureRaces}">
-						<a class="badge badge-secondary" th:href="@{|/entities/race/${creatureRace.id}|}" th:text="${creatureRace.name}"></a>
-					</th:block>
-				</div>
-				<table id="example" class="table table-hover table-sm nowrap" style="width: 100%; background-color: #FFFAF0;">
-					<thead>
-						<tr>
-							<th title="Уровень угрозы (Опасность)">CR</th>
-							<th>Название</th>
-							<th>Тип</th>
-							<th>Размер</th>
-							<th>Мировоззрение</th>
-							<th>Среда обитания</th>
-							<th>English</th>
-							<th>Особенности</th>
-							<th>Источник</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="col pt-5" style="height: 80vh; overflow: auto;">
-				<div id="info"></div>
-			</div>
+	<div layout:fragment="content">
+		<div class="collapse m-2" id="subRaces">
+			<th:block th:each="creatureRace : ${creatureRaces}">
+				<a class="badge badge-secondary" th:href="@{|/entities/race/${creatureRace.id}|}" th:text="${creatureRace.name}"></a>
+			</th:block>
 		</div>
+		<table id="example" class="table table-hover table-sm nowrap color-main-bg-500">
+			<thead>
+				<tr>
+					<th title="Уровень угрозы (Опасность)">CR</th>
+					<th>Название</th>
+					<th>Тип</th>
+					<th>Размер</th>
+					<th>Мировоззрение</th>
+					<th>Среда обитания</th>
+					<th>English</th>
+					<th>Особенности</th>
+					<th>Источник</th>
+				</tr>
+			</thead>
+		</table>
 	</div>
 	<script layout:fragment="datatable">
 		$('.toast').toast('show');
@@ -74,7 +64,7 @@ div.container {
 		});
 		var table = $('#example').DataTable({
 				stateSave : true,
-				dom : 'Bfrtip',
+				dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
 				serverSide : true,
 				ajax : '/creatures',
 				scrollY : "65vh",
@@ -177,72 +167,90 @@ div.container {
 						targets : [ 7 ],
 						visible : false
 					}, {
-													targets : [ 8 ],
-													visible : false
-												}, 
-												],
-												buttons : [
-														'searchPanes',	{
-															extend : 'colvis',
-															text : 'Столбцы',
-															buttons : [
-																	{
-																		text : 'Тип',
-																		action : function(e,dt,node,config) {
-																			dt.column(2).visible(!dt.column(2).visible());
-																		}
-																	},
-																	{
-																		text : 'Размер',
-																		action : function(e,dt,node,config) {
-																			dt.column(3).visible(!dt.column(3).visible());
-																		}
-																	},
-																	{
-																		text : 'Мировоззрение',
-																		action : function(e,dt,node,config) {
-																			dt.column(4).visible(!dt.column(4).visible());
-																		}
-																	},
-																	{
-																		text : 'Среда обитания',
-																		action : function(e,dt,node,config) {
-																			dt.column(5).visible(!dt.column(5).visible());
-																		}
-																	},
-																	{
-																		text : 'Источник',
-																		action : function(e,dt,node,config) {
-																			dt.column(8).visible(!dt.column(8).visible());
-																		}
-																	},],
-														} ],
-												language : {
-													processing : "Загрузка...",
-													search : "Поиск",
-													lengthMenu : "Показывать _MENU_ записей на странице",
-													zeroRecords : "Ничего не найдено",
-													info : "Показано с _START_ до _END_ из _TOTAL_",
-													infoEmpty : "Нет доступных записей",
-													infoFiltered : "из _MAX_)",
-													paginate : {
-														first : "В начало",
-														previous : "Предыдущая",
-														next : "Следущая",
-														last : "В конец"
-													},
-													searchPanes : {
-														clearMessage : "Сбросить",
-														title : {
-															_ : 'Отфильтровано - %d',
-															0 : 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
-															1 : 'Один фильтр выбран',
-														},
-														collapse : 'Фильтры (%d)'
-													},
-												},
-												ordering : true,
-											});
+						targets : [ 8 ],
+						visible : false
+					}, 
+					],
+					buttons : [
+						{
+		                    extend: 'collection',
+		                    autoClose: 'true',
+		                    tag: 'a',
+		                    attr: {
+		                    	'data-toggle': 'collapse',
+		                    	href: '#subRaces',
+		                    	role: 'button',
+								'aria-expanded': 'false',
+								'aria-controls': 'subRaces',
+		                    },
+							text: 'Метки',
+					        className: 'spToggle',
+							action: function ( e, dt, node, config ) {
+							},
+						},
+						'searchPanes',	
+						{
+							extend : 'colvis',
+							text : 'Столбцы',
+							buttons : [
+							{
+								text : 'Тип',
+								action : function(e,dt,node,config) {
+								dt.column(2).visible(!dt.column(2).visible());
+							}
+						},
+					{
+						text : 'Размер',
+						action : function(e,dt,node,config) {
+							dt.column(3).visible(!dt.column(3).visible());
+						}
+					},
+					{
+						text : 'Мировоззрение',
+						action : function(e,dt,node,config) {
+							dt.column(4).visible(!dt.column(4).visible());
+					}
+				},
+				{
+					text : 'Среда обитания',
+					action : function(e,dt,node,config) {
+						dt.column(5).visible(!dt.column(5).visible());
+					}
+				},
+				{
+					text : 'Источник',
+					action : function(e,dt,node,config) {
+						dt.column(8).visible(!dt.column(8).visible());
+					}
+				},],
+			} ],
+			language : {
+				processing : "Загрузка...",
+				searchPlaceholder: "Поиск ",
+				search : "_INPUT_",
+				lengthMenu : "Показывать _MENU_ записей на странице",
+				zeroRecords : "Ничего не найдено",
+				info : "Показано с _START_ до _END_ из _TOTAL_",
+				infoEmpty : "Нет доступных записей",
+				infoFiltered : "из _MAX_)",
+				paginate : {
+					first : "В начало",
+					previous : "Предыдущая",
+					next : "Следущая",
+					last : "В конец"
+				},
+				searchPanes : {
+					clearMessage : "Сбросить",
+					title : {
+						_ : 'Отфильтровано - %d',
+						0 : 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+						1 : 'Один фильтр выбран',
+					},
+					collapse : 'Фильтры (%d)'
+				},
+			},
+			ordering : true,
+		});
 		table.on( 'draw.dt', function () {
 			if ( table.data().count() === 1) {
 		    	table.row(0).select();
@@ -259,7 +267,7 @@ div.container {
 			var element = document.getElementById("info");
 			element.innerHTML = format(row.data());
 		});
-		});
+	});
 		function format(d) {
 			var info = '<div id="stat-block" class="stat-block">';
 			info += '<hr class="orange-border" />';

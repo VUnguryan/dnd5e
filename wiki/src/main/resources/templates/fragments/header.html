@@ -1,16 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" th:href="@{/resources/icon.png}">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="header">
+	<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark color-header" th:fragment="header">
 		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbar-main">
-			<a class="navbar-brand" th:href="@{/}">D&amp;D 5E</a>
+			<a class="navbar-brand" th:href="@{/}"> <img class="mr-3" src="/resources/Logo.png"></a> 
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Персонаж </a>
 					<div class="dropdown-menu">
@@ -95,7 +94,7 @@
 				<form class="form-inline my-2 my-lg-0" th:action="@{/login}">
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Вход</button>
+							<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><img class="invert" src="/resources/icons/svg/login_black_24dp.svg"></button>
 						</div>
 					</div>
 				</form>

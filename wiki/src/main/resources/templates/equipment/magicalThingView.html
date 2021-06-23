@@ -3,7 +3,7 @@
 <title th:text="${magicThing.name}"></title>
 </head>
 <body>
-	<div class="container" style="margin-top: 25px" layout:fragment="content">
+	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
 		<div class="card" th:object="${magicThing}">
 			<h5 class="card-header"><span th:text="*{name}"></span> <small class="text-secondary" th:text="|(*{englishName})|"></small></h5>
 			<div class="card-body">

@@ -13,12 +13,15 @@
 		</ul>
 		<div class="card">
 			<h5 class="card-header">
-				<span th:text="*{name}"></span> <span th:if="*{parent}" th:text="*{parent.name}"> </span> <small class="text-secondary" th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
+				<span th:text="*{name}"></span> <small class="text-secondary" th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
 			</h5>
 			<div class="tab-content" id="tabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 					<div class="card-body" th:if="${not subRaces.empty}">
 						<h5 class="card-title text-center">Разновидности</h5>
+						<th:block th:if ="*{parent}">
+							<a class="badge" th:classappend="${race.parent eq null} ? badge-dark : badge-secondary" th:href="@{|/hero/races/race/${race.parent.id}|}" th:text="${race.parent.name}"></a>
+						</th:block>
 						<th:block th:each="subRace : ${subRaces}">
 							<th:block th:switch="${subRace.book.type.name()}">
 								<a th:case="'OFFICAL'" class="badge" th:classappend="${subRace.id eq race.id} ? badge-dark : badge-secondary" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>

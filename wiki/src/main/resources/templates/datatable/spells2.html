@@ -3,7 +3,7 @@
 <head>
 <title>Заклинания</title>
 <style>
-p.text-justify {
+div.text-justify {
     text-indent: 15px; 
 }
 img {
@@ -46,37 +46,28 @@ div.container {
 </style>
 </head>
 <body>
-	<div id="mainContainer" class="container-flex pt-2 pl-5 pr-5" layout:fragment="content">
-		<div class="row">
-			<div class="col-5">
-				<table id="example" class="table table-hover table-sm nowrap" style="width:100%; background-color: #FFFAF0;">
-					<thead>
-						<tr>
-							<th>Школа</th>
-							<th title="Уровень заклинания">Уровень</th>
-							<th>Классы</th>
-							<th>Название</th>
-							<th title="Время накладывания">Время</th>
-							<th>Длительность</th>
-							<th>Дистанция</th>
-							<th title="риуал">Р</th>
-							<th title="концентрация">К</th>
-							<th title="вербальный">В</th>
-							<th title="соматический">С</th>
-							<th title="материальный">М</th>
-							<th>Тип урона</th>
-							<th>Источник</th>
-							<th>English</th>
-							<th>Расходуемые материалы</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-			<div class="col-6 pt-5" style="height: 80vh; overflow: auto;">
-				<div id="info"></div>
-			</div>
-		</div>
-	</div>
+	<table id="example" class="table table-hover table-sm nowrap color-main-bg-500" layout:fragment="content">
+		<thead>
+			<tr>
+				<th>Школа</th>
+				<th title="Уровень заклинания">Уровень</th>
+				<th>Классы</th>
+				<th>Название</th>
+				<th title="Время накладывания">Время</th>
+				<th>Длительность</th>
+				<th>Дистанция</th>
+				<th title="риуал">Р</th>
+				<th title="концентрация">К</th>
+				<th title="вербальный">В</th>
+				<th title="соматический">С</th>
+				<th title="материальный">М</th>
+				<th>Тип урона</th>
+				<th>Источник</th>
+				<th>English</th>
+				<th>Расходуемые материалы</th>
+			</tr>
+		</thead>
+	</table>
 	<script layout:fragment="datatable">
 	$(document).ready(function() {
 		$('a.toggle-vis').on( 'click', function (e) {
@@ -84,18 +75,19 @@ div.container {
 	        var column = table.column( $(this).attr('data-column') );
 	        column.visible( ! column.visible() );
 	    });
-	
 		var table = $('#example').DataTable( {
 			stateSave: true,
-			dom: 'Bfrtip',
-	        serverSide : true,
+			dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+			serverSide : true,
 			ajax : '/spells',
-	        scrollY: "65vh",
-	        scrollCollapse: true,
-	        scroller: true,
-	        paging: false,
-	        select: {
-	            style: 'single'
+			deferRender: true,
+			scrollY: "65vh",
+			scrollХ: "100%",
+			scrollCollapse: true,
+			scroller: true,
+			paging: false,
+			select: {
+				style: 'single'
 	        },
 	        autoWidth: false,
 			columns : [
@@ -420,7 +412,8 @@ div.container {
 					order : [(${order})],
 					language : {
 						processing : "Загрузка...",
-						search : "Поиск",
+						searchPlaceholder: "Поиск ",
+						search : "_INPUT_",
 						lengthMenu : "Показывать _MENU_ записей на странице",
 						zeroRecords : "Ничего не найдено",
 						info : "Показано _TOTAL_",
@@ -472,6 +465,7 @@ div.container {
 			}
 			info += ', ' + d.school;
 			info += '</em></p>';
+			info+='<div class="card m-3"><div class="card-body p-2 rounded">';
 			info += '<div><strong>Время накладывания:</strong> '+ d.timeCast + '</div>'+ '<div><strong>Дистанция:</strong> ' + d.distance + '</div>';
             info += '<div><strong>Компоненты:</strong> ';
             if (d.verbalComponent == '★') {
@@ -493,13 +487,13 @@ div.container {
             	}
             }
             info += '</div>';
-            info += '<div><strong>Длительность:</strong> '
-            + d.duration 
-            + '</div><hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />' +
-        	 d.description
-        	 + '</div><hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />';
+            info += '<div><strong>Длительность:</strong> '  + d.duration;
+            info += '</div></div>';
+            info += '</div><hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />'; 
+            info += d.description;
+            info += '</div><hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />';
 			 if (d.upperLevel) {
-				 info += '<p><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</p>';
+				 info += '<div><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</div>';
 				 info += '<hr class ="mb-2 mt-1" align="center" size="5" color="#822000"/>';
 			 }
 			 info += '<div class="btn-toolbar mb-3" role="toolbar" aria-label="classes">';
@@ -521,7 +515,7 @@ div.container {
                	 info += '</div>';
         	 }
         	 info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a></p>';
-			 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
+			 info += '<div class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></div>'; 
 		    return info; 
 	}
 	</script>

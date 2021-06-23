@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<head>
+<title>Классы</title>
+<link rel="stylesheet" th:href="@{/resources/css/card.columns.flex.css}" />
+<script th:src="@{/resources/js/fixCardColumn.js}"></script>
+<style>
+.scale {
+ 	transition: 0.7s; 
+}
+.scale:hover {
+	transform: scale(1.7); 
+}
+.line1 {
+       display: block;
+       position: relative;
+       padding: 0;
+       margin: 8px auto;
+       height: 2px;
+       width: 100%;
+       max-height: 2;
+       font-size: 1px;
+       line-height: 0;
+       clear: both;
+       border-top: 1px solid #E69A28;
+       border-bottom: 1px solid #E69A28;
+       background-color: #E69A28
+}
+.header {
+	color: #A12000;
+}
+</style>
+</head>
+<body>
+	<table id="example" class="table table-hover table-sm color-main-bg-500" layout:fragment="content">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Название</th>
+				<th>Источник</th>
+				<th>englishName</th>
+			</tr>
+		</thead>
+	</table>
+	<script layout:fragment="datatable">
+	$(document).ready(function() {
+		$('a.toggle-vis').on( 'click', function (e) {
+	        e.preventDefault();
+	        var column = table.column( $(this).attr('data-column') );
+	        column.visible( ! column.visible() );
+	    });
+		var table = $('#example').DataTable( {
+			stateSave : true,
+	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+	        serverSide : true,
+			ajax : '/table/classes',
+	        scrollY: "65vh",
+	        scrollCollapse: true,
+	        scroller: true,
+	        paging: false,
+	        select: {
+	            style: 'single'
+	        },
+	        autoWidth: false,
+			columns : [
+					{
+						data : "id",
+						width : "3%",
+						render : function(data, type, row) {
+							if (type === 'display') {
+								return '<img class="scale" src="/resources/classes/'+row.id+'.png" height="45">';
+							}
+							return data;
+						}, 
+					},
+					{
+							data : "name",
+							width : "30%", 
+							render : function(data, type, row) {
+								if (type === 'display') {
+									return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
+									+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
+								}
+								return data;
+							}, 
+						},
+						{
+							data : "book",
+							width : "10%",
+							searchable: false,
+						},
+						{
+							data : "englishName",
+							width : "1%"
+						},
+					],
+					columnDefs : [
+			            {
+			                targets : [ 2 ],
+			                visible : false
+			            },
+			            {
+			                targets : [ 3 ],
+			                visible : false
+			            },
+				    ],
+				    buttons: [
+			            {
+		                    extend: 'collection',
+		                    autoClose: 'true',
+		                    tag: 'img',
+		                    attr: {
+			                     src: '/resources/icons/svg/grid_view_black_24dp.svg'
+		                    },
+			                action: function ( e, dt, node, config ) {
+			                	window.location.href = "/hero/classes/old";
+			                },
+		                	titleAttr: 'Плитка'
+			            },
+			        	'searchPanes',
+			            {
+			        		extend: 'colvis',
+			                text: 'Столбцы',
+			                buttons: [
+			                    {
+			                        text: 'Изображение',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column(0).visible(!dt.column(0).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Увлеличение характеристик',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column(2).visible(!dt.column(2).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Размер',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column(3).visible(!dt.column(3).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Разновидности',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column(4).visible(!dt.column(4).visible() );
+			                        }
+			                    },
+			                    {
+			                        text: 'Источник',
+			                        action: function ( e, dt, node, config ) {
+			                            dt.column(5).visible(!dt.column(5).visible() );
+			                        }
+			                    },
+			                ]
+			            },
+			        ],
+					language : {
+					processing : "Загрузка...",
+					searchPlaceholder: "Поиск ",
+					search : "_INPUT_",
+					lengthMenu : "Показывать _MENU_ записей на странице",
+					zeroRecords : "Ничего не найдено",
+					info : "Показано с _START_ до _END_ из _TOTAL_",
+					infoEmpty : "Нет доступных записей",
+					infoFiltered : "(filtered from _MAX_ всего)",
+					paginate : {
+						first : "В начало",
+						previous : "Предыдущая",
+						next : "Следущая",
+						last : "В конец"
+					},
+					searchPanes: {
+					clearMessage : "Сбросить",
+		            title : {
+		                    _: 'Отфильтровано - %d',
+		                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+		                    1: 'Один фильтр выбран',
+		            },
+		            collapse: 'Фильтры (%d)'
+		        },
+			},
+			ordering : true,
+		});
+		table.on( 'draw.dt', function () {
+			if ( table.data().count() === 1) {
+		    	table.row(0).select();
+	    		var tr = $(this).closest('tr');
+	    		var row = table.row( tr );
+	    		var element = document.getElementById("info");
+	    		var englishName = table.row(0).data().englishName ? ' <small class="text-secondary">(' + table.row(0).data().englishName + ')</small>' : '';
+				var name = '<h5 class="header">' + table.row(0).data().name + englishName + '</h5>';
+	    		element.innerHTML = name + format(table.row(0).data());
+			}
+		});
+		$('#example tbody').on('click', 'tr', function () {
+			var tr = $(this).closest('tr');
+			var row = table.row( tr );
+			var element = document.getElementById("info");
+    		var englishName = row.data().englishName ? ' <small class="text-secondary">(' + row.data().englishName + ')</small>' : '';
+    		var url = '/hero/classes/class/' + row.data().id;
+			element.innerHTML = $("#info").load(url);
+		});
+	    table.buttons().container().appendTo( '#example_wrapper .col-md-6:eq(0)' );
+	});
+	function format ( d ) {
+		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
+		info+='<div class="row justify-content-between">';
+		info+='<div class="col-9">';
+		info+='<div class="card m-3"><div class="card-body rounded">';
+		info+='<div class ="mb-0 mt-0"><strong>Увеличение характеристик:</strong> '+ d.abilityBonuses +'</div>';
+		info+='<div class ="mb-0 mt-0"><strong>Размер:</strong> '+ d.size +'</div>';
+		info+='<div class ="mb-0 mt-0"><strong>Скорость:</strong> '+ d.speed +'</div>';
+		info+='</div></div></div>';
+		info+='<div class="col-2">';
+		info+='<img class="scale" src="https://storage.googleapis.com/dnd5/races/icons/'+d.id+'.png" height="80">';
+		info+='</div>';
+		info+='</div>';
+		info+='<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
+		info+='<h5 class="header">Умения</h5>';
+		for (var feature in d.parentFeatures){
+			info+= '<strong class="text-secondary">' + d.parentFeatures[feature].name + '</strong> ';
+			info+= d.parentFeatures[feature].description;
+		}
+		for (var feature in d.features){
+			info+= '<strong>' + d.features[feature].name + '</strong> ';
+			info+= d.features[feature].description;
+		}
+   	 info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/hero/races/race/' + d.id + '">Подробно</a></p>';
+	 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>';		return info; 
+	}
+	function onMoveImg(a){
+		if(a.pixelHeight==90){
+			function fun(){
+				if(a.pixelHeight<150){
+					a.pixelLeft-=2;
+					a.pixelTop-=2;
+					a.pixelWidth+=4;
+					a.pixelHeight+=4;
+					a.zIndex+=1;
+					setTimeout(fun,20);
+				}
+			}
+			fun();
+		}
+	}
+	</script>
+</body>
+</html>

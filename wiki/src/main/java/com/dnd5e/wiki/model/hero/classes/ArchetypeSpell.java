@@ -21,6 +21,7 @@ public class ArchetypeSpell {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	private String advenced;
 	private int level;
 	
 	@OneToOne

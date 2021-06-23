@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout-mobile}">
 <head>
 <title>Классы</title>
 <link rel="stylesheet" th:href="@{/resources/css/card.columns.flex.css}" />
 <script th:src="@{/resources/js/fixCardColumn.js}"></script>
 </head>
 <body>
-	<main role="main" class="container-flex" style="margin-top: 25px" layout:fragment="content">
+	<main role="main" class="container-flex pb-5 pt-5" layout:fragment="content">
 		<div class="card-columns">
 			<div th:each="heroClass : ${classes}" class="card mb-3 text-center">
 				<div class="card-header">

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +39,23 @@ public class RaceController {
 	}
 	
 	@GetMapping
-	public String getRaces(Model model) {
+	public String getRaces(Model model, Device device) {
+		List<Race> races = repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name"));
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		if (device.isMobile()) {
+			races = races.stream()
+					.filter(r -> sources.contains(r.getBook().getType()))
+					.collect(Collectors.toList());
+			model.addAttribute("races", races);
+			return "hero/races";
+		}
+		model.addAttribute("order", "[[ 1, 'asc' ]]");
+		return "hero/races2";
+	}
+	
+	@GetMapping("/old")
+	public String getOldViewRaces(Model model, Device device) {
 		List<Race> races = repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name"));
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
@@ -48,7 +65,7 @@ public class RaceController {
 		model.addAttribute("races", races);
 		return "hero/races";
 	}
-
+	
 	@GetMapping("/race/{id}")
 	public String getRace(Model model, @PathVariable Integer id) {
 		Race race = repo.findById(id).orElseThrow(NoSuchElementException::new);

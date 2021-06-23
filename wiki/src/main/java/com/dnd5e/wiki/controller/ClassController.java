@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,9 @@ import com.dnd5e.wiki.util.SourceUtil;
 @Controller
 @RequestMapping("/hero/classes")
 public class ClassController {
+	@Autowired
+	private HttpSession session;
+
 	private ClassRepository classRepo;
 
 	@Autowired
@@ -38,15 +42,22 @@ public class ClassController {
 	}
 
 	@GetMapping
+	public String getClasses(Model model, Device device) {
+		if (device.isMobile()) {
+			Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+			model.addAttribute("classes", classRepo.findAllBySources(SourceUtil.getSources(settings)));
+			return "classes";
+		}
+		return "classes2";
+	}
+
+	@GetMapping("/old")
 	public String getClasses(Model model) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		model.addAttribute("classes", classRepo.findAllBySources(SourceUtil.getSources(settings)));
 		return "classes";
 	}
 
-	@Autowired
-	private HttpSession session;
-	
 	@GetMapping("/class/{id}")
 	public String getClass(Model model, @PathVariable Integer id) {
 		HeroClass heroClass = classRepo.findById(id).get();
@@ -128,6 +139,7 @@ public class ClassController {
 		model.addAttribute("features", features);
 		model.addAttribute("selectedArchetypeId", archetypeId);
 		model.addAttribute("selectedArchetype", archetype);
+		model.addAttribute("archetypeSpells", archetype.getSpells().stream().filter(s-> s.getLevel() != 0).collect(Collectors.toList()));
 		model.addAttribute("order", "[[ 1, 'asc' ]]");
 		return "archetypeView";
 	}

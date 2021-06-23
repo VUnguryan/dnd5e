@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/datatable-layout}">
 <head>
 <title th:text="|${archetypeName} - ${heroClass.name}|"></title>
 <style>
@@ -171,7 +171,7 @@ tr.shown td.details-control {
 									<hr class="mb-0 mt-1" color="#A12000" />
 									<p class="card-text" th:utext="${feature.description}" />
 									<div th:if="${feature.prefix eq 'ad'}">
-										<table class="table-striped mx-auto" th:unless=${selectedArchetype.spells.isEmpty()}>
+										<table class="table-striped mx-auto" th:unless=${archetypeSpells.empty}>
 											<thead>
 												<tr>
 													<th class="text-center">Уровень</th>

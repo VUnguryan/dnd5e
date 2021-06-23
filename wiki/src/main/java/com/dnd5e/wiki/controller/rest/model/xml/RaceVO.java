@@ -39,22 +39,11 @@ public class RaceVO {
 		name = StringUtils.capitalize(race.getName().toLowerCase());
 		size = String.valueOf(race.getSize().name().charAt(0));
 		speed = race.getSpeed();
-		ability = race.getFeatures().stream().flatMap(f -> f.getAbilityBonuses().stream())
+		ability = race.getBonuses().stream()
 				.map(r -> 
 					String.format("%s %+d",	r.getAbility().getCapitalizeName(), r.getBonus())
 				)
 				.collect(Collectors.joining(", "));
-		if (race.getParent() != null) {
-			if (!ability.isEmpty())
-			{
-				ability += ", ";
-			}
-			ability += race.getParent().getFeatures().stream().flatMap(f -> f.getAbilityBonuses().stream())
-				.map(r -> 
-					String.format("%s %+d",	r.getAbility().getCapitalizeName(), r.getBonus())
-				)
-				.collect(Collectors.joining(", "));
-		}
 		if (race.getParent() != null) {
 			
 			trait = Stream.concat(race.getParent().getFeatures().stream(), race.getFeatures().stream())
