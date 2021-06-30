@@ -23,7 +23,7 @@ public class ClassDto implements Serializable {
 	private int id;
 	private String name;
 	private String englishName;
-	private byte hitDice;
+	private byte diceHp;
 	private String primaryAbilities;
 	private String savingThrows;
 	
@@ -41,7 +41,7 @@ public class ClassDto implements Serializable {
 		this.id = heroClass.getId();
 		this.name = heroClass.getName();
 		this.englishName = heroClass.getEnglishName();
-		this.hitDice = heroClass.getDiceHp();
+		this.diceHp = heroClass.getDiceHp();
 		this.primaryAbilities = heroClass.getPrimaryAbilities().stream()
 				.map(AbilityType::getCyrilicName)
 				.collect(Collectors.joining(" или "));

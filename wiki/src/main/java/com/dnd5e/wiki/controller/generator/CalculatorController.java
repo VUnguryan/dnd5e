@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dnd5e.wiki.dto.MagicThingDto;
 import com.dnd5e.wiki.model.TypeBook;
@@ -79,11 +80,17 @@ public class CalculatorController {
 
 	@GetMapping("/wildMagic")
 	public String getWildMagicRandom(Model model) {
+		return "calc/wildMagic";
+	}
+	
+	@GetMapping("/wildMagicText")
+	@ResponseBody
+	public String getWildMagicRandomText(Model model) {
 		List<WildMagic> magics = wildMagicRepo.findAll();
 		if (!magics.isEmpty()) {
-			model.addAttribute("wildMagic", magics.get(rnd.nextInt(magics.size())));
+			return magics.get(rnd.nextInt(magics.size())).getDescription();
 		}
-		return "calc/wildMagic";
+		return "Нет дикой магии сегодня";
 	}
 
 	@GetMapping("/madness")

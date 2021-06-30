@@ -2,28 +2,9 @@
 <head>
 <head>
 <title>Состояния</title>
-<style>
-img {
-	float: center;
-}
-
-.invert {
-	filter: invert(100%);
-	-webkit-filter: invert(100%) sepia(100%);
-}
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
-</style>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
+	<div class="container pt-3" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-10 mt-3 mb-3">
 				<table id="conditions" class="table table-hover table-sm" style="width: 100%">
@@ -36,6 +17,18 @@ tr.shown td.details-control {
 						</tr>
 					</thead>
 				</table>
+			</div>
+		</div>
+		<div class="modal fade" id="conditionWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+				<div class="modal-content color-main-bg-500">
+					<div class="modal-body"></div>
+					<div class="modal-header color-main-bg-600">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -111,10 +104,14 @@ tr.shown td.details-control {
 															"visible" : false,
 														}, ],
 												buttons : [
-														'searchPanes',
-														{
+										            {
+										                extend: 'searchPanes',
+										            	className: 'btn-main btn-sm btn-color-main',
+										            },
+										            {
 															extend : 'colvis',
 															text : 'Столбцы',
+															className: 'btn-main btn-sm btn-color-main',
 															buttons : [
 																	{
 																		text : 'Тип',
@@ -160,26 +157,21 @@ tr.shown td.details-control {
 												},
 												ordering : true,
 											});
-							$('#conditions tbody').on('click','tr',	function() {
-										var tr = $(this).closest('tr');
-										var row = table.row(tr);
-
-										if (row.child.isShown()) {
-											row.child.hide();
-											tr.removeClass('shown');
-										} else {
-											row.child(format(row.data()))
-													.show();
-											tr.addClass('shown');
-										}
-									});
-						});
-		function format(d) {
-			var info = d.description;
-			info += '<div><p class="text-right font-weight-light"><small>Источник: '
-				+ d.source + '</small></p></div>';
-			return info;
-		}
-	</script>
+	$('#conditions tbody').on('click','tr',	function() {
+			var tr = $(this).closest('tr');
+			var row = table.row(tr);
+			var tr = $(this).closest('tr');
+    		var row = table.row( tr );
+			$('#conditionWindow').find(".modal-body").html(format(row.data()));
+			$('#conditionWindow').modal('show');
+		});
+});
+function format(d) {
+	var name = '<h5 class="main-header">' + d.name + ' <small class="text-secondary">(' + d.englishName + ')'+'</small></h5>';
+	var info = name + '<hr class ="line1"/>' +d.description;
+	info += '<div><p class="text-right font-weight-light"><small>Источник: ' + d.source + '</small></p></div>';
+	return info;
+}
+</script>
 </body>
 </html>

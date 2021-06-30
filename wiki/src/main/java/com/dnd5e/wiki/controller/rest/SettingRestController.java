@@ -1,6 +1,7 @@
 package com.dnd5e.wiki.controller.rest;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,28 +21,26 @@ public class SettingRestController {
 	private HttpSession session;
 
 	@GetMapping("/settings")
-	public Setting getSetting(
-			@CookieValue(value = "base") String base,
-			@CookieValue(value = "home") String home,
-			@CookieValue(value = "module") String module,
-			@CookieValue(value = "setting") String setting) {
+	public String getSetting(HttpServletRequest req) {
 		Setting settings = (Setting) session.getAttribute(SETTINGS);
 		if (settings == null) {
 			settings = new Setting();
-			if (base != null) {
-				settings.setBaseRule(Boolean.getBoolean(base));
-			}
-			if (home != null) {
-				settings.setHomeRule(Boolean.getBoolean(home));
-			}
-			if (module != null) {
-				settings.setModule(Boolean.getBoolean(module));
-			}
-			if (setting != null) {
-				settings.setSetting(Boolean.getBoolean(setting));
+			for (Cookie c : req.getCookies()) {
+				if (c.getName().equals("base")) {
+					settings.setBaseRule(Boolean.getBoolean(c.getValue()));
+				}
+				if (c.getName().equals("home")) {
+					settings.setHomeRule(Boolean.getBoolean(c.getValue()));
+				}
+				if (c.getName().equals("module")) {
+					settings.setModule(Boolean.getBoolean(c.getValue()));
+				}
+				if (c.getName().equals("setting")) {
+					settings.setSetting(Boolean.getBoolean(c.getValue()));
+				}
 			}
 		}
-		return settings;
+		return "OK";
 	}
 
 	@PostMapping("/settings/base")

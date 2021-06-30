@@ -2,29 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
 <title>Черты</title>
-<style>
-.line1 {
-       display: block;
-       position: relative;
-       padding: 0;
-       margin: 8px auto;
-       height: 2px;
-       width: 100%;
-       max-height: 2;
-       font-size: 1px;
-       line-height: 0;
-       clear: both;
-       border-top: 1px solid #E69A28;
-       border-bottom: 1px solid #E69A28;
-       background-color: #E69A28
-}
-table.dataTable tbody tr.selected {
-  background-color: #F0D0A0;
-}
-.header {
-	color: #A12000;
-}
-</style>
 </head>
 <body>
 	<table id="example" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
@@ -48,7 +25,7 @@ table.dataTable tbody tr.selected {
 	    });
 		var table = $('#example').DataTable( {
 			iDisplayLength : 25,
-	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+	        dom: '<"top"<"left-col"f><"right-col"B>>rtip',
 	        serverSide : true,
 			ajax : '/traits',
 	        scrollY: "65vh",
@@ -115,10 +92,14 @@ table.dataTable tbody tr.selected {
 				        },
 				    ],
 				    buttons: [
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+		                	className: 'btn-main btn-sm btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+		                	className: 'btn-square btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Увлеличение характеристик',
@@ -172,7 +153,7 @@ table.dataTable tbody tr.selected {
 		var tr = $(this).closest('tr');
 		var row = table.row( tr );
 		var element = document.getElementById("info");
-		var name = '<h5 class="header">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
+		var name = '<h5 class="main-header">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
 		element.innerHTML = name + format(row.data());
 		});
 	});

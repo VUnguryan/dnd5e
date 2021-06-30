@@ -3,10 +3,10 @@
 <title th:text="${magicThing.name}"></title>
 </head>
 <body>
-	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card" th:object="${magicThing}">
-			<h5 class="card-header"><span th:text="*{name}"></span> <small class="text-secondary" th:text="|(*{englishName})|"></small></h5>
-			<div class="card-body">
+	<div class="container pb-5 pt-5" layout:fragment="content">
+		<div class= "pt-3" th:object="${magicThing}">
+			<h5 class="main-header"><span th:text="*{name}"></span> <small class="text-secondary" th:text="|(*{englishName})|"></small></h5>
+			<div>
 				<em th:text="*{type.cyrilicName}"> <span th:text="${#strings.listJoin(magicThing.weapons, ',')}"></span></em>, <em th:text="*{rarity.cyrilicName}"> </em><em th:if="*{customization}">
 					(требуется настройка<span th:if="*{custSpecial}" th:text="| *{custSpecial}|"></span><span th:each="custclass : *{custClasses}" th:text="${' ' + #strings.toLowerCase(custclass.name) + 'ом'}"></span>)
 				</em>

@@ -24,7 +24,7 @@
 	<div th:insert="fragments/header :: header"></div>
 	<div layout:fragment="content">
 	</div>
-	<div th:insert="fragments/footer :: footer" class="footer navbar-fixed-bottom"></div>
-	<script th:src="@{/resources/js/settings.js}"></script>
+	<div th:if="${device eq null or not device.mobile}" th:insert="fragments/footer :: footer" class="footer navbar-fixed-bottom"></div>
+	<script  th:src="@{/resources/js/settings.js}"></script>
 </body>
 </html>

@@ -108,12 +108,14 @@ public class SpellRestController {
 		{
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.LEFT);
+				query.distinct(true);
 				return cb.and(hero.get("name").in(filterClasses));
 			});
 		}
 		if (!filterDamageTypes.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<DamageType, Spell> damageType = root.join("damageType", JoinType.LEFT);
+				query.distinct(true);
 				return damageType.in(filterDamageTypes);
 			});
 		}

@@ -53,7 +53,7 @@
 	    });
 		var table = $('#example').DataTable( {
 			stateSave : true,
-	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+	        dom: '<"top"<"left-col"f><"right-col"B>>ti',
 	        serverSide : true,
 			ajax : '/table/races',
 	        scrollY: "65vh",
@@ -70,7 +70,7 @@
 						width : "3%",
 						render : function(data, type, row) {
 							if (type === 'display') {
-								return '<img class="scale" src="https://storage.googleapis.com/dnd5/races/icons/'+row.id+'.png" height="45">';
+								return '<img class="scale" src="https://storage.googleapis.com/dnd5/races/icons/'+row.id+'.png" height="46">';
 							}
 							return data;
 						}, 
@@ -135,17 +135,23 @@
 		                    autoClose: 'true',
 		                    tag: 'img',
 		                    attr: {
-			                     src: '/resources/icons/svg/grid_view_black_24dp.svg'
+		                    	id: 'gridButton', 
+		                    	src: '/resources/icons/svg/grid_view_black_24dp.svg',
 		                    },
 			                action: function ( e, dt, node, config ) {
 			                	window.location.href = "/hero/races/old";
 			                },
-		                	titleAttr: 'Плитка'
+		                	titleAttr: 'Плитка',
+		                	className: 'btn-main btn-color-main'
 			            },
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+		                	className: 'btn-main btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+		                	className: 'btn-main btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Изображение',
@@ -233,7 +239,7 @@
 		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
 		info+='<div class="row justify-content-between">';
 		info+='<div class="col-9">';
-		info+='<div class="card m-3"><div class="card-body rounded">';
+		info+='<div class="card main-description"><div class="card-body p-0 main-description-text">';
 		info+='<div class ="mb-0 mt-0"><strong>Увеличение характеристик:</strong> '+ d.abilityBonuses +'</div>';
 		info+='<div class ="mb-0 mt-0"><strong>Размер:</strong> '+ d.size +'</div>';
 		info+='<div class ="mb-0 mt-0"><strong>Скорость:</strong> '+ d.speed +'</div>';
@@ -242,11 +248,10 @@
 		info+='<img class="scale" src="https://storage.googleapis.com/dnd5/races/icons/'+d.id+'.png" height="80">';
 		info+='</div>';
 		info+='</div>';
-		info+='<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
-		info+='<h5 class="header">Умения</h5>';
+		info+='<div class="separator pb-2 pt-2">Умения</div>';
 		for (var feature in d.parentFeatures){
-			info+= '<strong class="text-secondary">' + d.parentFeatures[feature].name + '</strong> ';
-			info+= d.parentFeatures[feature].description;
+			info+= '<div><strong class="text-secondary">' + d.parentFeatures[feature].name + '</strong> ';
+			info+= d.parentFeatures[feature].description + '</div>';
 		}
 		for (var feature in d.features){
 			info+= '<strong>' + d.features[feature].name + '</strong> ';

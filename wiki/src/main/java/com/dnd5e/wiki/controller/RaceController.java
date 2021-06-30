@@ -56,6 +56,7 @@ public class RaceController {
 	
 	@GetMapping("/old")
 	public String getOldViewRaces(Model model, Device device) {
+		model.addAttribute("device", device);
 		List<Race> races = repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name"));
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
@@ -67,7 +68,7 @@ public class RaceController {
 	}
 	
 	@GetMapping("/race/{id}")
-	public String getRace(Model model, @PathVariable Integer id) {
+	public String getRace(Model model, @PathVariable Integer id, Device device) {
 		Race race = repo.findById(id).orElseThrow(NoSuchElementException::new);
 		model.addAttribute("race", race);
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
@@ -87,6 +88,7 @@ public class RaceController {
 			features.addAll(race.getFeatures());
 		}
 		model.addAttribute("features", features);
+		model.addAttribute("device", device);
 		return "hero/raceView";
 	}
 }

@@ -41,7 +41,14 @@
 	<div id="header" th:insert="fragments/header :: header"></div>
 	<div class="container-fluid" layout:fragment="content">
 	</div>
+	<div th:if="${device eq null or not device.mobile}" th:insert="fragments/footer :: footer" class="footer navbar-fixed-bottom"></div>
 	<script th:src="@{/resources/js/settings.js}"></script>
 	<script layout:fragment="datatable"></script>
+	<script layout:fragment="datatable1"></script>
+	<script layout:fragment="datatable2"></script>
+	<script layout:fragment="datatable3"></script>
+	<script layout:fragment="datatable4"></script>
+	<script layout:fragment="datatable5"></script>
+	<script layout:fragment="datatable6"></script>
 </body>
 </html>

@@ -6,15 +6,17 @@
 <script th:src="@{/resources/js/fixCardColumn.js}"></script>
 </head>
 <body>
-	<main role="main" class="container-flex pb-5 pt-5" layout:fragment="content">
-		<div class="card-columns">
-			<div th:each="heroClass : ${classes}" class="card mb-3 text-center">
-				<div class="card-header">
-					<h4 th:text="${heroClass.name}" class="my-2 font-weight-normal flex-grow-2"></h4>
+	<div role="main" class="container-fluid pb-5 pt-5 pl-3 pr-3" layout:fragment="content">
+		<div class="row justify-content-md-center">
+			<div th:each="heroClass : ${classes}" class="col-md-auto pl-3 pr-3 pb-1 pt-1">
+				<div class="card-class">
+					<div class="text-class" th:text="${heroClass.capitalazeName}"></div>
+					<a th:href="@{|/hero/classes/class/${heroClass.id}|}"> <img class="rounded-lg" th:src="@{|https://storage.googleapis.com/dnd5/classes/art/${heroClass.id}.jpg|}" align="middle" width="250" height="260" /></a>
+					<div class="text-color-opacity pt-2">Источник:</div>
+					<div class="text-color-opacity" th:text="${heroClass.book.name}"></div>
 				</div>
-				<a th:href="@{|/hero/classes/class/${heroClass.id}|}"> <img class="img-fluid" th:src="@{|https://storage.googleapis.com/dnd5/classes/art/${heroClass.id}.jpg|}" align="middle" /></a>
 			</div>
 		</div>
-	</main>
+	</div>
 </body>
 </html>

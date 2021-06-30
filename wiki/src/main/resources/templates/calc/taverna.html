@@ -3,67 +3,60 @@
 <title>Генератор таверн</title>
 </head>
 <body>
-	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<a th:href="@{/calc/taverna/}" class="btn btn-outline-secondary" type="button" id="calc">Случайно</a> <a
-					th:href="@{/calc/taverna/(tavernaType=${type}, habitatType=${habitatType}, tavernaCategory=${tavernCategoty})}" class="btn btn-outline-secondary" type="button" id="calc" th:each="type : ${types}"
-					th:text="${type.names}"
-				>Генерация</a>
-				<h5 class="card-header" th:text="${name}"></h5>
-				<div class="input-group mb-2">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Категория:</span>
-						<div class="dropdown">
-							<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-								th:text="${tavernCategoty.name + ' заведение'}"
-							></a>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" th:each="cate : ${categories}" th:text="${cate.name + ' заведение'}" th:href="@{/calc/taverna(tavernaCategory=${cate}, habitatType=${habitatType})}">>Action</a>
-							</div>
-						</div>
+	<div class="container pb-5 pt-5" layout:fragment="content">
+	<div class="pb-3"></div>
+		<a th:href="@{/calc/taverna/}" class="btn btn-outline-secondary" type="button" id="calc">Случайно</a> <a
+			th:href="@{/calc/taverna/(tavernaType=${type}, habitatType=${habitatType}, tavernaCategory=${tavernCategoty})}" class="btn btn-outline-secondary" type="button" id="calc" th:each="type : ${types}"
+			th:text="${type.names}"
+		>Генерация</a>
+		<h5 class="main-header" th:text="${name}"></h5>
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Категория:</span>
+				<div class="dropdown">
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+						th:text="${tavernCategoty.name + ' заведение'}"
+					></a>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						<a class="dropdown-item" th:each="cate : ${categories}" th:text="${cate.name + ' заведение'}" th:href="@{/calc/taverna(tavernaCategory=${cate}, habitatType=${habitatType})}">>Action</a>
 					</div>
-				</div>
-				<div class="input-group mb-2">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Местность:</span>
-						<div class="dropdown">
-							<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${habitatType.name}"></a>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" th:each="habitat : ${habitates}" th:text="${habitat.name}" th:href="@{/calc/taverna(tavernaCategory=${tavernCategoty}, habitatType=${habitat})}"></a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="card-body">
-					<h5 class="card-title">За стойкой</h5>
-					<p class="card-text" th:text="${owner}"></p>
-					<h5 class="card-title">Атмосфера: [[${atmosphere.name}]]</h5>
-					<p th:utext="${atmosphere.description}"></p>
-					<h5 class="card-title">Можно заказать</h5>
-					<p class="card-text" th:if="${dish}" th:utext="|Фирменное блюдо: ${dish.name}|"></p>
-					<p class="card-text" th:if="${specialDrink}">
-					<p class="card-text" th:if="${specialDrink}">
-						<i>Таинственная фигура, закутанная в зеленый плащ, сидит за соседним столиком. Незнакомец достает бутылку с како-то жидкостью и рассказывает, что удача сама найдет того, кто выпьет стакан
-							этого напитка. Как только стаканы пустеют, а жидкость проглатывается, таинственная фигура исчезает и ее больше не видно.</i>
-					</p>
-					<p class="card-text" th:if="${specialDrink}">
-						<strong>Специальный напиток: </strong>
-						<th:block th:utext="${specialDrink}"></th:block>
-					</p>
-					<p class="card-text" th:if="${drink}" th:utext="|Фирменный напиток: ${drink.name}|"></p>
-					<h5 th:if="${topic}" class="card-title">Обсуждаемые темы</h5>
-					<p class="card-text" th:if="${topic}" th:utext="${topic.name}"></p>
-					<h5 th:if="${event}" class="card-title">События</h5>
-					<p class="card-text" th:if="${event}" th:utext="${event.description}"></p>
-					<h5 class="card-title">Посетители</h5>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item" th:each="visitor : ${visitors}" th:text="${visitor}"></li>
-						<li class="list-group-item" th:if="${visitors.empty}">Нет</li>
-					</ul>
 				</div>
 			</div>
 		</div>
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Местность:</span>
+				<div class="dropdown">
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${habitatType.name}"></a>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						<a class="dropdown-item" th:each="habitat : ${habitates}" th:text="${habitat.name}" th:href="@{/calc/taverna(tavernaCategory=${tavernCategoty}, habitatType=${habitat})}"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h5 class="separator title">За стойкой</h5>
+		<div class="pb-2" th:text="${owner}"></div>
+		<h5 class="separator title">Атмосфера: [[${atmosphere.name}]]</h5>
+		<div class="pb-2" th:utext="${atmosphere.description}"></div>
+		<h5 class="separator title">Можно заказать</h5>
+		<p class="card-text" th:if="${dish}" th:utext="|Фирменное блюдо: ${dish.name}|"></p>
+		<p class="card-text" th:if="${specialDrink}">
+		<p class="card-text" th:if="${specialDrink}">
+			<i>Таинственная фигура, закутанная в зеленый плащ, сидит за соседним столиком. Незнакомец достает бутылку с како-то жидкостью и рассказывает, что удача сама найдет того, кто выпьет стакан этого
+				напитка. Как только стаканы пустеют, а жидкость проглатывается, таинственная фигура исчезает и ее больше не видно.</i>
+		</p>
+		<div class="separator title" th:if="${specialDrink}">
+			<strong>Специальный напиток: </strong>
+			<th:block th:utext="${specialDrink}"></th:block>
+		</div>
+		<div th:if="${drink}" th:utext="|Фирменный напиток: ${drink.name}|"></div>
+		<h5 th:if="${topic}" class="separator title">Обсуждаемые темы</h5>
+		<p class="card-text" th:if="${topic}" th:utext="${topic.name}"></p>
+		<h5 th:if="${event}" class="separator title">События</h5>
+		<p class="card-text" th:if="${event}" th:utext="${event.description}"></p>
+		<h5 class="separator title">Посетители</h5>
+		<div th:each="visitor : ${visitors}" th:text="${visitor}"></div>
+		<div th:if="${visitors.empty}">Нет</div>
 	</div>
 	<script type="text/javascript" layout:fragment="script">
 		function getParameterByName(name, url) {

@@ -1,26 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
 <title>Снаряжение</title>
-<style>
-.line1 {
-       display: block;
-       position: relative;
-       padding: 0;
-       margin: 8px auto;
-       height: 2px;
-       width: 100%;
-       max-height: 2;
-       font-size: 1px;
-       line-height: 0;
-       clear: both;
-       border-top: 1px solid #E69A28;
-       border-bottom: 1px solid #E69A28;
-       background-color: #E69A28
-}
-.header {
-	color: #A12000;
-}
-</style>
 </head>
 <body>
 	<table id="example" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
@@ -45,7 +25,7 @@
 	    });
 	
 		var table = $('#example').DataTable( {
-	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+	        dom: '<"top"<"left-col"f><"right-col"B>>rti',
 	        serverSide : true,
 			ajax : '/equipments',
 	        scrollY: "65vh",
@@ -120,10 +100,14 @@
 			            },
 				    ],
 				    buttons: [
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+			            	className: 'btn-main btn-sm btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+			            	className: 'btn-main btn-sm btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Категория',

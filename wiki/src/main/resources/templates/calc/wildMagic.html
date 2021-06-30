@@ -3,13 +3,22 @@
 <title>Дикая магия</title>
 </head>
 <body>
-	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<p class="card-text" th:if="${wildMagic}" th:utext="${wildMagic.description}"></p>
-			</div>
-			<a class="btn btn-secondary" th:href="@{/calc/wildMagic}" id="dropdownMenuLink">Еще дикой магии</a>
+	<div class="container pb-5 pt-5" style="margin-top: 25px" layout:fragment="content">
+		<div>
+			<button type="button" onclick="addMagic()" class="btn btn-secondary" >Еще дикой магии</button>
+			<div id="content" class="pt-2"></div>
 		</div>
 	</div>
 </body>
+<script type="text/javascript" layout:fragment="script">
+function addMagic() {
+	var element = document.createElement("div");
+	element.classList.add("card", "main-description")
+	var elementin = document.createElement("div");
+	elementin.classList.add("card-body", "p-0", "main-description-text")
+	element.appendChild(elementin);
+	fetch('/calc/wildMagicText').then(data => data.text()) .then(html => elementin.innerHTML = html);
+    document.getElementById('content').prepend(element);
+}
+</script>
 </html>

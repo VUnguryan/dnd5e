@@ -1,21 +1,13 @@
 package com.dnd5e.wiki.dto;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.thymeleaf.util.StringUtils;
 
 import com.dnd5e.wiki.dto.user.HeroClassDto;
 import com.dnd5e.wiki.model.creature.DamageType;
-import com.dnd5e.wiki.model.hero.classes.Archetype;
-import com.dnd5e.wiki.model.hero.classes.ArchetypeSpell;
-import com.dnd5e.wiki.model.hero.classes.HeroClass;
 import com.dnd5e.wiki.model.spell.Spell;
-import com.dnd5e.wiki.util.HtmlConverter;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,11 +56,7 @@ public class SpellDto {
 		materialComponent = spell.getMaterialComponent() != null && spell.getMaterialComponent() ? "★": "";
 		components = spell.getAdditionalMaterialComponent();
 		consumable = spell.getConsumable();
-		description = spell.getDescription() == null ? "": HtmlConverter.toHtml(spell.getDescription());
-
-		upperLevel = spell.getUpperLevel();
 		damageType = spell.getDamageType().isEmpty() ? "" : spell.getDamageType().stream().map(DamageType::getCyrilicName).collect(Collectors.joining(", "));
-		heroClass = spell.getHeroClass().stream().map(HeroClassDto::new).collect(Collectors.toList());
 		englishName = spell.getEnglishName();
 		book = spell.getBook().getName() + (spell.getPage() != null ? ", стр. " + spell.getPage() : "");
 	}

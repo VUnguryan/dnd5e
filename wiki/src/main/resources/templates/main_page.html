@@ -1,0 +1,27 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title th:text="${place.name}"></title>
+</body>
+</head>
+<body>
+	<div class="container pb-5 pt-5" layout:fragment="content">
+		<div class="row h-25 align-items-center justify-content-center">
+			<div class="col">
+				<img class="img-fluid" th:src="@{/resources/icons/Icon.1_39.png}">
+			</div>
+			<div class="col">
+				<img class="img-fluid"  th:src="@{/resources/icons/Icon.2_81.png}">
+			</div>
+			<div class="col">
+				<img class="img-fluid"  th:src="@{/resources/icons/Icon.2_81.png}">
+			</div>
+			<div class="col">
+				<img class="img-fluid" th:src="@{/resources/icons/Icon.2_81.png}">
+			</div>
+			<div class="col">
+				<img class="img-fluid"  th:src="@{/resources/icons/Icon.3_03.png}">
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,61 +1,87 @@
 @charset "UTF-8";
 /* ====================== Contant ====================== */
- body > .container-fluid {
-    padding: 0;
-    height: 100%;
-    margin-top: 30px;
+.navbar-brand {margin-right: 65px;}
+.navbar-dark .navbar-nav .nav-link {border-radius: 8px;}
+.navbar-dark .navbar-nav .nav-link:hover {background: #ffffff1a;}
+.navbar-dark .navbar-nav .nav-link {padding: 6.5px 16px;}
+
+body>.container-fluid {
+	padding: 0;
+	height: 100%;
+	margin-top: 30px;
 }
 .container-fluid .left-block {
-    padding-left: 45px;
-    padding-right: 0px;
+	padding-left: 45px;
+	padding-right: 0px;
 }
 .container-fluid .right-block {
-    padding: 30px 30px 30px 15px;
-    background: #F1EBE4;
+	padding: 30px 30px 30px 15px;
+	background: #F1EBE4;
 }
-.container-fluid .left-block > .col {
-    height: calc(100vh - 105px);
-    padding: 0px 10px 30px 0px;
-    margin-top: 30px;
+.container-fluid .left-block>.col {
+	height: calc(100vh - 105px);
+	padding: 0px 10px 30px 0px;
+	margin-top: 30px;
 }
-.container-fluid .right-block > .col {
-    height: calc(100vh - 115px);
-    padding: 0px;
-    overflow-y: scroll; 
-  	overflow-x: hidden; 
-} 
+.container-fluid .right-block>.col {
+	height: calc(100vh - 115px);
+	padding: 0px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
 /* ====================== Constant END ====================== */
-/* .navbar-toggler-icon {
-	background-image: url(/resources/icons/svg/expand_more_black_24dp.svg)!important;
-} */
-.card .rounded{
+.main-description {
 	background: #E5DACD;
 	border-radius: 16px;
+	padding: 12px;
+	border: none;
+}
+.main-description .main-description-text div {
+	margin-bottom: 6px;
+}
+.main-description .main-description-text div:last-child {
+	margin-bottom: 0px;
+}
+.card-class{
+	background: #F1EBE4;
+	border-radius: 14px;
+	padding: 12px;
+	border: none;
+}
+.text-class{
+	font-size: 20px;
+	line-height: 40px;
+	color: #3C2114;
+}
+.text-class img{
+    display: block;
+    max-width:180px;
+    max-height:180px;
+    width: 250;
+    height: 277;
 }
 .card-header {
 	background-color: #E9E2CE;
 }
 .card-title {
 	color: #A12000;
-	background-color: #F1EBE4;
-}
-.card-body {
-	background-color: #F1EBE4;
+	background-color: #E5DACD;
 }
 .card-deck {
 	background-color: #FDF1DF;
 }
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-	background: moccasin;
+	background: #BAA364;
+	color: #FFFFFF;
 }
-.navbar-brand
-{
+.navbar-brand {
 	font-family: Della Respira;
 	font-style: normal;
 	font-weight: 500;
 	font-size: 20px;
 	line-height: 27px;
 }
+
 .navbar .navbar-text {
 	font-family: Roboto;
 	font-style: normal;
@@ -63,17 +89,86 @@
 	font-size: 8px;
 	line-height: 14px;
 }
-.list-group-item {
-	background-color: #FDF1DF; 
-	img { width : 40%;
-	float: left;
+
+.badge-info {
+	background-color: #F0D46C;
 }
-.page-link:focus, .page-link:hover {
+.badge-success {
+	background-color: #9FD8AF;
+}
+.badge-warning {
+	background-color: #BAA364;
+}
+.badge-danger {
+	background-color: #C77B57;
+}
+/* Buttons */
+.btn-main{
+	font-size: 13px;
+	line-height: 15px;
+	border-radius: 8px;
+	padding: 8px 16px;
+}
+.btn-main:hover {
 	color: #fff;
-	text-decoration: none;
-	background-color: #FFE4C4;
-	border-color: #AEFF5E;
+	background: #777555;
 }
-table.dataTable tbody tr.selected {
-  background-color: #C77B57;
+.btn-main:focus {
+	color: #fff;
+	background: #5A583F;
+}
+.btn-outline{
+	font-size: 13px;
+	line-height: 15px;
+	border-radius: 8px;
+	padding: 8px 16px;
+	border: 1px solid;
+}
+.btn-color-main{
+	background-color: #949169;
+	color: #fff;
+}
+.btn-square{
+	font-size: 13px;
+	line-height: 15px;
+	border-radius: 8px;
+	padding: 4px;
+}
+.btn-square-outline{
+	font-size: 13px;
+	line-height: 15px;
+	border-radius: 8px;
+	padding: 4px;
+	border: 1px solid;
+}
+.btn-square-outline:hover{
+	border-color: #CAB887;
+}
+.btn-color-main-outline {
+	border-color: #949169;
+	color: #949169;
+}
+.btn-normal-dark {
+	font-size: 13px;
+	line-height: 15px;
+	background-color: #DACEAC;
+	border-radius: 8px;
+	padding: 8px 16px;
+	color: #3C2114;
+}
+.btn-focus-dark{
+	font-size: 13px;
+	line-height: 15px;
+	background-color: #5A583F;
+	border-radius: 8px;
+	padding: 8px 16px;
+	color: #FFFFFF;
+}
+.btn-normal-dark:hover{
+	background-color: #777555;
+	color: #FFFFFF;
+}
+.popover {
+  max-width: 700px;
+  width: auto;
 }

@@ -19,7 +19,7 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
+	<div class="container pt-3" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-10 mt-3 mb-3">
 				<table id="example" class="table table-hover table-sm" style="width: 100%">
@@ -135,10 +135,14 @@ tr.shown td.details-control {
 				        },
 				    ],
 				    buttons: [
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+			            	className: 'btn-main btn-sm btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+			            	className: 'btn-main btn-sm btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Домены',

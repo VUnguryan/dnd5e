@@ -41,6 +41,7 @@ public class SpellController {
 	
 	@GetMapping
 	public String getSpellTable(Model model, Device device) {
+		model.addAttribute("device", device);
 		model.addAttribute("order", "[[ 1, 'asc' ]]");
 		if (device.isMobile()) {
 			return "datatable/spells";	
@@ -49,9 +50,10 @@ public class SpellController {
 	}
 	
 	@GetMapping("/spell/{spell:\\d+}")
-	public String getSpell(Model model, @PathVariable Spell spell) {
-		model.addAttribute("spell", ResponseEntity.ok(spell).getBody());
+	public String getSpell(Model model, Device device, @PathVariable Spell spell) {
+		model.addAttribute("device", device);
 
+		model.addAttribute("spell", ResponseEntity.ok(spell).getBody());
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		model.addAttribute("arhitypes", 
 				aSpellRepo.findAllBySpellId(spell.getId(),
@@ -60,9 +62,25 @@ public class SpellController {
 						.collect(Collectors.toList()));
 		return "spellView";
 	}
+
+	@GetMapping("/fragment/spell/{spell:\\d+}")
+	public String getFragmentSpell(Model model, Device device, @PathVariable Spell spell) {
+		model.addAttribute("device", device);
+
+		model.addAttribute("spell", ResponseEntity.ok(spell).getBody());
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		model.addAttribute("arhitypes", 
+				aSpellRepo.findAllBySpellId(spell.getId(),
+					SourceUtil.getSources(settings)).stream()
+						.map(ArchitypeDto::new)
+						.collect(Collectors.toList()));
+		return "spellView :: spell";
+	}
 	
 	@GetMapping("/{spellName}")
-	public String getSpellByName(Model model, @PathVariable String spellName) {
+	public String getSpellByName(Model model, Device device, @PathVariable String spellName) {
+		model.addAttribute("device", device);
+
 		Spell spell = spellRepo.findOneByName(spellName.replace('_', ' '));
 		model.addAttribute("spell", spell);
 

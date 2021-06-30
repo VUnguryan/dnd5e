@@ -3,7 +3,7 @@
 <title th:text="${heroClass.name}"></title>
 <style>
 p.text-justify {
-    text-indent: 15px; 
+	text-indent: 15px;
 }
 img {
 	float: center;
@@ -12,85 +12,110 @@ img {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
-.badge-info {
-	background-color: #F0D46C;
-}
-.badge-success {
-	background-color: #9FD8AF;
-}
 </style>
 </head>
 <body>
-	<div class="container p-5" layout:fragment="content" th:object="${heroClass}">
-		<ul class="nav nav-tabs" id="nav-tabs" role="tablist">
-			<li class="nav-item" role="presentation"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Навыки</a></li>
-			<li class="nav-item" role="presentation"><a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Описание</a></li>
-			<li class="nav-item" role="presentation"><a class="nav-link" id="spells-tab" data-toggle="tab" href="#spells" role="tab" aria-controls="spells" aria-selected="false"
-				th:unless="${heroClass.spells.empty}"
-			>Заклинания</a></li>
-			<li class="nav-item" role="presentation"><a class="nav-link" id="options-tab" data-toggle="tab" href="#options" role="tab" aria-controls="options" aria-selected="false"
-				th:if="${heroClass.optionType}" th:text="${heroClass.optionType.displayName}">Опции</a></li>
-		</ul>
-		<div class="card">
-			<h5 class="card-header">
-				<th:block th:text="*{name}" />
-				<small th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
-			</h5>
-			<div class="tab-content" id="classTabContent">
-				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<div class="card-body">
-						<h5 class="card-title text-center" th:text="*{archetypeName}">архетипы</h5>
-						<th:block th:each="archetype : *{archetypes}">
-							<th:block th:switch="${archetype.book.type.name()}">
-								<a th:case="'OFFICAL'" class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-secondary" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
-									th:text="${archetype.name}"
-								></a>
-								<a th:case="'CUSTOM'" class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-info" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
-									th:text="${archetype.name}"
-								></a>
-								<a th:case="'SETTING'" class="badge" th:classappend="${archetype.id eq selectedArchetypeId} ? badge-dark : badge-success" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
-									th:text="${archetype.name}"
-								></a>
-							</th:block>
-						</th:block>
-					</div>
-					<div class="card"><div class="card-body p-1 rounded">
-						<div class="p-1"><b>Кость Хитов:</b> 1к<th:block th:text="*{diceHp}" /> за каждый уровень</div>
-						<div class="p-1"><b>Хиты на 1 уровне:</b> <th:block th:text="*{diceHp}" /> + ваш модификатор Телосложения</div>
-						<div class="p-1"><b>Хиты на следующих уровнях:</b> 1к[[*{diceHp}]] (или [[*{diceHp/2 + 1}]]) + модификатор <em>Телосложения</em> за каждый уровень этого класса, после первого</div>
-					</div></div>
-					<h6 class="card-header">Владение</h6>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item pt-1 pb-1"><b>Доспехи:</b> <th:bloc th:text="*{armor}" /></li>
-						<li class="list-group-item pt-1 pb-1"><b>Оружие:</b> <th:block th:text="*{weapon}" /></li>
-						<li class="list-group-item pt-1 pb-1"><b>Инструменты:</b> <th:block th:text="*{tools}" /></li>
-						<li class="list-group-item pt-1 pb-1"><b>Спаcброски:</b> <th:block th:text="*{savingThrows}" /></li>
-						<li class="list-group-item pt-1 pb-1"><b>Навыки:</b> Выберите [[*{skillAvailableCount}]] навыка из следующих: <th:block th:if="*{skillAvailableCount == 18}">Выберите [[*{skillAvailableCount}]] любых навыка.</th:block>
-							<th:block th:each="skill, iterStat : *{availableSkills}" th:text="${iterStat.last} ? ${skill.cyrilicName} : ${skill.cyrilicName} + ', '" /></li>
-					</ul>
-					<h6 th:if="*{equipment}" class="card-header">Снаряжение</h6>
-					<div th:if="*{equipment}" class="card-body">
-						<p>Вы начинаете со следующим снаряжением в дополнение к снаряжению, полученному за вашу предысторию:</p>
-						<th:block th:utext="*{equipment}"></th:block>
-					</div>
-					<div id="begin" class="card">
-						<h5 class="card-header">Развитие по уровням</h5>
-						<div class="card-body">
+	<div layout:fragment="content">
+		<div class="container pb-5">
+			<div th:object="${heroClass}" th:fragment="heroClass">
+				<h5 class="main-header">
+					<th:block th:text="*{name}" />
+					<small th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
+				</h5>
+				<hr class="line1" />
+				<ul class="nav nav-tabs" id="nav-tabs" role="tablist">
+					<li class="nav-item" role="presentation"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Навыки</a></li>
+					<li class="nav-item" role="presentation"><a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">Описание</a></li>
+					<li class="nav-item" role="presentation"><a class="nav-link" id="spells-tab" data-toggle="tab" href="#spellsTab" role="tab" aria-controls="spellsTab" aria-selected="false"
+						th:unless="${heroClass.spells.empty}"
+					>Заклинания</a></li>
+					<li class="nav-item" role="presentation"><a class="nav-link" id="options-tab" data-toggle="tab" href="#optionsTab" role="tab" aria-controls="optionsTab" aria-selected="false"
+						th:if="${heroClass.optionType}" th:text="${heroClass.optionType.displayName}"
+					>Опции</a></li>
+				</ul>
+				
+				<div class="tab-content" id="classTabContent">
+					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+						<button th:if="${device.mobile}" th:text="*{archetypeName}" class="btn btn-main color-primary-500 pt-2 pb-2" type="button" data-toggle="collapse" data-target="#archetypesButton" aria-expanded="false" aria-controls="archetypesButton">
+						</button>
+						<div id="archetypesButton" class="" th:classappend="${device.mobile} ? collapse: ''">
+							<div class="row justify-content-start pl-2 row-cols-sm-3 row-cols-md-4">
+								<div class="pl-2 pr-2 pb-1 pt-1" th:each="archetype : *{archetypes}">
+									<th:block th:switch="${archetype.book.type.name()}">
+										<a th:case="'OFFICAL'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
+											th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
+										></a>
+										<a th:case="'CUSTOM'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
+											th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
+										></a>
+										<a th:case="'SETTING'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
+											th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
+										></a>
+									</th:block>
+								</div>
+							</div>
+						</div>
+						<div class="card main-description">
+							<div class="card-body p-0 main-description-text">
+								<div class="row">
+									<div class="col-6">
+										<div>
+											<b>Кость Хитов:</b> 1к[[*{diceHp}]] за каждый уровень
+										</div>
+										<div>
+											<b>Хиты на 1 уровне:</b> 1к[[*{diceHp}]] + ваш модификатор Телосложения
+										</div>
+										<div>
+											<b>Хиты на следующих уровнях:</b> 1к[[*{diceHp}]] (или [[*{diceHp/2 + 1}]]) + модификатор <em>Телосложения</em> за каждый уровень этого класса, после первого
+										</div>
+									</div>
+									<div class="col text-right">
+										<div class="text-color-opacity" th:text="|Источник: ${heroClass.book.name}${heroClass.page eq null?'':', стр.' + heroClass.page}|"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="separator pt-2 pb-2">Владение</div>
+						<div>
+							<b>Доспехи:</b>
+							<th:bloc th:text="*{armor}" />
+						</div>
+						<div>
+							<b>Оружие:</b>
+							<th:block th:text="*{weapon}" />
+						</div>
+						<div>
+							<b>Инструменты:</b>
+							<th:block th:text="*{tools}" />
+						</div>
+						<div>
+							<b>Спаcброски:</b>
+							<th:block th:text="*{savingThrows}" />
+						</div>
+						<div>
+							<b>Навыки:</b> Выберите [[*{skillAvailableCount}]] навыка из следующих:
+							<th:block th:if="*{skillAvailableCount == 18}">Выберите [[*{skillAvailableCount}]] любых навыка.</th:block>
+							<th:block th:each="skill, iterStat : *{availableSkills}" th:text="${iterStat.last} ? ${skill.cyrilicName} : ${skill.cyrilicName} + ', '" />
+						</div>
+						<div th:if="*{equipment}" class="separator pt-2 pb-2">Снаряжение</div>
+						<div th:if="*{equipment}">
+							<div>
+								<p>Вы начинаете со следующим снаряжением в дополнение к снаряжению, полученному за вашу предысторию:</p>
+								<th:block th:utext="*{equipment}"></th:block>
+							</div>
+						</div>
+						<div id="begin">
+							<div class="separator  pt-2 pb-2">Развитие по уровням</div>
 							<div class="table-responsive">
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr align="center">
-											<th rowspan="2" style="width: 5%"><a class="text-reset text-decoration-none" href="#" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top" data-content="Уровень в классе">Ур.</a></th>
-											<th align="center" rowspan="2" style="width: 5%"><a class="text-reset text-decoration-none" href="#" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top" data-content="Бонус мастерства">БМ</a></th>
+											<th rowspan="2" style="width: 5%"><a class="text-reset text-decoration-none" href="#" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="top"
+												data-content="Уровень в классе"
+											>Ур.</a></th>
+											<th align="center" rowspan="2" style="width: 5%"><a class="text-reset text-decoration-none" href="#" data-trigger="hover" data-container="body" data-toggle="popover"
+												data-placement="top" data-content="Бонус мастерства"
+											>БМ</a></th>
 											<th align="center" rowspan="2">Умения</th>
 											<th th:each="featurelevelDefinition : *{featureLevelDefenitions}" align="center" rowspan="2" th:text="${featurelevelDefinition.name}" style="width: 5%">Умения</th>
 											<th th:unless="*{levelDefenitions.empty}" align="center" colspan="9">Ячейки заклинаний на уровень заклинаний</th>
@@ -127,11 +152,15 @@ tr.shown td.details-control {
 															</div>
 														</div>
 													</th:block>
-													<a th:unless=${trait.architype} th:href="${'#c' + trait.id}" th:onclick="|slowScroll('#c${trait.id}')|" th:utext="|${trait.name.toLowerCase()}<br>|"></a>
+													<a th:unless=${trait.architype} th:href="${'#c' + trait.id}" th:onclick="|slowScroll('#c${trait.id}')|" th:utext="|${trait.name.toLowerCase()}<br>|" tabindex="0" data-trigger="hover"
+														data-container="body" data-toggle="popover" data-placement="auto" th:title="${trait.name}" th:attr="data-content=${trait.description}"
+													></a>
 												</th:block></td>
-											<td th:each="featureLevel : *{featureLevelDefenitions}" th:with="byLevel = ${featureLevel.getByLevel(level)}"><th:block th:if="${featureLevel.prefix ne null and byLevel gt 0}" th:text="${featureLevel.prefix}"
-												/><th:block th:if="${byLevel gt 0}" th:text="${byLevel}" /><th:block th:if="${byLevel eq 0}" th:text="'—'" /><th:block th:if="${byLevel eq -1}" th:text="'Неограниченно'" /><th:block
-												th:if="${featureLevel.sufix ne null and byLevel gt 0}" th:text="${featureLevel.sufix}"/></td>
+											<td th:each="featureLevel : *{featureLevelDefenitions}" th:with="byLevel = ${featureLevel.getByLevel(level)}"><th:block th:if="${featureLevel.prefix ne null and byLevel gt 0}"
+													th:text="${featureLevel.prefix}"
+												/> <th:block th:if="${byLevel gt 0}" th:text="${byLevel}" /> <th:block th:if="${byLevel eq 0}" th:text="'—'" /> <th:block th:if="${byLevel eq -1}" th:text="'Неограниченно'" /> <th:block
+													th:if="${featureLevel.sufix ne null and byLevel gt 0}" th:text="${featureLevel.sufix}"
+												/></td>
 											<th:block th:unless="*{levelDefenitions.empty}">
 												<td th:text="${heroClass.levelDefenitions[level - 1].slot1 eq 0 ? '—' : heroClass.levelDefenitions[level - 1].slot1}" /></td>
 												<td th:text="${heroClass.levelDefenitions[level - 1].slot2 eq 0 ? '—' : heroClass.levelDefenitions[level - 1].slot2}" />
@@ -149,20 +178,17 @@ tr.shown td.details-control {
 									</tbody>
 								</table>
 							</div>
-						</div>
-						<h5 class="card-header">Умения</h5>
-						<div class="card-body">
+							<div class="separator pt-2 pb-2">Умения</div>
 							<th:block th:each="feature : ${features}">
-								<h5 class="card-title mb-0" th:text="${feature.name}" th:id="${'c'+feature.id}"></h5>
-								<h6 class="card-text text-secondary mb-0" th:text="${feature.type}"></h6>
+								<div class="col title" th:text="${feature.name}" th:id="${'c'+feature.id}"></div>
 								<hr class="mb-0 mt-1" color="#A12000" />
-								<p class="card-text mb-0" th:utext="${feature.description}" />
+								<div class="col text-secondary" th:text="${feature.type}"></div>
+								<div th:utext="${feature.description}"></div>
+								<div class="p-1"></div>
 							</th:block>
-						</div>
-						<h5 class="card-header" th:text="*{archetypeName}"></h5>
-						<div class="card-body">
+							<h5 class="separator" th:text="*{archetypeName}"></h5>
 							<div class="accordion" id="subClasses">
-								<div class="card" th:each="archetype : *{archetypes}">
+								<div th:each="archetype : *{archetypes}">
 									<div class="card-header" th:id="${archetype.id}">
 										<h5 class="mb-0">
 											<img th:if="${session.settings != null and session.settings.homeRule and archetype.book.type.name() eq 'OFFICAL'}" th:src="@{/resources/official.png}" height="20" width="20"
@@ -174,621 +200,122 @@ tr.shown td.details-control {
 										</h5>
 									</div>
 									<div th:id="'collapse' + ${archetype.id}" class="collapse" th:attr="aria-labelledby=${archetype.id}" data-parent="#subClasses">
-										<div class="card-body">
-											<p th:utext="${archetype.description}"></p>
-											<table class="table-striped mx-auto" th:if=${!archetype.spells.isEmpty()}>
-												<thead>
-													<tr>
-														<th class="text-center">Уровень</th>
-														<th>Заклинания</th>
-													</tr>
-												</thead>
-												<tr th:each="element : ${archetype.levelSpells}">
-													<td class="text-center" th:text="${element.key}"></td>
-													<td><a th:href="@{'/hero/spells/spell/' + ${spell.id}}" th:each="spell, iterStat : ${element.value}"
-														th:text="${iterStat.last} ? ${#strings.toLowerCase(spell.name)} : ${#strings.toLowerCase(spell.name)} + ', '"
-													></a></td>
+										<p th:utext="${archetype.description}"></p>
+										<table class="table-striped mx-auto" th:if=${!archetype.spells.isEmpty()}>
+											<thead>
+												<tr>
+													<th class="text-center">Уровень</th>
+													<th>Заклинания</th>
 												</tr>
-												<tbody>
-												</tbody>
-											</table>
-											<th:block th:each="feature : ${archetypeTraits[archetype.id]}">
-												<h5 class="card-title mb-0" th:text="${feature.name}" th:id="|${feature.prefix}${feature.id}|"></h5>
-												<h6 class="text-secondary mb-0" th:text="${feature.type}"></h6>
-												<hr class="mb-0 mt-1" color="#A12000" />
-												<p class="card-text mb-1 mt-1" th:utext="${feature.description}" />
-											</th:block>
-										</div>
+											</thead>
+											<tr th:each="element : ${archetype.levelSpells}">
+												<td class="text-center" th:text="${element.key}"></td>
+												<td><a th:href="@{'/hero/spells/spell/' + ${spell.id}}" th:each="spell, iterStat : ${element.value}"
+													th:text="${iterStat.last} ? ${#strings.toLowerCase(spell.name)} : ${#strings.toLowerCase(spell.name)} + ', '"
+												></a></td>
+											</tr>
+											<tbody>
+											</tbody>
+										</table>
+										<th:block th:each="feature : ${archetypeTraits[archetype.id]}">
+											<h5 class="title mb-0" th:text="${feature.name}" th:id="|${feature.prefix}${feature.id}|"></h5>
+											<h6 class="text-secondary mb-0" th:text="${feature.type}"></h6>
+											<hr class="mb-0 mt-1" color="#A12000" />
+											<p class="mb-1 mt-1" th:utext="${feature.description}" />
+										</th:block>
 										<footer class="blockquote-footer" th:if="${archetype.book}" th:text="'Источник: ' + ${archetype.book.name}"></footer>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
-					<div class="card-body" th:if="*{description}" th:utext="*{description}"></div>
-				</div>
-				<div class="tab-pane fade" id="spells" role="tabpanel" aria-labelledby="spells-tab">
-					<div th:unless="${heroClass.spells.empty}" class="card-body">
-						<table id="spellsTable" class="table table-hover table-sm" style="width: 100%; background-color: #FFFAF0;">
-							<thead>
-								<tr>
-									<th>Школа</th>
-									<th title="Уровень заклинания">Уровень</th>
-									<th>Классы</th>
-									<th>Название</th>
-									<th title="Время накладывания">Время</th>
-									<th>Длительность</th>
-									<th>Дистанция</th>
-									<th title="риуал">Р</th>
-									<th title="концентрация">К</th>
-									<th title="вербальный">В</th>
-									<th title="соматический">С</th>
-									<th title="материальный">М</th>
-									<th>Тип урона</th>
-									<th>Источник</th>
-									<th>English</th>
-									<th>Расходуемые материалы</th>
-									<th></th>
-								</tr>
-							</thead>
-						</table>
+					<div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+						<div class="card-body" th:if="*{description}" th:utext="*{description}"></div>
+					</div>
+					<div th:unless="${heroClass.spells.empty}" class="tab-pane fade" id="spellsTab" role="tabpanel" aria-labelledby="spells-tab">
+						<div th:insert="datatable/spells2 :: spellTable"></div>
+					</div>
+					<div th:if="${heroClass.optionType}" class="tab-pane fade" id="optionsTab" role="tabpanel" aria-labelledby="options-tab">
+						<div class="card-body">
+							<table id="options" class="table table-hover table-sm color-main-bg-500">
+								<thead>
+									<tr>
+										<th>Опция</th>
+										<th>Тип</th>
+										<th>Требование</th>
+										<th>Уровень</th>
+										<th>Источник</th>
+										<th>englishName</th>
+										<th></th>
+									</tr>
+								</thead>
+							</table>
+						</div>
 					</div>
 				</div>
-				<div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="options-tab">
-					<div th:if="${heroClass.optionType}" class="card-body">
-						<table id="classOptionsTable" class="table table-hover table-sm" style="width: 100%; background-color: #FFFAF0;">
-							<thead>
-								<tr>
-									<th>Опция</th>
-									<th>Тип</th>
-									<th>Требование</th>
-									<th>Уровень</th>
-									<th>Источник</th>
-									<th>englishName</th>
-									<th></th>
-								</tr>
-							</thead>
-						</table>
+				<div class="fixed-bottom row justify-content-center">
+					<button id="back-to-top" onclick="slowScroll('#begin')" class="btn btn-light btn-lg scroll-top" data-scroll="up" type="button">
+						<i class="fa fa-chevron-up"></i>
+					</button>
+				</div>
+		<div class="modal fade" id="spellWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content color-main-bg-500">
+					<div class="modal-header color-main-bg-600">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
 					</div>
 				</div>
 			</div>
-			<div class="card-footer text-muted" th:text="|Источник: ${heroClass.book.name}${heroClass.page eq null?'':', стр.' + heroClass.page}|"></div>
 		</div>
-		<div class="fixed-bottom row justify-content-center">
-			<button id="back-to-top" onclick="slowScroll('#begin')" class="btn btn-light btn-lg scroll-top" data-scroll="up" type="button">
-				<i class="fa fa-chevron-up"></i>
-			</button>
+				<script th:src="@{/resources/js/tables/spells.js}" layout:fragment="datatable1"></script>
+				<script th:src="@{/resources/js/tables/options.js}" layout:fragment="datatable2"></script>
+				<script th:src="@{/resources/js/tables/spell.modal.js}" layout:fragment="datatable3"></script>
+				<script th:src="@{/resources/js/tables/options.modal.js}" layout:fragment="datatable4"></script>
+				<script layout:fragment="datatable">
+					var preSelectClass = '[[${heroClass.name}]]';
+					var preSelectOptionType = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
+					$('#spells').one('preXhr.dt', function(e, settings, data) {
+						data.searchPanes = {};
+						data.searchPanes["heroClass.0"] = preSelectClass;
+					})
+					$('#options').one('preXhr.dt',function(e, settings, data) {
+						data.searchPanes = {};
+						data.searchPanes["optionTypes.0"] = preSelectOptionType;
+					})
+					function slowScroll(id) {
+						var offset = 0;
+						$('html, body').animate({
+							scrollTop : $(id).offset().top - offset
+						}, 1000);
+						return false;
+					}
+					$(function() {
+					    $('body').popover({
+					        selector: '[data-toggle="popover"]',
+					        trigger: 'hover',
+					        container:'body',
+							html : true,
+							delay : {
+								"show" : 250,
+								"hide" : 200
+							},
+					     }).on('hide.bs.popover', function () {
+					         if ($(".popover:hover").length) {
+					           return false;
+					         }                
+					     }); 
+					     
+					     $('body').on('mouseleave', '.popover', function(){
+					        	$('.popover').popover('hide');
+					     });	
+					})
+				</script>
+			</div>
 		</div>
 	</div>
 </body>
-<script layout:fragment="datatable">
-	$(document).ready(function() {
-		
-		$('a.toggle-vis').on( 'click', function (e) {
-	        e.preventDefault();
-	        var column = table.column( $(this).attr('data-column') );
-	        column.visible( ! column.visible() );
-	    });
-		$('#spellsTable').one(
-				'preXhr.dt',
-				function(e, settings, data) {
-					data.searchPanes = {};
-					data.searchPanes["heroClass.0"] = '[[${heroClass.name}]]';
-				}
-		)
-		var table = $('#spellsTable').DataTable({
-			dom: 'Bfrtip',
-			serverSide : true,
-	        paging: false,
-			ajax : '/spells',
-			columns : [
-						{
-							data : "school",
-							render : function(data, type) {
-								if (type === 'display') {
-									var icon = '';
-									switch (data) {
-									case 'воплощение':
-										icon = '<img class="invert" src="/resources/icons/Icon.2_99.png" title="воплощение" height="25">';
-										break;
-									case 'вызов':
-										icon = '<img class="invert" src="/resources/icons/Icon.4_26.png" title="вызов" height="25">';
-										break;
-									case 'иллюзия':
-										icon = '<img class="invert" src="/resources/icons/Icon.1_39.png" title="иллюзия" height="25">';
-										break;
-									case 'некромантия':
-										icon = '<img class="invert" src="/resources/icons/Icon.3_36.png" title="некромантия" height="25">';
-										break;
-									case 'ограждение':
-										icon = '<img class="invert" src="/resources/icons/Icon.2_38.png" title="ограждение" height="25">';
-										break;
-									case 'очарование':
-										icon = '<img class="invert" src="/resources/icons/Icon.2_21.png" title="очарование" height="25">';
-										break;
-									case 'преобразование':
-										icon = '<img class="invert" src="/resources/icons/Icon.7_38.png" title="преобразование" height="25">';
-										break;
-									case 'прорицание':
-										icon = '<img class="invert" src="/resources/icons/Icon.6_22.png" title="прорицание" height="25">';
-										break;
-									}
-									return icon;
-								}
-								return data;
-							},
-							width : "1%",
-						    className: "text-center"
-						},{
-								data : "level",
-								width : "1%",
-							    className: "text-center"
-						},{
-							data : "heroClass",
-							render: {
-			                    _: '[, ].name',
-			                    sp:'[].name'
-			                },
-							width : "1%",
-						    className: "text-center"
-						},{
-								data : "name",
-								width : "30%", 
-								render : function(data, type, row) {
-									if (type === 'display') {
-										var school = '';
-										var result = '<h6>' + data + ' <small class="text-secondary">(' + row.englishName + ')';
-										if (row.ritual === 'true') {
-											result+=' <span data-toggle="tooltip" data-placement="top" title="ритуал" class="badge badge-pill badge badge-success">Р</span>'; 
-										}
-										if (row.concentration === 'true') {
-											result+=' <span data-toggle="tooltip" data-placement="top" title="концентрация" class="badge badge-pill badge-info">К</span>';	
-										}
-										result+='</small></h6><small>';
-										result += '<div class="text-secondary">';
-										result += row.school;
-										if (row.verbalComponent === '★') {
-											result+=' <span data-toggle="tooltip" data-placement="top" title="вербальный" class="badge badge-secondary">В</span>';
-										}
-										if (row.somaticComponent === '★') {
-											result+=' <span data-toggle="tooltip" data-placement="top" title="соматический" class="badge badge-secondary">С</span>';
-										}
-										if (row.materialComponent === '★') {
-											if (row.consumable){
-												result+=' <span data-toggle="tooltip" data-placement="top" title="материальный, расходуемый" class="badge badge-dark">М</span>';
-											}
-											else {
-												result+=' <span title="материальный" class="badge badge-secondary">М</span>';	
-											}
-										}
-										result += '</small></div>';
-										return result;
-									}
-									return data;
-								}, 
-						},{
-								data : "timeCast",
-								width : "1%",
-								className: "dt-head-center",
-							    className: "dt-body-center",
-								render : function(data, type) {
-									if (type === 'display') {
-										if (data.includes('1 реакция'))
-										{
-											return '1 реакция';
-										}
-										return data;
-									}
-									return data;
-								}
-						},{
-								data : "duration",
-								width : "1%",
-							    className: "text-center"
-						},{
-							data : "distance",
-							width : "1%",
-						    className: "text-center"
-						},{
-								data : "ritual",
-								width : "1%",
-								className: "dt-head-center",
-								className: "dt-body-center",
-								render : function(data, type) {
-									if (type === 'display') {
-										var icon = '';
-										switch (data) {
-										case 'true':
-											icon = '<img class="invert" data-toggle="tooltip" data-placement="top" src="/resources/icons/Icon.7_53.png" title="ритуал" height="25">';
-											break;
-										}
-										return icon;
-									}
-									return data;
-								},
-							    searchable: false
-							},{
-								data : "concentration",
-								render : function(data, type) {
-									if (type === 'display') {
-										var icon = '';
-										switch (data) {
-										case 'true':
-											icon = '<img class="invert" data-toggle="tooltip" data-placement="top" src="/resources/icons/Icon.5_05.png" title="концентрация" height="25">';
-											break;
-										}
-										return icon;
-									}
-									return data;
-								},
-								width : "1%",
-							    className: "text-center",
-							    searchable: false
-							},{
-								data : "verbalComponent",
-								width : "1%",
-							    className: "text-center",
-							    searchable: false
-							},{
-								data : "somaticComponent",
-								width : "1%",
-							    className: "text-center",
-							    searchable: false
-							},{
-								data : "materialComponent",
-								width : "1%",
-							    className: "text-center",
-							    searchable: false
-							},{
-								data : "damageType",
-								width : "1%",
-							    className: "text-center",
-							    searchable: false
-							},
-							{
-								data : "book",
-								width : "1%",
-							    className: "text-center",
-							    searchable: false
-							},{
-								data : 'englishName',
-								width : "1%",
-								orderable: false,
-							},{
-								data : 'consumable',
-								width : "1%",
-							    orderable: false,
-							    searchable: false,
-							},{
-								className : 'details-control',
-							    searchable: false,
-							    orderable: false,
-								defaultContent : '',
-								width : "1%"
-							},],
-							columnDefs : [
-					            {
-					                "targets": [ 0 ],
-					                "visible": false
-					            },{
-									searchPanes : {
-										preSelect : [ '[[${heroClass.name}]]' ],
-									},
-					            	"targets": [ 2 ],
-					                "visible": false
-					            },{
-					                "targets": [ 4 ],
-					                "visible": false
-					            },{
-					                "targets": [ 5 ],
-					                "visible": false
-					            },{
-					                "targets": [ 6 ],
-					                "visible": false
-					            },{
-					                "targets": [ 7 ],
-					                "visible": false
-					            },{
-					                "targets": [ 8 ],
-					                "visible": false
-					            },{
-					                "targets": [ 9 ],
-					                "visible": false
-					            },{
-					                "targets": [ 10 ],
-					                "visible": false
-					            },{
-					                "targets": [ 11 ],
-					                "visible": false
-					            },{
-					                "targets": [ 12 ],
-					                "visible": false
-					            },{
-					                "targets": [ 13 ],
-					                "visible": false
-					            },{
-					                "targets": [ 14 ],
-					                "visible": false
-					            },{
-					                targets: [ 15 ],
-					                visible: false
-					            }
-					        ],
-					        buttons: [
-					        	'searchPanes',
-					            {
-					        		extend: 'colvis',
-					                text: 'Столбцы',
-					                buttons: [
-					                    {
-					                        text: 'Школа',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 0 ).visible( ! dt.column( 0 ).visible() );
-					                        }
-					                    },
-					                    {
-					                        text: 'Время',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
-					                        }
-					                    },
-					                    ,
-					                    {
-					                        text: 'Длительность',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 5 ).visible( ! dt.column( 5 ).visible() );
-					                        }
-					                    },
-					                    {
-					                        text: 'Дистанция',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 6 ).visible( ! dt.column( 6 ).visible() );
-					                        }
-					                    },
-					                    {
-					                        text: 'Ритуал',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 7 ).visible( ! dt.column( 7 ).visible() );
-					                        }
-					                    },
-					                    {
-					                        text: 'Концентрация',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 8 ).visible( ! dt.column( 8 ).visible() );
-					                        }
-					                    },
-					                    {
-					                        text: 'Компоненты',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 9 ).visible( ! dt.column( 9 ).visible() );
-					                            dt.column( 10 ).visible( ! dt.column( 10 ).visible() );
-					                            dt.column( 11 ).visible( ! dt.column( 11 ).visible() );
-					                        }
-					                    },
-					                    {
-					                        text: 'Тип урона',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 12 ).visible( ! dt.column( 12 ).visible() );
-					                        }
-					                    },
-					                    {
-					                        text: 'Источник',
-					                        action: function ( e, dt, node, config ) {
-					                            dt.column( 13 ).visible( ! dt.column( 13 ).visible() );
-					                        }
-					                    }
-					                ]
-					            }
-					        ],
-					order : [(${order})],
-					language : {
-						processing : "Загрузка...",
-						search : "Поиск",
-						lengthMenu : "Показывать _MENU_ записей на странице",
-						zeroRecords : "Ничего не найдено",
-						info : "Показано с _START_ до _END_ из _TOTAL_",
-						infoEmpty : "Нет доступных записей",
-						infoFiltered : "(filtered from _MAX_ всего)",
-						paginate : {
-							first : "В начало",
-							previous : "Предыдущая",
-							next : "Следущая",
-							last : "В конец"
-						},
-						searchPanes: {
-							clearMessage : "Сбросить",
-				            title : {
-				                    _: 'Отфильтровано - %d',
-				                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
-				                    1: 'Один фильтр выбран',
-				            },
-				            collapse: 'Фильтры (%d)'
-				        }
-					},
-					ordering : true,
-				});
-	$('#spellsTable tbody').on('click', 'tr', function () {
-    	var tr = $(this).closest('tr');
-    	var row = table.row( tr );
-	    if ( row.child.isShown() ) {
-        	row.child.hide();
-    	    	tr.removeClass('shown');
-	    } else {
-	        	row.child( format(row.data()) ).show();
-        		tr.addClass('shown');
-    		}
-		});
-	});
-	function format(d) {
-			var info = '<p><em>' + d.level; 
-			if (d.level != 'Заговор') {
-				info += ' уровень'
-			}
-			if (d.ritual === 'true') {
-				info += ' (ритуал)'
-			}
-			info += ', ' + d.school;
-			info += '</em></p>';
-			info += '<div><strong>Время накладывания:</strong> '+ d.timeCast + '</div>'+
-            '<div><strong>Дистанция:</strong> ' + d.distance + '</div>'+
-        	'<div><strong>Длительность:</strong> '+ d.duration + '</div>'+ 
-        	 (d.components != null ? '<div><strong>Материалы:</strong> '+ d.components + '</div>' : '') +
-        	 '<p>' + d.description + '</p]>';
-			 if (d.upperLevel) {
-				 info += '<p><strong>На более высоких уровнях:</strong> '+ d.upperLevel + '</p>';
-			 }
-        	 info += '<p><strong>Классы:</strong> ';
-        	 info+= '<div class="btn-group" role="group">'
-        	 for (var hclass in d.heroClass){
-        		 info += '<a class="btn btn-outline-secondary btn-sm"  href="/hero/classes/class/' + d.heroClass[hclass].id + '">'; 
-        		 info += '<img src="/resources/classes/' + d.heroClass[hclass].id + '.png" title="' + d.heroClass[hclass].name + '" height="25" width="25" /> </a>';
-        	 }
-        	 info+= '</div>';
-        	 info += '</p>';
-        	 info += '<a class="btn btn-outline-dark btn-sm" href="/hero/spells/spell/' + d.id + '">Подробно</a>';
-			 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>'; 
-		    return info; 
-	}
-	$('#classOptionsTable').one('preXhr.dt', function(e, settings, data) {
-		data.searchPanes = {};
-		data.searchPanes["optionTypes.0"] = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
-	})
-	var otable = $('#classOptionsTable').DataTable( {
-		iDisplayLength : 25,
-        dom: 'Bfrtip',
-        paging: false,
-        serverSide : true,
-		ajax : '/options',
-		columns : [
-					{
-						data : "name",
-						width : "30%", 
-						render : function(data, type, row) {
-							if (type === 'display') {
-								return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
-								+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
-							}
-							return data;
-						}, 
-					},
-					{
-						data : "optionTypes",
-						width : "1%",
-					}, 
-					{
-						data : "prerequisite",
-						width : "30%"
-					},
-					{
-						data : "level",
-						width : "2%",
-					    searchable: false,
-					},
-					{
-						data : "book",
-						width : "10%",
-					    searchable: false,
-					},
-					{
-						data : "englishName",
-						width : "1%"
-					},
-					{
-						className : 'details-control',
-					    searchable: false,
-					    orderable: false,
-						defaultContent : '',
-						width : "1%"
-					},
-		],
-		columnDefs : [
-			{
-			    searchPanes: {
-	            	preSelect : ['[[${heroClass.optionType == null ? null : heroClass.optionType.name}]]'],
-			    },
-				targets: [ 1 ],
-		    	visible: false
-			},
-			{
-				targets: [ 4 ],
-				visible: false
-			},
-			{
-		    	targets: [ 5 ],
-		        visible: false
-			},
-		],
-		buttons: [
-			'searchPanes',
-            {
-		        extend: 'colvis',
-		                text: 'Столбцы',
-		                buttons: [
-		                    {
-		                        text: 'Источник',
-		                        action: function ( e, dt, node, config ) {
-		                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
-		                        }
-		                    },
-		                ]
-		            }
-		        ],
-				language : {
-					processing : "Загрузка...",
-					search : "Поиск",
-					lengthMenu : "Показывать _MENU_ записей на странице",
-					zeroRecords : "Ничего не найдено",
-					info : "Показано с _START_ до _END_ из _TOTAL_",
-					infoEmpty : "Нет доступных записей",
-					infoFiltered : "(filtered from _MAX_ всего)",
-					paginate : {
-						first : "В начало",
-						previous : "Предыдущая",
-						next : "Следущая",
-						last : "В конец"
-					},
-					searchPanes: {
-						clearMessage : "Сбросить",
-			            title : {
-			                    _: 'Отфильтровано - %d',
-			                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
-			                    1: 'Один фильтр выбран',
-			            },
-			            collapse: 'Фильтры (%d)'
-			        },
-				},
-				ordering : true,
-			});
-	$('#classOptionsTable tbody').on('click', 'tr', function () {
-    	var tr = $(this).closest('tr');
-    	var row = otable.row( tr );
-	    if ( row.child.isShown() ) {
-        	row.child.hide();
-        	tr.removeClass('shown');
-    	}
-    	else {
-	        row.child(formatOption(row.data()) ).show();
-        	tr.addClass('shown');
-    	}
-	});
-	function formatOption(d) {
-		return "<small>" + d.type + "</small></p>" + d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small>'; 
-	}
-    function slowScroll(id) { 
-        var offset = 0;
-        $('html, body').animate({ 
-             scrollTop: $(id).offset().top - offset 
-        }, 1000);
-        return false; 
-    }
-    $(function () {
-        $('[data-toggle="popover"]').popover({
-      	delay: { "show": 200, "hide": 100 },
-      	html: true,
-      	container: 'body',
-        })
-      })
-	</script>
 </html>

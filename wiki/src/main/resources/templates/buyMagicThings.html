@@ -3,9 +3,8 @@
 <title>Покупка магического предмета</title>
 </head>
 <body>
-	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card-header">Покупка магического предмета</div>
-		<div class="card-body">
+	<div class="container pb-5 pt-5" layout:fragment="content">
+		<div class = "pb-3"></div>
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text" id="basic-addon1">Редкость</span>
@@ -45,7 +44,6 @@
 		</div>
 		<a href="#baymt" data-toggle="modal" data-target="#baymt">Руководство по покупке магических предметов</a> (из Руководства Занатар обо всем)
 		<div th:insert="fragments/downtime :: baymt"></div>
-	</div>
 </body>
 <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>

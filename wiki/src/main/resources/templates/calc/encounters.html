@@ -5,26 +5,22 @@
 </head>
 <body>
 	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<form method="post">
-					<div class="form-group row">
-						<label for="result" class="col-sm-4 col-form-label">Средний уровень группы</label><select class="form-control" id="level" name="level">
-							<option value="1" th:selected="${level eq 1}">1-4</option>
-							<option value="2" th:selected="${level eq 2}">5-10</option>
-							<option value="3" th:selected="${level eq 3}">11-15</option>
-							<option value="4" th:selected="${level eq 4}">17-20</option>
-						</select>
-					</div>
-					<div class="form-group row">
-						<label for="result" class="col-sm-4 col-form-label">Окружающая среда</label><select class="form-control" id="type" name="type">
-							<option th:each="type : ${types}" th:text="${type.name}" th:value="${type}" th:selected="${selectedType eq type}"></option>
-						</select>
-					</div>
-					<button class="btn btn-outline-secondary" type="submit" id="calc">Создать столкновение</button>
-				</form>
+		<form method="post">
+			<div class="form-group row">
+				<label for="result" class="col-sm-4 col-form-label">Средний уровень группы</label><select class="form-control" id="level" name="level">
+					<option value="1" th:selected="${level eq 1}">1-4</option>
+					<option value="2" th:selected="${level eq 2}">5-10</option>
+					<option value="3" th:selected="${level eq 3}">11-15</option>
+					<option value="4" th:selected="${level eq 4}">17-20</option>
+				</select>
 			</div>
-		</div>
+			<div class="form-group row">
+				<label for="result" class="col-sm-4 col-form-label">Окружающая среда</label><select class="form-control" id="type" name="type">
+					<option th:each="type : ${types}" th:text="${type.name}" th:value="${type}" th:selected="${selectedType eq type}"></option>
+				</select>
+			</div>
+			<button class="btn btn-outline-secondary" type="submit" id="calc">Создать столкновение</button>
+		</form>
 		<div class="card" th:if="${encounter}">
 			<div class="card-body" th:if="${encounter.description}">
 				<p th:utext="${encounter.description}"></p>

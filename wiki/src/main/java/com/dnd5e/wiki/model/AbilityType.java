@@ -18,8 +18,8 @@ public enum AbilityType {
 	WISDOM("Мудрость"),           // 4
 	CHARISMA("Харизма"),          // 5
 
-	CHOICE("к любой другой по выбору"),
-	CHOICE_UNIQUE("к двум любым другим по выбору");
+	CHOICE("к любой другой"),
+	CHOICE_UNIQUE("к двум любым другим");
 
 	private String cyrilicName;
 

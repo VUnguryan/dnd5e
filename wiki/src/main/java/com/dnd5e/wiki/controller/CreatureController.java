@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dnd5e.wiki.model.creature.Action;
-import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureRace;
 import com.dnd5e.wiki.model.hero.Condition;
@@ -38,6 +37,7 @@ public class CreatureController {
 	
 	@GetMapping("/creatures")
 	public String getCreatures(Model model, Device device) {
+		model.addAttribute("device", device);
 		model.addAttribute("creatureRaces", creatureRaceRepo.findAll(Sort.by("name")));
 		if (device.isMobile())
 		{
@@ -47,7 +47,8 @@ public class CreatureController {
 	}
 
 	@GetMapping("/creature/{id}")
-	public String getCreaturView(Model model, @PathVariable Integer id) {
+	public String getCreaturView(Model model, Device device, @PathVariable Integer id) {
+		model.addAttribute("device", device);
 		Creature creature = creatureRepo.findById(id).orElseThrow(NoSuchElementException::new);
 		model.addAttribute("creature", creature);
 		List<Action> actions = creature.getActions();

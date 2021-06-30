@@ -46,15 +46,16 @@
 					<div layout:fragment="content"></div>
 				</div>
 			</div>
-			<div class="col-7 pr-3 right-block">
+			<div class="col-7 right-block">
 				<div class="col">
 					<div id="info"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div th:insert="fragments/footer :: footer" class="footer"></div>
+	<div th:if="${device eq null or not device.mobile}" th:insert="fragments/footer :: footer" class="footer navbar-fixed-bottom"></div>
 	<script th:src="@{/resources/js/settings.js}"></script>
 	<script layout:fragment="datatable"></script>
+	<script layout:fragment="datatable1"></script>
 </body>
 </html>

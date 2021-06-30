@@ -2,35 +2,8 @@
 <head>
 <head>
 <title>Бестиарий</title>
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
 <title>DnD 5E Бестиарий</title>
 <link rel="stylesheet" th:href="@{/resources/css/statblock.css}" />
-<style>
-img {
-	float: center;
-}
-
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
-table.dataTable tbody tr.selected {
-	background-color: #F0D0A0;
-}
-div.container {
-	width: 50%;
-}
-</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -64,7 +37,7 @@ div.container {
 		});
 		var table = $('#example').DataTable({
 				stateSave : true,
-				dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+				dom: '<"top"<"left-col"f><"right-col"B>>rti',
 				serverSide : true,
 				ajax : '/creatures',
 				scrollY : "65vh",
@@ -184,14 +157,18 @@ div.container {
 								'aria-controls': 'subRaces',
 		                    },
 							text: 'Метки',
-					        className: 'spToggle',
+					        className: 'spToggle btn-main btn-sm btn-color-main',
 							action: function ( e, dt, node, config ) {
 							},
 						},
-						'searchPanes',	
-						{
+			            {
+			                extend: 'searchPanes',
+			            	className: 'btn-main btn-sm btn-color-main',
+			            },
+			            {
 							extend : 'colvis',
 							text : 'Столбцы',
+							className: 'btn-main btn-sm btn-color-main',
 							buttons : [
 							{
 								text : 'Тип',
@@ -268,8 +245,11 @@ div.container {
 			element.innerHTML = format(row.data());
 		});
 	});
-		function format(d) {
+	function format(d) {
 			var info = '<div id="stat-block" class="stat-block">';
+			if ([[${device.normal}]]) {
+				info = '<div id="stat-block" class="stat-block wide">';
+			}
 			info += '<hr class="orange-border" />';
 			info += '<div class="section-left">';
 			info += '<div class="creature-heading"><h1>' + d.name + '</h1>';

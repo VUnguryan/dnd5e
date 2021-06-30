@@ -14,69 +14,81 @@ img {
 </style>
 </head>
 <body>
-	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card" th:object="${spell}">
-			<h5 class="card-header">
-				<span th:text="*{name}"> </span> <small class="text-secondary" th:text="|(*{englishName})|"></small>
+	<div class="container pb-5 pt-5" layout:fragment="content">
+		<div th:object="${spell}" th:fragment="spell">
+			<h5 class="main-header pt-3">
+				<span th:text="*{name}"></span> <small class="text-secondary" th:text="|(*{englishName})|"></small>
 			</h5>
-			<div class="card-body">
-				<div class="d-flex w-100 justify-content-between">
-					<p>
-						<th:block th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'" />
-						,
-						<th:block th:text="*{school.name}" />
-						<th:block th:text="${spell.ritual != null && spell.ritual} ? ' (ритуал)' : '' " />
-						<th:block th:insert="fragments/schoolIcon :: schoolIcon(${spell})" />
-					</p>
-				</div>
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item"><strong>Время накладывания:</strong> <th:block th:text="*{timeCast}" /></li>
-					<li class="list-group-item"><strong>Дистанция:</strong> <th:block th:text="*{distance}" /></li>
-					<li class="list-group-item"><strong>Компоненты:</strong> <img class="invert" data-toggle="tooltip" data-placement="top" th:if="${spell.verbalComponent}"
-						title="Вербальный - Большинство заклинаний требуют произношения таинственных слов. Сами по себе слова не являются источником силы заклинания; просто комбинация звуков с особой тональностью вызывает резонанс в прядях магии, приводя их в движение. Таким образом, персонаж с кляпом во рту или в области заклинания тишина, не может активировать заклинания с вербальным компонентом."
-						th:src="@{/resources/icons/Icon.1_74.png}" height="25"
-					/> <img class="invert" data-toggle="tooltip" data-placement="top" th:if="${spell.somaticComponent}"
-						title="Cоматический - Заклинание может требовать энергичной жестикуляции или замысловатой последовательности телодвижений. Если у заклинания есть соматический компонент, у заклинателя должна быть свободной хотя бы одна рука для исполнения этих жестов."
-						th:src="@{/resources/icons/Icon.4_52.png}" height="25"
-					/> <img class="invert" data-toggle="tooltip" data-placement="top" th:if="${spell.materialComponent}"
-						title="Mатериальный - У заклинателя должна быть одна свободная рука для доступа к материальным компонентам, но это может быть та же самая рука, что используется для выполнения соматического компонента. Персонаж может использовать мешочек с компонентами или заклинательную фокусировку вместо указанных компонентов. Однако, если для компонента указана цена, у персонажа для накладывания заклинания должен быть именно такой компонент."
-						th:src="@{/resources/icons/Icon.6_37.png}" height="25"
-					/></li>
-					<li th:if="${spell.additionalMaterialComponent}" class="list-group-item"><strong>Материальные компоненты:</strong> <th:block th:text="${spell.additionalMaterialComponent}" /></li>
-					<li class="list-group-item"><strong>Длительность:</strong> <th:block th:text="*{duration}" /></li>
-				</ul>
-				<p />
-				<h5 class="card-title">Описание заклинания</h5>
-				<div class="panel-body">
-					<p th:utext="*{description}"></p>
-				</div>
-				<div class="card border-warning" th:if="${spell.upperLevel}">
-					<div class="card-body">
-						<h5 class="card-title">На более высоких уровнях</h5>
-						<p th:utext="*{upperLevel}"></p>
+			<hr class="line1" />
+			<div class="pb-1">
+				<em> <th:block th:text="(${spell.level}!=0) ? ${spell.level} + ' уровень' : 'Заговор'" /> , <th:block th:text="*{school.name}" /> <th:block
+						th:text="${spell.ritual != null && spell.ritual} ? ' (ритуал)' : '' "
+					/></em>
+			</div>
+			<div class="card main-description">
+				<div class="card-body p-0">
+					<div class="row justify-content-between">
+						<div class="col main-description-text">
+							<div>
+								<strong>Время накладывания:</strong>
+								<th:block th:text="*{timeCast}" />
+							</div>
+							<div>
+								<strong>Дистанция:</strong>
+								<th:block th:text="*{distance}" />
+							</div>
+							<div>
+								<strong>Компоненты:</strong> <img class="invert" data-toggle="tooltip" data-placement="top" th:if="${spell.verbalComponent}"
+									title="Вербальный - Большинство заклинаний требуют произношения таинственных слов. Сами по себе слова не являются источником силы заклинания; просто комбинация звуков с особой тональностью вызывает резонанс в прядях магии, приводя их в движение. Таким образом, персонаж с кляпом во рту или в области заклинания тишина, не может активировать заклинания с вербальным компонентом."
+									th:src="@{/resources/icons/Icon.1_74.png}" height="25"
+								/> <img class="invert" data-toggle="tooltip" data-placement="top" th:if="${spell.somaticComponent}"
+									title="Cоматический - Заклинание может требовать энергичной жестикуляции или замысловатой последовательности телодвижений. Если у заклинания есть соматический компонент, у заклинателя должна быть свободной хотя бы одна рука для исполнения этих жестов."
+									th:src="@{/resources/icons/Icon.4_52.png}" height="25"
+								/> <img class="invert" data-toggle="tooltip" data-placement="top" th:if="${spell.materialComponent}"
+									title="Mатериальный - У заклинателя должна быть одна свободная рука для доступа к материальным компонентам, но это может быть та же самая рука, что используется для выполнения соматического компонента. Персонаж может использовать мешочек с компонентами или заклинательную фокусировку вместо указанных компонентов. Однако, если для компонента указана цена, у персонажа для накладывания заклинания должен быть именно такой компонент."
+									th:src="@{/resources/icons/Icon.6_37.png}" height="25"
+								/>
+								<th:block th:if="${spell.additionalMaterialComponent}"> (<th:block th:text="${spell.additionalMaterialComponent}" />)</th:block>
+							</div>
+							<div>
+								<strong>Длительность:</strong>
+								<th:block th:text="*{duration}" />
+							</div>
+						</div>
+						<div class="col-3 align-self-start">
+							<div th:if="${spell.book}">
+								<div class="text-color-opacity text-right" th:text="|Источник: ${spell.book.name}${spell.page eq null?'':', стр.' + spell.page}|"></div>
+							</div>
+						</div>
 					</div>
 				</div>
-				<th:block th:unless="*{heroClass.empty}">
-					<h5>Заклинание доступно классам:</h5>
-					<p>
-						<a class="btn btn-outline-secondary btn-sm" th:each="hero : *{heroClass}" th:href="@{|/hero/classes/class/${hero.id}|}"> <img data-toggle="tooltip" data-placement="top"
-							th:src="@{|/resources/classes/${hero.id}.png|}" th:title="${hero.name}" height="60" width="60"
-						/>
-						</a>
-					</p>
-				</th:block>
-				<th:block th:unless="${arhitypes.empty}">
-					<h5>Заклинание доступно подклассам:</h5>
-					<p>
-						<a class="btn btn-outline-secondary btn-sm" th:each="archetype: ${arhitypes}" th:href="@{|/hero/classes/class/${archetype.classId}/archetype/${archetype.architypeId}|}"><img
-							data-toggle="tooltip" data-placement="top" th:src="@{|/resources/classes/${archetype.classId}.png|}" th:title="|${archetype.className} ${archetype.architypeName}|" height="60" width="60"
-						/> <span th:text="${archetype.architypeName}"></span> </a>
-					</p>
-				</th:block>
 			</div>
-			<footer class="blockquote-footer">
-				<small class="text-muted" th:if="${spell.book}" th:text="|Источник: ${spell.book.name}${spell.page eq null?'':', стр.' + spell.page}|"></small>
-			</footer>
+			<hr class="mb-2 mt-2" align="center" size="5" color="#822000" />
+			<th:block th:utext="*{description}" />
+			<div th:if="${spell.upperLevel}">
+				<hr class="mb-2 mt-1" align="center" size="5" color="#822000" />
+				<strong>На более высоких уровнях: </strong>
+				<div th:utext="*{upperLevel}"></div>
+			</div>
+			<hr class="mb-2 mt-1" align="center" size="5" color="#822000" />
+			<div th:unless="*{heroClass.empty}">
+				<div class="row">
+					<div class="col-1">Классы:</div>
+					<div class="col-6">
+						<a class="btn btn-square-outline btn-color-main-outline" th:each="hero : *{heroClass}" th:href="@{|/hero/classes/class/${hero.id}|}"> <img data-toggle="tooltip" data-placement="top"
+							th:src="@{|/resources/classes/${hero.id}.png|}" th:title="${hero.name}" height="24" width="24"
+						/></a>
+					</div>
+				</div>
+			</div>
+			<th:block th:unless="${arhitypes.empty}">
+				<h6>Подклассы:</h6>
+				<p>
+					<a class="btn btn-outline-secondary btn-sm" th:each="archetype: ${arhitypes}" th:href="@{|/hero/classes/class/${archetype.classId}/archetype/${archetype.architypeId}|}"><img
+						data-toggle="tooltip" data-placement="top" th:src="@{|/resources/classes/${archetype.classId}.png|}" th:title="|${archetype.className} ${archetype.architypeName}|" height="25" width="25"
+					/> <span th:text="${archetype.architypeName}"></span> </a>
+				</p>
+			</th:block>
 		</div>
 	</div>
 </body>

@@ -33,7 +33,7 @@ p.text-justify {
 	    });
 	
 		var table = $('#example').DataTable( {
-	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
+	        dom: '<"top"<"left-col"f><"right-col"B>>rti',
 	        serverSide : true,
 			ajax : '/gods',
 	        scrollY: "65vh",
@@ -118,10 +118,14 @@ p.text-justify {
 				        },
 				    ],
 				    buttons: [
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+			            	className: 'btn-main btn-sm btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+			                className: 'btn-main btn-sm btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Домены',
@@ -179,13 +183,16 @@ p.text-justify {
    			var tr = $(this).closest('tr');
     		var row = table.row( tr );
     		var element = document.getElementById("info");
-			var name = '<h5 class="header">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
     		element.innerHTML = name + format(row.data());
 		});
 	});
 	function format ( d ) {
-		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
-		info+='<div class="card"><div class="card-body rounded">';
+		var name = '<h5 class="main-header">' + d.name;
+		if (d.englishName) {
+			name+= ' <small class="text-secondary">(' + d.englishName + ')'+'</small></h5>';
+		}
+		var info = name + '<hr class ="line1"/>';
+		info+='<div class="card main-description"><div class="card-body p-0 main-description-text">';
 		info += '<p class="mb-1"><strong>Ранг: </strong>' + d.rank + ' ' + d.sex + '</p>';
 		if (d.nicknames) {
 			info += '<p class="mb-1"><strong>Титулы: </strong>' + d.nicknames + '</p>'; 
@@ -196,7 +203,7 @@ p.text-justify {
 		info += '<p class="mb-1"><strong>Домены: </strong>' + d.domains + '</p>';
 		info += '<p class="mb-1"><strong>Пантеон: </strong>' + d.pantheon + '</p>';
 		info += '</div></div>';
-		info+='<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
+		info+='<hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />';
 		return info + d.description; 
 	}
 	</script>

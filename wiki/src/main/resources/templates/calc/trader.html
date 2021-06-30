@@ -3,27 +3,21 @@
 <title>Генератор торговца</title>
 </head>
 <body>
-	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<form method="post">
-					<div class="form-group row">
-						<label for="result" class="col-sm-4 col-form-label">Магия в компании</label> 
-						<select id = "mageRang" name="mageRang" class="form-control">
-							<option value="1" th:selected="${mageRang eq 1}">Мало</option>
-							<option value="2" th:selected="${mageRang eq 2}">Норма</option>
-							<option value="3" th:selected="${mageRang eq 3}">Много</option>
-						</select>
-						<label for="result" class="col-sm-4 col-form-label">Результат проверки Харизмы (Убеждение)</label> <input id="result" type="number" min="1" name="result" class="form-control" th:value="${result}" />
-					</div>
-					<button class="btn btn-outline-secondary" type="submit" id="calc">Найти торговца</button>
-				</form>
+	<div class="container pb-5 pt-5" style="margin-top: 25px" layout:fragment="content">
+		<form method="post">
+			<div class="form-group row">
+				<label for="result" class="col-sm-4 col-form-label">Магия в компании</label> <select id="mageRang" name="mageRang" class="form-control">
+					<option value="1" th:selected="${mageRang eq 1}">Мало</option>
+					<option value="2" th:selected="${mageRang eq 2}">Норма</option>
+					<option value="3" th:selected="${mageRang eq 3}">Много</option>
+				</select> <label for="result" class="col-sm-4 col-form-label">Результат проверки Харизмы (Убеждение)</label> <input id="result" type="number" min="1" name="result" class="form-control" th:value="${result}" />
 			</div>
-		</div>
+			<button class="btn btn-outline-secondary" type="submit" id="calc">Найти торговца</button>
+		</form>
 		<table class="table">
 			<thead>
 				<tr>
-				    <th>Редкость</th>
+					<th>Редкость</th>
 					<th>Предмет в наличии</th>
 					<th>Цена (зм.)</th>
 				</tr>

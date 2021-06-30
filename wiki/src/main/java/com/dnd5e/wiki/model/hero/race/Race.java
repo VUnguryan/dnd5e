@@ -121,7 +121,7 @@ public class Race implements Serializable {
 			return "+1 к каждой характеристике";
 		}
 		return bonuses.stream()
-				.map(b -> String.format("%+d %s", b.getBonus(), b.getAbility().getCyrilicName()))
+				.map(b -> String.format("%s %+d", b.getAbility().getCyrilicName(), b.getBonus()))
 				.collect(Collectors.joining(", "));
 	}
 	

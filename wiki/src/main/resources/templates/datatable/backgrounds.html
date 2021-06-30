@@ -15,19 +15,10 @@ img {
 	filter: invert(100%);
 	-webkit-filter: invert(100%) sepia(100%);
 }
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
 </style>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
+	<div class="container pt-3" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-10 mt-3 mb-3">
 				<table id="example" class="table table-hover  table-sm" style="width: 100%">
@@ -39,10 +30,21 @@ tr.shown td.details-control {
 							<th>В кошельке (зм.)</th>
 							<th>Источник</th>
 							<th>English</th>
-							<th></th>
 						</tr>
 					</thead>
 				</table>
+				<div class="modal fade" id="backgroundWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+						<div class="modal-content color-main-bg-500">
+							<div class="modal-body"></div>
+							<div class="modal-header color-main-bg-600">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -100,15 +102,12 @@ tr.shown td.details-control {
 							data : "englishName",
 							width : "15%",
 						},
-						{
-							className : 'details-control',
-						    searchable: false,
-						    orderable: false,
-							defaultContent : '',
-							width : "1%"
-						},
 					],
 					columnDefs : [
+			            {
+			                targets : [1],
+			                visible : false
+			            },
 			            {
 			                targets : [2],
 			                visible : false
@@ -125,16 +124,16 @@ tr.shown td.details-control {
 			                targets : [5],
 			                visible : false
 			            },
-			            {
-			                targets : [6],
-			                visible : false
-			            },
 				    ],
 				    buttons: [
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+			            	className: 'btn-main btn-sm btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+			                className: 'btn-main btn-sm btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Получение навыков',
@@ -167,8 +166,8 @@ tr.shown td.details-control {
 						infoFiltered : "(filtered from _MAX_ всего)",
 						paginate : {
 							first : "В начало",
-							previous : "Предыдущая",
-							next : "Следущая",
+							previous : "<",
+							next : ">",
 							last : "В конец"
 						},
 						searchPanes: {
@@ -184,34 +183,44 @@ tr.shown td.details-control {
 					ordering : true,
 				});
 	$('#example tbody').on('click', 'tr', function () {
-    	var tr = $(this).closest('tr');
-    	var row = table.row( tr );
-	    if ( row.child.isShown() ) {
-        	row.child.hide();
-        	tr.removeClass('shown');
-    	}
-    	else {
-	        row.child( format(row.data()) ).show();
-        	tr.addClass('shown');
-    	}
-		});
+    		var tr = $(this).closest('tr');
+	    	var row = table.row( tr );
+			$('#backgroundWindow').find(".modal-body").html(format(row.data()));
+			$('#backgroundWindow').modal('show');
 	});
+});
 	function format ( d ) {
-		var info = d.description + '<p><strong>Умение: '+ d.skillName + '</strong>' + d.skillDescription + ' </p>';
-		if (d.skills){
-			info += '<p><strong>Владение навыками: </strong>' + d.skills + '</p>';
+		var name = '<h5 class="title">'	+ d.name;
+		if (d.englishName !== null) {
+			name += ' <small class="text-secondary">('+ d.englishName+ ')' + '</small>';
+		}
+		name += '</h5>';
+		var info = name + '<hr class ="lineTop" align="center" size="5" color="#822000" />';
+		info+='<div class="card main-description"><div class="card-body p-0 main-description-text">';
+		if (d.skills) {
+			info += '<p class ="mb-1 mt-1"><strong>Владение навыками: </strong>'
+					+ d.skills + '</p>';
 		}
 		if (d.toolOwnership) {
-			info += '<p><strong>Владение инструментами: </strong>' + d.toolOwnership + ' </p>'
+			info += '<p class ="mb-1 mt-1"><strong>Владение инструментами: </strong>'
+					+ d.toolOwnership + ' </p>'
 		}
-		if (d.languages){
-			info += '<p><strong>Языки: </strong>' + d.languages + ' </p>';
+		if (d.languages) {
+			info += '<p class ="mb-1 mt-1"><strong>Языки: </strong>'
+					+ d.languages + ' </p>';
 		}
 		if (d.equipments) {
-			info += '<p><strong>Снаряжение: </strong>' + d.equipments + ' </p>';
+			info += '<p class ="mb-1 mt-1"><strong>Снаряжение: </strong>'
+					+ d.equipments + ' </p>';
 		}
-   	 	info += '<a class="btn btn-outline-dark btn-sm" href="/hero/backgrounds/personalizare/' + d.id + '">Персонализация</a>';
-		info += '<p class="text-right"><small>Источник: '+ d.book + '</small></p>';
+		info += '</div></div>';
+		info += '<hr class ="mb-2 mt-1" align="center" size="5" color="#822000" />';
+		info += d.description;
+		info += '<div class="separator pb-2 pt-2"><strong>Умение: </strong> ' + d.skillName + '</div> ';
+		info += d.skillDescription;
+		info += '<div class="text-right mb-2"><a class="btn btn-outline-dark btn-sm" href="/hero/backgrounds/personalizare/' + d.id + '">Персонализация</a></div>';
+		info += '<p class="text-right"><small>Источник: ' + d.book
+				+ '</small></p>';
 		return info;
 	}
 	</script>

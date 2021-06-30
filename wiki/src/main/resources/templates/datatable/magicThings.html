@@ -13,7 +13,7 @@ img {
 </style>
 </head>
 <body>
-	<div class="container" layout:fragment="content">
+	<div class="container pt-3" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-11 mt-3 mb-3">
 				<table id="example" class="table table-hover table-sm" style="width: 100%">
@@ -171,10 +171,14 @@ img {
 				        },
 				    ],
 				    buttons: [
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+			            	className: 'btn-main btn-sm btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+			            	className: 'btn-main btn-sm btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Категория',
@@ -243,12 +247,12 @@ img {
         	tr.removeClass('shown');
     	}
     	else {
-	        row.child( format(row.data()) ).show();
-        	tr.addClass('shown');
-    	}
-		});
+        	row.child( format(row.data()) ).show();
+       		tr.addClass('shown');
+   		}
 	});
-	function format ( d ) {
+});
+function format ( d ) {
 		var info = '<p><em>' + d.type ;
 		if (d.adType) {
 			info += ' (' + d.adType + ')';

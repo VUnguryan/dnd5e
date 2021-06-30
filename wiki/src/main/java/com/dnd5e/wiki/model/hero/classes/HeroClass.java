@@ -21,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.thymeleaf.util.StringUtils;
+
 import com.dnd5e.wiki.model.AbilityType;
 import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.Rest;
@@ -117,7 +119,7 @@ public class HeroClass {
 	@JoinColumn(name = "source")
 	private Book book;
 	private Short page;
-	
+
 	public String getAblativeName() {
 		switch (name) {
 		case "ЧАРОДЕЙ":
@@ -127,6 +129,10 @@ public class HeroClass {
 		default:
 			return name + "ом";
 		}
+	}
+
+	public String getCapitalazeName() {
+		return StringUtils.capitalize(name.toLowerCase());
 	}
 
 	public List<HeroClassTrait> getTraits(int level) {

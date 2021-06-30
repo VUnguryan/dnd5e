@@ -27,7 +27,7 @@
 	<div layout:fragment="content">
 		<h1>Добавь контент</h1>
 	</div>
-	<div th:insert="fragments/footer :: footer"></div>
+	<div th:if="${device eq null or not device.mobile}" th:insert="fragments/footer :: footer"></div>
 	<script layout:fragment="script"></script>
 </body>
 </html>

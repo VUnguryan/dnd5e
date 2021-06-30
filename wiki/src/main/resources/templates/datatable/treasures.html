@@ -23,7 +23,7 @@ tr.shown td.details-control {
 </style>
 </head>
 <body>
-	<div class="container p-5" layout:fragment="content">
+	<div class="container pt-5" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-10 mt-3 mb-3">
 				<table id="example" class="table table-hover table-sm" style="width: 100%">
@@ -48,7 +48,7 @@ tr.shown td.details-control {
 	
 		var table = $('#example').DataTable( {
 			iDisplayLength : 25,
-	        dom: '<"top"<"left-col"f><"center-col"B>>rtip',
+	        dom: '<"top"<"left-col"f><"right-col"B>>rtip',
 			processing : true,
 	        serverSide : true,
 			ajax : '/treasures',
@@ -75,10 +75,14 @@ tr.shown td.details-control {
 			            },
 				    ],
 				    buttons: [
-			        	'searchPanes',
+			            {
+			                extend: 'searchPanes',
+			            	className: 'btn-main btn-sm btn-color-main',
+			            },
 			            {
 			        		extend: 'colvis',
 			                text: 'Столбцы',
+			            	className: 'btn-main btn-sm btn-color-main',
 			                buttons: [
 			                    {
 			                        text: 'Категория',

@@ -1,13 +1,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
-<title>Персонализация</title>
+<title th:text="|${name}-Персонализация|"></title>
 </head>
 <body>
 	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card">
-			<h5 class="card-header" th:text="${name}"></h5>
-			<div class="card-body">
-				<table class="table">
+			<h5 class="main-header" th:text="${name}"></h5>
+			<a id="persone" class="btn btn-secondary" th:href="@{|/hero/backgrounds/personalizare/${id}|}">Случайная персонализация</a>
+			<div th:utext="${description}" class="card-body"></div>
+			<th:block class="card" th:each="p : ${personalizations}">
+				<div class="separator" th:text="${p.type.name}"></div>
+				<div th:utext="${p.text}" class="card-body"></div>
+			</th:block>
+			<div class="separator">Индивидуальная особенность</div>
+			<div th:utext="${feature}" class="card-body"></div>
+			<div>
+				<table class="table table-striped table-sm">
 					<th:block th:each="type : ${tables}">
 						<tr>
 							<td class="text-center" colspan="2"><strong th:text="${type.key.name}"></strong></td>
@@ -19,15 +26,6 @@
 					</th:block>
 				</table>
 			</div>
-			<a id="persone" class="btn btn-secondary" th:href="@{|/hero/backgrounds/personalizare/${id}|}">Случайная персонализация</a>
-			<div th:utext="${description}" class="card-body"></div>
-			<th:block class="card" th:each="p : ${personalizations}">
-				<h5 class="card-header" th:text="${p.type.name}"></h5>
-				<div th:utext="${p.text}" class="card-body"></div>
-			</th:block>
-			<h5 class="card-header">Индивидуальная особенность</h5>
-			<div th:utext="${feature}" class="card-body"></div>
 		</div>
-	</div>
 </body>
 </html>

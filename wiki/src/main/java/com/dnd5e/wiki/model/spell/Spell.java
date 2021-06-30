@@ -46,7 +46,6 @@ public class Spell {
 	private MagicSchool school;
 	private String timeCast;
 	
-	
 	@ManyToMany private List<TimeCast> times;
 	
 	private String distance;

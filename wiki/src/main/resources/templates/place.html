@@ -1,11 +1,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 layout:decorate="~{layouts/layout}">
 <head>
-<title th:text="${place.name}"></title>
+<title>Dnd 5 Club</title>
 </body>
 </head>
 <body>
-	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
+	<div class="container pb-5 pt-5" layout:fragment="content">
 		<div class="card" th:object="${place}">
 			<div class="card-header" th:text="*{name}"></div>
 			<div class="card-body">

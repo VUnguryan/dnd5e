@@ -4,24 +4,20 @@
 </head>
 <body>
 	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<div class="input-group mb-2">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Тип:</span>
-						<div class="dropdown">
-							<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${selectedType}"></a>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" th:each="typeMadness : ${types}" th:text="${typeMadness.cyrilicName}" th:href="@{/calc/madness(typeMadness=${typeMadness})}">typeMadness</a>
-							</div>
-						</div>
-						<span class="input-group-text">Длительность: <th:block th:text="${madness.madnessType.duration}"></th:block></span>
+		<div class="input-group mb-2">
+			<div class="input-group-prepend">
+				<span class="input-group-text">Тип:</span>
+				<div class="dropdown">
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${selectedType}"></a>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						<a class="dropdown-item" th:each="typeMadness : ${types}" th:text="${typeMadness.cyrilicName}" th:href="@{/calc/madness(typeMadness=${typeMadness})}">typeMadness</a>
 					</div>
 				</div>
-				<p class="card-text" th:if="${madness}" th:utext="${madness.description}"></p>
+				<span class="input-group-text">Длительность: <th:block th:text="${madness.madnessType.duration}"></th:block></span>
 			</div>
-			<a class="btn btn-secondary" th:href="@{/calc/madness}" id="dropdownMenuLink">Еще безумия</a>
 		</div>
+		<p class="card-text" th:if="${madness}" th:utext="${madness.description}"></p>
+		<a class="btn btn-secondary" th:href="@{/calc/madness}" id="dropdownMenuLink">Еще безумия</a>
 	</div>
 </body>
 </html>

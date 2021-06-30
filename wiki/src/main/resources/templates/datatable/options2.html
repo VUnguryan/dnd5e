@@ -2,178 +2,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
 <title>Опции классов</title>
-<style>
-.line1 {
-       display: block;
-       position: relative;
-       padding: 0;
-       margin: 8px auto;
-       height: 2px;
-       width: 100%;
-       max-height: 2;
-       font-size: 1px;
-       line-height: 0;
-       clear: both;
-       border-top: 1px solid #E69A28;
-       border-bottom: 1px solid #E69A28;
-       background-color: #E69A28
-}
-table.dataTable tbody tr.selected {
-  background-color: #F0D0A0;
-}
-div.container {
-	width: 50%;
-}
-.header {
-	color: #A12000;
-}
-</style>
 </head>
 <body>
-	<table id="example" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
-		<thead>
-			<tr>
-				<th>Опция</th>
-				<th>Тип</th>
-				<th>Требование</th>
-				<th>Уровень</th>
-				<th>Источник</th>
-				<th>englishName</th>
-			</tr>
-		</thead>
-	</table>
-	<script layout:fragment="datatable">
-	$(document).ready(function() {
-		$('a.toggle-vis').on( 'click', function (e) {
-	        e.preventDefault();
-	        var column = table.column( $(this).attr('data-column') );
-	        column.visible( ! column.visible() );
-	    });
-		var table = $('#example').DataTable( {
-			iDisplayLength : 25,
-	        dom: '<"top"<"left-col"f><"center-col"B><"right-col"l>>rtip',
-	        serverSide : true,
-			ajax : '/options',
-	        scrollY: "65vh",
-	        scrollCollapse: true,
-	        scroller: true,
-	        paging: false,
-	        select: {
-	            style: 'single'
-	        },
-	        autoWidth: false,
-			columns : [
-						{
-							data : "name",
-							width : "30%", 
-							render : function(data, type, row) {
-								if (type === 'display') {
-									return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
-									+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
-								}
-								return data;
-							}, 
-						},
-						{
-							data : "optionTypes",
-							width : "10%",
-							searchable: false,
-						}, 
-						{
-							data : "prerequisite",
-							width : "30%"
-						},
-						{
-							data : "level",
-							width : "1%",
-						    searchable: false,
-						},
-						{
-							data : "book",
-							width : "10%",
-						    searchable: false,
-						},
-						{
-							data : "englishName",
-							width : "1%"
-						},
-					],
-					columnDefs : [
-			            {
-			                "targets": [ 4 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 5 ],
-			                "visible": false
-				        },
-				    ],
-				    buttons: [
-			        	'searchPanes',
-			            {
-			        		extend: 'colvis',
-			                text: 'Столбцы',
-			                buttons: [
-			                    {
-			                        text: 'Источник',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
-			                        }
-			                    },
-			                ]
-			            }
-			        ],
-					language : {
-						processing : "Загрузка...",
-						search : "Поиск",
-						lengthMenu : "Показывать _MENU_ записей на странице",
-						zeroRecords : "Ничего не найдено",
-						info : "Показано с _START_ до _END_ из _TOTAL_",
-						infoEmpty : "Нет доступных записей",
-						infoFiltered : "(filtered from _MAX_ всего)",
-						paginate : {
-							first : "В начало",
-							previous : "Предыдущая",
-							next : "Следущая",
-							last : "В конец"
-						},
-						searchPanes: {
-							clearMessage : "Сбросить",
-				            title : {
-				                    _: 'Отфильтровано - %d',
-				                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
-				                    1: 'Один фильтр выбран',
-				            },
-				            collapse: 'Фильтры (%d)'
-				        },
-					},
-					ordering : true,
-				});
-	$('#example tbody').on('click', 'tr', function () {
-		var tr = $(this).closest('tr');
-		var row = table.row( tr );
-		var element = document.getElementById("info");
-		var name = '<h5 class="header mb-1">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
-		element.innerHTML = name + format(row.data());
-		});
-	});
-	function format ( d ) {
-		var info = '<p class ="mb-1 mt-1"><small>' + d.type + '</small></p>';
-		info+='<hr class ="line1"/><p class ="mb-2 mt-1">';
-		info+='<p class ="mb-1 mt-1"><strong>Требования:</strong> ';
-		if (d.level === null) {
-			info+= d.prerequisite + '.';
-		}
-		else if (d.prerequisite === 'Нет'){
-			info+=' Уровень ' + d.level + ' или выше';
-		} else {
-			info+=d.prerequisite + ' и ' +' уровень ' + d.level + ' или выше.';
-		}
-		info+='</p>';
-		info+='<hr class ="mb-1 mt-1" align="center" size="5" color="#822000" />';
-		info+=d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>';
-		return  info; 
-	}
-	</script>
+	<div layout:fragment="content">
+		<table id="options" class="table table-hover table-sm color-main-bg-500">
+			<thead>
+				<tr>
+					<th>Опция</th>
+					<th>Тип</th>
+					<th>Требование</th>
+					<th>Уровень</th>
+					<th>Источник</th>
+					<th>englishName</th>
+				</tr>
+			</thead>
+		</table>
+		<script>
+			var preSelectOptionType = '';
+			var preSelectOptionType2= '';
+		</script>
+	</div>
+	<script th:src="@{/resources/js/tables/options.js}" layout:fragment="datatable"></script>
+	<script th:src="@{/resources/js/tables/options.info.js}" layout:fragment="datatable1"></script>
 </body>
 </html>

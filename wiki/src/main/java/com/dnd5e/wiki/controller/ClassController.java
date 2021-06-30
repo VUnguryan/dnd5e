@@ -43,6 +43,7 @@ public class ClassController {
 
 	@GetMapping
 	public String getClasses(Model model, Device device) {
+		model.addAttribute("device", device);
 		if (device.isMobile()) {
 			Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 			model.addAttribute("classes", classRepo.findAllBySources(SourceUtil.getSources(settings)));
@@ -58,8 +59,43 @@ public class ClassController {
 		return "classes";
 	}
 
+	@GetMapping("/fragment/class/{id}")
+	public String getFragmentClasses(Model model, Device device, @PathVariable Integer id) {
+		model.addAttribute("device", device);
+		HeroClass heroClass = classRepo.findById(id).get();
+		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
+		Set<TypeBook> sources = SourceUtil.getSources(settings);
+		List<Archetype> archetypes = heroClass.getArchetypes().stream()
+				.filter(a -> sources.contains(a.getBook().getType()))
+				.collect(Collectors.toList());
+		Collections.sort(archetypes, Comparator.comparing(Archetype::getBook));
+		heroClass.setArchetypes(archetypes);
+		List<ClassFetureDto> features = new ArrayList<>();
+		heroClass.getTraits().stream()
+			.filter(f -> !f.isArchitype())
+			.map(f -> new ClassFetureDto(f, heroClass.getName()))
+			.forEach(f -> features.add(f));
+		Map<Integer, Set<ClassFetureDto>> archetypeTraits = heroClass.getArchetypes()
+				.stream().flatMap(a -> a.getFeats().stream())
+				.collect(
+						Collectors.groupingBy(
+								f -> f.getArchetype().getId(),
+								Collectors.mapping(f -> new ClassFetureDto(
+										f, f.getArchetype().getGenitiveName()), 
+										Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ClassFetureDto::getLevel).thenComparing(ClassFetureDto::getName))))
+								)
+				);
+		Collections.sort(features, Comparator.comparing(ClassFetureDto::getLevel));
+		model.addAttribute("features", features);
+		model.addAttribute("heroClass", heroClass);
+		model.addAttribute("archetypeTraits", archetypeTraits);
+		model.addAttribute("order", "[[ 1, 'asc' ]]");
+		return "classView :: heroClass";
+	}
+
 	@GetMapping("/class/{id}")
-	public String getClass(Model model, @PathVariable Integer id) {
+	public String getClass(Model model, Device device, @PathVariable Integer id) {
+		model.addAttribute("device", device);
 		HeroClass heroClass = classRepo.findById(id).get();
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
@@ -92,7 +128,8 @@ public class ClassController {
 	}
 	
 	@GetMapping("/class/{id}/archetype/{archetypeId}")
-	public String getClassAndArchetype(Model model, @PathVariable Integer id, @PathVariable Integer archetypeId) {
+	public String getClassAndArchetype(Model model, Device device, @PathVariable Integer id, @PathVariable Integer archetypeId) {
+		model.addAttribute("device", device);
 		HeroClass heroClass = classRepo.findById(id).get();
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
@@ -101,7 +138,7 @@ public class ClassController {
 				.filter(a -> sources.contains(a.getBook().getType()) || a.getId()==archetypeId)
 				.collect(Collectors.toList());
 		Collections.sort(archetypes, Comparator.comparing(Archetype::getBook));
-		heroClass.setArchetypes(archetypes);
+		//heroClass.setArchetypes(archetypes); //FIXME
 		model.addAttribute("archetypes", archetypes);
 		heroClass.setArchetypes(heroClass.getArchetypes().stream()
 				.filter(a -> a.getId().equals(archetypeId))
@@ -123,7 +160,7 @@ public class ClassController {
 		feature.setDescription(archetype.getDescription());
 		feature.setName(archetype.getName());
 		feature.setPrefix("ad");
-		if (archetype.getBook()!=null) {
+		if (archetype.getBook() != null) {
 			feature.setType("Источник: " + archetype.getBook().getName()
 					+ (archetype.getPage() == null ? "" : ", стр. " + archetype.getPage()));
 		}

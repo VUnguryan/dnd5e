@@ -1,3 +1,12 @@
+$(document).ready( function () {
+	$.ajax( {
+	    type: 'GET',
+	    url: '/settings/',
+	    success: function(data) {
+	        $('#message').html(data);
+	    }
+	});
+});
 var toReload = false;
 $('#baseRule').click(function(){
 	toReload = true;

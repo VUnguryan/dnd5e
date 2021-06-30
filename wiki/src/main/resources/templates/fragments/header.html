@@ -5,11 +5,11 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark color-header" th:fragment="header">
+		<a class="navbar-brand" th:href="@{/}"> <img class="mr-3" src="/resources/Logo.png"></a>
 		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbar-main">
-			<a class="navbar-brand" th:href="@{/}"> <img class="mr-3" src="/resources/Logo.png"></a> 
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> Персонаж </a>
 					<div class="dropdown-menu">
@@ -65,7 +65,7 @@
 			</ul>
 			<div class="nav-item custom-control custom-switch mr-sm-2">
 				<div id = "settingDropdown" class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Источники</button>
+					<button class="btn btn-main btn-color-main dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Источники</button>
 					<div class="dropdown-menu" aria-labelledby="settingDropdown">
 						<form class="px-4 py-3">
 							<div class="nav-item custom-control custom-switch mr-sm-2">
@@ -94,7 +94,7 @@
 				<form class="form-inline my-2 my-lg-0" th:action="@{/login}">
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><img class="invert" src="/resources/icons/svg/login_black_24dp.svg"></button>
+							<button class="btn btn-square-outline btn-color-main-outline" type="submit"><img src="/resources/icons/svg/login_black_24dp.svg"></button>
 						</div>
 					</div>
 				</form>
@@ -103,7 +103,7 @@
 				<form class="form-inline my-2 my-lg-0" th:action="@{/logout}">
 					<div class="input-group">
 						<div class="input-group-btn">
-							<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Выход</button>
+							<button class="btn btn-square-outline btn-color-main-outline" type="submit"><img src="/resources/icons/svg/logout_white_24dp.svg"></button></button>
 						</div>
 					</div>
 				</form>
