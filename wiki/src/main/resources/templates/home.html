@@ -9,15 +9,12 @@
 </head>
 <body>
 	<main role="main" class="container pt-5 pb-5" layout:fragment="content">
-		<div class="card-deck">
-			<div th:each="place : ${places}" class="card" style="width: 400px">
-				<div class="card-body">
-					<h4 class="card-title" th:text="${place.name}"></h4>
-					<a th:href="@{|/place/${place.id}|}" class="btn btn-secondary">Подробнее</a>
-				</div>
-			</div>
+		<div class="row">
+		<div class="col"></div>
+		<div class="col"></div>
+		<div class="col"></div>
+		<div class="col"></div>
 		</div>
 	</main>
-	<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

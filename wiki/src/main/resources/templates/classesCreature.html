@@ -11,32 +11,26 @@
 </head>
 <body>
 	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<th:block th:each="creatureRace : ${creatureRaces}">
-					<a class="badge" th:classappend="${race.id eq creatureRace.id} ? badge-dark : badge-secondary" th:href="@{|/entities/race/${creatureRace.id}|}" th:text="${creatureRace.name}"></a>
-				</th:block>
-			</div>
-		</div>
-		<div class="card" th:object="${race}">
-			<h5 class="card-header" th:text="*{name}"></h5>
-			<div class="card-body" th:utext="*{description}"></div>
-			<div class="card-body">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col" style="width: 3%">CR</th>
-							<th scope="col">Наименование</th>
-							<th scope="col">Вид</th>
-						</tr>
-					</thead>
-					<tr th:each="creature : ${creatures}" style="cursor: pointer" th:onclick="'javascript:rowClicked(\'' + ${creature.id} + '\');'">
-						<td th:text="${creature.challengeRating}" />
-						<td th:text="${creature.name}" />
-						<td th:text="${creature.type.cyrilicName}" />
+		<th:block th:each="creatureRace : ${creatureRaces}">
+			<a class="badge" th:classappend="${race.id eq creatureRace.id} ? badge-dark : badge-secondary" th:href="@{|/entities/race/${creatureRace.id}|}" th:text="${creatureRace.name}"></a>
+		</th:block>
+		<div th:object="${race}">
+			<h5 class="main-header pt-3" th:text="*{name}"></h5>
+			<div th:utext="*{description}"></div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col" style="width: 3%">CR</th>
+						<th scope="col">Наименование</th>
+						<th scope="col">Вид</th>
 					</tr>
-				</table>
-			</div>
+				</thead>
+				<tr th:each="creature : ${creatures}" style="cursor: pointer" th:onclick="'javascript:rowClicked(\'' + ${creature.id} + '\');'">
+					<td th:text="${creature.challengeRating}" />
+					<td th:text="${creature.name}" />
+					<td th:text="${creature.type.cyrilicName}" />
+				</tr>
+			</table>
 		</div>
 	</div>
 </body>

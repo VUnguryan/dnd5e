@@ -2,24 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
 <head>
 <title th:text="${condition.name}"></title>
-<style>
-img {
-	float: center;
-}
-
-.invert {
-	filter: invert(100%);
-	-webkit-filter: invert(100%) sepia(100%);
-}
-</style>
 </head>
 <body>
 	<div class="container pb-5 pt-5" layout:fragment="content">
 		<div class="card" th:object="${condition}">
-			<h5 class="card-header">
+			<h5 class="main-header">
 				<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
 			</h5>
-			<div class="card-body" th:utext="*{description}"></div>
+			<div> th:utext="*{description}"></div>
 			<footer class="blockquote-footer">
 				<small class="text-muted" th:if="${condition.book}" th:text="|Источник: ${condition.book.name}${condition.page eq null?'':', стр.' + condition.page}|"></small>
 			</footer>

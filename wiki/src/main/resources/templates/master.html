@@ -2,35 +2,13 @@
 <head>
 <title>Ширма Мастера Подземелий</title>
 <style>
-@media ( min-width :576px) {
-	.card-columns {
-		column-count: 2;
-	}
-}
-
-@media ( min-width :768px) {
-	.card-columns {
-		column-count: 3;
-	}
-	@media ( min-width :992px) {
-		.card-columns {
-			column-count: 4;
-		}
-	}
-	@media ( min-width :1200px) {
-		.card-columns {
-			column-count: 5;
-		}
-	}
-}
-
 table tbody tr td {
 	font-size: 12px;
 }
 </style>
 </head>
 <body>
-	<div class="container-flex pt-5 pb-5" layout:fragment="content">
+	<div class="container-flex pt-5 pb-5 pl-2 pr-2" layout:fragment="content">
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
 			<li class="nav-item" role="presentation"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Общие</a></li>
 			<li class="nav-item" role="presentation"><a class="nav-link" id="check-tab" data-toggle="tab" href="#check" role="tab" aria-controls="check" aria-selected="true">Проверки</a></li>
@@ -42,18 +20,17 @@ table tbody tr td {
 		<small>
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<div class="card-columns">
-						<div class="card">
-							<div class="card-header">
-								<h6>Уровни</h6>
-							</div>
-							<div class="card-body">
+					<div class="row justify-content-center">
+						<div class="col-2">
+							<h6 class="main-header text-center">Уровни</h6>
+							<div>
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr>
 											<th>Опыт</th>
 											<th class="text-center">Уровень</th>
-											<th class="text-center">Бонус мастерства</th>
+											<th class="text-center">Бонус<br> мастерства
+											</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -161,11 +138,9 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
-								<h6>Модификаторы</h6>
-							</div>
-							<div class="card-body">
+						<div class="col-2">
+							<h6 class="main-header text-center">Модификаторы</h6>
+							<div>
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr>
@@ -242,11 +217,9 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
-								<h6>Типичная Сложность</h6>
-							</div>
-							<div class="card-body">
+						<div class="col">
+							<h6 class="main-header text-center">Типичная Сложность</h6>
+							<div>
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr>
@@ -283,11 +256,9 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
-								<h6>Темп перемещения</h6>
-							</div>
-							<div class="card-body">
+						<div class="col-3">
+							<h6 class="main-header text-center">Темп перемещения</h6>
+							<div>
 								<div class="table-responsive">
 									<table class="table table-striped table-sm w-auto small">
 										<thead>
@@ -335,129 +306,137 @@ table tbody tr td {
 									</table>
 								</div>
 							</div>
+							<div class="main-header text-center">Изучение существ</div>
+							<div>
+								<strong>СЛ проверки = 10 + ПО существа.</strong>
+							</div>
+							<div class="table-responsive">
+								<table class="table table-striped table-sm w-auto small">
+									<thead>
+										<tr>
+											<th rowspan="2">Тип</th>
+											<th colspan="4">Навыки</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Аберрация</td>
+											<td>Магия</td>
+										</tr>
+										<tr>
+											<td>Зверь</td>
+											<td>Обращение с животными, Природа, Выживание</td>
+										</tr>
+										<tr>
+											<td>Небожитель</td>
+											<td>Магия, Религия</td>
+										</tr>
+										<tr>
+											<td>Конструкт</td>
+											<td>Магия</td>
+										</tr>
+										<tr>
+											<td>Дракон</td>
+											<td>Магия, История, Природа</td>
+										</tr>
+										<tr>
+											<td>Элементаль</td>
+											<td>Магия, Природа</td>
+										</tr>
+										<tr>
+											<td>Феи</td>
+											<td>Магия, Природа</td>
+										</tr>
+										<tr>
+											<td>Демон</td>
+											<td>Магия, Религия</td>
+										</tr>
+										<tr>
+											<td>Великан</td>
+											<td>История</td>
+										</tr>
+										<tr>
+											<td>Гуманоид</td>
+											<td>История</td>
+										</tr>
+										<tr>
+											<td>Монстр</td>
+											<td>Природа, Выживание</td>
+										</tr>
+										<tr>
+											<td>Слизь</td>
+											<td>Магия, Выживание</td>
+										</tr>
+										<tr>
+											<td>Растение</td>
+											<td>Природа, Выживание</td>
+										</tr>
+										<tr>
+											<td>Нежить</td>
+											<td>Магия, Религия</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
-								<h6>Прыжки</h6>
-							</div>
-							<div class="card-body">
-								<ul class="list-group list-group-flush">
-									<li class="list-group-item"><strong>Прыжок в длину с разбега.</strong><br> Дальность в фт. = Сила<br> (Перемешение минимум 10 фт.)</li>
-									<li class="list-group-item"><strong>Прыжок в длину без разбега.</strong><br> Дальность в фт. = Сила / 2</li>
-									<li class="list-group-item"><strong>Прыжок в высоту с разбега.</strong><br> Высота в фт. = 3 + модификатор Силы<br> (Перемешение минимум 10 фт.)</li>
-									<li class="list-group-item"><strong>Прыжок в высоту без разбега.</strong><br> Высота в фт. = (3 + модификатор Силы) / 2</li>
-									<li class="list-group-item"><strong>Преземление в труднопроходимую местность.</strong><br> проверка Ловкости (Акробатика) со Сл 10</li>
-								</ul>
-							</div>
-						</div>
-						<div class="card">
-							<div class="card-header">
-								<h6>Прочая деятельность</h6>
-							</div>
-							<div class="card-body">
-								<ul class="list-group list-group-flush">
-									<li class="list-group-item"><strong>Ориентирование.</strong> проверка Мудрости (Выживание)</li>
-									<li class="list-group-item"><strong>Рисование карты.</strong> проерка не требуется</li>
-									<li class="list-group-item"><strong>Выслеживание.</strong> проверка Мудрости (Выживание)</li>
-									<li class="list-group-item"><strong>Сбор еды.</strong> проверка Мудрости (Выживание)</li>
-								</ul>
-							</div>
-						</div>
-						<div class="card">
-							<div class="card-header">
-								<h6>Изучение существ</h6>
-							</div>
-							<div class="card-body">
+						<div class="col-2">
+							<h6 class="main-header text-center">Прыжки</h6>
+							<div>
 								<div>
-									<strong>СЛ проверки = 10 + ПО существа.</strong>
+									<div>
+										<strong>Прыжок в длину с разбега.</strong><br> Дальность в фт. = Сила (Перемешение минимум 10 фт.)
+									</div>
+									<div>
+										<strong>Прыжок в длину без разбега.</strong><br> Дальность в фт. = Сила / 2
+									</div>
+									<div class="row">
+										<strong>Прыжок в высоту с разбега.</strong><br> Высота в фт. = 3 + модификатор Силы<br> (Перемешение минимум 10 фт.)
+									</div>
+									<div class="row">
+										<strong>Прыжок в высоту без разбега.</strong><br> Высота в фт. = (3 + модификатор Силы) / 2
+									</div>
+									<div class="row">
+										<strong>Преземление в труднопроходимую местность.</strong><br> проверка Ловкости (Акробатика) со Сл 10
+									</div>
 								</div>
-								<div class="table-responsive">
-									<table class="table table-striped table-sm w-auto small">
-										<thead>
-											<tr>
-												<th rowspan="2">Тип</th>
-												<th colspan="4">Навыки</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>Аберрация</td>
-												<td>Магия</td>
-											</tr>
-											<tr>
-												<td>Зверь</td>
-												<td>Обращение с животными, Природа, Выживание</td>
-											</tr>
-											<tr>
-												<td>Небожитель</td>
-												<td>Магия, Религия</td>
-											</tr>
-											<tr>
-												<td>Конструкт</td>
-												<td>Магия</td>
-											</tr>
-											<tr>
-												<td>Дракон</td>
-												<td>Магия, История, Природа</td>
-											</tr>
-											<tr>
-												<td>Элементаль</td>
-												<td>Магия, Природа</td>
-											</tr>
-											<tr>
-												<td>Феи</td>
-												<td>Магия, Природа</td>
-											</tr>
-											<tr>
-												<td>Демон</td>
-												<td>Магия, Религия</td>
-											</tr>
-											<tr>
-												<td>Великан</td>
-												<td>История</td>
-											</tr>
-											<tr>
-												<td>Гуманоид</td>
-												<td>История</td>
-											</tr>
-											<tr>
-												<td>Монстр</td>
-												<td>Природа, Выживание</td>
-											</tr>
-											<tr>
-												<td>Слизь</td>
-												<td>Магия, Выживание</td>
-											</tr>
-											<tr>
-												<td>Растение</td>
-												<td>Природа, Выживание</td>
-											</tr>
-											<tr>
-												<td>Нежить</td>
-												<td>Магия, Религия</td>
-											</tr>
-										</tbody>
-									</table>
+							</div>
+						</div>
+						<div class="col-2">
+							<h6 class="main-header text-center">Прочая деятельность</h6>
+							<div>
+								<div>
+									<div class="row">
+										<strong>Ориентирование.</strong> проверка Мудрости (Выживание)
+									</div>
+									<div class="row">
+										<strong>Рисование карты.</strong> проверка не требуется
+									</div>
+									<div class="row">
+										<strong>Выслеживание.</strong> проверка Мудрости (Выживание)
+									</div>
+									<div class="row">
+										<strong>Сбор еды.</strong> проверка Мудрости (Выживание)
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="tab-pane fade" id="check" role="tabpanel" aria-labelledby="check-tab">
-					<div class="card-columns">
-						<div class="card">
-							<div class="card-header">
+					<div class="row justify-content-center">
+						<div class="col-2">
+							<div class="main-header text-center">
 								<h6 class="mb-0 mt-0">Сила</h6>
 							</div>
-							<div class="card-body">
-								<h6 class="card-title mb-0 mt-0">Атлетика</h6>
+							<div>
+								<h6 class="title text-center mb-0 mt-0">Атлетика</h6>
 								<ul>
 									<li>Взбирание на крутой утес</li>
 									<li>Удержаться за что-то при попытке стряхивания</li>
 									<li>Прыгнуть на растояние больше возможного</li>
 									<li>Плыть или оставаться на плаву в бурных водах, во время шторма или в зарослях</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Прочие проверки Силы</h6>
+								<h6 class="title text-center mb-0 mt-0">Прочие проверки Силы</h6>
 								<ul>
 									<li>Открыть застрявшую, запертую или заложенную на засов дверь</li>
 									<li>Вырваться из оков</li>
@@ -468,29 +447,29 @@ table tbody tr td {
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header text-center">
 								<h6>Ловкость</h6>
 							</div>
-							<div class="card-body">
-								<h6 class="card-title mb-0 mt-0">Акробатика</h6>
+							<div>
+								<h6 class="title text-center mb-0 mt-0">Акробатика</h6>
 								<ul>
 									<li>Устоять на ногах в неудобной ситуации. Пробежка по льду, балансирование на натянутом канате</li>
 									<li>Выполнение акробатических трюков (кувырки, сальто, перекаты)</li>
 									<li>Ныряние с высоты</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Ловкость рук</h6>
+								<h6 class="title text-center mb-0 mt-0">Ловкость рук</h6>
 								<ul>
 									<li>Жонглирование</li>
 									<li>Бросить вещь другому или спрятать ее на своем теле</li>
 									<li>Срезать кошелек, залезть или подбросить что-то другому в карман</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Скрытность</h6>
+								<h6 class="title text-center mb-0 mt-0">Скрытность</h6>
 								<ul>
 									<li>Спрятаться от кого-то</li>
 									<li>Прокрасться мимо кого-то</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Прочие проверки Ловкости</h6>
+								<h6 class="title text-center mb-0 mt-0">Прочие проверки Ловкости</h6>
 								<ul>
 									<li>Спуск с тяжело нагруженной тачкой по крутому склону</li>
 									<li>Выполнение крутого виража на карете</li>
@@ -503,11 +482,11 @@ table tbody tr td {
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header text-center">
 								<h6>Телосложение</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<ul>
 									<li>Задержка дыхания</li>
 									<li>Марш бросок</li>
@@ -518,12 +497,12 @@ table tbody tr td {
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header text-center">
 								<h6>Интеллект</h6>
 							</div>
-							<div class="card-body">
-								<h6 class="card-title mb-0 mt-0">Анализ</h6>
+							<div>
+								<h6 class="title text-center mb-0 mt-0">Анализ</h6>
 								<ul>
 									<li>Поиск подсказок на основе выводов</li>
 									<li>Вычислить местоположение спрятанного предмета</li>
@@ -531,23 +510,23 @@ table tbody tr td {
 									<li>Определить самую слабую точку в туннеле, способную его обрушить</li>
 									<li>Поиск тайных знаний в свитках</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">История</h6>
+								<h6 class="title text-center mb-0 mt-0">История</h6>
 								<ul>
 									<li>Вспомнить о историчесих событиях</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Магия</h6>
+								<h6 class="title text-center mb-0 mt-0">Магия</h6>
 								<ul>
 									<li>Опознание заклинания</li>
 									<li>Знание о магических предметах, символах, традициях</li>
 									<li>Знания о планах существования</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Природа (Естествознание)</h6>
+								<h6 class="title text-center mb-0 mt-0">Природа (Естествознание)</h6>
 								<ul>
 									<li>Опознание животного или растения</li>
 									<li>Знание местности</li>
 									<li>Знания о погоде и естественных циклах</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Религия</h6>
+								<h6 class="title text-center mb-0 mt-0">Религия</h6>
 								<ul>
 									<li>Знание божеств</li>
 									<li>Знание о ритуалах и молитвах</li>
@@ -555,7 +534,7 @@ table tbody tr td {
 									<li>Знания священных символов</li>
 									<li>Знания практик тайных культов</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Прочие проверки Интеллекта</h6>
+								<h6 class="title text-center mb-0 mt-0">Прочие проверки Интеллекта</h6>
 								<ul>
 									<li>Общение без использования слов</li>
 									<li>Оценка стоимости предмета</li>
@@ -566,23 +545,23 @@ table tbody tr td {
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header text-center">
 								<h6>Харизма</h6>
 							</div>
-							<div class="card-body">
-								<h6 class="card-title mb-0 mt-0">Выступление</h6>
+							<div>
+								<h6 class="title text-center mb-0 mt-0">Выступление</h6>
 								<ul>
 									<li>Выступление перед публикой</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Запугивание</h6>
+								<h6 class="title text-center mb-0 mt-0">Запугивание</h6>
 								<ul>
 									<li>Воздействие угрозами</li>
 									<li>Воздействие враждебными действиями</li>
 									<li>Воздействие физическим насилием</li>
 									<li>Добыча информации из пленника</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Обман</h6>
+								<h6 class="title text-center mb-0 mt-0">Обман</h6>
 								<ul>
 									<li>Намеренное утаивание правды</li>
 									<li>Направление кого-то по неверному следу</li>
@@ -592,7 +571,7 @@ table tbody tr td {
 									<li>Маскировка под другого</li>
 									<li>Сохранение спокойствия при рассказывании лжи</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Убеждение</h6>
+								<h6 class="title text-center mb-0 mt-0">Убеждение</h6>
 								<ul>
 									<li>Намереное утаивание правды</li>
 									<li>Напрвление кого-то по неверному следу</li>
@@ -602,26 +581,26 @@ table tbody tr td {
 									<li>Маскировка под другого</li>
 									<li>Сохранение спокойствия при рассказывания лжи</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Прочие проверки Харизмы</h6>
+								<h6 class="title text-center mb-0 mt-0">Прочие проверки Харизмы</h6>
 								<ul>
 									<li>Поиск слухов или контактов</li>
 									<li>Слиться с толпой</li>
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header text-center">
 								<h6>Мудрость</h6>
 							</div>
-							<div class="card-body">
-								<h6 class="card-title mb-0 mt-0">Внимательность</h6>
+							<div>
+								<h6 class="title text-center mb-0 mt-0">Внимательность</h6>
 								<ul>
 									<li>Подслушать разговор</li>
 									<li>Подсмотерть в окно</li>
 									<li>Услышать крадушихся</li>
 									<li>Увидеть, услышать или как то иначе заметить что-то</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Выживание</h6>
+								<h6 class="title text-center mb-0 mt-0">Выживание</h6>
 								<ul>
 									<li>Выслеживание</li>
 									<li>Охота</li>
@@ -630,26 +609,26 @@ table tbody tr td {
 									<li>Предсказание погоды</li>
 									<li>Избегания зыбучих песков, трясин и прочих природных опасностей.</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Медицина</h6>
+								<h6 class="title text-center mb-0 mt-0">Медицина</h6>
 								<ul>
 									<li>Стабилизация умирающего</li>
 									<li>Диагностика болезни</li>
 									<li>Определить причину смерти</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Проницательность</h6>
+								<h6 class="title text-center mb-0 mt-0">Проницательность</h6>
 								<ul>
 									<li>Распознать ложь</li>
 									<li>Распознать чувства (гнев, страх и т.д.)</li>
 									<li>Предсказание действий существа</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Уход за животными</h6>
+								<h6 class="title text-center mb-0 mt-0">Уход за животными</h6>
 								<ul>
 									<li>Успокоить одомашненное животное</li>
 									<li>Удержать ездовое животное</li>
 									<li>Почувствовать намерение животного</li>
 									<li>Контроль ездового животного при совершении опасного маневра</li>
 								</ul>
-								<h6 class="card-title mb-0 mt-0">Прочие проверки Мудрости</h6>
+								<h6 class="title text-center mb-0 mt-0">Прочие проверки Мудрости</h6>
 								<ul>
 									<li>Понять что делать дальше</li>
 									<li>Распознание нежити в существах.</li>
@@ -659,53 +638,12 @@ table tbody tr td {
 					</div>
 				</div>
 				<div class="tab-pane fade" id="battle" role="tabpanel" aria-labelledby="battle-tab">
-					<div class="card-columns">
-						<div class="card">
-							<div class="card-header">
-								<h6>Размер существ</h6>
-							</div>
-							<div class="card-body">
-								<table class="table table-striped table-sm">
-									<thead>
-										<tr>
-											<th>Размер</th>
-											<th>Пространство</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Крошечный</td>
-											<td>2,5 × 2,5 фута</td>
-										</tr>
-										<tr>
-											<td>Маленький</td>
-											<td>5 × 5 футов</td>
-										</tr>
-										<tr>
-											<td>Средний</td>
-											<td>5 × 5 футов</td>
-										</tr>
-										<tr>
-											<td>Большой</td>
-											<td>10 × 10 футов</td>
-										</tr>
-										<tr>
-											<td>Огромный</td>
-											<td>15 × 15 футов</td>
-										</tr>
-										<tr>
-											<td>Громадный</td>
-											<td>20 × 20 футов или больше</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="card">
-							<div class="card-header">
+					<div class="row justify-content-center">
+						<div class="col">
+							<div class="main-header">
 								<h6>Укрытие</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr>
@@ -730,11 +668,11 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header">
 								<h6>Движение</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<table class="table table-striped table-sm">
 									<tbody>
 										<tr>
@@ -793,11 +731,11 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-3">
+							<div class="main-header">
 								<h6>Импровизированный урон</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr>
@@ -834,11 +772,11 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-3">
+							<div class="main-header">
 								<h6>Действие (одно в ход)</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<div class="table-responsive">
 									<table class="table table-striped table-sm">
 										<thead>
@@ -908,11 +846,11 @@ table tbody tr td {
 								</div>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header">
 								<h6>Действие (одно в ход)</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<table class="table table-striped table-sm">
 									<tbody>
 										<tr>
@@ -957,11 +895,11 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col">
+							<div class="main-header">
 								<h6>Бонусное действие</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<p>Бонусное действие можно совершать только если особое умение или заклинание напрямую разрешает делать что-то бонусным действием.</p>
 								<ul style="list-style-type: disc;">
 									<li>атака вторым оружием</li>
@@ -970,11 +908,11 @@ table tbody tr td {
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header">
 								<h6>Реакция (одна в ход)</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<p>Реакция — это мгновенный ответ на срабатывание некоего условия (тригера), который может происходить как в ваш, так и в чужой ход</p>
 								<ul style="list-style-type: disc;">
 									<li>спровоцированная атака</li>
@@ -984,11 +922,11 @@ table tbody tr td {
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col">
+							<div class="main-header">
 								<h6>Взаимодействие с одним предметом (одно в ход)</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<ul style="list-style-type: disc;">
 									<li>вынимание или убирание в ножны меча</li>
 									<li>открывание или закрывание двери</li>
@@ -1014,11 +952,11 @@ table tbody tr td {
 								</ul>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-2">
+							<div class="main-header">
 								<h6>Показатель опасности одиночного монстра</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr>
@@ -1052,15 +990,56 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
+						<div class="col">
+							<div class="main-header">
+								<h6>Размер существ</h6>
+							</div>
+							<div>
+								<table class="table table-striped table-sm">
+									<thead>
+										<tr>
+											<th>Размер</th>
+											<th>Пространство</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Крошечный</td>
+											<td>2,5 × 2,5 фута</td>
+										</tr>
+										<tr>
+											<td>Маленький</td>
+											<td>5 × 5 футов</td>
+										</tr>
+										<tr>
+											<td>Средний</td>
+											<td>5 × 5 футов</td>
+										</tr>
+										<tr>
+											<td>Большой</td>
+											<td>10 × 10 футов</td>
+										</tr>
+										<tr>
+											<td>Огромный</td>
+											<td>15 × 15 футов</td>
+										</tr>
+										<tr>
+											<td>Громадный</td>
+											<td>20 × 20 футов или больше</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="tab-pane fade" id="magic" role="tabpanel" aria-labelledby="magic-tab">
-					<div class="card-columns">
-						<div class="card">
-							<div class="card-header">
+					<div class="row">
+						<div class="col">
+							<div class="main-header">
 								<h6>Покупка магических предметов</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<div class="table-responsive">
 									<table class="table table-striped table-sm">
 										<thead>
@@ -1153,11 +1132,11 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col">
+							<div class="main-header">
 								<h6>Продажа магических предметов</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<div class="table-responsive">
 									<table class="table table-striped table-sm">
 										<thead>
@@ -1228,8 +1207,8 @@ table tbody tr td {
 								</table>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col">
+							<div class="main-header">
 								<h6>Создание магических предметов</h6>
 							</div>
 							<div class="card-body">
@@ -1274,12 +1253,12 @@ table tbody tr td {
 					</div>
 				</div>
 				<div class="tab-pane fade" id="idle" role="tabpanel" aria-labelledby="idle-tab">
-					<div class="card-columns">
-						<div class="card">
-							<div class="card-header">
+					<div class="row">
+						<div class="col-3">
+							<div class="main-header text-center">
 								<h6>Деятельность во время простоя</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<div class="table-responsive">
 									<table class="table table-striped table-sm">
 										<thead>
@@ -1355,11 +1334,11 @@ table tbody tr td {
 								</div>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-3">
+							<div class="main-header">
 								<h6>Деятельность во время простоя (магические предметы и свитки)</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<div class="table-responsive">
 									<table class="table table-striped table-sm">
 										<thead>
@@ -1395,11 +1374,11 @@ table tbody tr td {
 								</div>
 							</div>
 						</div>
-						<div class="card">
-							<div class="card-header">
+						<div class="col-1">
+							<div class="main-header text-center">
 								<h6>Затраты на существование</h6>
 							</div>
-							<div class="card-body">
+							<div>
 								<table class="table table-striped table-sm">
 									<thead>
 										<tr>

@@ -11,7 +11,7 @@
 			<div th:each="heroClass : ${classes}" class="col-md-auto pl-3 pr-3 pb-1 pt-1">
 				<div class="card-class">
 					<div class="text-class" th:text="${heroClass.capitalazeName}"></div>
-					<a th:href="@{|/hero/classes/class/${heroClass.id}|}"> <img class="rounded-lg" th:src="@{|https://storage.googleapis.com/dnd5/classes/art/${heroClass.id}.jpg|}" align="middle" width="250" height="260" /></a>
+					<a th:href="@{|/classes/${heroClass.englishName}|}"> <img class="rounded-lg" th:src="@{|https://storage.googleapis.com/dnd5/classes/art/${heroClass.id}.jpg|}" align="middle" width="250" height="260" /></a>
 					<div class="text-color-opacity pt-2">Источник:</div>
 					<div class="text-color-opacity" th:text="${heroClass.book.name}"></div>
 				</div>

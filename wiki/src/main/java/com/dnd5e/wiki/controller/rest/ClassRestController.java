@@ -31,7 +31,7 @@ public class ClassRestController {
 	@Autowired
 	private ClassDatatableRepository repo;
 
-	@GetMapping("/table/classes")
+	@GetMapping("/data/classes")
 	public DataTablesOutput<ClassDto> getData(@Valid DataTablesInput input) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);

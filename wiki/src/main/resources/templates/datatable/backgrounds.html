@@ -1,11 +1,5 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/datatable-mobile-layout}">
 <head>
-<head>
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
 <title>Предыстории</title>
 <style>
 img {
@@ -191,7 +185,7 @@ img {
 });
 	function format ( d ) {
 		var name = '<h5 class="title">'	+ d.name;
-		if (d.englishName !== null) {
+		if (d.englishName) {
 			name += ' <small class="text-secondary">('+ d.englishName+ ')' + '</small>';
 		}
 		name += '</h5>';

@@ -28,13 +28,13 @@ import com.dnd5e.wiki.repository.CreatureRepository;
 public class CreatureController {
 	@Autowired
 	private CreatureRepository creatureRepo;
-	
+
 	@Autowired
 	private CreatureRaceRepository creatureRaceRepo;
-	
+
 	@Autowired
 	private ConditionRepository conditionRepo;
-	
+
 	@GetMapping("/creatures")
 	public String getCreatures(Model model, Device device) {
 		model.addAttribute("device", device);

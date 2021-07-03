@@ -1,31 +1,47 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/js-layout}">
 <head>
 <title th:text="|${name}-Персонализация|"></title>
 </head>
 <body>
 	<div class="container p-5" style="margin-top: 25px" layout:fragment="content">
-			<h5 class="main-header" th:text="${name}"></h5>
-			<a id="persone" class="btn btn-secondary" th:href="@{|/hero/backgrounds/personalizare/${id}|}">Случайная персонализация</a>
-			<div th:utext="${description}" class="card-body"></div>
-			<th:block class="card" th:each="p : ${personalizations}">
-				<div class="separator" th:text="${p.type.name}"></div>
-				<div th:utext="${p.text}" class="card-body"></div>
-			</th:block>
-			<div class="separator">Индивидуальная особенность</div>
-			<div th:utext="${feature}" class="card-body"></div>
-			<div>
-				<table class="table table-striped table-sm">
-					<th:block th:each="type : ${tables}">
-						<tr>
-							<td class="text-center" colspan="2"><strong th:text="${type.key.name}"></strong></td>
-						</tr>
-						<tr th:each="value, status : ${type.value}">
-							<td th:text="${status.index + 1}"></td>
-							<td th:utext="${value.text}"></td>
-						</tr>
-					</th:block>
-				</table>
+		<h5 class="main-header" th:text="${name}"></h5>
+		<a id="persone" class="btn btn-main btn-color-main" th:href="@{|/hero/backgrounds/personalizare/${id}|}">Случайная персонализация</a>
+		<div th:utext="${description}"></div>
+		<th:block class="card" th:each="p : ${personalizations}">
+			<div class="separator" th:text="${p.type.name}"></div>
+			<div class="row">
+				<div class="col"><div th:id="|p${p.id}|" th:utext="${p.text}"></div></div>
+				<div class="col fixed-right">
+					<button th:id="|b${p.id}|" th:onclick="|randomPers(${id}, ${p.id}, '${p.type.name()}')|" class="btn btn-main btn-color-main">Случайно</button>
+				</div>
 			</div>
+		</th:block>
+		<div class="separator">Индивидуальная особенность</div>
+		<div th:utext="${feature}" class="card-body"></div>
+		<button class="btn btn-main btn-color-main dropdown-toggle" type="button" data-toggle="collapse" data-target="#pTable" aria-expanded="false" aria-controls="pTable">Таблица</button>
+		<div class="collapse" id="pTable">
+			<table class="table table-striped table-sm">
+				<th:block th:each="type : ${tables}">
+					<tr>
+						<td class="text-center" colspan="2"><strong th:text="${type.key.name}"></strong></td>
+					</tr>
+					<tr th:each="value, status : ${type.value}">
+						<td th:text="${status.index + 1}"></td>
+						<td th:utext="${value.text}"></td>
+					</tr>
+				</th:block>
+			</table>
 		</div>
+	</div>
 </body>
+<script type="text/javascript" layout:fragment="script">
+	function randomPers(bid, id, type) {
+		var ids = 'p' + id;
+		var element = document.getElementById(ids);
+		var url = '/hero/backgrounds/personalizare/feature?id=' + bid
+				+ '&type=' + type;
+		var elementId = '#' + ids;
+		$(elementId).load(url);
+	}
+</script>
 </html>

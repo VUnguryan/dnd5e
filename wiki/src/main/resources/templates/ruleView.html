@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<head>
+<title th:text="${rule.name}"></title>
+</head>
+<body>
+	<div class="container pb-5 pt-5" layout:fragment="content">
+		<div class="pt-3" th:object="${rule}">
+			<h5 class="main-header">
+				<span th:text="*{name}"> </span> (<span th:text="*{englishName}"></span>)
+			</h5>
+			<hr class="line1" />
+			<div th:utext="*{description}"></div>
+			<div class="text-right">
+				<small class="text-muted" th:if="${condition.book}" th:text="|Источник: ${condition.book.name}${condition.page eq null?'':', стр.' + condition.page}|"></small>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

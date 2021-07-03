@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,30 +23,17 @@ public class SettingRestController {
 	public String getSetting(HttpServletRequest req) {
 		Setting settings = (Setting) session.getAttribute(SETTINGS);
 		if (settings == null) {
-			settings = new Setting();
-			for (Cookie c : req.getCookies()) {
-				if (c.getName().equals("base")) {
-					settings.setBaseRule(Boolean.getBoolean(c.getValue()));
-				}
-				if (c.getName().equals("home")) {
-					settings.setHomeRule(Boolean.getBoolean(c.getValue()));
-				}
-				if (c.getName().equals("module")) {
-					settings.setModule(Boolean.getBoolean(c.getValue()));
-				}
-				if (c.getName().equals("setting")) {
-					settings.setSetting(Boolean.getBoolean(c.getValue()));
-				}
-			}
+			settings = readCoockies(req);
+			session.setAttribute(SETTINGS, settings);
 		}
 		return "OK";
 	}
 
 	@PostMapping("/settings/base")
-	public void changeBaseRule(boolean ruleSetting, HttpServletResponse response) {
+	public void changeBaseRule(boolean ruleSetting, HttpServletRequest req, HttpServletResponse response) {
 		Setting setting = (Setting) session.getAttribute(SETTINGS);
 		if (setting == null) {
-			setting = new Setting();
+			setting = readCoockies(req);
 		}
 		setting.setBaseRule(ruleSetting);
 		session.setAttribute(SETTINGS, setting);
@@ -56,10 +42,10 @@ public class SettingRestController {
 	}
 
 	@PostMapping("/settings/home")
-	public void changeHomeRule(boolean ruleSetting, HttpServletResponse response) {
+	public void changeHomeRule(boolean ruleSetting, HttpServletRequest req, HttpServletResponse response) {
 		Setting setting = (Setting) session.getAttribute(SETTINGS);
 		if (setting == null) {
-			setting = new Setting();
+			setting = readCoockies(req);
 		}
 		setting.setHomeRule(ruleSetting);
 		session.setAttribute(SETTINGS, setting);
@@ -68,10 +54,10 @@ public class SettingRestController {
 	}
 
 	@PostMapping("/settings/module")
-	public void changeModule(boolean ruleSetting, HttpServletResponse response) {
+	public void changeModule(boolean ruleSetting, HttpServletRequest req, HttpServletResponse response) {
 		Setting setting = (Setting) session.getAttribute(SETTINGS);
 		if (setting == null) {
-			setting = new Setting();
+			setting = readCoockies(req);
 		}
 		setting.setModule(ruleSetting);
 		session.setAttribute(SETTINGS, setting);
@@ -80,14 +66,31 @@ public class SettingRestController {
 	}
 
 	@PostMapping("/settings/setting")
-	public void changeSetting(boolean ruleSetting, HttpServletResponse response) {
+	public void changeSetting(boolean ruleSetting, HttpServletRequest req, HttpServletResponse response) {
 		Setting setting = (Setting) session.getAttribute(SETTINGS);
 		if (setting == null) {
-			setting = new Setting();
+			setting = readCoockies(req);
 		}
 		setting.setSetting(ruleSetting);
 		session.setAttribute(SETTINGS, setting);
-		Cookie cookie = new Cookie("setting", Boolean.toString(ruleSetting));
-		response.addCookie(cookie);
+	}
+
+	private Setting readCoockies(HttpServletRequest req) {
+		Setting settings = new Setting();
+		for (Cookie c : req.getCookies()) {
+			if (c.getName().equals("base")) {
+				settings.setBaseRule(Boolean.parseBoolean(c.getValue()));
+			}
+			if (c.getName().equals("home")) {
+				settings.setHomeRule(Boolean.parseBoolean(c.getValue()));
+			}
+			if (c.getName().equals("module")) {
+				settings.setModule(Boolean.parseBoolean(c.getValue()));
+			}
+			if (c.getName().equals("setting")) {
+				settings.setSetting(Boolean.parseBoolean(c.getValue()));
+			}
+		}
+		return settings;
 	}
 }

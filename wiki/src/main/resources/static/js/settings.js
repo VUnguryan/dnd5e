@@ -44,8 +44,3 @@ function processSettings(urlSufix, rule) {
 	    }
 	});
 }
-$(function() {
-	$('[data-toggle="tooltip"]').tooltip({
-	     'delay': { show: 600, hide: 100 }
-	});
-})

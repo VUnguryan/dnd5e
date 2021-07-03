@@ -16,7 +16,7 @@
 </style>
 </head>
 <body>
-	<div class="container" style="margin-top: 25px" layout:fragment="content">
+	<div class="container pb-5 pt-5" style="margin-top: 25px" layout:fragment="content">
 		<div th:insert="fragments/builder :: menu('class')"></div>
 		<div class="row">
 			<div class="col-md-12">
@@ -135,7 +135,7 @@
 					<div class="modal-body">
 						<img th:src="@{|/resources/classes/${heroClass.id}.png|}" height="70">
 						<div>
-							<strong>Кость хитов:</strong> к<span th:text="${heroClass.hitDice}"></span>
+							<strong>Кость хитов:</strong> к<span th:text="${heroClass.diceHp}"></span>
 						</div>
 						<div>
 							<strong>Основная характеристика:</strong> <span th:text="${heroClass.primaryAbilities}"></span>

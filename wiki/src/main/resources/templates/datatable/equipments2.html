@@ -132,7 +132,8 @@
 			        ],
 					language : {
 						processing : "Загрузка...",
-						search : "Поиск",
+						searchPlaceholder: "Поиск ",
+						search : "_INPUT_",
 						lengthMenu : "Показывать _MENU_ записей на странице",
 						zeroRecords : "Ничего не найдено",
 						info : "Показано с _START_ до _END_ из _TOTAL_",
@@ -170,13 +171,29 @@
 			var tr = $(this).closest('tr');
 			var row = table.row( tr );
 			var element = document.getElementById("info");
-			var name = '<h5 class="header">' + row.data().name + ' <small class="text-secondary">(' + row.data().englishName + ')'+'</small></h5>';
-			element.innerHTML = name + format(row.data());
+			element.innerHTML = format(row.data());
 		});
 	});
 	function format ( d ) {
-		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
-		info+= d.description + '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>';
+		var name = '<h5 class="main-header">' + d.name;
+		if (d.englishName){
+			 name+= ' <small class="text-secondary">(' +d.englishName + ')'+'</small>';
+		} 
+		var info = name + '</h5><hr class ="line1"/><p class ="mb-2 mt-1">';
+		info +='<div class="card main-description"><div class="card-body p-0 main-description-text">';
+		info += '<div class = "row justify-content-between">';
+		info += '<div class = "col">';
+		info += '<div><strong>Категории:</strong> ' + d.type + '</div>';
+		info += '<div><strong>Вес :</strong> ' + d.weight + ' фунта.</div>';
+		info += '<div><strong>Стоимость :</strong> ' + d.cost+ '</div>';
+		info += '</div>';
+		if (d.book) {
+			info += '<div class="col text-right">';
+			info += '<div class="text-color-opacity">'+ d.book + '</div>';
+		}
+		info += '</div>';
+		info += '</div></div></div>';
+		info += '<div class="pt-2">' + d.description + '</div>';
 		return info;
 	}
 	</script>

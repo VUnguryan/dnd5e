@@ -13,15 +13,6 @@
 img {
 	float: center;
 }
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
 </style>
 </head>
 <body>
@@ -45,10 +36,21 @@ tr.shown td.details-control {
 							<th>Среда обитания</th>
 							<th>English</th>
 							<th>Источник</th>
-							<th></th>
 						</tr>
 					</thead>
 				</table>
+				<div class="modal fade" id="creatureWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+						<div class="modal-content color-main-bg-500">
+							<div class="modal-body"></div>
+							<div class="modal-header color-main-bg-600">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -62,7 +64,7 @@ tr.shown td.details-control {
 			});
 		var table = $('#example').DataTable({
 			stateSave : true,
-			iDisplayLength : 25,
+			iDisplayLength : 15,
 			dom : 'Bfrtip',
 			processing : true,
 			serverSide : true,
@@ -76,7 +78,7 @@ tr.shown td.details-control {
 			},
 			{
 				data : "name",
-				width : "33%",
+				width : "40%",
 				render : function(data, type, row) {
 					if (type === 'display') {
 						return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '')
@@ -119,13 +121,6 @@ tr.shown td.details-control {
 				data : "book",
 				width : "10%",
 				searchable : false,
-			},
-			{
-				className : 'details-control',
-				searchable : false,
-				orderable : false,
-				defaultContent : '',
-				width : "1%"
 			},],
 			columnDefs : [{
 				searchPanes : {
@@ -234,16 +229,11 @@ tr.shown td.details-control {
 			},
 			ordering : true,
 		});
-		$('#example tbody').on('click', 'tr', function() {
-			var tr = $(this).closest('tr');
-			var row = table.row(tr);
-			if (row.child.isShown()) {
-				row.child.hide();
-				tr.removeClass('shown');
-			} else {
-				row.child(format(row.data())).show();
-				tr.addClass('shown');
-			}
+		$('#example tbody').on('click', 'tr', function () {
+    		var tr = $(this).closest('tr');
+	    	var row = table.row( tr );
+			$('#creatureWindow').find(".modal-body").html(format(row.data()));
+			$('#creatureWindow').modal('show');
 		});
 	});
 	function format(d) {

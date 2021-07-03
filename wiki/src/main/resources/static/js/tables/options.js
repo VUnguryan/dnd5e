@@ -84,7 +84,8 @@ $(document).ready(function() {
 		}],
 		language : {
 			processing : "Загрузка...",
-			search : "Поиск",
+			searchPlaceholder: "Поиск ",
+			search : "_INPUT_",
 			lengthMenu : "Показывать _MENU_ записей на странице",
 			zeroRecords : "Ничего не найдено",
 			info : "Показано с _START_ до _END_ из _TOTAL_",

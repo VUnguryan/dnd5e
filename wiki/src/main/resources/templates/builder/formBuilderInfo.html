@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
 <head>
-<title>DnD 5E Персонаж</title>
+<title>Создание персонажа</title>
 <meta charset="utf-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,7 +23,7 @@
 </head>
 <body>
 	<div th:insert="fragments/header :: header(~{ :: .conditions})"></div>
-	<div class="container" style="margin-top: 20px" th:object="${hero}">
+	<div class="container pt-5 pb-5" style="margin-top: 20px" th:object="${hero}">
 		<form th:action="@{'/tavern/hero/' + ${hero.id}}" method="post">
 			<button type="submit" class="btn btn-secondary">Сохранить</button>
 			<input hidden="true" th:value="*{user.id}" th:field="*{user.id}" />

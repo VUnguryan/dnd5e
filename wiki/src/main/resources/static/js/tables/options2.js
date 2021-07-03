@@ -5,7 +5,6 @@ $(document).ready(function() {
 		column.visible( ! column.visible() );
 	});
 	var table = $('#options2').DataTable( {
-		iDisplayLength : 25,
 		dom: '<"top"<"left-col"f><"right-col"B>>rti',
 		serverSide : true,
 		ajax : '/options',
@@ -86,7 +85,8 @@ $(document).ready(function() {
 			}],
 			language : {
 				processing : "Загрузка...",
-				search : "Поиск",
+				searchPlaceholder: "Поиск ",
+				search : "_INPUT_",
 				lengthMenu : "Показывать _MENU_ записей на странице",
 				zeroRecords : "Ничего не найдено",
 				info : "Показано с _START_ до _END_ из _TOTAL_",
@@ -94,8 +94,8 @@ $(document).ready(function() {
 				infoFiltered : "(filtered from _MAX_ всего)",
 				paginate : {
 					first : "В начало",
-					previous : "Предыдущая",
-					next : "Следущая",
+					previous : "<",
+					next : ">",
 					last : "В конец"
 				},
 				searchPanes: {

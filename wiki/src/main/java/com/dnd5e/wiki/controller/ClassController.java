@@ -29,7 +29,7 @@ import com.dnd5e.wiki.repository.ClassRepository;
 import com.dnd5e.wiki.util.SourceUtil;
 
 @Controller
-@RequestMapping("/hero/classes")
+@RequestMapping("/classes")
 public class ClassController {
 	@Autowired
 	private HttpSession session;
@@ -59,7 +59,7 @@ public class ClassController {
 		return "classes";
 	}
 
-	@GetMapping("/fragment/class/{id}")
+	@GetMapping("/fragment/{id}")
 	public String getFragmentClasses(Model model, Device device, @PathVariable Integer id) {
 		model.addAttribute("device", device);
 		HeroClass heroClass = classRepo.findById(id).get();
@@ -94,9 +94,22 @@ public class ClassController {
 	}
 
 	@GetMapping("/class/{id}")
-	public String getClass(Model model, Device device, @PathVariable Integer id) {
+	public String getClassById(Model model, Device device, @PathVariable Integer id) {
 		model.addAttribute("device", device);
 		HeroClass heroClass = classRepo.findById(id).get();
+		geClassInfo(model, heroClass);
+		return "classView";
+	}
+	
+	@GetMapping("/{name}")
+	public String getClassByName(Model model, Device device, @PathVariable String name) {
+		model.addAttribute("device", device);
+		HeroClass heroClass = classRepo.findByEnglishName(name);
+		geClassInfo(model, heroClass);
+		return "classView";
+	}
+
+	private void geClassInfo(Model model, HeroClass heroClass) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		List<Archetype> archetypes = heroClass.getArchetypes().stream()
@@ -124,24 +137,23 @@ public class ClassController {
 		model.addAttribute("heroClass", heroClass);
 		model.addAttribute("archetypeTraits", archetypeTraits);
 		model.addAttribute("order", "[[ 1, 'asc' ]]");
-		return "classView";
 	}
 	
-	@GetMapping("/class/{id}/archetype/{archetypeId}")
-	public String getClassAndArchetype(Model model, Device device, @PathVariable Integer id, @PathVariable Integer archetypeId) {
+	@GetMapping("/{className}/{archetypeName}")
+	public String getByClassIdAndByArchetypeId(Model model, Device device, @PathVariable String className, @PathVariable String archetypeName) {
+		//archetypeName = archetypeName.replace('_', ' ');
 		model.addAttribute("device", device);
-		HeroClass heroClass = classRepo.findById(id).get();
+		HeroClass heroClass = classRepo.findByEnglishName(className);
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		List<Archetype> archetypes = heroClass.getArchetypes();
 		archetypes = heroClass.getArchetypes().stream()
-				.filter(a -> sources.contains(a.getBook().getType()) || a.getId()==archetypeId)
+				.filter(a -> sources.contains(a.getBook().getType()) || archetypeName.equalsIgnoreCase(a.getEnglishName()))
 				.collect(Collectors.toList());
 		Collections.sort(archetypes, Comparator.comparing(Archetype::getBook));
-		//heroClass.setArchetypes(archetypes); //FIXME
 		model.addAttribute("archetypes", archetypes);
 		heroClass.setArchetypes(heroClass.getArchetypes().stream()
-				.filter(a -> a.getId().equals(archetypeId))
+				.filter(a -> archetypeName.equalsIgnoreCase(a.getEnglishName()))
 				.collect(Collectors.toList()));
 
 		List<ClassFetureDto> features = new ArrayList<>();
@@ -151,11 +163,11 @@ public class ClassController {
 			.forEach(f -> features.add(f));
 		Archetype archetype = heroClass.getArchetypes()
 				.stream()
-				.filter(a -> a.getId().equals(archetypeId))
+				.filter(a -> archetypeName.equalsIgnoreCase(a.getEnglishName()))
 				.findFirst().orElseGet(Archetype::new);
 
 		ClassFetureDto feature = new ClassFetureDto();
-		feature.setId(archetypeId);
+		feature.setId(archetype.getId());
 		feature.setLevel(archetype.getLevel());
 		feature.setDescription(archetype.getDescription());
 		feature.setName(archetype.getName());
@@ -174,7 +186,7 @@ public class ClassController {
 		
 		model.addAttribute("heroClass", heroClass);
 		model.addAttribute("features", features);
-		model.addAttribute("selectedArchetypeId", archetypeId);
+		model.addAttribute("selectedArchetypeId", archetype.getId());
 		model.addAttribute("selectedArchetype", archetype);
 		model.addAttribute("archetypeSpells", archetype.getSpells().stream().filter(s-> s.getLevel() != 0).collect(Collectors.toList()));
 		model.addAttribute("order", "[[ 1, 'asc' ]]");

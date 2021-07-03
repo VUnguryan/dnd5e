@@ -29,6 +29,18 @@ img {
 						</tr>
 					</thead>
 				</table>
+				<div class="modal fade" id="mtWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm">
+						<div class="modal-content color-main-bg-500">
+							<div class="modal-body"></div>
+							<div class="modal-header color-main-bg-600">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -223,8 +235,8 @@ img {
 						infoFiltered : "(filtered from _MAX_ всего)",
 						paginate : {
 							first : "В начало",
-							previous : "Предыдущая",
-							next : "Следущая",
+							previous : "<",
+							next : ">",
 							last : "В конец"
 						},
 						searchPanes: {
@@ -239,21 +251,20 @@ img {
 					},
 					ordering : true,
 				});
-	$('#example tbody').on('click', 'tr', function () {
-    	var tr = $(this).closest('tr');
-    	var row = table.row( tr );
-	    if ( row.child.isShown() ) {
-        	row.child.hide();
-        	tr.removeClass('shown');
-    	}
-    	else {
-        	row.child( format(row.data()) ).show();
-       		tr.addClass('shown');
-   		}
+		$('#example tbody').on('click', 'tr', function () {
+    		var tr = $(this).closest('tr');
+	    	var row = table.row( tr );
+			$('#mtWindow').find(".modal-body").html(format(row.data()));
+			$('#mtWindow').modal('show');
 	});
 });
-function format ( d ) {
-		var info = '<p><em>' + d.type ;
+	function format ( d ) {
+		var name = '<h5 class="main-header">'	+ d.name;
+		if (d.englishName !== null) {
+			name += ' <small class="text-secondary">('+ d.englishName+ ')' + '</small>';
+		}
+		name += '</h5>';
+		var info = name + '<hr class ="line1" align="center" size="5" color="#822000" /><p><em>' + d.type ;
 		if (d.adType) {
 			info += ' (' + d.adType + ')';
 		}

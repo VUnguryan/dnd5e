@@ -15,7 +15,7 @@ public abstract interface ClassRepository extends JpaRepository<HeroClass, Integ
 	@Query("select h from HeroClass h inner join h.spells s where s.name = :spellName")
 	List<HeroClass> findBySpellName(@Param("spellName") String paramString);
 
-	List<HeroClass> findByNameContaining(String paramString);
+	HeroClass findByEnglishName(String name);
 
 	@Query("SELECT c FROM HeroClass c WHERE c.book.type IN :types")
 	List<HeroClass> findAllBySources(@Param("types") Iterable<TypeBook> types);

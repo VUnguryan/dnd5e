@@ -16,12 +16,19 @@ img {
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container pb-5">
+		<div class="container pb-5" th:with="window=${true}">
 			<div th:object="${heroClass}" th:fragment="heroClass">
-				<h5 class="main-header">
-					<th:block th:text="*{name}" />
-					<small th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
-				</h5>
+				<div class="row justify-content-between align-items-center">
+					<div class="col main-header pt-3">
+						<div class="main-header">
+							<th:block th:text="*{name}" />
+							<small th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"></small>
+						</div>
+					</div>
+					<div th:unless = "${window}" class="col text-right align-self-end">
+						<a target="_blank" class="btn-square-outline btn-color-main-outline" th:href="@{|/classes/${heroClass.englishName}|}">Ссылка</a>
+					</div>
+				</div>
 				<hr class="line1" />
 				<ul class="nav nav-tabs" id="nav-tabs" role="tablist">
 					<li class="nav-item" role="presentation"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Навыки</a></li>
@@ -33,23 +40,24 @@ img {
 						th:if="${heroClass.optionType}" th:text="${heroClass.optionType.displayName}"
 					>Опции</a></li>
 				</ul>
-				
 				<div class="tab-content" id="classTabContent">
 					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-						<button th:if="${device.mobile}" th:text="*{archetypeName}" class="btn btn-main color-primary-500 pt-2 pb-2" type="button" data-toggle="collapse" data-target="#archetypesButton" aria-expanded="false" aria-controls="archetypesButton">
-						</button>
+						<button th:if="${device.mobile}" th:text="*{archetypeName}" class="btn btn-main color-primary-500" type="button" data-toggle="collapse" data-target="#archetypesButton"
+							aria-expanded="false" aria-controls="archetypesButton"
+						></button>
 						<div id="archetypesButton" class="" th:classappend="${device.mobile} ? collapse: ''">
 							<div class="row justify-content-start pl-2 row-cols-sm-3 row-cols-md-4">
 								<div class="pl-2 pr-2 pb-1 pt-1" th:each="archetype : *{archetypes}">
 									<th:block th:switch="${archetype.book.type.name()}">
 										<a th:case="'OFFICAL'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
-											th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
-										></a>
-										<a th:case="'CUSTOM'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
-											th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
+											th:href="@{|/classes/*{englishName}/${archetype.englishName}|}" th:text="${archetype.name.toLowerCase()}"
 										></a>
 										<a th:case="'SETTING'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
-											th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
+											th:href="@{|/classes/*{englishName}/${archetype.englishName}|}" th:text="|${archetype.name.toLowerCase()} (${archetype.book.source})|"
+										></a>
+										
+										<a th:case="'CUSTOM'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : 'btn-outline btn-color-main-outline'"
+											th:href="@{|/classes/*{englishName}/${archetype.englishName}|}" th:text="|${archetype.name.toLowerCase()} (${archetype.book.source})|"
 										></a>
 									</th:block>
 								</div>
@@ -246,7 +254,6 @@ img {
 										<th>Уровень</th>
 										<th>Источник</th>
 										<th>englishName</th>
-										<th></th>
 									</tr>
 								</thead>
 							</table>
@@ -258,19 +265,18 @@ img {
 						<i class="fa fa-chevron-up"></i>
 					</button>
 				</div>
-		<div class="modal fade" id="spellWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-				<div class="modal-content color-main-bg-500">
-					<div class="modal-header color-main-bg-600">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
+				<div class="modal fade" id="spellWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+						<div class="modal-content color-main-bg-500">
+							<div class="modal-header color-main-bg-600">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body"></div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
 				<script th:src="@{/resources/js/tables/spells.js}" layout:fragment="datatable1"></script>
 				<script th:src="@{/resources/js/tables/options.js}" layout:fragment="datatable2"></script>
 				<script th:src="@{/resources/js/tables/spell.modal.js}" layout:fragment="datatable3"></script>

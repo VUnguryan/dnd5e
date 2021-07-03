@@ -1,14 +1,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
 <head>
-<title>Состояния</title>
+<title>Термины и правила</title>
 </head>
 <body>
-	<table id="conditions" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
+	<table id="rules" class="table table-hover table-sm  color-main-bg-500" layout:fragment="content">
 		<thead>
 			<tr>
-				<th>Тип</th>
-				<th>Состояния</th>
+				<th>Правило</th>
+				<th>Категория</th>
 				<th>English</th>
 			</tr>
 		</thead>
@@ -21,13 +21,9 @@
 				'data-column'));
 				column.visible(!column.visible());
 		});
-		$('#conditions').one('preXhr.dt', function(e, settings, data) {
-			data.searchPanes = {};
-			data.searchPanes["type.0"] =  'Состояние';
-		})
-		var table = $('#conditions').DataTable({ rowCallback : function( row, data ) {
+		var table = $('#rules').DataTable({ rowCallback : function( row, data ) {
 			var url = window.location.href;
-			var hash = url.substring(url.indexOf("#") + 1);
+			var hash = decodeURI(url.substring(url.indexOf("#") + 1));
 			if ( data.englishName == hash) {
 				table.row(row.rowIndex-1).select();
 				var tr = $(this).closest('tr');
@@ -36,25 +32,22 @@
 				element.innerHTML = format(data);
 			}
 		},
-		searchPanes : true,
+		paging : false,
 		dom: '<"top"<"left-col"f><"right-col"B>>rti',
 		serverSide : true,
 		select: {
 			style: 'single'
 		},
-		ajax : '/conditions',
+		ajax : '/data/rules',
 		scrollY : "65vh",
 		scrollCollapse : true,
 		scroller : true,
-		paging : false,
 		columns : [
 		{
-			data : 'type',
-			width : "1%",
-		},
-		{
 			data : "name",
-			width : "20%",
+			width : "30%",
+			searchable : true,
+			orderable : true,
 			render : function(data, type, row) {
 				if (type === 'display') {
 					return '<a class="text-reset text-decoration-none" href="#'+ row.englishName+'"><h6>'
@@ -67,6 +60,10 @@
 			},
 		},
 		{
+			data : 'type',
+			width : "1%",
+		},
+		{
 			data : 'englishName',
 			width : "1%",
 			orderable : true,
@@ -74,32 +71,35 @@
 		],
 		columnDefs : [
 		{
-			searchPanes : {
-			preSelect : [ 'Состояние' ],
-		},
-			"targets" : [ 0 ],
+			"targets" : [ 1 ],
 			"visible" : false,
 		},
 		{
 			"targets" : [ 2 ],
 			"visible" : false,
-		}, ],
+		},],
 		buttons : [
-            {
-                extend: 'searchPanes',
-            	className: 'btn-main btn-sm btn-color-main',
-            },
-            {
-				extend : 'colvis',
-				text : 'Столбцы',
-            	className: 'btn-main btn-sm btn-color-main',
-				buttons : [
-				{
-					text : 'Тип',
-					action : function(e, dt, node, config) {
-						dt.column(0).visible(!dt.column(0).visible());
-					}
-				},],
+		{
+			extend: 'searchPanes',
+			className: 'btn-main btn-sm btn-color-main',
+		},
+		{
+			extend : 'colvis',
+			text : 'Столбцы',
+			className: 'btn-main btn-sm btn-color-main',
+			buttons : [
+			{
+				text : 'Тип',
+				action : function(e, dt, node, config) {
+					dt.column(1).visible(!dt.column(1).visible());
+				}
+			},
+			{
+				text : 'English name',
+				action : function(e, dt, node, config) {
+					dt.column(2).visible(!dt.column(2).visible());
+				}
+			},],
 		}],
 		language : {
 			processing : "Загрузка...",
@@ -125,10 +125,10 @@
 				},
 				collapse : 'Фильтры (%d)'
 			}
-		},
-		ordering : true,
-	});
-	$('#conditions tbody').on('click','tr',	function() {
+			},
+			ordering : true,
+		});
+	$('#rules tbody').on('click','tr',	function() {
 		var tr = $(this).closest('tr');
 		var row = table.row( tr );
 		var element = document.getElementById("info");

@@ -29,7 +29,6 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Background;
-import com.dnd5e.wiki.model.hero.Trait;
 import com.dnd5e.wiki.repository.BackgroundRepository;
 import com.dnd5e.wiki.util.SourceUtil;
 

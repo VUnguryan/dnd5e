@@ -89,7 +89,6 @@ body>.container-fluid {
 	font-size: 8px;
 	line-height: 14px;
 }
-
 .badge-info {
 	background-color: #F0D46C;
 }
@@ -123,6 +122,9 @@ body>.container-fluid {
 	border-radius: 8px;
 	padding: 8px 16px;
 	border: 1px solid;
+}
+.btn-outline:hover{
+	border-color: #CAB887;
 }
 .btn-color-main{
 	background-color: #949169;
@@ -162,6 +164,10 @@ body>.container-fluid {
 	background-color: #5A583F;
 	border-radius: 8px;
 	padding: 8px 16px;
+	color: #FFFFFF;
+}
+.btn-focus-dark:hover{
+	background-color: #777555;
 	color: #FFFFFF;
 }
 .btn-normal-dark:hover{

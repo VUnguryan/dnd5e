@@ -5,7 +5,8 @@
 <body>
 	<div class="container pb-5 pt-5" layout:fragment="content">
 		<div class= "pt-3" th:object="${magicThing}">
-			<h5 class="main-header"><span th:text="*{name}"></span> <small class="text-secondary" th:text="|(*{englishName})|"></small></h5>
+			<div class="main-header"><span th:text="*{name}"></span> <small class="text-secondary" th:text="|(*{englishName})|"></small></div>
+			<hr class ="line1" align="center" size="5" color="#822000" />
 			<div>
 				<em th:text="*{type.cyrilicName}"> <span th:text="${#strings.listJoin(magicThing.weapons, ',')}"></span></em>, <em th:text="*{rarity.cyrilicName}"> </em><em th:if="*{customization}">
 					(требуется настройка<span th:if="*{custSpecial}" th:text="| *{custSpecial}|"></span><span th:each="custclass : *{custClasses}" th:text="${' ' + #strings.toLowerCase(custclass.name) + 'ом'}"></span>)

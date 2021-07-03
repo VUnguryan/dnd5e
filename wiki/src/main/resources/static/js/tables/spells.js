@@ -366,5 +366,4 @@ $(document).ready(function() {
 		},
 		ordering : true,
 	});
-
 });

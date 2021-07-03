@@ -20,7 +20,7 @@ img {
 			<h5 class="main-header">
 				<th:block th:text="*{name}" />
 				<small><a th:href="|#ad${selectedArchetypeId}|" class="title" th:text="${archetypeName}" th:onclick="|slowScroll('#ad${selectedArchetypeId}')|"></a></small> <small class="text-muted"
-					th:if="*{englishName}" th:text="*{'(' + englishName + ')'}"
+					th:if="*{englishName}" th:text="|(*{englishName} ${selectedArchetype.englishName})|"
 				></small>
 			</h5>
 			<hr class="line1" />
@@ -39,20 +39,21 @@ img {
 			</ul>
 			<div class="tab-content" id="classTabContent">
 				<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<button th:if="${device.mobile}" th:text="*{archetypeName}" class="btn btn-main color-primary-500 pt-2 pb-2" type="button" data-toggle="collapse" data-target="#archetypesButton" aria-expanded="false" aria-controls="archetypesButton">
+					<button th:if="${device.mobile}" th:text="*{archetypeName}" class="btn btn-main color-primary-500" type="button" data-toggle="collapse" data-target="#archetypesButton" aria-expanded="false" aria-controls="archetypesButton">
 					</button>
 					<div id="archetypesButton" class="" th:classappend="${device.mobile} ? collapse: ''">
 						<div class="row justify-content-start pl-2 row-cols-sm-3 row-cols-md-4">
 							<div class="pl-2 pr-2 pb-1 pt-1" th:each="archetype : ${archetypes}">
 								<th:block th:switch="${archetype.book.type.name()}">
 									<a th:case="'OFFICAL'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
-										th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
+										th:href="@{|/classes/*{englishName}/${archetype.englishName}|}" th:text="${archetype.name.toLowerCase()}"
 									></a>
-									<a th:case="'CUSTOM'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark" th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}"
-										th:text="${archetype.name.toLowerCase()}"
+									<a th:case="'CUSTOM'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : 'btn-outline btn-color-main-outline'" 
+									th:href="@{|/classes/*{englishName}/${archetype.englishName}|}"
+										th:text="|${archetype.name.toLowerCase()} (${archetype.book.source})|"
 									></a>
 									<a th:case="'SETTING'" class="btn" th:classappend="${archetype.id eq selectedArchetypeId} ? btn-focus-dark : btn-normal-dark"
-										th:href="@{|/hero/classes/class/*{id}/archetype/${archetype.id}|}" th:text="${archetype.name.toLowerCase()}"
+										th:href="@{|/classes/*{englishName}/${archetype.englishName}|}" th:text="|${archetype.name.toLowerCase()} (${archetype.book.source})|"
 									></a>
 								</th:block>
 							</div>
@@ -63,14 +64,11 @@ img {
 							<div class="row">
 								<div class="col-7">
 									<div>
-										<b>Кость Хитов:</b> 1к
-										<th:block th:text="*{diceHp}" />
-										за каждый уровень
+										<b>Кость Хитов:</b> 1к[[*{diceHp}]] за каждый уровень
 									</div>
 									<div>
 										<b>Хиты на 1 уровне:</b>
-										<th:block th:text="*{diceHp}" />
-										+ ваш модификатор Телосложения
+										<th:block th:text="*{diceHp}" /> + ваш модификатор Телосложения
 									</div>
 									<div>
 										<b>Хиты на следующих уровнях:</b> 1к[[*{diceHp}]] (или [[*{diceHp/2 + 1}]]) + модификатор <em>Телосложения</em> за каждый уровень этого класса, после первого

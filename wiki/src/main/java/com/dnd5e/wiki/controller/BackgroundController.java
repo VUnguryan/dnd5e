@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dnd5e.wiki.model.hero.Background;
 import com.dnd5e.wiki.model.hero.Personalization;
@@ -60,5 +62,12 @@ public class BackgroundController {
 		String feature = features.get(rnd.nextInt(features.size())).getText();
 		model.addAttribute("feature", feature);
 		return "hero/personalizare";
+	}
+	
+	@GetMapping("/personalizare/feature")
+	@ResponseBody
+	public String getRandomPersonalizare(@RequestParam int id, @RequestParam PersonalizationType type) {
+		List<Personalization> personalizations = repo.findAllByIdAndByType(id, type);
+		return personalizations.get(rnd.nextInt(personalizations.size())).getText();
 	}
 }

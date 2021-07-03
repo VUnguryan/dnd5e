@@ -11,7 +11,6 @@ import java.util.Set;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,8 +38,6 @@ import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureFeat;
 import com.dnd5e.wiki.model.creature.CreatureSize;
 import com.dnd5e.wiki.model.creature.CreatureType;
-import com.dnd5e.wiki.model.hero.Option;
-import com.dnd5e.wiki.model.hero.Option.OptionType;
 import com.dnd5e.wiki.model.spell.GroupByCount;
 import com.dnd5e.wiki.repository.datatable.CreatureDatatableRepository;
 import com.dnd5e.wiki.util.SourceUtil;
