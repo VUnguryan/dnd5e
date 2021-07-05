@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.dnd5e.wiki.model.creature.Action;
-import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.ArmorType;
+import com.dnd5e.wiki.model.creature.Condition;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.HabitatType;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.Skill;
-import com.dnd5e.wiki.model.creature.Condition;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

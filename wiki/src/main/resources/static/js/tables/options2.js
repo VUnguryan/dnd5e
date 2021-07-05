@@ -5,15 +5,17 @@ $(document).ready(function() {
 		column.visible( ! column.visible() );
 	});
 	var table = $('#options2').DataTable( {
+		stateSave: true,
 		dom: '<"top"<"left-col"f><"right-col"B>>rti',
 		serverSide : true,
 		ajax : '/options',
 		scrollY: "65vh",
+		scrollX: "65vh",
 		scrollCollapse: true,
 		scroller: true,
 		paging: false,
 		select: {
-		style: 'single'
+			style: 'single'
 		},
 		autoWidth: false,
 		columns : [{
@@ -75,13 +77,12 @@ $(document).ready(function() {
 				text: 'Столбцы',
             	className: 'btn-main btn-sm btn-color-main',
 				buttons: [
-					{
-						text: 'Источник',
-						action: function ( e, dt, node, config ) {
-							dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
-						}
-					},
-					]
+				{
+					text: 'Источник',
+					action: function ( e, dt, node, config ) {
+						dt.column( 4 ).visible( ! dt.column( 4 ).visible() );
+					}
+				},]
 			}],
 			language : {
 				processing : "Загрузка...",
@@ -107,7 +108,7 @@ $(document).ready(function() {
 					},
 					collapse: 'Фильтры (%d)'
 				},
-			},
-			ordering : true,
-		});
+		},
+		ordering : true,
+	});
 });

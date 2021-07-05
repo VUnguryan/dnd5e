@@ -1,6 +1,5 @@
 package com.dnd5e.wiki.repository.datatable;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;

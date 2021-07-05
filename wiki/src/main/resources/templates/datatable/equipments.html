@@ -1,20 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/datatable-mobile-layout}">
 <head>
 <title>Снаряжение</title>
-<style>
-img {
-	float: center;
-}
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
-</style>
 </head>
 <body>
 	<div class="container pt-3" layout:fragment="content">
@@ -49,7 +35,7 @@ tr.shown td.details-control {
 	        dom: 'Bfrtip',
 			processing : true,
 	        serverSide : true,
-			ajax : '/equipments',
+			ajax : '/data/equipments',
 			columns : [
 						{
 							data : "name",
@@ -146,7 +132,8 @@ tr.shown td.details-control {
 			        ],
 					language : {
 						processing : "Загрузка...",
-						search : "Поиск",
+						searchPlaceholder: "Поиск ",
+						search : "_INPUT_",
 						lengthMenu : "Показывать _MENU_ записей на странице",
 						zeroRecords : "Ничего не найдено",
 						info : "Показано с _START_ до _END_ из _TOTAL_",

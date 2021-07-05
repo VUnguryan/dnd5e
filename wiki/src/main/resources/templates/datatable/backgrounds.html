@@ -15,7 +15,7 @@ img {
 	<div class="container pt-3" layout:fragment="content">
 		<div class="row">
 			<div class="col-lg-10 mt-3 mb-3">
-				<table id="example" class="table table-hover  table-sm" style="width: 100%">
+				<table id="backgrounds" class="table table-hover  table-sm" style="width: 100%">
 					<thead>
 						<tr>
 							<th>Предыстория</th>
@@ -49,14 +49,13 @@ img {
 	        var column = table.column( $(this).attr('data-column') );
 	        column.visible( ! column.visible() );
 	    });
-
-		var table = $('#example').DataTable( {
+		var table = $('#backgrounds').DataTable( {
 			stateSave: true,
 			iDisplayLength : 25,
 	        dom: 'Bfrtip',
 			processing : true,
 	        serverSide : true,
-			ajax : '/backgrounds',
+			ajax : '/data/backgrounds',
 			columns : [
 						{
 							data : "name",
@@ -176,7 +175,7 @@ img {
 					},
 					ordering : true,
 				});
-	$('#example tbody').on('click', 'tr', function () {
+	$('#backgrounds tbody').on('click', 'tr', function () {
     		var tr = $(this).closest('tr');
 	    	var row = table.row( tr );
 			$('#backgroundWindow').find(".modal-body").html(format(row.data()));

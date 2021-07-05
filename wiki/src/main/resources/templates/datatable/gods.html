@@ -7,15 +7,6 @@
 p.text-justify {
     text-indent: 15px; 
 }
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
 </style>
 </head>
 <body>
@@ -53,138 +44,135 @@ tr.shown td.details-control {
 	        dom: 'Bfrtip',
 			processing : true,
 	        serverSide : true,
-			ajax : '/gods',
+			ajax : '/data/gods',
 			columns : [
-						{
-							data : "name",
-							width : "30%", 
-							render : function(data, type, row) {
-								if (type === 'display') {
-									return '<h6>' + data + (row.englishName ? '<small> (' + row.englishName + ')</small>' : '') + '</h6> ' + '<div class="text-secondary">' + row.sex + ' ' + row.commitment + '</div>';
-								}
-								return data;
-							}, 
+			{
+				data : "name",
+				width : "30%",
+				render : function(data, type, row) {
+					if (type === 'display') {
+						return '<h6>' + data + (row.englishName ? '<small> (' + row.englishName + ')</small>' : '') + '</h6> ' + '<div class="text-secondary">' + row.sex + ' ' + row.commitment + '</div>';
+					}
+					return data;
+				},
+			},
+			{
+				data : "aligment",
+				width : "5%",
+				className: "text-center",
+			},
+			{
+				data : "englishName",
+				width : "10%",
+			},
+			{
+				data : "domains",
+				width : "10%",
+				searchable: false,
+				className: "text-center",
+			},
+			{
+				data : "sex",
+				width : "3%",
+				searchable: false,
+				className: "text-center",
+			},
+			{
+				data : "nicknames",
+				width : "10%",
+			},
+			{
+				data : "rank",
+				searchable: false,
+				width : "15%",
+			},
+			{
+				data : "pantheon",
+				searchable: false,
+				width : "15%",
+			},
+			{
+				className : 'details-control',
+				searchable: false,
+				orderable: false,
+				defaultContent : '',
+				width : "1%"
+			},],
+			columnDefs : [
+			{
+				targets : [ 2 ],
+				visible : false
+			},
+			{
+				targets: [ 3 ],
+				visible: false
+			},
+			{
+				targets: [ 4 ],
+				visible: false
+			},
+			{
+				targets: [ 5 ],
+				visible: false
+			},
+			{
+				targets: [ 6 ],
+				visible: false
+			},
+			{
+				targets: [ 7 ],
+				visible: false
+			},],
+			buttons: [
+			{
+				extend: 'searchPanes',
+				className: 'btn-main btn-sm btn-color-main',
+			},
+			{
+				extend: 'colvis',
+				text: 'Столбцы',
+				className: 'btn-main btn-sm btn-color-main',
+				buttons: [
+				{
+					text: 'Домены',
+					action: function ( e, dt, node, config ) {
+						dt.column(3).visible(!dt.column(3).visible() );
+					}
+				},
+				{
+					text: 'Пантеон',
+					action: function ( e, dt, node, config ) {
+						dt.column(7).visible(!dt.column(7).visible() );
+					}
+				},]
+			}],
+			language : {
+				processing : "Загрузка...",
+				searchPlaceholder: "Поиск ",
+				search : "_INPUT_",
+				lengthMenu : "Показывать _MENU_ записей на странице",
+				zeroRecords : "Ничего не найдено",
+				info : "Показано с _START_ до _END_ из _TOTAL_",
+				infoEmpty : "Нет доступных записей",
+				infoFiltered : "(filtered from _MAX_ всего)",
+				paginate : {
+					first : "В начало",
+					previous : "Предыдущая",
+					next : "Следущая",
+					last : "В конец"
+				},
+				searchPanes: {
+					clearMessage : "Сбросить",
+					title : {
+						_: 'Отфильтровано - %d',
+						0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
+						1: 'Один фильтр выбран',
 						},
-						{
-							data : "aligment",
-							width : "5%",
-						    className: "text-center",
-						},
-						{
-							data : "englishName",
-							width : "10%",
-						}, 
-						{
-							data : "domains",
-							width : "10%",
-						    searchable: false,
-						    className: "text-center",
-						}, 
-						{
-							data : "sex",
-							width : "3%",
-						    searchable: false,
-						    className: "text-center",
-						},
-						{
-							data : "nicknames",
-							width : "10%",
-						},
-						{
-							data : "rank",
-						    searchable: false,
-							width : "15%",
-						},
-						{
-							data : "pantheon",
-						    searchable: false,
-							width : "15%",
-						},
-						{
-							className : 'details-control',
-						    searchable: false,
-						    orderable: false,
-							defaultContent : '',
-							width : "1%"
-						},
-					],
-					columnDefs : [
-			            {
-			                targets : [ 2 ],
-			                visible : false
-			            },
-			            {
-			                "targets": [ 3 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 4 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 5 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 6 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 7 ],
-			                "visible": false
-				        },
-				    ],
-				    buttons: [
-			            {
-			                extend: 'searchPanes',
-			            	className: 'btn-main btn-sm btn-color-main',
-			            },
-			            {
-			        		extend: 'colvis',
-			                text: 'Столбцы',
-			            	className: 'btn-main btn-sm btn-color-main',
-			                buttons: [
-			                    {
-			                        text: 'Домены',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column(3).visible(!dt.column(3).visible() );
-			                        }
-			                    },
-			                    {
-			                        text: 'Пантеон',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column(7).visible(!dt.column(7).visible() );
-			                        }
-			                    },
-			                ]
-			            }
-			        ],
-					language : {
-						processing : "Загрузка...",
-						search : "Поиск",
-						lengthMenu : "Показывать _MENU_ записей на странице",
-						zeroRecords : "Ничего не найдено",
-						info : "Показано с _START_ до _END_ из _TOTAL_",
-						infoEmpty : "Нет доступных записей",
-						infoFiltered : "(filtered from _MAX_ всего)",
-						paginate : {
-							first : "В начало",
-							previous : "Предыдущая",
-							next : "Следущая",
-							last : "В конец"
-						},
-						searchPanes: {
-							clearMessage : "Сбросить",
-				            title : {
-				                    _: 'Отфильтровано - %d',
-				                    0: 'Фильтры не активны (Ctrl или Shift для множественного выбора)',
-				                    1: 'Один фильтр выбран',
-				            },
-				            collapse: 'Фильтры (%d)'
-				        },
+						collapse: 'Фильтры (%d)'
 					},
-					ordering : true,
-				});
+				},
+				ordering : true,
+			});
 	$('#example tbody').on('click', 'tr', function () {
     	var tr = $(this).closest('tr');
     	var row = table.row( tr );

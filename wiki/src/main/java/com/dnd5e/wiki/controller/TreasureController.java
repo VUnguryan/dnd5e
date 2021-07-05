@@ -14,7 +14,8 @@ import com.dnd5e.wiki.model.treasure.MagicThing;
 @RequestMapping("/stock")
 public class TreasureController {
 	@GetMapping("/artifacts")
-	public String getMagicThings(Device device) {
+	public String getMagicThings(Model model, Device device) {
+		model.addAttribute("device", device);
 		if (device.isMobile()) {
 			return "datatable/magicThings";	
 		}
@@ -22,13 +23,15 @@ public class TreasureController {
 	}
 	
 	@GetMapping("/artifacts/{magicThing}")
-	public String getMagicThing(Model model, @PathVariable MagicThing magicThing) {
+	public String getMagicThing(Model model, Device device, @PathVariable MagicThing magicThing) {
+		model.addAttribute("device", device);
 		model.addAttribute("magicThing", ResponseEntity.ok(magicThing).getBody());
 		return "equipment/magicalThingView";
 	}
 	
 	@GetMapping("/treasures")
-	public String getTreasures() {
+	public String getTreasures(Model model, Device device) {
+		model.addAttribute("device", device);
 		return "datatable/treasures";
 	}
 }

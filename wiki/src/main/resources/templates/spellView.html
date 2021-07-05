@@ -77,14 +77,14 @@ img {
 			<hr class="mb-2 mt-1" align="center" size="5" color="#822000" />
 			<div th:unless="*{heroClass.empty}">
 				<div>
-					Классы: <a class="btn btn-square-outline btn-color-main-outline" th:each="hero : *{heroClass}" th:href="@{|/hero/classes/class/${hero.id}|}"> <img data-toggle="tooltip" data-placement="top"
+					Классы: <a class="btn btn-square-outline btn-color-main-outline" th:each="hero : *{heroClass}" th:href="@{|/classes/${hero.englishName}|}"> <img data-toggle="tooltip" data-placement="top"
 						th:src="@{|/resources/classes/${hero.id}.png|}" th:title="${hero.name}" height="24" width="24"
 					/></a>
 				</div>
 			</div>
 			<div class ="pt-2" th:unless="${arhitypes.empty}">
 				Подклассы:
-					<a class="btn btn-outline-secondary btn-sm" th:each="archetype: ${arhitypes}" th:href="@{|/hero/classes/class/${archetype.classId}/archetype/${archetype.architypeId}|}"><img
+					<a class="btn btn-outline-secondary btn-sm" th:each="archetype: ${arhitypes}" th:href="@{|/classes/${archetype.classEnglishName}/${archetype.architypeEnglishName}|}"><img
 						data-toggle="tooltip" data-placement="top" th:src="@{|/resources/classes/${archetype.classId}.png|}" th:title="|${archetype.className} ${archetype.architypeName}|" height="25" width="25"
 					/> <span th:text="${archetype.architypeName}"></span> </a>
 			</div>

@@ -2,25 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/datatable-layout}">
 <head>
 <title>Сокровища</title>
-<style>
-img {
-	float: center;
-}
-.invert {
-	filter: invert(100%);
-	-webkit-filter: invert(100%) sepia(100%);
-}
-td.details-control {
-	background: url('/resources/open-iconic/svg/plus.svg') no-repeat center
-		center;
-	cursor: pointer;
-}
-
-tr.shown td.details-control {
-	background: url('/resources/open-iconic/svg/minus.svg') no-repeat center
-		center;
-}
-</style>
 </head>
 <body>
 	<div class="container pt-5" layout:fragment="content">
@@ -47,53 +28,48 @@ tr.shown td.details-control {
 	    });
 	
 		var table = $('#example').DataTable( {
-			iDisplayLength : 25,
+			iDisplayLength : 15,
 	        dom: '<"top"<"left-col"f><"right-col"B>>rtip',
 			processing : true,
 	        serverSide : true,
 			ajax : '/treasures',
 			columns : [
-						{
-							data : "name",
-							width : "30%", 
-						},
-						{
-							data : "cost",
-						    className: "text-center",
-							width : "5%",
-						}, 
-						{
-							data : "type",
-							width : "10%",
-						    searchable: false,
-						}, 
-					],
-					columnDefs : [
-			            {
-			                targets : [ 2 ],
-			                visible : false
-			            },
-				    ],
-				    buttons: [
-			            {
-			                extend: 'searchPanes',
-			            	className: 'btn-main btn-sm btn-color-main',
-			            },
-			            {
-			        		extend: 'colvis',
-			                text: 'Столбцы',
-			            	className: 'btn-main btn-sm btn-color-main',
-			                buttons: [
-			                    {
-			                        text: 'Категория',
-			                        action: function ( e, dt, node, config ) {
-			                            dt.column( 2 ).visible( ! dt.column( 2 ).visible() );
-			                        }
-			                    },
-			                ]
-			            }
-			        ],
-					language : {
+			{
+				data : "name",
+				width : "30%",
+			},
+			{
+				data : "cost",
+				className: "text-center",
+				width : "5%",
+			},
+			{
+				data : "type",
+				width : "10%",
+				searchable: false,
+			},],
+			columnDefs : [{
+				targets : [ 2 ],
+				visible : false
+			},],
+			buttons: [
+			{
+				extend: 'searchPanes',
+				className: 'btn-main btn-sm btn-color-main',
+			},
+			{
+				extend: 'colvis',
+				text: 'Столбцы',
+				className: 'btn-main btn-sm btn-color-main',
+				buttons: [
+				{
+					text: 'Категория',
+					action: function ( e, dt, node, config ) {
+						dt.column( 2 ).visible( ! dt.column( 2 ).visible() );
+					}
+				},]
+			}],
+			language : {
 						processing : "Загрузка...",
 						search : "Поиск",
 						lengthMenu : "Показывать _MENU_ записей на странице",

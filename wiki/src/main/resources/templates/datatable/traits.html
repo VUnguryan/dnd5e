@@ -46,43 +46,42 @@
 	        dom: 'Bfrtip',
 			processing : true,
 	        serverSide : true,
-			ajax : '/traits',
+			ajax : '/data/traits',
 			columns : [
-						{
-							data : "name",
-							width : "30%", 
-							render : function(data, type, row) {
-								if (type === 'display') {
-									return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '') 
+			{
+				data : "name",
+				width : "30%",
+				render : function(data, type, row) {
+					if (type === 'display') {
+						return '<h6>' + data + (row.englishName ? '<small class="text-secondary"> (' + row.englishName + ')</small>' : '')
 									+ '</h6>' + '<div class="text-secondary"><small>' + row.book + '</small></div>';
-								}
-								return data;
-							}, 
-						},
-						{
-							data : "requirement",
-							width : "15%"
-						},
-						{
-							data : "abilities",
-							width : "10%",
-						    searchable: false,
-						}, 
-						{
-							data : "skills",
-							width : "10%",
-						    searchable: false,
-
-						},
-						{
-							data : "book",
-							width : "10%",
-						    searchable: false,
-						},
-						{
-							data : "englishName",
-							width : "1%"
-						},
+					}
+					return data;
+				},
+			},
+			{
+				data : "requirement",
+				width : "15%"
+			},
+			{
+				data : "abilities",
+				width : "10%",
+				searchable: false,
+			},
+			{
+				data : "skills",
+				width : "10%",
+				searchable: false,
+			},
+			{
+				data : "book",
+				width : "10%",
+				searchable: false,
+			},
+			{
+				data : "englishName",
+				width : "1%"
+			},
 					],
 					columnDefs : [
 			            {

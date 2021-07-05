@@ -2,18 +2,7 @@
 <head>
 <head>
 <title>Бестиарий</title>
-<style>
-.table>tbody .hiddenRow {
-	padding: 0 8px;
-}
-</style>
-<title>DnD 5E Бестиарий</title>
 <link rel="stylesheet" th:href="@{/resources/css/statblock.css}" />
-<style>
-img {
-	float: center;
-}
-</style>
 </head>
 <body>
 	<div class="container pt-3" layout:fragment="content">
@@ -68,7 +57,7 @@ img {
 			dom : 'Bfrtip',
 			processing : true,
 			serverSide : true,
-			ajax : '/creatures',
+			ajax : '/data/creatures',
 			columns : [
 			{
 				data : "exp",

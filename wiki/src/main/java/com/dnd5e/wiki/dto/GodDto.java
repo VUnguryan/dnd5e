@@ -2,8 +2,6 @@ package com.dnd5e.wiki.dto;
 
 import java.util.stream.Collectors;
 
-import org.apache.commons.compress.utils.IOUtils;
-
 import com.dnd5e.wiki.model.gods.Domain;
 import com.dnd5e.wiki.model.gods.God;
 import com.dnd5e.wiki.util.HtmlConverter;

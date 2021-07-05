@@ -6,13 +6,12 @@ import java.util.stream.Collectors;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.ArmorType;
+import com.dnd5e.wiki.model.creature.Condition;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.DamageType;
 import com.dnd5e.wiki.model.creature.Language;
 import com.dnd5e.wiki.model.creature.Skill;
-import com.dnd5e.wiki.model.creature.Condition;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

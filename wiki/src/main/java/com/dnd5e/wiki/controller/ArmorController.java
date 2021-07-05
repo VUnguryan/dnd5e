@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,9 @@ public class ArmorController {
 	private ArmorRepository repo;
 	
 	@GetMapping
-	public String getArmors(Model model) {
+	public String getArmors(Model model, Device device) {
+		model.addAttribute("device", device);
+
 		Map<ArmorType, List<Armor>> types = repo.findAll().stream().collect(Collectors.groupingBy(Armor::getType));
 		model.addAttribute("armors", types);
 		model.addAttribute("types", ArmorType.values());

@@ -1,7 +1,6 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +54,7 @@ public class SpellRestController {
 	@Autowired
 	private ArchetypeSpellRepository aSpellRepo; 
 	
-	@GetMapping("/spells")
+	@GetMapping("/data/spells")
 	public DataTablesOutput<SpellDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 
@@ -70,21 +69,21 @@ public class SpellRestController {
 		for (int j = 0; j < MagicSchool.values().length; j++) {
 			String school = searchPanes.get("searchPanes.school." + j);
 			if (school != null) {
-				filterSchool.add(MagicSchool.getMagicSchool(school));
+				filterSchool.add(MagicSchool.valueOf(school));
 			}
 		}
-		List<String> filterClasses = new ArrayList<>();
-		for (int j = 0; j <= 12; j++) {
-			String heroClassName = searchPanes.get("searchPanes.heroClass." + j);
-			if (heroClassName != null) {
-				filterClasses.add(heroClassName);
+		List<Integer> filterClasses = new ArrayList<>();
+		for (int j = 0; j <= 15; j++) {
+			String heroClassId = searchPanes.get("searchPanes.heroClass." + j);
+			if (heroClassId != null) {
+				filterClasses.add(Integer.valueOf(heroClassId));
 			}
 		}
 		List<DamageType> filterDamageTypes = new ArrayList<>();
 		for (int j = 0; j <= DamageType.values().length; j++) {
 			String type = searchPanes.get("searchPanes.damageType." + j);
 			if (type != null) {
-				filterDamageTypes.add(DamageType.parse(type));
+				filterDamageTypes.add(DamageType.valueOf(type));
 			}
 		}
 		List<Book> filterBooks = new ArrayList<>();
@@ -109,7 +108,7 @@ public class SpellRestController {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<HeroClass, Spell> hero = root.join("heroClass", JoinType.LEFT);
 				query.distinct(true);
-				return cb.and(hero.get("name").in(filterClasses));
+				return cb.and(hero.get("id").in(filterClasses));
 			});
 		}
 		if (!filterDamageTypes.isEmpty()) {
@@ -122,6 +121,19 @@ public class SpellRestController {
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
+		String type = searchPanes.get("searchPanes.concentration.0");
+		if ("Есть".equals(type)) {
+			specification = addSpecification(specification, (root, query, cb) -> cb.equal(root.get("concentration"), true));
+		} else if ("Нет".equals(type)) {
+			specification = addSpecification(specification, (root, query, cb) -> cb.equal(root.get("concentration"), false));
+		}
+		type = searchPanes.get("searchPanes.ritual.0");
+		if ("Да".equals(type)) {
+			specification = addSpecification(specification, (root, query, cb) -> cb.equal(root.get("ritual"), true));
+		} else if ("Нет".equals(type)) {
+			specification = addSpecification(specification, (root, query, cb) -> cb.equal(root.get("ritual"), false));
+		}
+
 		DataTablesOutput<SpellDto> output = repo.findAll(input, null, specification, SpellDto::new);
 		output.getData().forEach(s -> s.setSubClass(aSpellRepo.findAllBySpellId(s.getId(), SourceUtil.getSources(settings)).stream()
 				.map(ArchitypeDto::new)
@@ -148,7 +160,12 @@ public class SpellRestController {
 		repo.countTotalSpellByTypeDamage().stream()
 			.map(c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField().name()), c.getTotal()))
 			.forEach(v -> addItem("damageType", options, v));
-		
+		repo.countTotalSpellByConcentration().stream()
+			.map(c -> new Item(c.getField() ? "Есть" : "Нет", c.getTotal(), c.getField() ? "Есть" : "Нет", c.getTotal()))
+			.forEach(v -> addItem("concentration", options, v));
+		repo.countTotalSpellByRitual().stream()
+			.map(c -> new Item(c.getField() ? "Да" : "Нет", c.getTotal(), c.getField() ? "Есть" : "Нет", c.getTotal()))
+			.forEach(v -> addItem("ritual", options, v));
 		sPanes.setOptions(options); 
 		SearchPanesOutput<SpellDto> spOutput = new SearchPanesOutput<>(output);
 		spOutput.setSearchPanes(sPanes);

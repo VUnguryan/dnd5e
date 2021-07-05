@@ -35,7 +35,7 @@ p.text-justify {
 		var table = $('#example').DataTable( {
 	        dom: '<"top"<"left-col"f><"right-col"B>>rti',
 	        serverSide : true,
-			ajax : '/gods',
+			ajax : '/data/gods',
 	        scrollY: "65vh",
 	        scrollCollapse: true,
 	        scroller: true,
@@ -144,7 +144,8 @@ p.text-justify {
 			        ],
 					language : {
 						processing : "Загрузка...",
-						search : "Поиск",
+						searchPlaceholder: "Поиск ",
+						search : "_INPUT_",
 						lengthMenu : "Показывать _MENU_ записей на странице",
 						zeroRecords : "Ничего не найдено",
 						info : "Показано с _START_ до _END_ из _TOTAL_",

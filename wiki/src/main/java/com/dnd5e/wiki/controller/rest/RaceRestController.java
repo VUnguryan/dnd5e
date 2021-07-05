@@ -42,7 +42,7 @@ public class RaceRestController {
 	@Autowired
 	private RaceDatatableRepository repo;
 
-	@GetMapping("/table/races")
+	@GetMapping("/data/races")
 	public DataTablesOutput<RaceDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);

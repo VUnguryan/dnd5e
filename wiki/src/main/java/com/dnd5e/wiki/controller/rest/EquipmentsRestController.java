@@ -41,7 +41,7 @@ public class EquipmentsRestController {
 	@Autowired
 	private EquipmentRepository repo;
 
-	@GetMapping("/equipments")
+	@GetMapping("/data/equipments")
 	public SearchPanesOutput<EquipmentDto> getData(@Valid DataTablesInput input,
 			@RequestParam Map<String, String> searchPanes) {
 		List<EquipmentType> filterTypes = new ArrayList<>();

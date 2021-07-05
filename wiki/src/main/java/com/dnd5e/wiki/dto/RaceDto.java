@@ -1,13 +1,9 @@
 package com.dnd5e.wiki.dto;
 
 import java.io.Serializable;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.dnd5e.wiki.model.AbilityType;
-import com.dnd5e.wiki.model.hero.AbilityBonus;
 import com.dnd5e.wiki.model.hero.race.Feature;
 import com.dnd5e.wiki.model.hero.race.Race;
 

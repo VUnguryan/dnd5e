@@ -29,7 +29,6 @@ import com.dnd5e.wiki.model.Book;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.SkillType;
 import com.dnd5e.wiki.model.hero.Trait;
-import com.dnd5e.wiki.model.spell.Spell;
 import com.dnd5e.wiki.repository.datatable.TraitDatatableRepository;
 import com.dnd5e.wiki.util.SourceUtil;
 
@@ -41,7 +40,7 @@ public class TraitRestController {
 	@Autowired
 	private TraitDatatableRepository repo;
 
-	@GetMapping("/traits")
+	@GetMapping("/data/traits")
 	public SearchPanesOutput<TraitDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 
@@ -49,14 +48,14 @@ public class TraitRestController {
 		for (int j = 0; j <= AbilityType.values().length; j++) {
 			String abylity = searchPanes.get("searchPanes.abilities." + j);
 			if (abylity != null) {
-				filterAbylities.add(AbilityType.parse(abylity));
+				filterAbylities.add(AbilityType.valueOf(abylity));
 			}
 		}
 		List<SkillType> filterSkills = new ArrayList<>();
 		for (int j = 0; j <= SkillType.values().length; j++) {
 			String abylity = searchPanes.get("searchPanes.skills." + j);
 			if (abylity != null) {
-				filterSkills.add(SkillType.parse(abylity));
+				filterSkills.add(SkillType.valueOf(abylity));
 			}
 		}
 		List<Book> filterBooks = new ArrayList<>();

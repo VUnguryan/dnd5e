@@ -10,24 +10,6 @@
 .scale:hover {
 	transform: scale(1.7); 
 }
-.line1 {
-       display: block;
-       position: relative;
-       padding: 0;
-       margin: 8px auto;
-       height: 2px;
-       width: 100%;
-       max-height: 2;
-       font-size: 1px;
-       line-height: 0;
-       clear: both;
-       border-top: 1px solid #E69A28;
-       border-bottom: 1px solid #E69A28;
-       background-color: #E69A28
-}
-.header {
-	color: #A12000;
-}
 </style>
 </head>
 <body>
@@ -55,8 +37,9 @@
 			stateSave : true,
 	        dom: '<"top"<"left-col"f><"right-col"B>>ti',
 	        serverSide : true,
-			ajax : '/table/races',
+			ajax : '/data/races',
 	        scrollY: "65vh",
+			scrollX: "65vh",
 	        scrollCollapse: true,
 	        scroller: true,
 	        paging: false,
@@ -229,14 +212,14 @@
 			var tr = $(this).closest('tr');
 			var row = table.row( tr );
 			var element = document.getElementById("info");
-    		var englishName = row.data().englishName ? ' <small class="text-secondary">(' + row.data().englishName + ')</small>' : '';
-			var name = '<h5 class="header">' + row.data().name + englishName+'</h5>';
-			element.innerHTML = name + format(row.data());
+			element.innerHTML = format(row.data());
 		});
-	    table.buttons().container().appendTo( '#example_wrapper .col-md-6:eq(0)' );
+		table.buttons().container().appendTo( '#example_wrapper .col-md-6:eq(0)' );
 	});
 	function format ( d ) {
-		var info = '<hr class ="line1"/><p class ="mb-2 mt-1">';
+		var englishName = d.englishName ? ' <small class="text-secondary">(' + d.englishName + ')</small>' : '';
+		var name = '<h5 class="main-header">' + d.name + englishName+'</h5>';
+		var info = name + '<hr class ="line1"/><p class ="mb-2 mt-1">';
 		info+='<div class="row justify-content-between">';
 		info+='<div class="col-9">';
 		info+='<div class="card main-description"><div class="card-body p-0 main-description-text">';

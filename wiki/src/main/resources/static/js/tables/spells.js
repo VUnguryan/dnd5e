@@ -8,10 +8,10 @@ $(document).ready(function() {
 		stateSave: true,
 		dom: '<"top"<"left-col"f><"right-col"B>>rti',
 		serverSide : true,
-		ajax : '/spells',
+		ajax : '/data/spells',
 		deferRender: true,
 		scrollY: "65vh",
-		scrollХ: "100%",
+		scrollX: "65vh",
 		scrollCollapse: true,
 		scroller: true,
 		paging: false,
@@ -19,8 +19,13 @@ $(document).ready(function() {
 			style: 'single'
 		},
 		autoWidth: false,
+		searchPanes: {
+            layout: 'columns-4'
+        },
 		columns : [{
 			data : "school",
+			width : "1%",
+			className: "text-center",
 			render : function(data, type) {
 				if (type === 'display') {
 					var icon = '';
@@ -54,8 +59,6 @@ $(document).ready(function() {
 				}
 				return data;
 			},
-			width : "1%",
-			className: "text-center"
 		}, 
 		{
 			data : "level",

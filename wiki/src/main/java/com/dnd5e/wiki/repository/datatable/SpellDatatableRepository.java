@@ -34,8 +34,7 @@ public interface SpellDatatableRepository extends DataTablesRepository<Spell, In
 	@Query("SELECT s.school AS field, COUNT(s.level) AS total FROM Spell s GROUP BY s.school")
 	List<GroupByCount<MagicSchool>> countTotalSpellBySchool();
 	
-	@Query("SELECT c AS field, COUNT(c) AS total "
-			+ "FROM Spell s JOIN s.heroClass AS c GROUP BY c")
+	@Query("SELECT c AS field, COUNT(c) AS total FROM Spell s JOIN s.heroClass AS c GROUP BY c")
 	List<GroupByCount<HeroClass>> countTotalSpellByHeroClass();
 	
 	@Query("SELECT s.book AS field, COUNT(s.book) AS total FROM Spell s WHERE s.book.type IN :types GROUP BY s.book")
@@ -43,4 +42,10 @@ public interface SpellDatatableRepository extends DataTablesRepository<Spell, In
 	
 	@Query("SELECT c AS field, COUNT(c) AS total FROM Spell s JOIN s.damageType AS c GROUP BY c")
 	List<GroupByCount<DamageType>> countTotalSpellByTypeDamage();
+
+	@Query("SELECT s.concentration AS field, COUNT(s.concentration) AS total FROM Spell s GROUP BY s.concentration")
+	List<GroupByCount<Boolean>> countTotalSpellByConcentration();
+
+	@Query("SELECT s.ritual AS field, COUNT(s.ritual) AS total FROM Spell s GROUP BY s.ritual")
+	List<GroupByCount<Boolean>> countTotalSpellByRitual();
 }

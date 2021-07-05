@@ -40,6 +40,7 @@ public class RaceController {
 	
 	@GetMapping
 	public String getRaces(Model model, Device device) {
+		model.addAttribute("device", device);
 		List<Race> races = repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name"));
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);

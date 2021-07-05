@@ -2,7 +2,6 @@
 <head>
 <head>
 <title>Бестиарий</title>
-<title>DnD 5E Бестиарий</title>
 <link rel="stylesheet" th:href="@{/resources/css/statblock.css}" />
 </head>
 <body>
@@ -17,10 +16,10 @@
 				<tr>
 					<th title="Уровень угрозы (Опасность)">CR</th>
 					<th>Название</th>
-					<th>Тип</th>
-					<th>Размер</th>
-					<th>Мировоззрение</th>
-					<th>Среда обитания</th>
+					<th class="text-center">Тип</th>
+					<th class="text-center">Размер</th>
+					<th class="text-center">Мировоззрение</th>
+					<th class="text-center">Среда обитания</th>
 					<th>English</th>
 					<th>Особенности</th>
 					<th>Источник</th>
@@ -39,8 +38,9 @@
 				stateSave : true,
 				dom: '<"top"<"left-col"f><"right-col"B>>rti',
 				serverSide : true,
-				ajax : '/creatures',
+				ajax : '/data/creatures',
 				scrollY : "65vh",
+				scrollX: "65vh",
 				scrollCollapse : true,
 				scroller : true,
 				paging : false,
@@ -94,7 +94,7 @@
 					},
 					{
 						data : "habitates",
-						width : "15%",
+						width : "10%",
 						searchable : false,
 						className : "text-center",
 					},

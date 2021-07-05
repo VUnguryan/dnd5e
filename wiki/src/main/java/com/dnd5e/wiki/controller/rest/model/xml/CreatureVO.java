@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.thymeleaf.util.StringUtils;
 
-import com.dnd5e.wiki.model.creature.ActionType;
 import com.dnd5e.wiki.model.creature.ArmorType;
 import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.CreatureFeat;

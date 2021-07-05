@@ -4,29 +4,27 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dnd5e.wiki.controller.rest.SettingRestController;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.DamageType;
-import com.dnd5e.wiki.model.creature.Dice;
 import com.dnd5e.wiki.model.stock.Currency;
 import com.dnd5e.wiki.model.stock.Weapon;
 import com.dnd5e.wiki.model.stock.WeaponProperty;
@@ -49,7 +47,8 @@ public class WeaponController {
 	private HttpSession session;
 
 	@GetMapping
-	public String getWeapons(Model model) {
+	public String getWeapons(Model model, Device device) {
+		model.addAttribute("device", device);
 		List<Weapon> weapons = repo.findAll();
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
@@ -88,33 +87,5 @@ public class WeaponController {
 	public String getPropertyForm(Model model,  @PathVariable Integer id) {
 		model.addAttribute("property", propertyRepo.findById(id).orElseGet(WeaponProperty::new));
 		return "hero/weaponProperty";
-	}
-
-	@GetMapping("/add")
-	public String getForm(Model model) {
-		model.addAttribute("weapon", new Weapon());
-		model.addAttribute("damageTypes", EnumSet.of(DamageType.PIERCING, DamageType.BLUDGEONING, DamageType.SLASHING, DamageType.NO_DAMAGE));
-		model.addAttribute("dices", Dice.values());
-		model.addAttribute("types", WeaponType.values());
-		model.addAttribute("currencies", Currency.values());
-		return "hero/addWeapon";
-	}
-
-	@PostMapping("/add")
-	public String addWeapon(Weapon weapon) {
-		repo.save(weapon);
-		return "redirect:/weapons/add";
-	}
-
-	@GetMapping("/property/add")
-	public String getPropertyForm(Model model) {
-		model.addAttribute("weaponProperty", new WeaponProperty());
-		return "hero/addWeaponProperty";
-	}
-
-	@PostMapping("/property/add")
-	public String addWeaponProperty(WeaponProperty property) {
-		propertyRepo.save(property);
-		return "redirect:/weapons/property/add";
 	}
 }

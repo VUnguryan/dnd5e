@@ -23,13 +23,15 @@
 	        var column = table.column( $(this).attr('data-column') );
 	        column.visible( ! column.visible() );
 	    });
-		var table = $('#example').DataTable( {
-			iDisplayLength : 25,
+		var table = $('#example').DataTable({
+			stateSave: true,
 	        dom: '<"top"<"left-col"f><"right-col"B>>rtip',
 	        serverSide : true,
-			ajax : '/traits',
+			deferRender: true,
+			ajax : '/data/traits',
 	        scrollY: "65vh",
-	        scrollCollapse: true,
+	        scrollX: "65vh",
+			scrollCollapse: true,
 	        scroller: true,
 	        paging: false,
 	        select: {
@@ -66,7 +68,7 @@
 						{
 							data : "book",
 							width : "10%",
-						    searchable: false,
+							searchable: false,
 						},
 						{
 							data : "englishName",

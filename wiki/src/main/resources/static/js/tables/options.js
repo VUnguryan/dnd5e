@@ -4,17 +4,19 @@ $(document).ready(function() {
 		var column = table.column( $(this).attr('data-column') );
 		column.visible( ! column.visible() );
 	});
-	var table = $('#options').DataTable( {
-		iDisplayLength : 25,
+	var table = $('#options').DataTable({
+		stateSave: true,
 		dom: '<"top"<"left-col"f><"right-col"B>>rti',
 		serverSide : true,
 		ajax : '/options',
+		deferRender: true,
 		scrollY: "65vh",
+		scrollX: "65vh",
 		scrollCollapse: true,
 		scroller: true,
 		paging: false,
 		select: {
-		style: 'single'
+			style: 'single'
 		},
 		autoWidth: false,
 		columns : [{

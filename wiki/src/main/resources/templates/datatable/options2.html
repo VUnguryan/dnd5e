@@ -5,7 +5,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<table id="options" class="table table-hover table-sm color-main-bg-500">
+		<table id="options" class="table table-hover nowrap table-sm color-main-bg-500" th:fragment="optionsTable">
 			<thead>
 				<tr>
 					<th>Опция</th>
@@ -19,7 +19,6 @@
 		</table>
 		<script>
 			var preSelectOptionType = '';
-			var preSelectOptionType2= '';
 		</script>
 	</div>
 	<script th:src="@{/resources/js/tables/options.js}" layout:fragment="datatable"></script>

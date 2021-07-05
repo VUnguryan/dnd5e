@@ -24,9 +24,6 @@ code {	font-size: 80%;
 	margin-top: 30px;
 	height: 1500px;
 }
-tbody .hiddenRow {
-	padding: 0 8px;
-}
 p.text-justify {
 	text-indent: 15px;
 }

@@ -34,14 +34,14 @@ public class GodRestController {
 	@Autowired
 	private GodDatatableRepository repo;
 
-	@GetMapping("/gods")
+	@GetMapping("/data/gods")
 	public SearchPanesOutput<GodDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
 
 		List<Alignment> filterAlignments = new ArrayList<>();
 		for (int j = 0; j <= Alignment.values().length; j++) {
 			String alignment = searchPanes.get("searchPanes.aligment." + j);
 			if (alignment != null) {
-				filterAlignments.add(Alignment.parse(alignment));
+				filterAlignments.add(Alignment.valueOf(alignment));
 			}
 		}
 		Specification<God> specification = null;
@@ -52,7 +52,7 @@ public class GodRestController {
 		for (int j = 0; j <= Domain.values().length; j++) {
 			String domain = searchPanes.get("searchPanes.domains." + j);
 			if (domain != null) {
-				filterDomains.add(Domain.parse(domain));
+				filterDomains.add(Domain.valueOf(domain));
 			}
 		}
 		if (!filterDomains.isEmpty()) {
@@ -66,7 +66,7 @@ public class GodRestController {
 		for (int j = 0; j <= GodSex.values().length; j++) {
 			String domain = searchPanes.get("searchPanes.sex." + j);
 			if (domain != null) {
-				filterSexs.add(GodSex.parse(domain));
+				filterSexs.add(GodSex.valueOf(domain));
 			}
 		}
 		if (!filterSexs.isEmpty()) {
@@ -89,7 +89,7 @@ public class GodRestController {
 		for (int j = 0; j <= Rank.values().length; j++) {
 			String rank = searchPanes.get("searchPanes.rank." + j);
 			if (rank != null) {
-				filterRanks.add(Rank.parse(rank));
+				filterRanks.add(Rank.valueOf(rank));
 			}
 		}
 		if (!filterRanks.isEmpty()) {

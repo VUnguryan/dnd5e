@@ -55,13 +55,13 @@
 			<artifactId>org.springframework.js</artifactId>
 			<version>2.0.5.RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -123,9 +123,9 @@
 			<version>0.30</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.webjars</groupId>
-    		<artifactId>datatables</artifactId>
-    		<version>1.10.23</version>
+			<groupId>org.webjars</groupId>
+			<artifactId>datatables</artifactId>
+			<version>1.10.24</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.darrachequesne</groupId>

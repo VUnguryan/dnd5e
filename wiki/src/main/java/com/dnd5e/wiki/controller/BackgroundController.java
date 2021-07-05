@@ -36,7 +36,8 @@ public class BackgroundController {
 	private PersonalizationFeatureRepository repoFeature;
 	
 	@GetMapping
-	public String getBackgrounds(Device device) {
+	public String getBackgrounds(Model model, Device device) {
+		model.addAttribute("device", device);
 		if (device.isMobile()) {
 			return "datatable/backgrounds";	
 		}
@@ -44,7 +45,8 @@ public class BackgroundController {
 	}
 	
 	@GetMapping("/personalizare/{id}")
-	public String getPersonalizare(Model model, @PathVariable Integer id) {
+	public String getPersonalizare(Model model, Device device, @PathVariable Integer id) {
+		model.addAttribute("device", device);
 		Background background = repo.findById(id).orElseGet(Background::new);
 		model.addAttribute("id", background.getId());
 		model.addAttribute("name", background.getName());

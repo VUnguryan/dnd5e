@@ -10,7 +10,7 @@
 			dom: 'Bfrtip',
 			processing : true,
 			serverSide : true,
-			ajax : '/spells',
+			ajax : '/data/spells',
 			order : [[1, 'asc']],
 			columns : [{
 				data : "school",

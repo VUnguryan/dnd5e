@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,10 +49,9 @@ public class CreatureRestController {
 	@Autowired
 	private CreatureDatatableRepository repo;
 	
-	@GetMapping("/creatures")
+	@GetMapping("/data/creatures")
 	public DataTablesOutput<CreatureDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
-		
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		List<Book> filterBooks = new ArrayList<>();
 		for (int j = 0; j <= 21; j++) {

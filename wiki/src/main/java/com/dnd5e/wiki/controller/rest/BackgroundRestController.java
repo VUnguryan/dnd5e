@@ -40,14 +40,14 @@ public class BackgroundRestController {
 	@Autowired
 	private BackgroundRepository repo;
 
-	@GetMapping("/backgrounds")
+	@GetMapping("/data/backgrounds")
 	public SearchPanesOutput<BackgroundDto> getData(@Valid DataTablesInput input,
 			@RequestParam Map<String, String> searchPanes) {
 		List<SkillType> filterSkills = new ArrayList<>();
 		for (int j = 0; j <= SkillType.values().length; j++) {
 			String abylity = searchPanes.get("searchPanes.skills." + j);
 			if (abylity != null) {
-				filterSkills.add(SkillType.parse(abylity));
+				filterSkills.add(SkillType.valueOf(abylity));
 			}
 		}
 		List<Book> filterBooks = new ArrayList<>();

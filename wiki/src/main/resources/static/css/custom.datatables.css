@@ -1,4 +1,7 @@
 @charset "UTF-8";
+tbody .hiddenRow {
+	padding: 0 8px;
+}
 .grid-icon{
 	background-image: url(/resources/icons/svg/grid_view_black_24dp.svg);
 	background-repeat: no-repeat;
@@ -40,4 +43,7 @@ div.dt-buttons {
 }
 table.dataTable tbody tr.selected {
   background-color: #DACEAC;
+}
+button.dt-button.active {
+    background: grey !important;
 }

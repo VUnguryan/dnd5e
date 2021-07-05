@@ -228,28 +228,13 @@ img {
 					<div class="card-body mb-0 mt-1" th:if="*{description}" th:utext="*{description}"></div>
 				</div>
 				<div th:unless="${heroClass.spells.empty}" class="tab-pane fade" id="spellsTab" role="tabpanel" aria-labelledby="spells-tab">
-					<div class="card-body">
-						<div th:insert="datatable/spells2 :: spellTable"></div>
-					</div>
+					<div th:insert="datatable/spells2 :: spellTable"></div>
 				</div>
 				<div th:if="${heroClass.optionType}" class="tab-pane fade" id="optionsTab" role="tabpanel" aria-labelledby="options-tab">
-					<div class="card-body">
-						<table id="options" class="table table-hover table-sm color-main-bg-500">
-							<thead>
-								<tr>
-									<th>Опция</th>
-									<th>Тип</th>
-									<th>Требование</th>
-									<th>Уровень</th>
-									<th>Источник</th>
-									<th>englishName</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
+					<div class = "pb-2" th:insert="datatable/options2 :: optionsTable"></div>
 				</div>
 				<div class="tab-pane fade" id="optionsArchetype" role="tabpanel" aria-labelledby="optionsArchetype-tab">
-					<div th:if="${selectedArchetype.optionType}" class="card-body">
+					<div th:if="${selectedArchetype.optionType}">
 						<table id="options2" class="table table-hover table-sm color-main-bg-500">
 							<thead>
 								<tr>
@@ -296,15 +281,21 @@ img {
 <script layout:fragment="datatable">
 	var preSelectClass = '[[${heroClass.name}]]';
 	var preSelectOptionType = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
-	var preSelectOptionType2 =  '[[${selectedArchetype.optionType == null ? '': selectedArchetype.optionType.name}]]';
+	var preSelectOptionType2 =  '[[${selectedArchetype.optionType == null ? '': selectedArchetype.optionType}]]';
 
 	$('#spells').one('preXhr.dt', function(e, settings, data) {
 		data.searchPanes = {};
-		data.searchPanes["heroClass.0"] = preSelectClass;
+		data.searchPanes["heroClass.0"] = '[[${heroClass.id}]]';
 	})
 	$('#options').one('preXhr.dt', function(e, settings, data) {
+		var preSelect = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
 		data.searchPanes = {};
-		data.searchPanes["optionTypes.0"] = preSelectOptionType;
+		data.searchPanes["optionTypes.0"] = preSelect;
+	})
+	$('#options2').one('preXhr.dt', function(e, settings, data) {
+		var preSelect =  '[[${selectedArchetype.optionType == null ? '': selectedArchetype.optionType.name}]]';
+		data.searchPanes = {};
+		data.searchPanes["optionTypes.0"] = preSelect;
 	})
 	function slowScroll(id) {
 		var offset = 0;

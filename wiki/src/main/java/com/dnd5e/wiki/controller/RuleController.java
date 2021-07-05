@@ -13,6 +13,7 @@ import com.dnd5e.wiki.model.Rule;
 public class RuleController {
 	@GetMapping("/rules")
 	public String getRules(Model model, Device device) {
+		model.addAttribute("device", device);
 		if (device.isMobile()) {
 			return "datatable/rules";
 		}
