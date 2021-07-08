@@ -1,10 +1,9 @@
 package com.dnd5e.wiki.controller;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +23,8 @@ public class HomeController {
 	private ReferenceRepository referenceRepo;
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-	public String getHome(Model model) {
-		List<Place> places = placeRepo.findByParentIsNull();
-		model.addAttribute("places", places);
+	public String getHome(Model model, Device device) {
+		model.addAttribute("device", device);
 		return "home";
 	}
 
@@ -40,7 +38,9 @@ public class HomeController {
 	}
 
 	@GetMapping("/references")
-	public String getReferences(Model model) {
+	public String getReferences(Model model, Device device) {
+		model.addAttribute("device", device);
+
 		model.addAttribute("references", referenceRepo.findAll());
 		return "references";
 	}

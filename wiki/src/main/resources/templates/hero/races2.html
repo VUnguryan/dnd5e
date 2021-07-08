@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
+\<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/tableLayout}">
 <head>
 <title>Расы</title>
 <link rel="stylesheet" th:href="@{/resources/css/card.columns.flex.css}" />
@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-	<table id="example" class="table table-hover table-sm color-main-bg-500" layout:fragment="content">
+	<table id="races" class="table table-hover table-sm color-main-bg-500" layout:fragment="content">
 		<thead>
 			<tr>
 				<th></th>
@@ -33,7 +33,7 @@
 	        var column = table.column( $(this).attr('data-column') );
 	        column.visible( ! column.visible() );
 	    });
-		var table = $('#example').DataTable( {
+		var table = $('#races').DataTable( {
 			stateSave : true,
 	        dom: '<"top"<"left-col"f><"right-col"B>>ti',
 	        serverSide : true,
@@ -122,7 +122,7 @@
 		                    	src: '/resources/icons/svg/grid_view_black_24dp.svg',
 		                    },
 			                action: function ( e, dt, node, config ) {
-			                	window.location.href = "/hero/races/old";
+			                	window.location.href = "/races/tiles";
 			                },
 		                	titleAttr: 'Плитка',
 		                	className: 'btn-main btn-color-main'
@@ -208,7 +208,7 @@
 	    		element.innerHTML = name + format(table.row(0).data());
 			}
 		});
-		$('#example tbody').on('click', 'tr', function () {
+		$('#races tbody').on('click', 'tr', function () {
 			var tr = $(this).closest('tr');
 			var row = table.row( tr );
 			var element = document.getElementById("info");
@@ -240,7 +240,7 @@
 			info+= '<strong>' + d.features[feature].name + '</strong> ';
 			info+= d.features[feature].description;
 		}
-   	 info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/hero/races/race/' + d.id + '">Подробно</a></p>';
+   	 info += '<div class="text-right"><a class="btn btn-outline-dark btn-sm" href="/races/race/' + d.id + '">Подробно</a></p>';
 	 info += '<p class="text-right font-weight-light"><small>Источник: '+ d.book + '</small></p>';		return info; 
 	}
 	function onMoveImg(a){

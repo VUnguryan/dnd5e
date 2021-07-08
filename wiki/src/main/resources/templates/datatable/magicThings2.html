@@ -13,7 +13,7 @@ img {
 </style>
 </head>
 <body>
-	<table id="example" class="table table-hover table-sm color-main-bg-500" layout:fragment="content">
+	<table id="magic-things" class="table table-hover table-sm color-main-bg-500" layout:fragment="content">
 		<thead>
 			<tr>
 				<th>Предмет</th>
@@ -33,15 +33,15 @@ img {
 				var column = table.column($(this).attr('data-column'));
 				column.visible(!column.visible());
 			});
-		var table = $('#example').DataTable(
+		var table = $('#magic-things').DataTable(
 		{
 			stateSave : true,
-			iDisplayLength : 25,
-			dom: '<"top"<"left-col"f><"right-col"B>>rti',
 			serverSide : true,
-			ajax : '/magicThings',
+			dom: '<"top"<"left-col"f><"right-col"B>>rti',
+			ajax : '/data/magicThings',
+			deferRender: true,
 			scrollY : "65vh",
-			scrollX: "65vh",
+			scrollX : "65vh",
 			scrollCollapse : true,
 			scroller : true,
 			paging : false,
@@ -241,7 +241,7 @@ img {
 				element.innerHTML = format(table.row(0).data());
 			}
 		});
-		$('#example tbody').on('click','tr',function() {
+		$('#magic-things tbody').on('click','tr',function() {
 			var tr = $(this).closest('tr');
 			var row = table.row(tr);
 			var element = document

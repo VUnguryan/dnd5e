@@ -1,9 +1,13 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -12,14 +16,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes.Item;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd5e.wiki.controller.rest.paging.Item;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.GodDto;
 import com.dnd5e.wiki.model.creature.Alignment;
 import com.dnd5e.wiki.model.gods.Domain;
@@ -35,26 +38,23 @@ public class GodRestController {
 	private GodDatatableRepository repo;
 
 	@GetMapping("/data/gods")
-	public SearchPanesOutput<GodDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
-
-		List<Alignment> filterAlignments = new ArrayList<>();
-		for (int j = 0; j <= Alignment.values().length; j++) {
-			String alignment = searchPanes.get("searchPanes.aligment." + j);
-			if (alignment != null) {
-				filterAlignments.add(Alignment.valueOf(alignment));
-			}
-		}
+	public DataTablesOutput<GodDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> queryParameters) {
 		Specification<God> specification = null;
+		input.parseSearchPanesFromQueryParams(queryParameters, Arrays.asList("aligment", "domains", "sex", "pantheon", "rank"));
+
+		List<Alignment> filterAlignments = input.getSearchPanes().getOrDefault("aligment", Collections.emptySet())
+				.stream()
+				.map(Alignment::valueOf)
+				.collect(Collectors.toList());
+
 		if (!filterAlignments.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> root.get("aligment").in(filterAlignments));
+			specification = addSpecification(specification,
+					(root, query, cb) -> root.get("aligment").in(filterAlignments));
 		}
-		List<Domain> filterDomains = new ArrayList<>();
-		for (int j = 0; j <= Domain.values().length; j++) {
-			String domain = searchPanes.get("searchPanes.domains." + j);
-			if (domain != null) {
-				filterDomains.add(Domain.valueOf(domain));
-			}
-		}
+		List<Domain> filterDomains = input.getSearchPanes().getOrDefault("domains", Collections.emptySet())
+				.stream()
+				.map(Domain::valueOf)
+				.collect(Collectors.toList());
 		if (!filterDomains.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<Domain, God> domain = root.join("domains", JoinType.LEFT);
@@ -62,64 +62,52 @@ public class GodRestController {
 				return domain.in(filterDomains);
 			});
 		}
-		List<GodSex> filterSexs = new ArrayList<>();
-		for (int j = 0; j <= GodSex.values().length; j++) {
-			String domain = searchPanes.get("searchPanes.sex." + j);
-			if (domain != null) {
-				filterSexs.add(GodSex.valueOf(domain));
-			}
-		}
+		List<GodSex> filterSexs = input.getSearchPanes().getOrDefault("sex", Collections.emptySet())
+				.stream()
+				.map(GodSex::valueOf)
+				.collect(Collectors.toList());	
 		if (!filterSexs.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("sex").in(filterSexs));
 		}
-		List<String> filterPantheons = new ArrayList<>();
-		for (int j = 0; j <= Alignment.values().length; j++) {
-			String pantheon = searchPanes.get("searchPanes.pantheon." + j);
-			if (pantheon != null) {
-				filterPantheons.add(pantheon);
-			}
-		}
+		Set<Integer> filterPantheons = input.getSearchPanes().getOrDefault("pantheon", Collections.emptySet())
+				.stream()
+				.map(Integer::valueOf)
+				.collect(Collectors.toSet());
 		if (!filterPantheons.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<Pantheon, God> pantheon = root.join("pantheon", JoinType.LEFT);
-				return cb.and(pantheon.get("name").in(filterPantheons));
+				return cb.and(pantheon.get("id").in(filterPantheons));
 			});
 		}
-		List<Rank> filterRanks = new ArrayList<>();
-		for (int j = 0; j <= Rank.values().length; j++) {
-			String rank = searchPanes.get("searchPanes.rank." + j);
-			if (rank != null) {
-				filterRanks.add(Rank.valueOf(rank));
-			}
-		}
+		List<Rank> filterRanks = input.getSearchPanes().getOrDefault("rank", Collections.emptySet())
+				.stream()
+				.map(Rank::valueOf)
+				.collect(Collectors.toList());
 		if (!filterRanks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("rank").in(filterRanks));
 		}
+		input.getSearchPanes().clear();
 		DataTablesOutput<GodDto> output = repo.findAll(input, specification, specification,	i -> new GodDto(i));
 		
-		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
-		
 		repo.countTotalGodAlignment().stream().map(
-				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getCyrilicName(), c.getField().name(), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("aligment", options, v));
 		repo.countTotalGodDomain().stream().map(
-				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getCyrilicName(), c.getField().name(), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("domains", options, v));
 		repo.countTotalGodPantheon().stream().map(
-				c -> new Item(c.getField().getName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getName(), String.valueOf(c.getField().getId()), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("pantheon", options, v));
 		repo.countTotalGodSex().stream().map(
-				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getCyrilicName(), c.getField().name(), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("sex", options, v));
 		repo.countTotalGodRank().stream().map(
-				c -> new Item(c.getField().getName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getName(), c.getField().name(), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("rank", options, v));
-		
-		sPanes.setOptions(options);
-		SearchPanesOutput<GodDto> spOutput = new SearchPanesOutput<>(output);
-		spOutput.setSearchPanes(sPanes);
-		return spOutput;
+		SearchPanes sPanes = new SearchPanes(options);
+		output.setSearchPanes(sPanes);
+		return output;
 	}
 
 	private Specification<God> addSpecification(Specification<God> specification , Specification<God> addSpecification){

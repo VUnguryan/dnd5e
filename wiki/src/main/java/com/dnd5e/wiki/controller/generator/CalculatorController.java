@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dnd5e.wiki.dto.MagicThingDto;
 import com.dnd5e.wiki.model.TypeBook;
 import com.dnd5e.wiki.model.creature.Alignment;
-import com.dnd5e.wiki.model.creature.Creature;
 import com.dnd5e.wiki.model.creature.HabitatType;
 import com.dnd5e.wiki.model.encounter.RandomCreature;
 import com.dnd5e.wiki.model.encounter.RandomCreatureDto;

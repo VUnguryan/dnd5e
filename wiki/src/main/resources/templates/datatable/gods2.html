@@ -32,11 +32,14 @@ p.text-justify {
 	        column.visible( ! column.visible() );
 	    });
 	
-		var table = $('#example').DataTable( {
-	        dom: '<"top"<"left-col"f><"right-col"B>>rti',
-	        serverSide : true,
+		var table = $('#example').DataTable({
+			stateSave: true,
+			serverSide : true,
+			dom: '<"top"<"left-col"f><"right-col"B>>rti',
 			ajax : '/data/gods',
+			deferRender: true,
 	        scrollY: "65vh",
+	        scrollX: "65vh",
 	        scrollCollapse: true,
 	        scroller: true,
 	        paging: false,
@@ -45,88 +48,86 @@ p.text-justify {
 	        },
 	        autoWidth: false,
 			columns : [
-						{
-							data : "name",
-							width : "30%", 
-							render : function(data, type, row) {
-								if (type === 'display') {
-									return '<h6>' + data + (row.englishName ? '<small> (' + row.englishName + ')</small>' : '') + '</h6> ' + '<div class="text-secondary">' + row.sex + ' ' + row.commitment + '</div>';
-								}
-								return data;
-							}, 
-						},
-						{
-							data : "aligment",
-							width : "5%",
-						    className: "text-center",
-						},
-						{
-							data : "englishName",
-							width : "10%",
-						}, 
-						{
-							data : "domains",
-							width : "10%",
-						    searchable: false,
-						    className: "text-center",
-						}, 
-						{
-							data : "sex",
-							width : "3%",
-						    searchable: false,
-						    className: "text-center",
-						},
-						{
-							data : "nicknames",
-							width : "10%",
-						},
-						{
-							data : "rank",
-						    searchable: false,
-							width : "15%",
-						},
-						{
-							data : "pantheon",
-						    searchable: false,
-							width : "15%",
-						},
-					],
-					columnDefs : [
-			            {
-			                targets : [ 2 ],
-			                visible : false
-			            },
-			            {
-			                "targets": [ 3 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 4 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 5 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 6 ],
-			                "visible": false
-				        },
-			            {
-			                "targets": [ 7 ],
-			                "visible": false
-				        },
-				    ],
-				    buttons: [
-			            {
-			                extend: 'searchPanes',
-			            	className: 'btn-main btn-sm btn-color-main',
-			            },
-			            {
-			        		extend: 'colvis',
-			                text: 'Столбцы',
-			                className: 'btn-main btn-sm btn-color-main',
-			                buttons: [
+				{
+					data : "name",
+					width : "30%",
+					render : function(data, type, row) {
+						if (type === 'display') {
+							return '<h6>' + data + (row.englishName ? '<small> (' + row.englishName + ')</small>' : '') + '</h6> ' + '<div class="text-secondary">' + row.sex + ' ' + row.commitment + '</div>';
+						}
+						return data;
+					},
+				},
+				{
+					data : "aligment",
+					width : "5%",
+					className: "text-center",
+				},
+				{
+					data : "englishName",
+					width : "10%",
+				},
+				{
+					data : "domains",
+					width : "10%",
+					searchable: false,
+					className: "text-center",
+				},
+				{
+					data : "sex",
+					width : "3%",
+					searchable: false,
+					className: "text-center",
+				},
+				{
+					data : "nicknames",
+					width : "10%",
+				},
+				{
+					data : "rank",
+					searchable: false,
+					width : "15%",
+				},
+				{
+					data : "pantheon",
+					searchable: false,
+					width : "15%",
+				},],
+				columnDefs : [{
+					targets : [ 2 ],
+					visible : false
+				},
+				{
+					"targets": [ 3 ],
+					"visible": false
+				},
+				{
+					"targets": [ 4 ],
+					"visible": false
+				},
+				{
+					"targets": [ 5 ],
+					"visible": false
+				},
+				{
+					"targets": [ 6 ],
+					"visible": false
+				},
+				{
+					"targets": [ 7 ],
+					"visible": false
+				},
+				],
+				buttons: [
+				{
+					extend: 'searchPanes',
+					className: 'btn-main btn-sm btn-color-main',
+				},
+				{
+					extend: 'colvis',
+					text: 'Столбцы',
+					className: 'btn-main btn-sm btn-color-main',
+					buttons: [
 			                    {
 			                        text: 'Домены',
 			                        action: function ( e, dt, node, config ) {
@@ -184,7 +185,7 @@ p.text-justify {
    			var tr = $(this).closest('tr');
     		var row = table.row( tr );
     		var element = document.getElementById("info");
-    		element.innerHTML = name + format(row.data());
+    		element.innerHTML = format(row.data());
 		});
 	});
 	function format ( d ) {

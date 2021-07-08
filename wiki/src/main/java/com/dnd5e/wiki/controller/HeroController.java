@@ -18,24 +18,4 @@ public class HeroController {
 		}
 		return "datatable/conditions2";
 	}
-
-	@GetMapping("/options")
-	public String getTableOptions(Model model,Device device) {
-		model.addAttribute("device", device);
-
-		if (device.isMobile()) {
-			return "datatable/options";
-		}
-		return "datatable/options2";
-	}
-
-	@GetMapping("/traits")
-	public String getTableTraits(Model model,Device device) {
-		model.addAttribute("device", device);
-
-		if (device.isMobile()) {
-			return "datatable/traits";
-		}
-		return "datatable/traits2";
-	}
 }

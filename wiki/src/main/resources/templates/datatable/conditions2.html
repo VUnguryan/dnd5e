@@ -23,7 +23,7 @@
 		});
 		$('#conditions').one('preXhr.dt', function(e, settings, data) {
 			data.searchPanes = {};
-			data.searchPanes["type.0"] =  'Состояние';
+			data.searchPanes["type.0"] =  'CONDITION';
 		})
 		var table = $('#conditions').DataTable({ rowCallback : function( row, data ) {
 			var url = window.location.href;

@@ -35,6 +35,10 @@ public class Book implements Serializable, Comparable<Book>{
 	
 	@Enumerated(EnumType.STRING) 
 	private TypeBook type;
+	
+	public Book(String source) {
+		this.source = source;
+	}
 
 	@Override
 	public int compareTo(Book b) {

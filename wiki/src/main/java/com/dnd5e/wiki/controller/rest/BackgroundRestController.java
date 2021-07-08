@@ -1,10 +1,13 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -14,14 +17,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes.Item;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd5e.wiki.controller.rest.paging.Item;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.BackgroundDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.AbilityType;
@@ -41,52 +43,44 @@ public class BackgroundRestController {
 	private BackgroundRepository repo;
 
 	@GetMapping("/data/backgrounds")
-	public SearchPanesOutput<BackgroundDto> getData(@Valid DataTablesInput input,
-			@RequestParam Map<String, String> searchPanes) {
-		List<SkillType> filterSkills = new ArrayList<>();
-		for (int j = 0; j <= SkillType.values().length; j++) {
-			String abylity = searchPanes.get("searchPanes.skills." + j);
-			if (abylity != null) {
-				filterSkills.add(SkillType.valueOf(abylity));
-			}
-		}
-		List<Book> filterBooks = new ArrayList<>();
-		for (int j = 0; j <= 21; j++) {
-			String type = searchPanes.get("searchPanes.book." + j);
-			if (type != null) {
-				Book book = new Book();
-				book.setSource(type);
-				filterBooks.add(book);
-			}
-		}
+	public DataTablesOutput<BackgroundDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> queryParameters) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		Specification<Background> specification = bySources(sources);
+		input.parseSearchPanesFromQueryParams(queryParameters, Arrays.asList("skills", "book"));
+
+		List<SkillType> filterSkills = input.getSearchPanes().getOrDefault("skills", Collections.emptySet())
+			.stream()
+			.map(SkillType::valueOf)
+			.collect(Collectors.toList());
 		if (!filterSkills.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> {
 				Join<AbilityType, Background> abilityType = root.join("skills", JoinType.LEFT);
 				return cb.and(abilityType.in(filterSkills));
 			});
 		}
+		List<Book> filterBooks = input.getSearchPanes().getOrDefault("book", Collections.emptySet())
+				.stream()
+				.map(Book::new)
+				.collect(Collectors.toList());
 		if (!filterBooks.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
 		}
-
+		input.getSearchPanes().remove("skills");
+		input.getSearchPanes().remove("book");
 		DataTablesOutput<BackgroundDto> output = repo.findAll(input, specification, specification, i -> new BackgroundDto(i));
-		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
 
 		repo.countTotalSkill().stream()
-			.map(c -> new Item<String>(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			.map(c -> new Item(c.getField().getCyrilicName(), c.getField().name(), c.getTotal(), c.getTotal()))
 			.forEach(v -> addItem("skills", options, v));
 		repo.countTotalBook().stream().
-			map(c -> new Item<String>(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+			map(c -> new Item(c.getField().getSource(), c.getField().getSource(), c.getTotal(), c.getTotal()))
 			.forEach(v -> addItem("book", options, v));
 
-		sPanes.setOptions(options);
-		SearchPanesOutput<BackgroundDto> spOutput = new SearchPanesOutput<>(output);
-		spOutput.setSearchPanes(sPanes);
-		return spOutput;
+		SearchPanes sPanes = new SearchPanes(options);
+		output.setSearchPanes(sPanes);
+		return output;
 	}
 
 	private Specification<Background> bySources(Set<TypeBook> sources) {

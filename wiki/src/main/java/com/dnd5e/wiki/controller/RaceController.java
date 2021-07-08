@@ -26,7 +26,7 @@ import com.dnd5e.wiki.repository.RaceRepository;
 import com.dnd5e.wiki.util.SourceUtil;
 
 @Controller
-@RequestMapping("/hero/races")
+@RequestMapping("/races")
 public class RaceController {
 	private  RaceRepository repo;
 	
@@ -55,7 +55,7 @@ public class RaceController {
 		return "hero/races2";
 	}
 	
-	@GetMapping("/old")
+	@GetMapping("/tiles")
 	public String getOldViewRaces(Model model, Device device) {
 		model.addAttribute("device", device);
 		List<Race> races = repo.findByParentIsNull(Sort.by(Sort.Direction.ASC, "name"));

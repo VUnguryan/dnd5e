@@ -281,19 +281,19 @@ img {
 <script layout:fragment="datatable">
 	var preSelectClass = '[[${heroClass.name}]]';
 	var preSelectOptionType = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
-	var preSelectOptionType2 =  '[[${selectedArchetype.optionType == null ? '': selectedArchetype.optionType}]]';
+	var preSelectOptionType2 =  '[[${selectedArchetype.optionType == null ? '': selectedArchetype.optionType.name}]]';
 
 	$('#spells').one('preXhr.dt', function(e, settings, data) {
 		data.searchPanes = {};
 		data.searchPanes["heroClass.0"] = '[[${heroClass.id}]]';
 	})
 	$('#options').one('preXhr.dt', function(e, settings, data) {
-		var preSelect = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
+		var preSelect = '[[${heroClass.optionType == null ? '': heroClass.optionType}]]';
 		data.searchPanes = {};
 		data.searchPanes["optionTypes.0"] = preSelect;
 	})
 	$('#options2').one('preXhr.dt', function(e, settings, data) {
-		var preSelect =  '[[${selectedArchetype.optionType == null ? '': selectedArchetype.optionType.name}]]';
+		var preSelect =  '[[${selectedArchetype.optionType == null ? '': selectedArchetype.optionType}]]';
 		data.searchPanes = {};
 		data.searchPanes["optionTypes.0"] = preSelect;
 	})

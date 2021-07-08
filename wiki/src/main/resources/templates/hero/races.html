@@ -17,7 +17,7 @@
 				<div class="card-class">
 					<div class="text-class pb-0" th:text="${race.capName}"></div>
 					<div class="pt-0 pb-2" th:text="${race.englishName}"></div>
-					<a th:href="@{|/hero/races/race/${race.id}|}"> <img class="cover rounded-lg" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" width="250px" height="277px" /></a>
+					<a th:href="@{|/races/race/${race.id}|}"> <img class="cover rounded-lg" th:src="@{'https://storage.googleapis.com/dnd5/races/'+ ${race.id} +'.jpg'}" align="middle" width="250px" height="277px" /></a>
 					<div class="row justify-content-between">
 						<div class="col-8 pt-1 text-color-400" th:text="${race.abilityBonuses}"></div>
 						<div class="col text-right">

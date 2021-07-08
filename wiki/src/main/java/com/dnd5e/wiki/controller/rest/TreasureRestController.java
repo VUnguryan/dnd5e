@@ -1,23 +1,25 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes.Item;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd5e.wiki.controller.rest.paging.Item;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.TreasureDto;
 import com.dnd5e.wiki.model.treasure.Treasure;
 import com.dnd5e.wiki.model.treasure.TreasureType;
@@ -29,34 +31,28 @@ public class TreasureRestController {
 	private TreasuresDatatableRepository repo;
 
 	@GetMapping("/treasures")
-	public SearchPanesOutput<TreasureDto> getData(@Valid DataTablesInput input,
-			@RequestParam Map<String, String> searchPanes) {
-
-		List<TreasureType> filterTypes = new ArrayList<>();
-		for (int j = 0; j <= TreasureType.values().length; j++) {
-			String type = searchPanes.get("searchPanes.type." + j);
-			if (type != null) {
-				filterTypes.add(TreasureType.parse(type));
-			}
-		}
+	public DataTablesOutput<TreasureDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> queryParameters) {
 		Specification<Treasure> specification = null;
+		input.parseSearchPanesFromQueryParams(queryParameters, Arrays.asList("type"));
 
+		List<TreasureType> filterTypes = input.getSearchPanes().getOrDefault("type", Collections.emptySet())
+			.stream()
+			.map(TreasureType::valueOf)
+			.collect(Collectors.toList());
 		if (!filterTypes.isEmpty()) {
 			specification = addSpecification(specification, (root, query, cb) -> root.get("type").in(filterTypes));
 		}
-
+		input.getSearchPanes().clear();
+		
 		DataTablesOutput<TreasureDto> output = repo.findAll(input, specification, specification, TreasureDto::new);
-		SearchPanes sPanes = new SearchPanes();
 		Map<String, List<Item>> options = new HashMap<>();
 
 		repo.countTotalType().stream().map(
-				c -> new Item(c.getField().getName(), c.getTotal(), c.getField().name(), c.getTotal()))
+				c -> new Item(c.getField().getName(), c.getField().name(), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("type", options, v));
-
-		sPanes.setOptions(options);
-		SearchPanesOutput<TreasureDto> spOutput = new SearchPanesOutput<>(output);
-		spOutput.setSearchPanes(sPanes);
-		return spOutput;
+		SearchPanes sPanes = new SearchPanes(options);
+		output.setSearchPanes(sPanes);
+		return output;
 	}
 
 	private <T> Specification<T> addSpecification(Specification<T> specification, Specification<T> addSpecification) {

@@ -418,6 +418,6 @@ public class TavernaController {
 
 	private String getDrinkEffect() {
 		List<DrinkEffect> effects = drinkEffectRepo.findAll();
-		return effects.get(rnd.nextInt(effects.size())).getDescription();
+		return effects.get(rnd.nextInt(effects.size()-1)).getDescription();
 	}
 }

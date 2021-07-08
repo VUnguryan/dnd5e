@@ -25,7 +25,7 @@ import com.dnd5e.wiki.repository.BackgroundRepository;
 import com.dnd5e.wiki.repository.PersonalizationFeatureRepository;
 
 @Controller
-@RequestMapping("/hero/backgrounds")
+@RequestMapping("/backgrounds")
 public class BackgroundController {
 	private static final Random rnd = new Random();
 	

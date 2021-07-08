@@ -5,15 +5,84 @@
 <meta charset="utf-8">
 <link rel="icon" th:href="@{/resources/icon.png}">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style type="text/css">
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(85%) sepia(100%);
+}
+
+.img-fluid {
+	max-width: 144px;
+}
+
+.img-fluid:hover {
+	filter: invert(100%);
+	-webkit-filter: invert(100%) sepia(80%);
+}
+</style>
 </body>
 </head>
 <body>
 	<main role="main" class="container pt-5 pb-5" layout:fragment="content">
+		<div class="pt-3"></div>
+		<!-- <div class="main-header separator">Персонаж</div> -->
 		<div class="row">
-		<div class="col"></div>
-		<div class="col"></div>
-		<div class="col"></div>
-		<div class="col"></div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/classes}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.1_39.png}" title="Классы" /></a>
+				<div>Классы</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/races}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.6_01.png}" /></a>
+				<div>Расы</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/backgrounds}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.5_85.png}" /></a>
+				<div>Предыстории</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/traits}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.4_64.png}" /></a>
+				<div>Черты</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/traits}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.3_89.png}" /></a>
+				<div>Опции и особенности классов</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/hero/spells}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.6_88.png}" /></a>
+				<div>Заклинания</div>
+			</div>
+		</div>
+		<div class="row pt-2 justify-content-center">
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/stock/treasures}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.3_60.png}" /></a>
+				<div>Драгоценности и безделушки</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/stock/artifacts}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.3_03.png}" /></a>
+				<div>Магичиские предметы и артефакты</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/stock/armors}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.6_94.png}" /></a>
+				<div>Таблица доспехов</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/stock/weapons}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.6_98.png}" /></a>
+				<div>Таблица оружия</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/stock/equipments}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.2_14.png}" /></a>
+				<div>Снаряжение</div>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-sm-2 text-center">
+				<a th:href="@{/entities/creatures}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.5_16.png}" /></a>
+				<div>Бестиарий</div>
+			</div>
+			<div class="col-sm-2 text-center">
+				<a th:href="@{entities/gods}"><img class="invert img-fluid" th:src="@{/resources/icons/Icon.3_51.png}" /></a>
+				<div>Боги</div>
+			</div>
 		</div>
 	</main>
 </body>

@@ -24,11 +24,14 @@
 	        column.visible( ! column.visible() );
 	    });
 	
-		var table = $('#example').DataTable( {
-	        dom: '<"top"<"left-col"f><"right-col"B>>rti',
-	        serverSide : true,
+		var table = $('#example').DataTable({
+			stateSave: true,
+			serverSide : true,
+			dom: '<"top"<"left-col"f><"right-col"B>>rti',
 			ajax : '/data/equipments',
+			deferRender: true,
 	        scrollY: "65vh",
+	        scrollX: "65vh",
 	        scrollCollapse: true,
 	        scroller: true,
 	        paging: false,

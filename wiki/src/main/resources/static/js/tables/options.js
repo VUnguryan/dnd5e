@@ -8,7 +8,7 @@ $(document).ready(function() {
 		stateSave: true,
 		dom: '<"top"<"left-col"f><"right-col"B>>rti',
 		serverSide : true,
-		ajax : '/options',
+		ajax : '/data/options',
 		deferRender: true,
 		scrollY: "65vh",
 		scrollX: "65vh",
@@ -42,6 +42,7 @@ $(document).ready(function() {
 		{
 			data : "level",
 			width : "1%",
+			className: "text-center",
 			searchable: false,
 		},
 		{

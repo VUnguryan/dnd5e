@@ -277,7 +277,7 @@ img {
 						data.searchPanes["heroClass.0"] = preSelectClassId;
 					})
 					$('#options').one('preXhr.dt',function(e, settings, data) {
-						var preSelected = '[[${heroClass.optionType == null ? '': heroClass.optionType.name}]]';
+						var preSelected = '[[${heroClass.optionType == null ? '': heroClass.optionType}]]';
 						data.searchPanes = {};
 						data.searchPanes["optionTypes.0"] = preSelected;
 					})

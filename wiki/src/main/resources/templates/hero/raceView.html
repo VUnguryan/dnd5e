@@ -23,17 +23,17 @@
 					<div id="archetypesButton" class="" th:classappend="${device.mobile} ? collapse: ''">
 						<div class="row justify-content-start pl-2  row-cols-sm-3 row-cols-md-4">
 							<div class="pl-2 pr-2 pb-1 pt-1" th:if="*{parent}">
-								<a class="btn btn-normal-dark" th:href="@{|/hero/races/race/${race.parent.id}|}" th:text="${race.parent.name}"></a>
+								<a class="btn btn-normal-dark" th:href="@{|/races/race/${race.parent.id}|}" th:text="${race.parent.name}"></a>
 							</div>
 							<div class="pl-2 pr-2 pb-1 pt-1" th:unless="*{parent}">
-								<a class="btn btn-focus-dark" th:href="@{|/hero/races/race/${race.id}|}" th:text="${race.name}"></a>
+								<a class="btn btn-focus-dark" th:href="@{|/races/race/${race.id}|}" th:text="${race.name}"></a>
 							</div>
 							<div class="pl-2 pr-2 pb-1 pt-1" th:each="subRace : ${subRaces}">
 								<th:block th:switch="${subRace.book.type.name()}">
-									<a th:case="'OFFICAL'" class="btn" th:classappend="${subRace.id eq race.id} ?  btn-focus-dark : btn-normal-dark" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
-									<a th:case="'CUSTOM'" class="btn" th:classappend="${subRace.id eq race.id} ?  btn-focus-dark : btn-normal-dark" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
-									<a th:case="'MODULE'" class="btn" th:classappend="${subRace.id eq race.id} ? btn-focus-dark : btn-normal-dark" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
-									<a th:case="'SETTING'" class="btn" th:classappend="${subRace.id eq race.id} ? btn-focus-dark : btn-normal-dark" th:href="@{|/hero/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+									<a th:case="'OFFICAL'" class="btn" th:classappend="${subRace.id eq race.id} ?  btn-focus-dark : btn-normal-dark" th:href="@{|/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+									<a th:case="'CUSTOM'" class="btn" th:classappend="${subRace.id eq race.id} ?  btn-focus-dark : btn-normal-dark" th:href="@{|/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+									<a th:case="'MODULE'" class="btn" th:classappend="${subRace.id eq race.id} ? btn-focus-dark : btn-normal-dark" th:href="@{|/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
+									<a th:case="'SETTING'" class="btn" th:classappend="${subRace.id eq race.id} ? btn-focus-dark : btn-normal-dark" th:href="@{|/races/race/${subRace.id}|}" th:text="${subRace.name}"></a>
 								</th:block>
 							</div>
 						</div>

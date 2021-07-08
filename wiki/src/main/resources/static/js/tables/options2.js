@@ -8,7 +8,7 @@ $(document).ready(function() {
 		stateSave: true,
 		dom: '<"top"<"left-col"f><"right-col"B>>rti',
 		serverSide : true,
-		ajax : '/options',
+		ajax : '/data/options',
 		scrollY: "65vh",
 		scrollX: "65vh",
 		scrollCollapse: true,
@@ -55,7 +55,7 @@ $(document).ready(function() {
 		columnDefs : [
 		{
 			searchPanes: {
-				preSelect: [preSelectOptionType2  === null ?  '' : preSelectOptionType2]
+				preSelect: [preSelectOptionType2  === null ? '' : preSelectOptionType2]
 			},
 			"targets": [ 1 ],
 		},

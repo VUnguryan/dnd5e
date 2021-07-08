@@ -9,7 +9,7 @@
 			th:href="@{/calc/taverna/(tavernaType=${type}, habitatType=${habitatType}, tavernaCategory=${tavernCategoty})}" class="btn btn-outline-secondary" type="button" id="calc" th:each="type : ${types}"
 			th:text="${type.names}"
 		>Генерация</a>
-		<h5 class="main-header" th:text="${name}"></h5>
+		<h5 class="main-header pb-2 pt-3" th:text="${name}"></h5>
 		<div class="input-group mb-2">
 			<div class="input-group-prepend">
 				<span class="input-group-text">Категория:</span>

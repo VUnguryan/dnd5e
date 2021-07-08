@@ -1,10 +1,13 @@
 package com.dnd5e.wiki.controller.rest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -14,14 +17,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes;
+import org.springframework.data.jpa.datatables.mapping.SearchPanes.Item;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd5e.wiki.controller.rest.paging.Item;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanes;
-import com.dnd5e.wiki.controller.rest.paging.SearchPanesOutput;
 import com.dnd5e.wiki.dto.TraitDto;
 import com.dnd5e.wiki.dto.user.Setting;
 import com.dnd5e.wiki.model.AbilityType;
@@ -41,87 +43,70 @@ public class TraitRestController {
 	private TraitDatatableRepository repo;
 
 	@GetMapping("/data/traits")
-	public SearchPanesOutput<TraitDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> searchPanes) {
+	public DataTablesOutput<TraitDto> getData(@Valid DataTablesInput input, @RequestParam Map<String, String> queryParameters) {
 		Setting settings = (Setting) session.getAttribute(SettingRestController.SETTINGS);
-
-		List<AbilityType> filterAbylities = new ArrayList<>();
-		for (int j = 0; j <= AbilityType.values().length; j++) {
-			String abylity = searchPanes.get("searchPanes.abilities." + j);
-			if (abylity != null) {
-				filterAbylities.add(AbilityType.valueOf(abylity));
-			}
-		}
-		List<SkillType> filterSkills = new ArrayList<>();
-		for (int j = 0; j <= SkillType.values().length; j++) {
-			String abylity = searchPanes.get("searchPanes.skills." + j);
-			if (abylity != null) {
-				filterSkills.add(SkillType.valueOf(abylity));
-			}
-		}
-		List<Book> filterBooks = new ArrayList<>();
-		for (int j = 0; j <= 21; j++) {
-			String type = searchPanes.get("searchPanes.book." + j);
-			if (type != null) {
-				Book book = new Book();
-				book.setSource(type);
-				filterBooks.add(book);
-			}
-		}
-		List<String> requirements = new ArrayList<>();
-		for (int j = 0; j <= 40; j++) {
-			String requirement = searchPanes.get("searchPanes.requirement." + j);
-			if (requirement != null) {
-				requirements.add(requirement);
-			}
-		}
 		Set<TypeBook> sources = SourceUtil.getSources(settings);
 		Specification<Trait> specification = bySources(sources);
+		input.parseSearchPanesFromQueryParams(queryParameters, Arrays.asList("abilities", "skills","requirement", "book"));
 
-		if (!filterAbylities.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> {
-				Join<AbilityType, Trait> abilityType = root.join("abilities", JoinType.LEFT);
-				query.distinct(true);
-				return cb.and(abilityType.in(filterAbylities));
-			});
+		if (input.getSearchPanes() != null) {
+			List<AbilityType> filterAbylities = input.getSearchPanes().getOrDefault("abilities", Collections.emptySet())
+				.stream()
+				.map(AbilityType::valueOf)
+				.collect(Collectors.toList());
+			if (!filterAbylities.isEmpty()) {
+				specification = addSpecification(specification, (root, query, cb) -> {
+					Join<AbilityType, Trait> abilityType = root.join("abilities", JoinType.LEFT);
+					query.distinct(true);
+					return cb.and(abilityType.in(filterAbylities));
+				});
+			}
+			List<SkillType> filterSkills = input.getSearchPanes().getOrDefault("skills", Collections.emptySet())
+					.stream()
+					.map(SkillType::valueOf)
+					.collect(Collectors.toList());
+			if (!filterSkills.isEmpty()) {
+				specification = addSpecification(specification, (root, query, cb) -> {
+					Join<AbilityType, Trait> abilityType = root.join("skills", JoinType.LEFT);
+					query.distinct(true);
+					return cb.and(abilityType.in(filterSkills));
+				});
+			}
+			Set<String> requirements = input.getSearchPanes().getOrDefault("requirement", Collections.emptySet());
+			if (!requirements.isEmpty()) {
+				specification = addSpecification(specification, (root, query, cb) -> root.get("requirement").in(requirements));
+			}
+			Set<String> filterBooks = input.getSearchPanes().getOrDefault("book", Collections.emptySet());
+			if (!filterBooks.isEmpty()) {
+				specification = addSpecification(specification, (root, query, cb) -> root.get("book").get("source").in(filterBooks));
+			}
 		}
-		if (!filterSkills.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> {
-				Join<AbilityType, Trait> abilityType = root.join("skills", JoinType.LEFT);
-				query.distinct(true);
-				return cb.and(abilityType.in(filterSkills));
-			});
-		}
-		if (!requirements.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> root.get("requirement").in(requirements));
-		}
-		if (!filterBooks.isEmpty()) {
-			specification = addSpecification(specification, (root, query, cb) -> root.get("book").in(filterBooks));
-		}
-		DataTablesOutput<TraitDto> output = repo.findAll(input, specification, specification,
-				i -> new TraitDto(i));
-		SearchPanes sPanes = new SearchPanes();
+		input.getSearchPanes().remove("abilities");
+		input.getSearchPanes().remove("skills");
+		input.getSearchPanes().remove("requirement");
+		input.getSearchPanes().remove("book");
+
+		DataTablesOutput<TraitDto> output = repo.findAll(input, specification, specification, i -> new TraitDto(i));
+		
 		Map<String, List<Item>> options = new HashMap<>();
-
 		repo.countTotalTraitAbilyty().stream().map(
-				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getCyrilicName(), String.valueOf(c.getField()), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("abilities", options, v));
 
 		repo.countTotalTraitSkill().stream().map(
-				c -> new Item(c.getField().getCyrilicName(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getCyrilicName(), String.valueOf(c.getField()), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("skills", options, v));
 		
 		repo.countTotalRequirement().stream().map(
-				c -> new Item(c.getField(), c.getTotal(), c.getField(), c.getTotal()))
+				c -> new Item(c.getField(), c.getField(), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("requirement", options, v));
 
 		repo.countTotalTraitBook().stream().map(
-				c -> new Item(c.getField().getSource(), c.getTotal(), String.valueOf(c.getField()), c.getTotal()))
+				c -> new Item(c.getField().getSource(), c.getField().getSource(), c.getTotal(), c.getTotal()))
 				.forEach(v -> addItem("book", options, v));
-	
-		sPanes.setOptions(options);
-		SearchPanesOutput<TraitDto> spOutput = new SearchPanesOutput<>(output);
-		spOutput.setSearchPanes(sPanes);
-		return spOutput;
+		SearchPanes sPanes = new SearchPanes(options);
+		output.setSearchPanes(sPanes);
+		return output;
 	}
 
 	private Specification<Trait> bySources(Set<TypeBook> types) {
